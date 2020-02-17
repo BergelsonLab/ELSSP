@@ -9,6 +9,7 @@ Figures contains any figures generated from these data.
 In the main folder:
 CDI_ELSSP.R preps CDI data and create a growth curve from the normative data. Also contains code functions for models figures. Sourced by "Difference from CDI Norms.ipynb"
 "Difference from CDI Norms.ipynb" contains code for individual analyses and figures, from functions in CDI_ELSSP.R.
+Both of these files were written primarily by Stephan Meylan.
 
 
 Issues:
