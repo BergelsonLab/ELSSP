@@ -5,6 +5,7 @@ ELSSP_SubjectInfo.csv contains contains the first CDI administrations from the 1
 vocabulary_norms_table_WG_Comp.csv contains normative CDI data from Words and Gestures comprehension scores. Downloaded from Wordbank. This data is not used in the analysis for the 2020 ELSSP manuscript.
 vocabulary_norms_table_WG_Prod.csv contains normative CDI data from Words and Gestures production scores. Downloaded from Wordbank.
 vocabulary_norms_table_WS_Prod.csv contains normative CDI data from Words and Sentences production scores. Downloaded from Wordbank.
+test_dw.csv is a data frame EC created to practice chi-square tests in R. Not used in actual analysis, and will be deleted soon - 3/16/2020
 
-Updated: 2/16/2020
+Updated: 3/16/2020
 Contact: Erin Campbell (eec35@duke.edu)

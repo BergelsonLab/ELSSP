@@ -1,6 +1,45 @@
 VIHI_ID,SubjectNumber,VisitNumber,VisitTotal,InSample,Age,HearingAge,Gender,Meets136,meets13,meets6,IdentificationOfHLMonths,Etiology,HLbetter,HLworse,Hlaverage,Laterality,Side,ANSD,AgeAmplification,AgeImplantation,Amplification,AgeStartedServices,ServicesReceivedPerMonth,Communication,IsPremature,HealthIssues,DevelopmentalConcerns,VisionLoss,CDIversion,OldEnough,TooOld,ProductionCDI,ComprehensionCDI,Monolingual_English,Attendance
-HI_501_1035,HI_501,2,2,no,34.00466537,14,female,no,no,no,18,conductive,48,52.375,50.1875,Bilateral,NA,0,20,NA,HA,20,7,spoken,0,1,0,0,WG,yes,yes,50,180,yes,
 HI_501_608,HI_501,1,2,yes,20.26666667,0.266666667,female,no,no,no,18,Conductive,43,52.375,47.6875,Bilateral,NA,0,20,NA,HA,18,2,spoken,0,1,0,0,WG,yes,yes,5,17,yes,initial
+HI_522_567,HI_522,1,1,yes,18.9,18.9,female,yes,yes,yes,0,Conductive,2.5,,,Unilateral,right,0,NA,NA,none,4,1,spoken,1,1,0,0,WS,yes,no,12,NA,yes,83
+HI_524_615,HI_524,1,2,yes,20.5,,male,no,yes,no,1,Conductive,48,48,48,Bilateral,NA,0,NA,NA,none,20,9,total communication,1,1,1,0,WG,yes,yes,3,,yes,
+HI_526_616,HI_526,1,2,yes,20.53333333,20.53333333,male,no,yes,no,0,Conductive,40.5,40.5,40.5,Bilateral,NA,0,NA,NA,none,20,8,total communication,1,1,1,0,WG,yes,yes,0,3,yes,initial
+HI_528_564,HI_528,1,2,yes,18.8,13.8,female,yes,yes,yes,0,Conductive,56.75,56.75,56.75,Bilateral,NA,0,5,NA,HA,6,2,spoken,0,0,0,0,WS,yes,no,13,NA,yes,initial
+HI_540_628,HI_540,1,2,yes,20.93333333,20.93333,male,yes,yes,yes,0,Conductive,2.5,,,Unilateral,right,0,6,NA,HA,2,1,spoken,0,0,0,0,WS,yes,no,50,NA,yes,
+HI_550_525,HI_550,1,1,yes,17.5,17.5,male,yes,yes,yes,1,Conductive,2.5,,,Unilateral,right,0,11,NA,HA,5,1,spoken,0,0,0,0,WG,yes,no,17,135,yes,
+HI_555_526,HI_555,1,2,yes,17.53333333,15.53333333,male,,,,,Conductive,,,,Bilateral,NA,0,2,NA,HA,4,43,total communication,0,1,1,1,WG,yes,no,73,227,yes,
+HI_563_287,HI_563,1,2,yes,9.566666667,9.566667,male,no,yes,no,0,Conductive,2.5,,,Unilateral,left,0,NA,NA,none,9,2,spoken,0,0,0,0,WG,yes,no,0,16,no,
+HI_569_462,HI_569,1,1,yes,15.4,15.4,male,yes,yes,yes,0,Conductive,2.5,64.25,33.375,Unilateral,left,0,14,NA,HA,3,2,spoken,0,0,0,0,WG,yes,no,22,72,yes,
+HI_572_749,HI_572,1,1,yes,24.96666667,24.96667,female,no,yes,no,0,Conductive,2.5,,,Unilateral,right,0,3,NA,HA,21,3,total communication,0,0,0,0,WS,yes,no,239,NA,yes,
+HI_578_448,HI_578,1,2,yes,14.93333333,14.93333,female,no,yes,no,0,Conductive,2.5,48,25.25,Unilateral,right,0,6,NA,HA,7,1,spoken,0,0,0,0,WG,yes,no,36,48,yes,
+HI_580_981,HI_580,1,1,yes,32.7,32.7,female,no,no,no,30,Conductive,2.5,,,Unilateral,right,0,NA,NA,none,33,0,spoken,0,0,0,0,WS,yes,yes,224,NA,no,
+HI_584_987,HI_584,1,1,yes,32.9,,male,no,yes,no,1,Conductive,40.5,48,44.25,Bilateral,NA,0,NA,NA,none,26,19,total communication,1,1,1,1,WG,yes,yes,59,279,yes,
+HI_587_779,HI_587,1,2,yes,25.59384959,,male,no,no,no,7,Conductive,2.5,33,17.75,Unilateral,left,0,NA,NA,none,11,20.5,total communication,0,0,1,0,WG,yes,yes,0,NA,no,
+HI_599_526,HI_599,1,1,yes,17.2816,13,male,yes,yes,yes,0.5,Conductive,,,,Bilateral,NA,0,4,NA,HA,6,3,spoken,0,0,0,0,WG,yes,no,1,46,yes,100
+HI_600_537,HI_600,1,1,yes,17.643,17.643,male,no,no,no,15,Conductive,2.5,48,25.25,Unilateral,NA,0,NA,NA,none,17,0,spoken,0,1,0,0,WG,yes,no,6,102,no,initial
+HI_501_1035,HI_501,2,2,no,34.00466537,14,female,no,no,no,18,Conductive,48,52.375,50.1875,Bilateral,NA,0,20,NA,HA,20,7,spoken,0,1,0,0,WG,yes,yes,50,180,yes,
+HI_524_1016,HI_524,2,2,yes,33.86666667,,male,no,yes,no,1,Conductive,33,33,33,Bilateral,NA,0,NA,NA,none,20,11,total communication,1,1,1,0,WS,yes,yes,39,NA,yes,initial
+HI_526_1008,HI_526,2,2,yes,33.6,12.6,male,no,yes,no,1,Conductive,40.5,40.5,40.5,Bilateral,NA,0,21,NA,none,20,8,total communication,1,1,1,0,WS,yes,yes,148,NA,yes,
+HI_528_1000,HI_528,2,2,no,33.33333333,28.33333333,female,yes,yes,yes,0,Conductive,40.5,40.5,40.5,Bilateral,NA,0,5,NA,HA,6,8,spoken,0,1,0,0,WS,yes,yes,74,NA,yes,
+HI_540_826,HI_540,2,2,no,27.53333333,27.53333,male,yes,yes,yes,0,Conductive,2.5,,,Unilateral,right,0,6,NA,HA,2,3,spoken,0,0,0,0,WS,yes,no,106,NA,yes,71
+HI_555_897,HI_555,2,2,yes,29.9,27.9,male,,,,,Conductive,,,,Bilateral,NA,0,2,NA,HA,4,47,total communication,0,1,1,1,WS,yes,no,539,NA,yes,
+HI_563_669,HI_563,2,2,no,22.3,22.3,male,no,yes,no,0,Conductive,2.5,,,Unilateral,left,0,12,NA,HA,9,9,spoken,0,0,0,0,WG,yes,yes,23,59,no,
+HI_578_649,HI_578,2,2,yes,21.63333333,21.63333,female,no,yes,no,0,Conductive,2.5,48,25.25,Unilateral,right,0,6,NA,HA,7,1,spoken,0,0,0,0,WS,yes,no,285,NA,yes,
+HI_587_1024,HI_587,2,2,no,33.64,,male,no,no,no,7,Conductive,2.5,33,17.75,Unilateral,left,0,NA,NA,none,11,16.5,spoken,0,0,1,0,WG,yes,yes,0,27,yes,100
+HI_532_418,HI_532,1,4,yes,13.93333333,11.93333333,male,yes,yes,yes,1,Mixed,40.5,91,65.75,Bilateral,NA,0,2,NA,HA,2,13,total communication,0,1,0,0,WG,yes,no,9,94,no,76
+HI_533_266,HI_533,1,2,yes,8.866666667,,male,no,yes,no,0,Mixed,40.5,40.5,40.5,Bilateral,NA,0,NA,NA,none,8,0,spoken,0,1,0,0,WG,yes,no,0,2,yes,71
+HI_534_422,HI_534,1,3,yes,14.06666667,,male,no,yes,no,0,Mixed,91,100,95.5,Bilateral,NA,1,NA,NA,none,13,0,total communication,0,0,0,0,WG,yes,no,8,,no,initial
+HI_557_524,HI_557,1,1,yes,17.46666667,17.46666667,male,no,no,no,9,Mixed,40.5,64.25,52.375,Bilateral,NA,0,NA,NA,none,16,1,spoken,0,0,0,0,WS,yes,no,13,NA,no,
+HI_565_910,HI_565,1,2,yes,30.33333333,0,male,no,no,no,29,Mixed,40.5,40.5,40.5,Bilateral,NA,0,NA,NA,none,30,9,spoken,0,1,1,0,WG,yes,yes,21,97,no,
+HI_573_375,HI_573,1,4,yes,12.5,2.5,female,no,no,no,6,Mixed,40.5,64.25,52.375,Bilateral,NA,0,10,NA,HA,7,1,spoken,0,0,0,0,WG,yes,no,20,25,no,
+HI_574_241,HI_574,1,1,no,8.033333333,1.033333333,male,no,no,yes,6,Mixed,25.25,71.75,48.5,Bilateral,NA,0,7,NA,HA,3,5,total communication,1,1,1,0,,,,,,yes,
+HI_579_893,HI_579,1,1,yes,29.76666667,29.76666667,male,no,yes,no,0,Mixed,40.5,40.5,40.5,Bilateral,NA,0,NA,NA,none,30,1,spoken,0,1,0,0,WS,yes,no,20,NA,yes,
+HI_586_1068,HI_586,1,1,yes,35.6,4.6,male,no,yes,no,0,Mixed,64.25,64.25,64.25,Bilateral,NA,0,31,NA,HA,31,8,spoken,0,0,0,0,WS,yes,yes,69,NA,yes,
+HI_532_607,HI_532,2,4,no,20.23333333,18.23333333,male,yes,yes,yes,1,Mixed,40.5,91,65.75,Bilateral,NA,0,2,NA,HA,2,13,total communication,0,1,1,1,WG,yes,yes,57,198,no,
+HI_533_623,HI_533,2,2,no,20.46850872,6,male,no,yes,no,0,Mixed,17.75,17.75,17.75,Bilateral,NA,0,14,NA,HA,9,5,spoken,0,1,0,0,WS,yes,yes,11,,yes,
+HI_565_1046,HI_565,2,2,no,34.86666667,2.866666667,male,no,no,no,29,Mixed,40.5,40.5,40.5,Bilateral,NA,0,32,NA,HA,30,13,spoken,0,1,1,0,WG,yes,yes,199,277,no,
+HI_573_570,HI_573,2,4,yes,19,9,female,no,no,no,6,Mixed,40.5,64.25,52.375,Bilateral,NA,0,10,NA,HA,7,1,spoken,0,0,0,0,WS,yes,no,81,NA,no,
+HI_532_803,HI_532,3,4,yes,26.76666667,24.76666667,male,yes,yes,yes,1,Mixed,40.5,91,65.75,Bilateral,NA,0,2,NA,HA,2,13,total communication,0,1,1,0,WS,yes,no,92,NA,no,62
+HI_532_803,HI_532,4,4,no,33.3,31.3,male,yes,yes,yes,1,Mixed,40.5,91,65.75,Bilateral,NA,0,2,NA,HA,2,17,total communication,0,1,1,1,WS,yes,yes,147,NA,no,
 HI_502_1033,HI_502,1,1,yes,34.43333333,34.433333,male,no,no,no,6,SNHL,2.5,91,46.75,Unilateral,left,0,NA,NA,none,21,4,spoken,0,1,0,0,WG,yes,yes,107,264,no,83
 HI_503_1085,HI_503,1,1,yes,36.16666667,10.16666667,female,no,yes,no,1,SNHL,17.75,17.75,17.75,Bilateral,NA,0,26,NA,HA,29,2,spoken,0,0,0,0,WS,yes,yes,635,NA,yes,75
 HI_504_1061,HI_504,1,1,yes,35.36666667,28.36666667,male,no,no,no,6,SNHL,17.75,40.5,29.125,Bilateral,NA,0,7,NA,HA,7,17,total communication,0,1,1,0,WG,yes,yes,10,243,no,consistent
@@ -10,154 +49,115 @@ HI_507_1023,HI_507,1,1,yes,34.1,28.1,female,no,yes,no,0,SNHL,74,74,74,Bilateral,
 HI_508_677,HI_508,1,1,yes,22.56666667,22.56667,female,no,no,no,13,SNHL,17.75,48,32.875,Unilateral,right,0,14,NA,HA,15,2,spoken,1,1,0,0,WG,yes,yes,100,290,yes,consistent
 HI_509_1021,HI_509,1,1,yes,34.03333333,16.03333333,female,no,no,no,12,SNHL,40.5,48,44.25,Bilateral,NA,1,18,NA,HA,30,24,total communication,1,1,0,0,WG,yes,yes,36,147,yes,46
 HI_510_1017,HI_510,1,2,yes,29.43333333,18.43333333,female,no,no,no,6,SNHL,64.25,64.25,64.25,Bilateral,NA,0,11,NA,HA,7,5,spoken,0,1,0,0,WG,yes,yes,85,257,yes,consistent
-HI_510_883,HI_510,2,2,no,33.9,22.9,female,no,no,no,6,SNHL,64.25,64.25,64.25,Bilateral,NA,0,11,NA,HA,7,13,spoken,0,1,0,0,WG,yes,yes,120,257,yes,consistent
 HI_511_1061,HI_511,1,1,yes,35.36666667,21.36666667,female,no,no,no,8,SNHL,17.75,33,25.375,Bilateral,NA,1,14,NA,HA,8,3,spoken,1,1,1,1,WG,yes,yes,163,251,yes,consistent
 HI_512_1009,HI_512,1,1,yes,33.63333333,10.63333333,male,no,no,no,21,SNHL,91,91,91,Bilateral,NA,0,23,28,CI,25,13,spoken,0,0,0,0,WG,yes,yes,27,135,yes,88
 HI_513_508,HI_513,1,3,yes,16.93333333,13.93333333,male,yes,yes,yes,3,SNHL,80.5,80.5,80.5,Bilateral,NA,0,3,9,CI,6,5,spoken,0,0,0,0,WG,yes,no,2,6,yes,50
-HI_513_848,HI_513,2,3,no,28.26666667,25.26666667,male,yes,yes,yes,3,SNHL,80.5,80.5,80.5,Bilateral,NA,0,3,9,CI,6,18,total communication,0,0,0,0,WG,yes,yes,57,117,yes,
 HI_514_884,HI_514,1,1,yes,29.46666667,29.46667,female,no,no,no,5,SNHL,2.5,80.5,41.5,Unilateral,right,0,NA,NA,none,7,7,spoken,0,0,0,0,WG,yes,yes,36,143,yes,83
 HI_515_258,HI_515,1,2,yes,8.6,5.6,female,yes,yes,yes,1,SNHL,40.5,40.5,40.5,Bilateral,NA,0,3,NA,HA,4,3,spoken,0,0,0,0,WG,yes,no,0,8,yes,initial
-HI_515_918,HI_515,2,2,yes,30.6,27.6,female,yes,yes,yes,1,SNHL,40.5,40.5,40.5,Bilateral,NA,0,3,NA,HA,4,2,spoken,0,0,0,0,WS,yes,no,406,NA,yes,
 HI_516_705,HI_516,1,2,yes,23.5,1.5,female,no,no,yes,20,SNHL,48,64.25,56.125,Bilateral,NA,0,22,NA,HA,23,9,spoken,1,1,0,0,WG,yes,yes,6,10,yes,initial
-HI_516_962,HI_516,2,2,no,32.06666667,10.06666667,female,no,no,no,20,SNHL,48,64.25,56.125,Bilateral,NA,0,22,NA,HA,23,9,total communication,1,1,0,0,WG,yes,yes,51,114,yes,
 HI_517_1063,HI_517,1,1,yes,35.43333333,31.43333333,female,no,yes,no,0,SNHL,55.5,55.5,55.5,Bilateral,NA,0,4,NA,HA,9,13,spoken,0,0,0,0,WG,yes,yes,256,343,yes,consistent
 HI_518_376,HI_518,1,3,yes,12.53333333,0.533333333,female,yes,yes,yes,3,SNHL,91,91,91,Bilateral,NA,0,12,12,CI,6,4,spoken,0,1,0,0,WG,yes,no,11,99,yes,74
-HI_518_586,HI_518,2,3,yes,19.53333333,7.533333333,female,yes,yes,yes,3,SNHL,91,91,91,Bilateral,NA,0,12,12,CI,6,4,spoken,0,1,0,0,WS,yes,no,57,NA,yes,89
-HI_518_748,HI_518,3,3,no,24.93333333,12.93333333,female,yes,yes,yes,3,SNHL,91,91,91,Bilateral,NA,0,12,12,CI,6,4,spoken,0,1,0,0,WS,yes,no,156,NA,yes,61
-HI_519_939,HI_519,1,1,yes,31.3,31.3,female,yes,yes,yes,0,,2.5,,,Unilateral,right,0,22,NA,HA,4,7,spoken,0,0,0,0,WS,yes,yes,172,NA,yes,100
 HI_520_192,HI_520,1,2,no,6.4,0.4,male,yes,yes,yes,3,SNHL,91,91,91,Bilateral,NA,0,6,NA,HA,5,5,spoken,0,1,0,0,WG,no,no,0,0,yes,initial
-HI_520_488,HI_520,2,2,yes,16.26666667,10.26667,male,yes,yes,no,3,SNHL,91,91,91,Bilateral,NA,0,6,10,CI,5,5,spoken,0,1,0,0,WG,yes,no,22,143,yes,
 HI_521_750,HI_521,1,2,yes,25,14,female,no,yes,no,2,SNHL,33,64.25,48.625,Bilateral,NA,0,11,NA,HA,7,10.5,spoken,0,1,1,0,WG,yes,yes,2,172,yes,92
-HI_521_981,HI_521,2,2,no,32.7,21.7,female,no,yes,no,2,SNHL,40.5,48,44.25,Bilateral,NA,0,11,NA,HA,7,10,total communication,0,1,1,1,WG,yes,yes,10,208,yes,
-HI_522_567,HI_522,1,1,yes,18.9,18.9,female,yes,yes,yes,0,Conductive,2.5,,,Unilateral,right,0,NA,NA,none,4,1,spoken,1,1,0,0,WS,yes,no,12,NA,yes,83
 HI_523_436,HI_523,1,3,no,14.53333333,,male,no,yes,no,0,SNHL,64.25,64.25,64.25,Bilateral,NA,0,NA,NA,HA,13,4,spoken,0,0,0,0,WS,no,no,7,NA,yes,initial
-HI_523_616,HI_523,2,3,yes,20.23,,male,no,yes,no,0,SNHL,64.25,64.25,64.25,Bilateral,NA,0,NA,NA,HA,13,4,spoken,0,0,0,0,WS,yes,no,257,NA,yes,
-HI_523_800,HI_523,3,3,no,26.66666667,11.66666667,male,no,yes,no,0,SNHL,64.25,64.25,64.25,Bilateral,NA,0,15,NA,HA,13,4,spoken,0,0,0,0,WS,yes,no,442,NA,yes,
-HI_524_1016,HI_524,2,2,yes,33.86666667,,male,no,yes,no,1,Conductive,33,33,33,Bilateral,NA,0,NA,NA,none,20,11,total communication,1,1,1,0,WS,yes,yes,39,NA,yes,initial
-HI_524_615,HI_524,1,2,yes,20.5,,male,no,yes,no,1,Conductive,48,48,48,Bilateral,NA,0,NA,NA,none,20,9,total communication,1,1,1,0,WG,yes,yes,3,,yes,
 HI_525_658,HI_525,1,2,yes,21.93333333,21.93333,male,no,no,no,4,SNHL,2.5,,,Unilateral,left,0,NA,NA,none,22,2,spoken,1,1,0,0,WS,yes,no,17,NA,yes,81
-HI_525_987,HI_525,2,2,no,32.9,32.9,male,no,no,no,4,SNHL,2.5,,,Unilateral,left,0,NA,NA,none,22,6,spoken,1,1,0,0,,yes,,,,yes,
-HI_526_1008,HI_526,2,2,yes,33.6,12.6,male,no,yes,no,1,Conductive,40.5,40.5,40.5,Bilateral,NA,0,21,NA,none,20,8,total communication,1,1,1,0,WS,yes,yes,148,NA,yes,
-HI_526_616,HI_526,1,2,yes,20.53333333,20.53333333,male,no,yes,no,0,Conductive,40.5,40.5,40.5,Bilateral,NA,0,NA,NA,none,20,8,total communication,1,1,1,0,WG,yes,yes,0,3,yes,initial
 HI_527_511,HI_527,1,2,yes,17.03333333,3.033333333,male,no,yes,no,0,SNHL,64.25,64.25,64.25,Bilateral,NA,0,14,NA,HA,17,0,spoken,1,1,0,0,WG,yes,no,2,18,yes,initial
-HI_527_987,HI_527,2,2,no,32.9,18.9,male,no,yes,no,0,SNHL,64.25,64.25,64.25,Bilateral,NA,0,14,NA,HA,17,12,spoken,1,1,0,0,,yes,,,,yes,
-HI_528_1000,HI_528,2,2,no,33.33333333,28.33333333,female,yes,yes,yes,0,Conductive,40.5,40.5,40.5,Bilateral,NA,0,5,NA,HA,6,8,spoken,0,1,0,0,WS,yes,yes,74,NA,yes,
-HI_528_564,HI_528,1,2,yes,18.8,13.8,female,yes,yes,yes,0,Conductive,56.75,56.75,56.75,Bilateral,NA,0,5,NA,HA,6,2,spoken,0,0,0,0,WS,yes,no,13,NA,yes,initial
-HI_529_1024,HI_529,4,4,yes,34.13333333,25.13333333,male,no,yes,no,0,SNHL,40.5,64.25,52.375,Bilateral,NA,0,9,25,CI,10,20,total communication,1,1,1,0,WS,yes,yes,53,NA,yes,50
 HI_529_301,HI_529,1,4,yes,10.03333333,1.033333333,male,no,yes,no,0,SNHL,40.5,64.25,52.375,Bilateral,NA,0,9,NA,HA,10,8,spoken,1,1,1,0,WG,yes,no,0,2,yes,63
-HI_529_548,HI_529,2,4,no,18.26666667,9.266666667,male,no,yes,no,0,SNHL,40.5,64.25,52.375,Bilateral,NA,0,9,NA,HA,10,16,spoken,1,1,1,0,WG,yes,no,0,8,yes,initial
-HI_529_898,HI_529,3,4,no,29.93333333,20.93333333,male,no,yes,no,0,SNHL,40.5,64.25,52.375,Bilateral,NA,0,9,25,CI,10,20,total communication,1,1,1,0,WG,yes,yes,30,91,yes,33
 HI_530_546,HI_530,1,1,yes,18.2,12.2,male,yes,yes,yes,0,SNHL,91,91,91,Bilateral,NA,0,6,12,CI,5,4,spoken,0,0,0,0,WG,yes,no,31,242,yes,54
 HI_531_375,HI_531,1,4,no,12.5,6.5,female,yes,yes,yes,2,SNHL,40.5,80.5,60.5,Bilateral,NA,1,6,NA,HA,6,1,spoken,0,0,0,0,WS,no,no,7,48,yes,75
-HI_531_536,HI_531,2,4,yes,17.86666667,11.86666667,female,yes,yes,yes,2,SNHL,40.5,80.5,60.5,Bilateral,NA,1,6,NA,HA,6,5,spoken,0,0,0,0,WS,yes,no,32,NA,yes,97
-HI_531_725,HI_531,3,4,no,24.16666667,18.16666667,female,yes,yes,yes,2,SNHL,40.5,80.5,60.5,Bilateral,NA,0,6,NA,HA,6,1,spoken,0,0,0,0,WS,yes,no,343,NA,yes,
-HI_531_921,HI_531,4,4,no,30.7,24.7,female,yes,yes,yes,2,SNHL,40.5,80.5,60.5,Bilateral,NA,0,6,NA,HA,6,5,spoken,0,0,0,0,WS,yes,no,563,NA,yes,
-HI_532_418,HI_532,1,4,yes,13.93333333,11.93333333,male,yes,yes,yes,1,Mixed,40.5,91,65.75,Bilateral,NA,0,2,NA,HA,2,13,total communication,0,1,0,0,WG,yes,no,9,94,no,76
-HI_532_607,HI_532,2,4,no,20.23333333,18.23333333,male,yes,yes,yes,1,Mixed,40.5,91,65.75,Bilateral,NA,0,2,NA,HA,2,13,total communication,0,1,1,1,WG,yes,yes,57,198,no,
-HI_532_803,HI_532,3,4,yes,26.76666667,24.76666667,male,yes,yes,yes,1,Mixed,40.5,91,65.75,Bilateral,NA,0,2,NA,HA,2,13,total communication,0,1,1,0,WS,yes,no,92,NA,no,62
-HI_532_803,HI_532,4,4,no,33.3,31.3,male,yes,yes,yes,1,Mixed,40.5,91,65.75,Bilateral,NA,0,2,NA,HA,2,17,total communication,0,1,1,1,WS,yes,yes,147,NA,no,
-HI_533_266,HI_533,1,2,yes,8.866666667,,male,no,yes,no,0,Mixed,40.5,40.5,40.5,Bilateral,NA,0,NA,NA,none,8,0,spoken,0,1,0,0,WG,yes,no,0,2,yes,71
-HI_533_623,HI_533,2,2,no,20.46850872,6,male,no,yes,no,0,Mixed,17.75,17.75,17.75,Bilateral,NA,0,14,NA,HA,9,5,spoken,0,1,0,0,WS,yes,yes,11,,yes,
-HI_534_422,HI_534,1,3,yes,14.06666667,,male,no,yes,no,0,Mixed,91,100,95.5,Bilateral,NA,1,NA,NA,none,13,0,total communication,0,0,0,0,WG,yes,no,8,,no,initial
-HI_534_772,HI_534,2,3,yes,25.73333333,8.733333333,male,no,yes,no,0,SNHL,100,100,100,Bilateral,NA,1,17,17,none,13,8,spoken,0,0,0,0,WS,yes,no,72,NA,yes,initial
-HI_534_982,HI_534,3,3,no,32.73333333,15.73333333,male,no,yes,no,0,SNHL,100,100,100,Bilateral,NA,1,17,17,none,13,8,spoken,0,0,0,0,WS,yes,yes,244,NA,yes,78
 HI_535_924,HI_535,1,1,yes,30.8,0.8,female,no,no,no,29,SNHL,40.5,40.5,40.5,Bilateral,NA,0,30,NA,HA,30,2,spoken,0,0,0,0,WS,yes,yes,447,NA,yes,77
-HI_536_428,HI_536,1,2,yes,14.26666667,14.26667,female,no,yes,no,0,,2.5,80.5,41.5,Unilateral,right,0,7,NA,HA,14,2,total communication,0,0,0,0,WG,yes,no,11,102,yes,96
-HI_536_798,HI_536,2,2,yes,26.6,26.6,female,no,yes,no,0,,2.5,80.5,41.5,Unilateral,right,0,7,NA,HA,14,2,total communication,0,0,0,0,WS,yes,no,354,NA,yes,initial
 HI_537_590,HI_537,1,1,yes,19.66666667,19.66667,female,yes,yes,yes,0,SNHL,2.5,40.5,21.5,Unilateral,left,0,9,NA,HA,6,2,spoken,0,0,0,0,WG,yes,yes,29,260,yes,initial
 HI_538_490,HI_538,1,1,yes,16.33333333,13.33333333,female,yes,yes,yes,0,SNHL,91,91,91,Bilateral,NA,0,3,10,CI,4,4,spoken,0,0,0,0,WG,yes,no,2,106,yes,100
 HI_539_384,HI_539,1,3,yes,12.8,3.8,male,yes,yes,yes,0.5,SNHL,100,100,100,Bilateral,NA,0,9,9,CI,2,1,spoken,0,0,0,0,WG,yes,no,15,80,yes,81
-HI_539_587,HI_539,2,3,yes,19.56666667,10.56666667,male,yes,yes,yes,0.5,SNHL,100,100,100,Bilateral,NA,0,9,9,CI,2,1,spoken,0,0,0,0,WS,yes,no,179,NA,yes,97
-HI_539_769,HI_539,3,3,no,25.63333333,16.63333333,male,yes,yes,yes,0.5,SNHL,100,100,100,Bilateral,NA,0,9,9,CI,2,1,spoken,0,0,0,0,WS,yes,no,488,NA,yes,82
-HI_540_628,HI_540,1,2,yes,20.93333333,20.93333,male,yes,yes,yes,0,Conductive,2.5,,,Unilateral,right,0,6,NA,HA,2,1,spoken,0,0,0,0,WS,yes,no,50,NA,yes,
-HI_540_826,HI_540,2,2,no,27.53333333,27.53333,male,yes,yes,yes,0,Conductive,2.5,,,Unilateral,right,0,6,NA,HA,2,3,spoken,0,0,0,0,WS,yes,no,106,NA,yes,71
-HI_541_1045,HI_541,3,3,no,34.83333333,31.83333333,female,yes,yes,yes,0,SNHL,91,91,91,Bilateral,NA,0,3,12,CI,3,8,cued speech,0,0,0,0,WS,yes,yes,475,NA,yes,82
 HI_541_513,HI_541,1,3,yes,17.1,14.1,female,yes,yes,yes,0,SNHL,91,91,91,Bilateral,NA,0,3,12,CI,3,8,cued speech,0,0,0,0,WG,yes,no,16,95,yes,96
-HI_541_863,HI_541,2,3,yes,28.76666667,25.76666667,female,yes,yes,yes,0,SNHL,91,91,91,Bilateral,NA,0,3,12,CI,3,8,cued speech,0,0,0,0,WS,yes,no,180,NA,yes,92
-HI_542_983,HI_542,1,1,yes,32.76666667,,male,,,,,,,,,,,,,,,,,,,,,,WG,yes,yes,59,196,yes,90
-HI_543_1057,HI_543,1,2,yes,35.23333333,,male,,,,,,,,,,,,,,,,,,,,,,WG,yes,yes,30,145,no,
-HI_543_1057,HI_543,2,2,yes,35.23333333,,male,,,,,,,,,,,,,,,,,,,,,,WS,yes,yes,148,NA,no,
 HI_544_1018,HI_544,1,1,yes,33.93333333,8.933333333,male,yes,yes,yes,1,SNHL,64.25,64.25,64.25,Bilateral,NA,0,25,25,CI,3,4,spoken,0,0,0,0,WS,yes,yes,30,NA,yes,
-HI_545_1078,HI_545,1,1,yes,35.93333333,31.93333333,male,no,no,no,3.5,,27.83,27.83,27.83,Bilateral,NA,0,4,NA,HA,7,2,spoken,0,0,0,0,WS,yes,yes,222,NA,no,consistent
 HI_546_322,HI_546,1,4,yes,10.73333333,6.733333333,male,yes,yes,yes,3,SNHL,100,100,100,Bilateral,NA,0,4,NA,HA,4,3,spoken,0,0,0,0,WG,yes,no,0,2,no,consistent
-HI_546_511,HI_546,2,4,no,17.03333333,13.03333333,male,yes,yes,yes,3,SNHL,100,100,100,Bilateral,NA,0,4,9,CI,4,4,spoken,0,0,0,0,WG,yes,no,17,68,no,
-HI_546_687,HI_546,3,4,yes,22.9,18.9,male,yes,yes,yes,3,SNHL,100,100,100,Bilateral,NA,0,4,9,CI,4,4,spoken,0,0,0,0,WS,yes,no,77,NA,no,81
-HI_546_926,HI_546,4,4,no,30.86666667,26.86666667,male,yes,yes,yes,3,SNHL,100,100,100,Bilateral,NA,0,4,9,CI,4,4,spoken,0,0,0,0,WS,yes,no,186,NA,no,
 HI_547_784,HI_547,1,1,yes,26.13333333,16.13333333,male,yes,yes,yes,0.3,SNHL,91,91,91,Bilateral,NA,0,10,10,CI,2,2,spoken,0,0,0,0,WG,yes,yes,259,361,yes,
-HI_548_553,HI_548,1,2,yes,18.43333333,7.433333333,male,yes,yes,yes,2,,100,100,100,Bilateral,NA,0,11,11,CI,4,4,spoken,0,0,0,0,WG,yes,no,12,64,yes,
-HI_548_707,HI_548,2,2,yes,23.56666667,12.56666667,male,yes,yes,yes,2,,100,100,100,Bilateral,NA,0,11,11,CI,4,4,spoken,0,0,0,0,WS,yes,no,100,NA,yes,
-HI_549_134,HI_549,1,2,no,4.466666667,,female,,,yes,,,40.5,40.5,40.5,Bilateral,NA,0,,NA,HA,5,4,spoken,0,0,0,0,WG,no,no,0,0,no,
-HI_549_316,HI_549,2,2,yes,10.53333333,5.533333333,female,,,yes,,,40.5,40.5,40.5,Bilateral,NA,0,5,NA,HA,5,4,spoken,0,0,0,0,WG,yes,no,3,132,no,
-HI_550_525,HI_550,1,1,yes,17.5,17.5,male,yes,yes,yes,1,Conductive,2.5,,,Unilateral,right,0,11,NA,HA,5,1,spoken,0,0,0,0,WG,yes,no,17,135,yes,
-HI_551_1031,HI_551,3,3,yes,34.36666667,30.36666667,female,yes,yes,yes,2,,100,100,100,Bilateral,NA,0,4,11,CI,4,5,spoken,0,1,0,0,WS,yes,yes,2,33,yes,
-HI_551_126,HI_551,1,3,no,4.2,0.2,female,yes,yes,yes,2,,100,100,100,Bilateral,NA,0,4,NA,HA,4,1,spoken,0,1,0,0,WG,no,no,0,0,yes,
-HI_551_466,HI_551,2,3,yes,15.53333333,11.53333333,female,yes,yes,yes,2,,100,100,100,Bilateral,NA,0,4,11,CI,4,5,spoken,0,1,0,0,WG,yes,no,2,33,yes,
 HI_552_561,HI_552,1,2,yes,18.7,8.7,female,yes,yes,yes,0.5,SNHL,91,91,91,Bilateral,NA,0,10,10,CI,5,2,spoken,0,0,0,0,WG,yes,no,67,,yes,
-HI_552_715,HI_552,2,2,yes,23.83333333,13.83333333,female,yes,yes,yes,0.5,SNHL,91,91,91,Bilateral,NA,0,10,10,CI,5,4,spoken,0,0,0,0,WS,yes,no,270,NA,yes,
-HI_553_631,HI_553,1,1,yes,21.03333333,21.03333,male,yes,yes,yes,2,,2.5,48,25.25,Unilateral,right,0,6,NA,HA,2,5,spoken,0,0,0,0,WG,yes,yes,67,119,yes,
-HI_554_753,HI_554,1,1,yes,25.1,25.1,female,no,no,no,5,,33,33,33,Bilateral,NA,0,,NA,none,10,7,total communication,0,1,0,0,WS,yes,no,67,NA,yes,
-HI_555_526,HI_555,1,2,yes,17.53333333,15.53333333,male,,,,,Conductive,,,,Bilateral,NA,0,2,NA,HA,4,43,total communication,0,1,1,1,WG,yes,no,73,227,yes,
-HI_555_897,HI_555,2,2,yes,29.9,27.9,male,,,,,Conductive,,,,Bilateral,NA,0,2,NA,HA,4,47,total communication,0,1,1,1,WS,yes,no,539,NA,yes,
 HI_556_598,HI_556,1,3,yes,19.93333333,7.933333333,male,yes,yes,yes,0,SNHL,100,100,100,Bilateral,NA,0,12,12,CI,1,4,spoken,0,0,0,0,WG,yes,yes,6,105,yes,
-HI_556_787,HI_556,2,3,yes,26.23333333,14.23333333,male,yes,yes,yes,0,SNHL,100,100,100,Bilateral,NA,0,12,12,CI,1,5,spoken,0,0,0,0,WS,yes,no,111,NA,yes,
-HI_556_969,HI_556,3,3,no,32.3,20.3,male,yes,yes,yes,0,SNHL,100,100,100,Bilateral,NA,0,12,12,CI,1,5,spoken,0,0,0,0,WS,yes,yes,360,NA,yes,
-HI_557_524,HI_557,1,1,yes,17.46666667,17.46666667,male,no,no,no,9,Mixed,40.5,64.25,52.375,Bilateral,NA,0,NA,NA,none,16,1,spoken,0,0,0,0,WS,yes,no,13,NA,no,
-HI_558_750,HI_558,1,1,yes,25,25,male,no,yes,no,3,,2.5,100,51.25,Unilateral,left,0,NA,NA,none,7,17,total communication,0,0,0,0,WG,yes,yes,8,97,no,
 HI_559_391,HI_559,1,1,yes,13.03333333,10.03333333,male,yes,yes,yes,1,SNHL,33,40.5,36.75,Bilateral,NA,0,3,NA,HA,2,2,spoken,0,0,0,0,WG,yes,no,39,109,yes,
 HI_560_598,HI_560,1,1,yes,19.93333333,6.933333333,female,no,yes,no,0,SNHL,33,33,33,Bilateral,NA,0,13,NA,HA,18,13,spoken,1,1,0,0,WG,yes,yes,15,28,yes,
 HI_561_270,HI_561,1,2,yes,9,4,female,yes,yes,yes,3,SNHL,40.5,80.5,60.5,Bilateral,NA,0,5,NA,HA,3,5,total communication,0,1,1,0,WG,yes,no,0,14,yes,
-HI_561_445,HI_561,2,2,no,14.83333333,9.833333333,female,yes,yes,yes,3,SNHL,40.5,80.5,60.5,Bilateral,NA,0,5,NA,HA,3,5,total communication,0,1,1,0,WG,yes,no,9,52,yes,
 HI_562_419,HI_562,1,1,yes,13.96666667,13.96667,male,yes,yes,yes,0,SNHL,2.5,33,17.75,Unilateral,left,0,3,NA,none,2,2,spoken,0,1,0,0,WG,yes,no,13,288,yes,
-HI_563_287,HI_563,1,2,yes,9.566666667,9.566667,male,no,yes,no,0,Conductive,2.5,,,Unilateral,left,0,NA,NA,none,9,2,spoken,0,0,0,0,WG,yes,no,0,16,no,
-HI_563_669,HI_563,2,2,no,22.3,22.3,male,no,yes,no,0,Conductive,2.5,,,Unilateral,left,0,12,NA,HA,9,9,spoken,0,0,0,0,WG,yes,yes,23,59,no,
-HI_564_1083,HI_564,2,2,no,36.1,4.1,male,no,yes,no,0,,48,48,48,Bilateral,NA,0,32,NA,HA,32,8,spoken,0,0,0,0,WS,yes,yes,306,NA,yes,
-HI_564_985,HI_564,1,2,yes,32.83333333,0,male,no,yes,no,0,,48,48,48,Bilateral,NA,0,NA,NA,none,32,8,spoken,0,0,0,0,WS,yes,yes,140,NA,yes,
-HI_565_1046,HI_565,2,2,no,34.86666667,2.866666667,male,no,no,no,29,Mixed,40.5,40.5,40.5,Bilateral,NA,0,32,NA,HA,30,13,spoken,0,1,1,0,WG,yes,yes,199,277,no,
-HI_565_910,HI_565,1,2,yes,30.33333333,0,male,no,no,no,29,Mixed,40.5,40.5,40.5,Bilateral,NA,0,NA,NA,none,30,9,spoken,0,1,1,0,WG,yes,yes,21,97,no,
 HI_566_830,HI_566,1,1,yes,27.66666667,27.66666667,female,no,no,no,25,SNHL,33,40.5,36.75,Bilateral,NA,0,NA,NA,none,26,1,spoken,0,1,1,0,WG,yes,yes,63,78,yes,
-HI_567_1030,HI_567,2,2,no,34.33333333,0,male,no,no,no,30,SNHL,100,100,100,Bilateral,NA,0,NA,NA,none,31,14,total communication,0,1,1,0,WG,yes,yes,10,38,no,
 HI_567_967,HI_567,1,2,yes,32.23333333,0,male,no,no,no,30,SNHL,100,100,100,Bilateral,NA,0,NA,NA,none,31,13,total communication,0,1,1,0,WG,yes,yes,6,16,no,
 HI_568_250,HI_568,1,2,yes,8.333333333,0.333333333,male,no,yes,no,2,SNHL,71.75,71.75,71.75,Bilateral,NA,1,8,NA,HA,8,1,spoken,0,0,0,0,WG,yes,no,0,0,yes,
-HI_568_494,HI_568,2,2,no,16.46666667,8.46667,male,no,yes,no,2,SNHL,71.75,71.75,71.75,Bilateral,NA,1,8,NA,HA,8,3,spoken,0,0,0,0,WG,yes,no,4,39,yes,
-HI_569_462,HI_569,1,1,yes,15.4,15.4,male,yes,yes,yes,0,Conductive,2.5,64.25,33.375,Unilateral,left,0,14,NA,HA,3,2,spoken,0,0,0,0,WG,yes,no,22,72,yes,
 HI_570_484,HI_570,1,1,yes,16.13333333,13.13333333,female,no,yes,no,1,SNHL,40.5,40.5,40.5,Bilateral,NA,0,3,NA,HA,10,3,spoken,0,0,0,0,WG,yes,no,24,106,yes,
 HI_571_629,HI_571,1,1,yes,20.96666667,16.96666667,female,,,no,,SNHL,40.5,40.5,40.5,Bilateral,NA,0,4,NA,HA,10,10.33,spoken,0,0,0,0,WG,yes,yes,3,24,yes,
-HI_572_749,HI_572,1,1,yes,24.96666667,24.96667,female,no,yes,no,0,Conductive,2.5,,,Unilateral,right,0,3,NA,HA,21,3,total communication,0,0,0,0,WS,yes,no,239,NA,yes,
-HI_573_375,HI_573,1,4,yes,12.5,2.5,female,no,no,no,6,Mixed,40.5,64.25,52.375,Bilateral,NA,0,10,NA,HA,7,1,spoken,0,0,0,0,WG,yes,no,20,25,no,
-HI_573_570,HI_573,2,4,yes,19,9,female,no,no,no,6,Mixed,40.5,64.25,52.375,Bilateral,NA,0,10,NA,HA,7,1,spoken,0,0,0,0,WS,yes,no,81,NA,no,
-HI_573_753,HI_573,3,4,no,25.1,15.1,female,no,no,no,6,SNHL,40.5,40.5,40.5,Bilateral,NA,0,10,NA,HA,7,1,spoken,0,0,0,0,WS,yes,no,197,NA,no,
-HI_573_939,HI_573,4,4,no,31.3,21.3,female,no,no,no,6,SNHL,40.5,40.5,40.5,Bilateral,NA,0,10,NA,HA,7,3,spoken,0,0,0,0,WS,yes,yes,304,NA,no,
-HI_574_241,HI_574,1,1,no,8.033333333,1.033333333,male,no,no,yes,6,Mixed,25.25,71.75,48.5,Bilateral,NA,0,7,NA,HA,3,5,total communication,1,1,1,0,,,,,,yes,
 HI_575_145,HI_575,1,1,no,4.833333333,4.833333333,female,yes,yes,yes,0,SNHL,,,,Bilateral,NA,1,NA,NA,none,4,,total communication,0,1,1,0,,,,,,yes,
 HI_576_216,HI_576,1,1,no,7.2,7.2,male,yes,yes,yes,0,SNHL,2.5,80.5,41.5,Unilateral,left,0,,NA,none,6,0,spoken,1,0,0,0,WG,no,no,0,2,yes,
 HI_577_421,HI_577,1,2,yes,14.03333333,10.03333333,female,no,yes,no,0,SNHL,25.25,25.25,25.25,Bilateral,NA,0,4,NA,HA,14,0,spoken,0,0,0,0,WG,yes,no,3,11,yes,
-HI_577_778,HI_577,2,2,yes,25.93333333,21.93333333,female,no,yes,no,0,SNHL,25.25,25.25,25.25,Bilateral,NA,0,4,NA,HA,14,5,spoken,0,0,0,0,WS,yes,no,90,NA,yes,
-HI_578_448,HI_578,1,2,yes,14.93333333,14.93333,female,no,yes,no,0,Conductive,2.5,48,25.25,Unilateral,right,0,6,NA,HA,7,1,spoken,0,0,0,0,WG,yes,no,36,48,yes,
-HI_578_649,HI_578,2,2,yes,21.63333333,21.63333,female,no,yes,no,0,Conductive,2.5,48,25.25,Unilateral,right,0,6,NA,HA,7,1,spoken,0,0,0,0,WS,yes,no,285,NA,yes,
-HI_579_893,HI_579,1,1,yes,29.76666667,29.76666667,male,no,yes,no,0,Mixed,40.5,40.5,40.5,Bilateral,NA,0,NA,NA,none,30,1,spoken,0,1,0,0,WS,yes,no,20,NA,yes,
-HI_580_981,HI_580,1,1,yes,32.7,32.7,female,no,no,no,30,Conductive,2.5,,,Unilateral,right,0,NA,NA,none,33,0,spoken,0,0,0,0,WS,yes,yes,224,NA,no,
 HI_581_639,HI_581,1,1,yes,21.3,17.3,female,no,yes,no,0,SNHL,48,48,48,Bilateral,NA,0,4,NA,HA,20,0,spoken,0,0,0,0,WS,yes,no,84,NA,yes,
 HI_582_454,HI_582,1,1,yes,15.13333333,,female,no,yes,no,2,SNHL,40.5,40.5,40.5,Bilateral,NA,0,,NA,HA,14,1,spoken,0,1,0,0,WG,yes,no,22,181,yes,
 HI_583_513,HI_583,1,1,yes,17.1,17.1,female,no,yes,no,0.5,SNHL,2.5,91,46.75,Unilateral,right,0,NA,NA,none,9,,spoken,0,1,0,0,WS,yes,no,29,NA,no,
-HI_584_987,HI_584,1,1,yes,32.9,,male,no,yes,no,1,Conductive,40.5,48,44.25,Bilateral,NA,0,NA,NA,none,26,19,total communication,1,1,1,1,WG,yes,yes,59,279,yes,
 HI_585_946,HI_585,1,1,yes,31,27,female,no,yes,no,0,SNHL,56.75,56.75,56.75,Bilateral,NA,0,4,NA,HA,9,15,spoken,1,1,1,0,WG,yes,yes,20,105,yes,
-HI_586_1068,HI_586,1,1,yes,35.6,4.6,male,no,yes,no,0,Mixed,64.25,64.25,64.25,Bilateral,NA,0,31,NA,HA,31,8,spoken,0,0,0,0,WS,yes,yes,69,NA,yes,
-HI_587_779,HI_587,1,2,yes,25.59384959,,male,no,no,no,7,Conductive,2.5,33,17.75,Unilateral,left,0,NA,NA,none,11,20.5,total communication,0,0,1,0,WG,yes,yes,0,NA,no,
 HI_588_481,HI_588,1,3,yes,15.80313434,1.8,male,no,no,no,11,SNHL,48,100,74,Bilateral,NA,0,14,14,CI,15,4,spoken,0,1,0,0,WG,yes,no,9,NA,yes,
-HI_588_814,HI_588,2,3,yes,26.74376581,12.74376581,male,no,no,no,11,SNHL,48,100,74,Bilateral,NA,0,14,14,CI,15,8,spoken,0,1,0,0,WS,yes,no,218,14,yes,
-HI_588_996,HI_588,3,3,no,32.72333016,18.72,male,no,no,no,11,SNHL,48,100,74,Bilateral,NA,0,14,14,CI,15,4,spoken,0,1,0,0,WS,yes,yes,329,88,yes,
 HI_589_584,HI_589,1,1,yes,19.18717351,12,male,no,no,no,6,SNHL,91,91,91,Bilateral,NA,0,7,7,CI,9,5,spoken,0,0,0,0,WG,yes,yes,12,55,yes,
 HI_590_267,HI_590,1,1,yes,8.772218024,4,male,no,no,no,0,SNHL,40.5,56.75,48.625,Bilateral,NA,0,5,NA,HA,8,1,spoken,0,0,0,0,WG,yes,no,0,5,yes,
 HI_591_437,HI_591,1,1,yes,14.35752538,,male,yes,yes,yes,2,SNHL,71.75,91,81.375,Bilateral,NA,1,11,11,CI,4,5,spoken,0,0,0,0,WG,yes,no,0,3,yes,80
 HI_592_570,HI_592,1,1,yes,18.72,,male,no,yes,no,0,SNHL,2.5,80.5,41.5,Unilateral,left,0,9,NA,HA,8,1,spoken,0,0,0,0,WS,yes,no,27,NA,yes,100
 HI_593_1056,HI_593,1,1,yes,34.69461511,,male,yes,yes,yes,0,SNHL,48,48,48,Bilateral,NA,0,6,NA,HA,5,5,spoken,0,0,0,0,WS,yes,yes,118,NA,no,54
-HI_587_1024,HI_587,2,2,no,33.64,,male,no,no,no,7,Conductive,2.5,33,17.75,Unilateral,left,0,NA,NA,none,11,16.5,spoken,0,0,1,0,WG,yes,yes,0,27,yes,100
 HI_594_1058,HI_594,1,1,yes,34.76,20.76,male,no,yes,no,0,SNHL,91,91,91,Bilateral,NA,0,14,16,CI,14,4,spoken,0,0,0,0,WS,yes,yes,86,126,yes,92
 HI_595_1059,HI_595,1,1,yes,34.79,,female,yes,yes,yes,0,SNHL,2.5,91,46.75,Unilateral,left,0,14,NA,none,5,5,spoken,1,1,1,1,WS,yes,yes,546,NA,yes,100
 HI_596_452,HI_596,1,1,yes,14.817,9.8,male,no,yes,no,3,SNHL,40.5,40.5,40.5,Bilateral,NA,0,6,NA,HA,8,11,spoken,0,0,0,0,WG,yes,yes,4,23,yes,100
 HI_597_480,HI_597,1,1,yes,15.77,,female,no,yes,no,0,SNHL,48,48,48,Bilateral,NA,0,2,NA,HA,6.5,2,spoken,0,0,0,0,WS,yes,yes,27,NA,yes,66
-HI_513_1049,HI_513,3,3,no,34.46,31.46,male,yes,yes,yes,3,SNHL,80.5,80.5,80.5,Bilateral,NA,0,3,9,CI,6,5,total communication,0,0,0,0,WG,yes,yes,80,129,yes,60
 HI_598_825,HI_598,1,2,yes,27.1,24,male,yes,yes,yes,2,SNHL,69.5,69.5,69.5,Bilateral,NA,0,3,NA,HA,4,9,total communication,0,0,0,0,WG,yes,yes,55,270,yes,64
-HI_599_526,HI_599,1,1,yes,17.2816,13,male,yes,yes,yes,0.5,Conductive,,,,Bilateral,NA,0,4,NA,HA,6,3,spoken,0,0,0,0,WG,yes,no,1,46,yes,100
+HI_510_883,HI_510,2,2,no,33.9,22.9,female,no,no,no,6,SNHL,64.25,64.25,64.25,Bilateral,NA,0,11,NA,HA,7,13,spoken,0,1,0,0,WG,yes,yes,120,257,yes,consistent
+HI_513_848,HI_513,2,3,no,28.26666667,25.26666667,male,yes,yes,yes,3,SNHL,80.5,80.5,80.5,Bilateral,NA,0,3,9,CI,6,18,total communication,0,0,0,0,WG,yes,yes,57,117,yes,
+HI_515_918,HI_515,2,2,yes,30.6,27.6,female,yes,yes,yes,1,SNHL,40.5,40.5,40.5,Bilateral,NA,0,3,NA,HA,4,2,spoken,0,0,0,0,WS,yes,no,406,NA,yes,
+HI_516_962,HI_516,2,2,no,32.06666667,10.06666667,female,no,no,no,20,SNHL,48,64.25,56.125,Bilateral,NA,0,22,NA,HA,23,9,total communication,1,1,0,0,WG,yes,yes,51,114,yes,
+HI_518_586,HI_518,2,3,yes,19.53333333,7.533333333,female,yes,yes,yes,3,SNHL,91,91,91,Bilateral,NA,0,12,12,CI,6,4,spoken,0,1,0,0,WS,yes,no,57,NA,yes,89
+HI_520_488,HI_520,2,2,yes,16.26666667,10.26667,male,yes,yes,no,3,SNHL,91,91,91,Bilateral,NA,0,6,10,CI,5,5,spoken,0,1,0,0,WG,yes,no,22,143,yes,
+HI_521_981,HI_521,2,2,no,32.7,21.7,female,no,yes,no,2,SNHL,40.5,48,44.25,Bilateral,NA,0,11,NA,HA,7,10,total communication,0,1,1,1,WG,yes,yes,10,208,yes,
+HI_523_616,HI_523,2,3,yes,20.23,,male,no,yes,no,0,SNHL,64.25,64.25,64.25,Bilateral,NA,0,NA,NA,HA,13,4,spoken,0,0,0,0,WS,yes,no,257,NA,yes,
+HI_525_987,HI_525,2,2,no,32.9,32.9,male,no,no,no,4,SNHL,2.5,,,Unilateral,left,0,NA,NA,none,22,6,spoken,1,1,0,0,,yes,,,,yes,
+HI_527_987,HI_527,2,2,no,32.9,18.9,male,no,yes,no,0,SNHL,64.25,64.25,64.25,Bilateral,NA,0,14,NA,HA,17,12,spoken,1,1,0,0,,yes,,,,yes,
+HI_529_548,HI_529,2,4,no,18.26666667,9.266666667,male,no,yes,no,0,SNHL,40.5,64.25,52.375,Bilateral,NA,0,9,NA,HA,10,16,spoken,1,1,1,0,WG,yes,no,0,8,yes,initial
+HI_531_536,HI_531,2,4,yes,17.86666667,11.86666667,female,yes,yes,yes,2,SNHL,40.5,80.5,60.5,Bilateral,NA,1,6,NA,HA,6,5,spoken,0,0,0,0,WS,yes,no,32,NA,yes,97
+HI_534_772,HI_534,2,3,yes,25.73333333,8.733333333,male,no,yes,no,0,SNHL,100,100,100,Bilateral,NA,1,17,17,none,13,8,spoken,0,0,0,0,WS,yes,no,72,NA,yes,initial
+HI_539_587,HI_539,2,3,yes,19.56666667,10.56666667,male,yes,yes,yes,0.5,SNHL,100,100,100,Bilateral,NA,0,9,9,CI,2,1,spoken,0,0,0,0,WS,yes,no,179,NA,yes,97
+HI_541_863,HI_541,2,3,yes,28.76666667,25.76666667,female,yes,yes,yes,0,SNHL,91,91,91,Bilateral,NA,0,3,12,CI,3,8,cued speech,0,0,0,0,WS,yes,no,180,NA,yes,92
+HI_546_511,HI_546,2,4,no,17.03333333,13.03333333,male,yes,yes,yes,3,SNHL,100,100,100,Bilateral,NA,0,4,9,CI,4,4,spoken,0,0,0,0,WG,yes,no,17,68,no,
+HI_552_715,HI_552,2,2,yes,23.83333333,13.83333333,female,yes,yes,yes,0.5,SNHL,91,91,91,Bilateral,NA,0,10,10,CI,5,4,spoken,0,0,0,0,WS,yes,no,270,NA,yes,
+HI_556_787,HI_556,2,3,yes,26.23333333,14.23333333,male,yes,yes,yes,0,SNHL,100,100,100,Bilateral,NA,0,12,12,CI,1,5,spoken,0,0,0,0,WS,yes,no,111,NA,yes,
+HI_561_445,HI_561,2,2,no,14.83333333,9.833333333,female,yes,yes,yes,3,SNHL,40.5,80.5,60.5,Bilateral,NA,0,5,NA,HA,3,5,total communication,0,1,1,0,WG,yes,no,9,52,yes,
+HI_567_1030,HI_567,2,2,no,34.33333333,0,male,no,no,no,30,SNHL,100,100,100,Bilateral,NA,0,NA,NA,none,31,14,total communication,0,1,1,0,WG,yes,yes,10,38,no,
+HI_568_494,HI_568,2,2,no,16.46666667,8.46667,male,no,yes,no,2,SNHL,71.75,71.75,71.75,Bilateral,NA,1,8,NA,HA,8,3,spoken,0,0,0,0,WG,yes,no,4,39,yes,
+HI_577_778,HI_577,2,2,yes,25.93333333,21.93333333,female,no,yes,no,0,SNHL,25.25,25.25,25.25,Bilateral,NA,0,4,NA,HA,14,5,spoken,0,0,0,0,WS,yes,no,90,NA,yes,
+HI_588_814,HI_588,2,3,yes,26.74376581,12.74376581,male,no,no,no,11,SNHL,48,100,74,Bilateral,NA,0,14,14,CI,15,8,spoken,0,1,0,0,WS,yes,no,218,14,yes,
 HI_598_1064,HI_598,2,2,no,34.95,31.95,male,yes,yes,yes,2,SNHL,69.5,69.5,69.5,Bilateral,NA,0,3,29,CI,4,9,total communication,0,0,0,0,WG,yes,yes,64,297,yes,63
-HI_600_537,HI_600,1,1,yes,17.643,17.643,male,no,no,no,15,Conductive,2.5,48,25.25,Unilateral,NA,0,NA,NA,none,17,0,spoken,0,1,0,0,WG,yes,no,6,102,no,initial
+HI_518_748,HI_518,3,3,no,24.93333333,12.93333333,female,yes,yes,yes,3,SNHL,91,91,91,Bilateral,NA,0,12,12,CI,6,4,spoken,0,1,0,0,WS,yes,no,156,NA,yes,61
+HI_523_800,HI_523,3,3,no,26.66666667,11.66666667,male,no,yes,no,0,SNHL,64.25,64.25,64.25,Bilateral,NA,0,15,NA,HA,13,4,spoken,0,0,0,0,WS,yes,no,442,NA,yes,
+HI_529_898,HI_529,3,4,no,29.93333333,20.93333333,male,no,yes,no,0,SNHL,40.5,64.25,52.375,Bilateral,NA,0,9,25,CI,10,20,total communication,1,1,1,0,WG,yes,yes,30,91,yes,33
+HI_531_725,HI_531,3,4,no,24.16666667,18.16666667,female,yes,yes,yes,2,SNHL,40.5,80.5,60.5,Bilateral,NA,0,6,NA,HA,6,1,spoken,0,0,0,0,WS,yes,no,343,NA,yes,
+HI_534_982,HI_534,3,3,no,32.73333333,15.73333333,male,no,yes,no,0,SNHL,100,100,100,Bilateral,NA,1,17,17,none,13,8,spoken,0,0,0,0,WS,yes,yes,244,NA,yes,78
+HI_539_769,HI_539,3,3,no,25.63333333,16.63333333,male,yes,yes,yes,0.5,SNHL,100,100,100,Bilateral,NA,0,9,9,CI,2,1,spoken,0,0,0,0,WS,yes,no,488,NA,yes,82
+HI_541_1045,HI_541,3,3,no,34.83333333,31.83333333,female,yes,yes,yes,0,SNHL,91,91,91,Bilateral,NA,0,3,12,CI,3,8,cued speech,0,0,0,0,WS,yes,yes,475,NA,yes,82
+HI_546_687,HI_546,3,4,yes,22.9,18.9,male,yes,yes,yes,3,SNHL,100,100,100,Bilateral,NA,0,4,9,CI,4,4,spoken,0,0,0,0,WS,yes,no,77,NA,no,81
+HI_556_969,HI_556,3,3,no,32.3,20.3,male,yes,yes,yes,0,SNHL,100,100,100,Bilateral,NA,0,12,12,CI,1,5,spoken,0,0,0,0,WS,yes,yes,360,NA,yes,
+HI_573_753,HI_573,3,4,no,25.1,15.1,female,no,no,no,6,SNHL,40.5,40.5,40.5,Bilateral,NA,0,10,NA,HA,7,1,spoken,0,0,0,0,WS,yes,no,197,NA,no,
+HI_588_996,HI_588,3,3,no,32.72333016,18.72,male,no,no,no,11,SNHL,48,100,74,Bilateral,NA,0,14,14,CI,15,4,spoken,0,1,0,0,WS,yes,yes,329,88,yes,
+HI_513_1049,HI_513,3,3,no,34.46,31.46,male,yes,yes,yes,3,SNHL,80.5,80.5,80.5,Bilateral,NA,0,3,9,CI,6,5,total communication,0,0,0,0,WG,yes,yes,80,129,yes,60
+HI_529_1024,HI_529,4,4,yes,34.13333333,25.13333333,male,no,yes,no,0,SNHL,40.5,64.25,52.375,Bilateral,NA,0,9,25,CI,10,20,total communication,1,1,1,0,WS,yes,yes,53,NA,yes,50
+HI_531_921,HI_531,4,4,no,30.7,24.7,female,yes,yes,yes,2,SNHL,40.5,80.5,60.5,Bilateral,NA,0,6,NA,HA,6,5,spoken,0,0,0,0,WS,yes,no,563,NA,yes,
+HI_546_926,HI_546,4,4,no,30.86666667,26.86666667,male,yes,yes,yes,3,SNHL,100,100,100,Bilateral,NA,0,4,9,CI,4,4,spoken,0,0,0,0,WS,yes,no,186,NA,no,
+HI_573_939,HI_573,4,4,no,31.3,21.3,female,no,no,no,6,SNHL,40.5,40.5,40.5,Bilateral,NA,0,10,NA,HA,7,3,spoken,0,0,0,0,WS,yes,yes,304,NA,no,
+HI_519_939,HI_519,1,1,yes,31.3,31.3,female,yes,yes,yes,0,,2.5,,,Unilateral,right,0,22,NA,HA,4,7,spoken,0,0,0,0,WS,yes,yes,172,NA,yes,100
+HI_536_428,HI_536,1,2,yes,14.26666667,14.26667,female,no,yes,no,0,,2.5,80.5,41.5,Unilateral,right,0,7,NA,HA,14,2,total communication,0,0,0,0,WG,yes,no,11,102,yes,96
+HI_542_983,HI_542,1,1,yes,32.76666667,,male,,,,,,,,,,,,,,,,,,,,,,WG,yes,yes,59,196,yes,90
+HI_543_1057,HI_543,1,2,yes,35.23333333,,male,,,,,,,,,,,,,,,,,,,,,,WG,yes,yes,30,145,no,
+HI_545_1078,HI_545,1,1,yes,35.93333333,31.93333333,male,no,no,no,3.5,,27.83,27.83,27.83,Bilateral,NA,0,4,NA,HA,7,2,spoken,0,0,0,0,WS,yes,yes,222,NA,no,consistent
+HI_548_553,HI_548,1,2,yes,18.43333333,7.433333333,male,yes,yes,yes,2,,100,100,100,Bilateral,NA,0,11,11,CI,4,4,spoken,0,0,0,0,WG,yes,no,12,64,yes,
+HI_549_134,HI_549,1,2,no,4.466666667,,female,,,yes,,,40.5,40.5,40.5,Bilateral,NA,0,,NA,HA,5,4,spoken,0,0,0,0,WG,no,no,0,0,no,
+HI_551_126,HI_551,1,3,no,4.2,0.2,female,yes,yes,yes,2,,100,100,100,Bilateral,NA,0,4,NA,HA,4,1,spoken,0,1,0,0,WG,no,no,0,0,yes,
+HI_553_631,HI_553,1,1,yes,21.03333333,21.03333,male,yes,yes,yes,2,,2.5,48,25.25,Unilateral,right,0,6,NA,HA,2,5,spoken,0,0,0,0,WG,yes,yes,67,119,yes,
+HI_554_753,HI_554,1,1,yes,25.1,25.1,female,no,no,no,5,,33,33,33,Bilateral,NA,0,,NA,none,10,7,total communication,0,1,0,0,WS,yes,no,67,NA,yes,
+HI_558_750,HI_558,1,1,yes,25,25,male,no,yes,no,3,,2.5,100,51.25,Unilateral,left,0,NA,NA,none,7,17,total communication,0,0,0,0,WG,yes,yes,8,97,no,
+HI_564_985,HI_564,1,2,yes,32.83333333,0,male,no,yes,no,0,,48,48,48,Bilateral,NA,0,NA,NA,none,32,8,spoken,0,0,0,0,WS,yes,yes,140,NA,yes,
+HI_536_798,HI_536,2,2,yes,26.6,26.6,female,no,yes,no,0,,2.5,80.5,41.5,Unilateral,right,0,7,NA,HA,14,2,total communication,0,0,0,0,WS,yes,no,354,NA,yes,initial
+HI_543_1057,HI_543,2,2,yes,35.23333333,,male,,,,,,,,,,,,,,,,,,,,,,WS,yes,yes,148,NA,no,
+HI_548_707,HI_548,2,2,yes,23.56666667,12.56666667,male,yes,yes,yes,2,,100,100,100,Bilateral,NA,0,11,11,CI,4,4,spoken,0,0,0,0,WS,yes,no,100,NA,yes,
+HI_549_316,HI_549,2,2,yes,10.53333333,5.533333333,female,,,yes,,,40.5,40.5,40.5,Bilateral,NA,0,5,NA,HA,5,4,spoken,0,0,0,0,WG,yes,no,3,132,no,
+HI_551_466,HI_551,2,3,yes,15.53333333,11.53333333,female,yes,yes,yes,2,,100,100,100,Bilateral,NA,0,4,11,CI,4,5,spoken,0,1,0,0,WG,yes,no,2,33,yes,
+HI_564_1083,HI_564,2,2,no,36.1,4.1,male,no,yes,no,0,,48,48,48,Bilateral,NA,0,32,NA,HA,32,8,spoken,0,0,0,0,WS,yes,yes,306,NA,yes,
+HI_551_1031,HI_551,3,3,yes,34.36666667,30.36666667,female,yes,yes,yes,2,,100,100,100,Bilateral,NA,0,4,11,CI,4,5,spoken,0,1,0,0,WS,yes,yes,2,33,yes,
