@@ -102,7 +102,7 @@ Age at screening was measured as the child’s age in months at their first hear
 Because of the sparse data on screening age, if participants had an age at diagnosis ≤3 mo. and an age of intervention ≤6 mo., they were recorded as meeting 1-3-6. It is possible that a participant did not receive screening by 1 month, but did receive diagnosis by 3 months and services by 6 months. This special case would be coded as meeting 1-3-6 by our criteria.
 
 ```{r meets136_info}
-# create "Table with communication method, language background"
+# create "Table with meets136 info"
 ```
 
 ```{r variables_list}
