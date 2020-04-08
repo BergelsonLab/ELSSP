@@ -99,7 +99,7 @@ Communication method was recorded as spoken language, total communication, or cu
 
 
 Age at screening was measured as the child’s age in months at their first hearing screening. Age at screening was only available for (n) participants. If participants received their newborn hearing screening, age at screening was recorded as 0 (months). Age at diagnosis was taken as the age in months when children received their first hearing loss diagnosis. All children were enrolled in birth-to-three early intervention services through NC ELSSP, and the date of enrollment was listed on the clinician evaluation. From the clinician report, we calculated the number of hours of early intervention services received per month (including service coordination, speech therapy, and occupational therapy, among others). 
-Because of the sparse data on screening age, if participants had an age at diagnosis ≤3 mo. and an age of intervention ≤6 mo., they were recorded as meeting 1-3-6. It is possible that a participant did not receive screening by 1 month, but did receive diagnosis by 3 months and services by 6 months. This special case would be coded as meeting 1-3-6 by our criteria.
+Because of the sparse data on screening age, if participants had an age at diagnosis  $\leq$ 3 mo. and an age of intervention  $\leq$ 6 mo., they were recorded as meeting 1-3-6. It is possible that a participant did not receive screening by 1 month, but did receive diagnosis by 3 months and services by 6 months. This special case would be coded as meeting 1-3-6 by our criteria.
 
 ```{r meets136_info}
 # create "Table with meets136 info"
