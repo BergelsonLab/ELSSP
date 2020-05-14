@@ -134,23 +134,28 @@ plot_elssp_df = function(elssp_dataset, split=NULL, save=T) {
 		p1 = p1 + coord_cartesian(xlim=c(0,40)) + geom_point(data = subset(elssp_df, !is.na(ProductionCDI)), aes(x= AgeAtEvaluationMonths, y= ProductionCDI, shape=split, color=split)) +labs(colour=split, shape=split)
 
 		p2 = make_rainplot(elssp_df, split, 'diff_score_from_expected', 'CDI Score Deficit')
-		p2 = p2 + ggtitle(paste0(cdi_form,': ', split)) + coord_flip()
+		p2 = p2 + ggtitle(paste0(cdi_form,': ', split)) + coord_cartesian(ylim = c(-2, 25)) + coord_flip()
 		p3 = make_rainplot(elssp_df, split, 'diff_age_from_expected', 'Delay in Months') + coord_cartesian(ylim = c(-2, 25)) + coord_flip()
 		p3 = p3 + ggtitle(paste0(cdi_form,': ', split))
 
 		# Jupyter preview
-		options(repr.plot.width=4, repr.plot.height=3)
-		print(p1)
-		print(p2)
-		print(p3)
-
+		#options(repr.plot.width=4, repr.plot.height=3)
+		#print(p1)
+		#print(p2)
+		#print(p3)
+        
+        
+       
 		# Save to disk
 		p1 = p1 + theme_classic(base_size=16)
 		ggsave(plot=p1, paste('figures/', elssp_dataset$cdi_form,'_', split, '_trajectory.pdf', sep=''), width=6, height=4)
 		p2 = p2 + theme_classic(base_size=16)
-		ggsave(plot=p2, paste('figures/', elssp_dataset$cdi_form,'_', split, '_delay.pdf', sep=''), width=6, height=4)
+		ggsave(plot=p2, paste('figures/', elssp_dataset$cdi_form,'_', split, '_deficit.pdf', sep=''), width=6, height=4)
 		p3 = p3 + theme_classic(base_size=16)
-		ggsave(plot=p3, paste('figures/', elssp_dataset$cdi_form,'_', split, '_deficit.pdf', sep=''), width=6, height=4)
+		ggsave(plot=p3, paste('figures/', elssp_dataset$cdi_form,'_', split, '_delay.pdf', sep=''), width=6, height=4)
+
+        graph <- p3
+        return(graph)
 
 	} else {
 
@@ -173,9 +178,10 @@ plot_elssp_df = function(elssp_dataset, split=NULL, save=T) {
 		# Save to disk
 		p1 = p1 + theme_classic(base_size=16) + theme(legend.position = "none")
 		ggsave(paste('figures/', elssp_dataset$cdi_form,'_trajectories.pdf', sep=''), width=6, height=4)
+        graph <- p1
 	}
+return(graph)
 }
-
 
 filter_to_longitudinal_admins = function(elssp_df){
 
