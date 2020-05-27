@@ -11,6 +11,23 @@ bibliography: ELSSP.bib
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r load_packages, cache = FALSE, include = FALSE}
+library(papaja) 
+library(tidyverse)
+library(knitr)
+library(lubridate)
+library(kableExtra)
+library(citr)
+library(readxl)
+library(broom)
+library(stargazer)
+knitr::opts_chunk$set(fig.width=12, fig.height=12, comment=F, message=F, hide = T, warning = F, echo = F)
+```
+
+```{r read-in-data, echo = F, results = 'hide', message = F, comment = F}
+source("../elssp_plots_analysis.R")
+```
+
 ## Introduction
 
 In the United States, 1-2 children are born with hearing loss, per 1,000 births (@cdc2018). This translates to 114,000 Deaf or Hard of Hearing (DHH) children born in the U.S. per year (@martin2019). Of these 114,000, ~90% will be born to hearing parents (@mitchell2004), in a home where spoken language is likely the dominant communication method. Depending on the type and degree of hearing loss and whether the child uses amplification, spoken linguistic input will be partially or totally inaccessible. Some of these children will develop spoken language within the range of their hearing peers (@verhaert2008; @geers2017), but many will face persistent spoken language deficits (@eisenburg2007; @moeller2007; @luckner2010; @sarchet2014), which may later affect reading ability (@kyle1010) and academic achievement (@qi2012; @karchmer2003). 
