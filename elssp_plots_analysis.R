@@ -206,7 +206,286 @@ print(eventplot)
 
 #interactions among variables
 ##should functionalize this
+Gender_DevConcerns <- table(full_elssp$Gender, full_elssp$DevelopmentalConcerns)
+chisq.test(Gender_DevConcerns)
+balloonplot(Gender_DevConcerns)
 
+Gender_HealthIssues <- table(full_elssp$Gender, full_elssp$HealthIssues)
+chisq.test(Gender_HealthIssues)
+balloonplot(Gender_HealthIssues)
+
+Gender_Premature <- table(full_elssp$Gender, full_elssp$IsPremature)
+chisq.test(Gender_Premature)
+balloonplot(Gender_Premature)
+
+Gender_Laterality <- table(full_elssp$Gender, full_elssp$Laterality)
+Gender_Laterality <- Gender_Laterality[, c("Bilateral", "Unilateral")]
+chisq.test(Gender_Laterality)
+balloonplot(Gender_Laterality)
+
+Gender_Meets136 <- table(full_elssp$Gender, full_elssp$Meets136)
+Gender_Meets136 <- Gender_Meets136[, -1]
+Gender_Meets136
+chisq.test(Gender_Meets136)
+balloonplot(Gender_Meets136)
+
+Gender_Amp <- table(full_elssp$Gender, full_elssp$Amplification)
+Gender_Amp <- Gender_Amp[, -1]
+Gender_Amp
+chisq.test(Gender_Amp)
+balloonplot(Gender_Amp)
+
+Gender_Etiology <- table(full_elssp$Gender, full_elssp$Etiology)
+Gender_Etiology <- Gender_Etiology[, -1]
+Gender_Etiology
+chisq.test(Gender_Etiology)
+balloonplot(Gender_Etiology)
+
+Gender_Communication <- table(full_elssp$Gender, full_elssp$Communication)
+Gender_Communication <- Gender_Communication[, -1]
+Gender_Communication
+chisq.test(Gender_Communication)
+balloonplot(Gender_Communication)
+
+HealthIssues_Premature <- table(full_elssp$HealthIssues, full_elssp$IsPremature)
+chisq.test(HealthIssues_Premature)
+balloonplot(HealthIssues_Premature)
+
+HealthIssues_Laterality <- table(full_elssp$HealthIssues, full_elssp$Laterality)
+HealthIssues_Laterality <- HealthIssues_Laterality[, c("Bilateral", "Unilateral")]
+chisq.test(HealthIssues_Laterality)
+balloonplot(HealthIssues_Laterality)
+
+HealthIssues_Meets136 <- table(full_elssp$HealthIssues, full_elssp$Meets136)
+HealthIssues_Meets136 <- HealthIssues_Meets136[, -1]
+chisq.test(HealthIssues_Meets136)
+balloonplot(HealthIssues_Meets136)
+
+HealthIssues_DevDelay <- table(full_elssp$DevelopmentalConcerns, full_elssp$IsPremature)
+chisq.test(HealthIssues_DevDelay)
+balloonplot(HealthIssues_DevDelay)
+
+HealthIssues_Amplification <- table(full_elssp$HealthIssues, full_elssp$Amplification)
+HealthIssues_Amplification <- HealthIssues_Amplification[, -1]
+chisq.test(HealthIssues_Amplification)
+balloonplot(HealthIssues_Amplification)
+
+HealthIssues_Etiology <- table(full_elssp$HealthIssues, full_elssp$Etiology)
+HealthIssues_Etiology <- HealthIssues_Etiology[, -1]
+chisq.test(HealthIssues_Etiology)
+balloonplot(HealthIssues_Etiology)
+
+HealthIssues_Communication <- table(full_elssp$HealthIssues, full_elssp$Communication)
+HealthIssues_Communication <- HealthIssues_Communication[, -1]
+chisq.test(HealthIssues_Communication)
+balloonplot(HealthIssues_Communication)
+
+Prematurity_Laterality <- table(full_elssp$IsPremature, full_elssp$Laterality)
+Prematurity_Laterality <- Prematurity_Laterality[, c("Bilateral", "Unilateral")]
+chisq.test(Prematurity_Laterality)
+balloonplot(Prematurity_Laterality)
+
+Prematurity_Meets136 <- table(full_elssp$IsPremature, full_elssp$Meets136)
+Prematurity_Meets136 <- Prematurity_Meets136[, -1]
+chisq.test(Prematurity_Meets136)
+balloonplot(Prematurity_Meets136)
+
+Prematurity_DevConcerns <- table(full_elssp$IsPremature, full_elssp$DevelopmentalConcerns)
+Prematurity_DevConcerns
+chisq.test(Prematurity_DevConcerns)
+balloonplot(Prematurity_DevConcerns)
+
+Prematurity_Amplification <- table(full_elssp$IsPremature, full_elssp$Amplification)
+Prematurity_Amplification <- Prematurity_Amplification[, -1]
+chisq.test(Prematurity_Amplification)
+balloonplot(Prematurity_Amplification)
+
+Prematurity_Etiology <- table(full_elssp$IsPremature, full_elssp$Etiology)
+Prematurity_Etiology <- Prematurity_Etiology[, -1]
+chisq.test(Prematurity_Etiology)
+balloonplot(Prematurity_Etiology)
+
+Prematurity_Communication <- table(full_elssp$IsPremature, full_elssp$Communication)
+Prematurity_Communication <- Prematurity_Communication[, -1]
+chisq.test(Prematurity_Communication)
+balloonplot(Prematurity_Communication)
+
+Meets136_Laterality <- table(full_elssp$Meets136, full_elssp$Laterality)
+Meets136_Laterality <- Meets136_Laterality[, c("Bilateral", "Unilateral")]
+chisq.test(Meets136_Laterality)
+balloonplot(Meets136_Laterality)
+
+Amplification_Laterality <- table(full_elssp$Amplification, full_elssp$Laterality)
+Amplification_Laterality <- Amplification_Laterality[-1, c("Bilateral", "Unilateral")]
+chisq.test(Amplification_Laterality)
+balloonplot(Amplification_Laterality)
+
+DevConcerns_Laterality <- table(full_elssp$DevelopmentalConcerns, full_elssp$Laterality)
+DevConcerns_Laterality <- DevConcerns_Laterality[, c("Bilateral", "Unilateral")]
+chisq.test(DevConcerns_Laterality)
+balloonplot(DevConcerns_Laterality)
+
+Etiology_Laterality <- table(full_elssp$Etiology, full_elssp$Laterality)
+Etiology_Laterality <- Etiology_Laterality[-1, c("Bilateral", "Unilateral")]
+chisq.test(Etiology_Laterality)
+balloonplot(Etiology_Laterality)
+
+Communication_Laterality <- table(full_elssp$Communication, full_elssp$Laterality)
+Communication_Laterality <- Communication_Laterality[-1, c("Bilateral", "Unilateral")]
+chisq.test(Communication_Laterality)
+balloonplot(Communication_Laterality)
+
+Meets136_DevDelay <- table(full_elssp$Meets136, full_elssp$DevelopmentalConcerns)
+Meets136_DevDelay <- Meets136_DevDelay[-1, ]
+chisq.test(Meets136_DevDelay)
+balloonplot(Meets136_DevDelay)
+
+Meets136_Amplification <- table(full_elssp$Meets136, full_elssp$Amplification)
+Meets136_Amplification <- Meets136_Amplification[-1, -1]
+chisq.test(Meets136_Amplification)
+balloonplot(Meets136_Amplification)
+
+Meets136_Etiology <- table(full_elssp$Meets136, full_elssp$Etiology)
+Meets136_Etiology <- Meets136_Etiology[-1, -1]
+chisq.test(Meets136_Etiology)
+balloonplot(Meets136_Etiology)
+
+Meets136_Communication <- table(full_elssp$Meets136, full_elssp$Communication)
+Meets136_Communication <- Meets136_Communication[-1, -1]
+chisq.test(Meets136_Communication)
+balloonplot(Meets136_Communication)
+
+Amplification_DevConcerns <- table(full_elssp$Amplification, full_elssp$DevelopmentalConcerns)
+Amplification_DevConcerns <- Amplification_DevConcerns[-1, ]
+chisq.test(Amplification_DevConcerns)
+balloonplot(Amplification_DevConcerns)
+
+Amplification_Etiology <- table(full_elssp$Amplification, full_elssp$Etiology)
+Amplification_Etiology <- Amplification_Etiology[-1, -1]
+chisq.test(Amplification_Etiology)
+balloonplot(Amplification_Etiology)
+
+Amplification_Communication <- table(full_elssp$Amplification, full_elssp$Communication)
+Amplification_Communication <- Amplification_Communication[-1, -1]
+chisq.test(Amplification_Communication)
+balloonplot(Amplification_Communication)
+
+DevConcerns_Etiology <- table(full_elssp$DevelopmentalConcerns, full_elssp$Etiology)
+DevConcerns_Etiology <- DevConcerns_Etiology[, -1]
+chisq.test(DevConcerns_Etiology)
+balloonplot(DevConcerns_Etiology)
+
+DevConcerns_Communication <- table(full_elssp$DevelopmentalConcerns, full_elssp$Communication)
+DevConcerns_Communication <- DevConcerns_Communication[, -1]
+chisq.test(DevConcerns_Communication)
+balloonplot(DevConcerns_Communication)
+
+Communication_Etiology <- table(full_elssp$Communication, full_elssp$Etiology)
+Communication_Etiology <- Communication_Etiology[-1, -1]
+chisq.test(Communication_Etiology)
+balloonplot(Communication_Etiology)
+
+shapiro.test(full_elssp$HLworse)
+wilcox.test(HLworse ~ Gender, data=full_elssp)
+ggplot(data=full_elssp, aes(Gender, HLworse, fill=Gender))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$ServicesReceivedPerMonth)
+wilcox.test(ServicesReceivedPerMonth ~ Gender, data=full_elssp)
+ggplot(data=full_elssp, aes(Gender, ServicesReceivedPerMonth, fill=Gender))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$HLworse)
+wilcox.test(HLworse ~ HealthIssues, data=full_elssp)
+ggplot(data=full_elssp, aes(HealthIssues, HLworse, fill=HealthIssues))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$ServicesReceivedPerMonth)
+wilcox.test(ServicesReceivedPerMonth ~ HealthIssues, data=full_elssp)
+ggplot(data=full_elssp, aes(HealthIssues, ServicesReceivedPerMonth, fill=HealthIssues))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$HLworse)
+wilcox.test(HLworse ~ IsPremature, data=full_elssp)
+ggplot(data=full_elssp, aes(IsPremature, HLworse, fill=IsPremature))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$ServicesReceivedPerMonth)
+wilcox.test(ServicesReceivedPerMonth ~ IsPremature, data=full_elssp)
+ggplot(data=full_elssp, aes(IsPremature, ServicesReceivedPerMonth, fill=IsPremature))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$HLworse)
+wilcox.test(HLworse ~ Laterality, data=full_elssp)
+ggplot(data=full_elssp, aes(Laterality, HLworse, fill=Laterality))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$ServicesReceivedPerMonth)
+wilcox.test(ServicesReceivedPerMonth ~ Laterality, data=full_elssp)
+ggplot(data=full_elssp, aes(Laterality, ServicesReceivedPerMonth, fill=Laterality))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$HLworse)
+wilcox.test(HLworse ~ Meets136, 
+            data=(full_elssp %>% filter(full_elssp$Meets136=="yes"|full_elssp$Meets136=="no")))
+ggplot(data=full_elssp, aes(Meets136, HLworse, fill=Meets136))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$ServicesReceivedPerMonth)
+wilcox.test(ServicesReceivedPerMonth ~ Meets136, 
+            data=(full_elssp %>% filter(full_elssp$Meets136=="yes"|full_elssp$Meets136=="no")))
+ggplot(data=full_elssp, aes(Meets136, ServicesReceivedPerMonth, fill=Meets136))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$HLworse)
+wilcox.test(HLworse ~ DevelopmentalConcerns, 
+            data=(full_elssp %>% filter(full_elssp$DevelopmentalConcerns=="yes"|full_elssp$DevelopmentalConcerns=="no")))
+ggplot(data=full_elssp, aes(DevelopmentalConcerns, HLworse, fill=DevelopmentalConcerns))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$ServicesReceivedPerMonth)
+wilcox.test(ServicesReceivedPerMonth ~ DevelopmentalConcerns, 
+            data=(full_elssp %>% filter(full_elssp$DevelopmentalConcerns=="yes"|full_elssp$DevelopmentalConcerns=="no")))
+ggplot(data=full_elssp, aes(DevelopmentalConcerns, ServicesReceivedPerMonth, fill=DevelopmentalConcerns))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$HLworse)
+kruskal.test(HLworse ~ Amplification, 
+             data=(full_elssp %>% filter(full_elssp$Amplification=="CI"|full_elssp$Amplification=="HA"|full_elssp$Amplification=="none")))
+ggplot(data=full_elssp, aes(Amplification, HLworse, fill=Amplification))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$ServicesReceivedPerMonth)
+kruskal.test(ServicesReceivedPerMonth ~ Amplification, 
+             data=(full_elssp %>% filter(full_elssp$Amplification=="CI"|full_elssp$Amplification=="HA"|full_elssp$Amplification=="none")))
+ggplot(data=full_elssp, aes(Amplification, ServicesReceivedPerMonth, fill=Amplification))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$HLworse)
+kruskal.test(HLworse ~ Etiology, 
+             data=(full_elssp %>% filter(full_elssp$Etiology=="Conductive"|full_elssp$Etiology=="Mixed"|full_elssp$Etiology=="SNHL")))
+ggplot(data=full_elssp, aes(Etiology, HLworse, fill=Etiology))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$ServicesReceivedPerMonth)
+kruskal.test(ServicesReceivedPerMonth ~ Etiology, 
+             data=(full_elssp %>% filter(full_elssp$Etiology=="Conductive"|full_elssp$Etiology=="Mixed"|full_elssp$Etiology=="SNHL")))
+ggplot(data=full_elssp, aes(Etiology, ServicesReceivedPerMonth, fill=Etiology))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$HLworse)
+kruskal.test(HLworse ~ Communication, 
+             data=(full_elssp %>% filter(full_elssp$Communication=="total communication"|full_elssp$Communication=="spoken")))
+ggplot(data=full_elssp, aes(Communication, HLworse, fill=Communication))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+shapiro.test(full_elssp$ServicesReceivedPerMonth)
+kruskal.test(ServicesReceivedPerMonth ~ Communication, 
+             data=(full_elssp %>% filter(full_elssp$Communication=="total communication"|full_elssp$Communication=="spoken")))
+ggplot(data=full_elssp, aes(Communication, ServicesReceivedPerMonth, fill=Communication))+
+  geom_violin() + geom_jitter(height = 0, width = 0.1)
+
+cor.test(full_elssp$HLworse, full_elssp$ServicesReceivedPerMonth, method="kendall")
 
 ##test plots
 hm_test <- read.csv("data/heat_map_test.csv")
@@ -215,6 +494,7 @@ hm_test_plot <- ggplot(hm_test, aes(x=var1, y=var2)) +
   theme(axis.text.x = element_text(angle = 90)) +
   scale_fill_distiller(palette = "RdPu") +
   xlab(NULL) + ylab(NULL) 
+
 
 hm_test_plot2 <- ggplot(hm_test, aes(x=var1, y=var2)) +
   geom_tile(aes(fill = sig)) + theme_classic() +
