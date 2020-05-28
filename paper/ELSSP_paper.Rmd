@@ -130,6 +130,105 @@ Because of the sparse data on screening age, if participants had an age at diagn
 # create "Table of variables"
 ```
 
+Results
+All analyses were conducted in R. All code is available on Github. In the first section, we explore relationships among child demographic, audiological, and clinical variables. In the second section, we examine the influence of these factors on vocabulary development. In the third section, we describe the implementation of the EHDI 1-3-6 guidelines and predictors of early diagnosis and intervention.
+
+Part I: Structure of different variables with chi-square tests, correlation matrices, etc.
+
+Shapiro–Wilk tests revealed that all of our continuous measures (i.e. degree of hearing loss, services received per month, vocabulary delay) significantly differed from a normal distribution (ps <.05), so we used nonparametric tests to explore relationships among our variables. For categorical-categorical relationships, we used chi square tests; for continuous-categorical tests, we used mann-whitney U tests (2 levels for categorical variable) or kruskal-wallis tests (>2 levels for categorical variable; for continuous-continuous relationships, we used Of the fifty-five combinations of variables, p < .05 for sixteen, and seven survived bonferroni correction (p < .00091). The full set of comparisons is shown in figure XXX.
+
+
+```{r relationships_plot}
+# create relationships plot"
+# caption: 
+```
+
+From this analysis, we found that children born premature were more likely to also have health issues (X2 (df, N = ) = , p = .) Children with conductive hearing loss were more likely to have unilateral hearing loss (X2 (df, N = ) = , p = ). Children with unilateral hearing loss were unlikely to receive a cochlear implant and more likely to use no amplification (X2 (df, N = ) = , p = ). Children with more severe hearing loss were more likely to use a cochlear implant than children with milder hearing loss (U=, p=). Children with developmental delays (U =, p =) received more services per month than typically developing DHH children and were more likely to use total communication (X2 (df, N = ) = , p = ). Children who used total communication received more services per month than children using spoken language (X2 (df, N = ) = , p = ).
+
+Part II: Influence on vocabulary
+
+We first constructed a binary logistic growth curve for vocabulary from the 50th percentile data for typically developing children from Wordbank. With this function, each participant’s CDI score yielded a predicted age from the normative data. For each child, we subtracted this predicted age (given the score) from the child’s actual age to give us a measure of delay in months. Descriptively, we found widespread vocabulary delays on both Words and Gestures and Words and Sentences, with the majority of DHH children testing around or below the 25th percentile for hearing children. 
+
+
+```{r wg_ws_rainbow_plot}
+# already have code for graphs, need to cowplot them together
+# caption: Figures XXX - Colored lines show vocabulary percentiles from wordbank. black line shows growth curve from 50th percentile data. Black triangles show vocabulary scores of individual DHH children.
+```
+
+We next explored the effect of the different audiological, demographic, and intervention characteristics on vocabulary delay. Vocabulary delay did not meet the assumption of normality, so we used non-parametric tests for the following set of analyses. Mann-Whitney-Wilcoxen tests were conducted to examine the effects of gender, laterality, developmental delay, health issues, prematurity, meeting 1-3-6 guidelines, and communication on vocabulary delay. We used kruskal-wallis tests for amplification and etiology, and Kendall’s rank correlations for degree of hearing loss (worse ear) and services received per month. These results are exploratory and descriptive, and their interpretation should be tempered accordingly. 
+
+Boys were significantly more delayed than girls on Words and Sentences but not Words and Gestures. Children with developmental delays had larger vocabulary delays than children without developmental delays on Words and Gestures. Because only one child with a developmental delay took the Words and Sentences form, we did not perform the analysis for Words and Sentences. Premature children and children with health issues had smaller vocabularies than typically developing children on Words and Gestures but not Words and Sentences. Children who met 1-3-6 guidelines had larger vocabulary than children who did not on Words and Gestures but not Words and Sentences. On Words and Gestures but not Words and Sentences, receiving more early intervention services was correlated with lower vocabulary. We did not observe an effect of laterality, communication, degree, or etiology on vocabulary delay on either form of the CDI. For communication, we omitted cued speech from the analysis because only one child in our sample used this method of communication (shown on graph anyway for the curious). A kruskal-wallis test showed a significant effect of amplification on vocabulary delay on Words and Gestures, such that children with no amplification were more delayed than children without amplification.
+
+
+```{r delay_table}
+# create delay table
+```
+
+Part III: Meets136 success
+
+Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. XXX% of our sample met 1-3-6 guidelines for early diagnosis and intervention. Of children with comorbidities (developmental concerns, prematurity, health issues), only XXX% met 1-3-6 guidelines, compared to XXX% of typically developing children. See table XXX for complete breakdown.
+
+```{r meets136_table}
+# create 136 table
+```
+
+```{r meets136_timeline}
+ggplot(data = event_data, 
+                    mapping = aes(x = reorder(event, eventmean), 
+                                  y = eventmean, color=event)) + 
+  geom_pointrange(mapping = aes(ymin = eventmean - eventsd,
+                                ymax = eventmean + eventsd)) +
+  geom_pointrange(mapping = aes(ymin = eventmin,
+                                ymax = eventmax), width=2, alpha=0.5) +
+  labs(x= "", y= "Age Months") + 
+  coord_flip() +
+  theme(legend.position = "none") +
+  theme_classic()
+
+#caption: Figure XXX - Dots represent average age of diagnosis, etc. Stronger lines represent standard deviation. Softer lines show range. 
+```
+
+We created linear regression models for age at diagnosis and age at intervention. Models were paired down using stepwise regression by AIC using the stepAIC function (cite MASS package). For age at diagnosis, we included the set of child-specific factors that would be relevant before diagnosis of hearing loss. We began with:
+Age diagnosis ~ gender + laterality + degree (worse ear) + developmental delay + health issues + prematurity + laterality + language background + etiology
+The best fit model (R2= , p= )included health issues (beta weight, p = ) and language background (beta = , p = ).
+Age diagnosis ~ health issues + language background
+
+```{r diagnosis_betas}
+diagnosis_aic <- lm(formula = IdentificationOfHLMonths ~ HealthIssues + Monolingual_English, data = full_elssp)
+
+
+dw_diagnosis = dwplot(diagnosis_aic)
+dw_diagnosis = dw_diagnosis + geom_vline(xintercept=0, linetype = 'dashed') + theme_classic(
+)+ theme(legend.position="none")
+options(repr.plot.width=6, repr.plot.height=4)
+print(dw_diagnosis)
+
+#caption: 
+```
+
+
+For age at intervention, we first included the variables potentially relevant prior to intervention: 
+Age intervention ~ gender + degree (worse ear) + developmental delay + health issues + prematurity + laterality + language background + etiology + age diagnosis
+The best fit model (R2= , p= )included prematurity (beta weight, p = ), laterality (beta weight, p = ), degree of hearing loss (beta weight, p = ), and age at diagnosis (beta = , p = ). 
+Age intervention ~ laterality + degree (worse ear) + prematurity + laterality + age diagnosis
+
+```{r intervention_betas}
+services_aic <- lm(formula = AgeStartedServices ~ HLworse + Laterality + IsPremature + IdentificationOfHLMonths, data = (data = full_elssp %>% filter(HLworse != "NA")))
+
+dw_services = dwplot(services_aic)
+dw_services = dw_services + geom_vline(xintercept=0, linetype = 'dashed') + theme_classic(
+)+ theme(legend.position="none")
+options(repr.plot.width=6, repr.plot.height=4)
+print(dw_services)
+
+#caption:  
+```
+
+
+
+
+
+
 Footnotes: Despite exciting, increasing, and converging evidence for benefits of early sign language exposure (e.g., @schick2007; @spencer1993; @davidson2014; @magnuson2000; @clark2016; @hrastinski2016), the majority of DHH children will not be raised in a sign language environment. This is particularly true for North Carolina, which does not have a large community of sign language users, relative to states like Maryland or areas like Washington D.C. or Rochester, NY. For this reason, we focus on spoken language development. 
 
 
