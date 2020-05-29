@@ -90,11 +90,24 @@ This study aims to 1) characterize the demographic, audiological, and interventi
 For the first and third goal above, we did not have specific hypotheses and sought to provide descriptive information about a diverse sample of DHH children receiving state services. For the second, we hypothesized that male gender, more severe degree of hearing loss,  bilateral hearing loss, no amplification use, prematurity, and presence of additional disabilities would predict larger spoken vocabulary delay. We did not have strong predictions regarding communication method, language background, or presence of other health issues (e.g., congenital heart malformation).
 
 ##Methods
+``` {r demo-data}
+num_subs = nrows(full_elssp)
+num_repeat_subs = nrows(elssp %>% filter(VisitNumber == 2))
+num_girls = nrows(full_elssp %>% filter(Gender == 'female'))
+num_boys = nrows(full_elssp %>% filter(Gender == 'male'))
+min_age = min(full_elssp$Age)
+max_age = max(full_elssp$Age)
+mean_age = mean(full_elssp$Age)
+sd_age = sd(full_elssp$Age)
+num_too_old_wg = nrows(wg_elssp %>% filter(Age>18)))
+num_spanish_cdi = nrows(full_elssp %>% filter(PrimaryLanguage == 'Spanish))
+```
+
 Clinical evaluations were obtained through an ongoing collaboration with  the North Carolina Early Language Sensory Support Program (ELSSP), an early intervention program serving children with sensory impairments from birth to 36 months. ELSSP passed along deidentified evaluations to our team after obtaining consent to do so from each family. No eligibility criteria beyond hearing loss and receiving an ELSSP evaluation were imposed, given our goal of characterizing the full range of DHH children with hearing loss in North Carolina.
 
-The clinical evaluations included demographic and audiological information, CDI vocabulary scores, and the results of any clinical assessments administered (e.g., PPVT), all detailed further below. For some children (n=XXX), multiple evaluations were available from different timepoints. In these cases, only the first evaluation was considered for this study due to concerns regarding within-subjects variance for statistical analysis.
+The clinical evaluations included demographic and audiological information, CDI vocabulary scores, and the results of any clinical assessments administered (e.g., PPVT), all detailed further below. For some children (n=`r num_repeat_subs`), multiple evaluations were available from different timepoints. In these cases, only the first evaluation was considered for this study due to concerns regarding within-subjects variance for statistical analysis.
 
-While this collaboration is ongoing, we opted to pause for this analysis upon receiving data from 100 children. Thus, the reported sample below consists of XXX children (XXX male/XXX female) ages XXX--XXX(M=XXX, SD=XXX). Race and SES information was not available. Families were administered either the WG or WS version of the CDI based on clinician judgement. Children who were too old for WG, but who were not producing many words at the time of assessment, were often given WG (n=XXX). Families for whom Spanish was the primary language (n = XXX) completed the Spanish version of the CDI (@jackson-maldonado2003).
+While this collaboration is ongoing, we opted to pause for this analysis upon receiving data from 100 children. Thus, the reported sample below consists of `r num_subs` children (`r num_boys` male/`r num_girls` female) ages `r min_age`--`r max_age`(M=`r mean_age`, SD=`r sd_age`). Race and SES information was not available. Families were administered either the WG or WS version of the CDI based on clinician judgement. Children who were too old for WG, but who were not producing many words at the time of assessment, were often given WG (n=`r num_too_old_wg`). Families for whom Spanish was the primary language (n = `r num_spanish_cdi`) completed the Spanish version of the CDI (@jackson-maldonado2003).
 
 ```{r CDIinfo}
 # create "Some table with information about WG/WS breakdown, perhaps average age, average understands score, average produces score"
@@ -119,7 +132,7 @@ Communication method was recorded as spoken language, total communication, or cu
 ```
 
 
-Age at screening was measured as the child’s age in months at their first hearing screening. Age at screening was only available for (n) participants. If participants received their newborn hearing screening, age at screening was recorded as 0 (months). Age at diagnosis was taken as the age in months when children received their first hearing loss diagnosis. All children were enrolled in birth-to-three early intervention services through NC ELSSP, and the date of enrollment was listed on the clinician evaluation. From the clinician report, we calculated the number of hours of early intervention services received per month (including service coordination, speech therapy, and occupational therapy, among others). 
+Age at screening was measured as the child’s age in months at their first hearing screening. Age at screening was only available for (XXX) participants. If participants received their newborn hearing screening, age at screening was recorded as 0 (months). Age at diagnosis was taken as the age in months when children received their first hearing loss diagnosis. All children were enrolled in birth-to-three early intervention services through NC ELSSP, and the date of enrollment was listed on the clinician evaluation. From the clinician report, we calculated the number of hours of early intervention services received per month (including service coordination, speech therapy, and occupational therapy, among others). 
 Because of the sparse data on screening age, if participants had an age at diagnosis  $\leq$ 3 mo. and an age of intervention  $\leq$ 6 mo., they were recorded as meeting 1-3-6. It is possible that a participant did not receive screening by 1 month, but did receive diagnosis by 3 months and services by 6 months. This special case would be coded as meeting 1-3-6 by our criteria.
 
 ```{r meets136_info}
@@ -135,7 +148,7 @@ All analyses were conducted in R. All code is available on Github. In the first 
 
 Part I: Structure of different variables with chi-square tests, correlation matrices, etc.
 
-Shapiro–Wilk tests revealed that all of our continuous measures (i.e. degree of hearing loss, services received per month, vocabulary delay) significantly differed from a normal distribution (ps <.05), so we used nonparametric tests to explore relationships among our variables. For categorical-categorical relationships, we used chi square tests; for continuous-categorical tests, we used mann-whitney U tests (2 levels for categorical variable) or kruskal-wallis tests (>2 levels for categorical variable; for continuous-continuous relationships, we used Of the fifty-five combinations of variables, p < .05 for sixteen, and seven survived bonferroni correction (p < .00091). The full set of comparisons is shown in figure XXX.
+Shapiro–Wilk tests revealed that all of our continuous measures (i.e. degree of hearing loss, services received per month, vocabulary delay) significantly differed from a normal distribution (ps <.05), so we used nonparametric tests to explore relationships among our variables. For categorical-categorical relationships, we used chi square tests; for continuous-categorical tests, we used mann-whitney U tests (2 levels for categorical variable) or kruskal-wallis tests (>2 levels for categorical variable; for continuous-continuous relationships, we used Of the fifty-five combinations of variables, p < .05 for sixteen, and seven survived bonferroni correction (p < `r round(.05/55, digits = 5)`). The full set of comparisons is shown in figure XXX.
 
 
 ```{r relationships_plot}
