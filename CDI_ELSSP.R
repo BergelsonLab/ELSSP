@@ -78,7 +78,7 @@ prepare_elssp_df = function(cdi_form, constants, verbose=F){
 	new_scores$predict_ages = new_scores$age
 	
 	print('Getting Wordbank norms...')
-	wordbank_norms = read.csv(paste("data/vocabulary_norms_table_",cdi_form,"_Prod.csv", sep=""),
+	wordbank_norms = read.csv(paste("../data/vocabulary_norms_table_",cdi_form,"_Prod.csv", sep=""),
 	stringsAsFactors=F)	
 	
 	wordbank_norms_melted = melt(wordbank_norms, id.vars = c("language", "form", "measure", "age", "identity"))
@@ -148,11 +148,11 @@ plot_elssp_df = function(elssp_dataset, split=NULL, save=T) {
        
 		# Save to disk
 		p1 = p1 + theme_classic(base_size=16)
-		ggsave(plot=p1, paste('figures/', elssp_dataset$cdi_form,'_', split, '_trajectory.pdf', sep=''), width=6, height=4)
+		ggsave(plot=p1, paste('../figures/', elssp_dataset$cdi_form,'_', split, '_trajectory.pdf', sep=''), width=6, height=4)
 		p2 = p2 + theme_classic(base_size=16)
-		ggsave(plot=p2, paste('figures/', elssp_dataset$cdi_form,'_', split, '_deficit.pdf', sep=''), width=6, height=4)
+		ggsave(plot=p2, paste('../figures/', elssp_dataset$cdi_form,'_', split, '_deficit.pdf', sep=''), width=6, height=4)
 		p3 = p3 + theme_classic(base_size=16)
-		ggsave(plot=p3, paste('figures/', elssp_dataset$cdi_form,'_', split, '_delay.pdf', sep=''), width=6, height=4)
+		ggsave(plot=p3, paste('../figures/', elssp_dataset$cdi_form,'_', split, '_delay.pdf', sep=''), width=6, height=4)
 
         graph <- p3
         return(graph)
@@ -177,7 +177,7 @@ plot_elssp_df = function(elssp_dataset, split=NULL, save=T) {
 		print(p1)
 		# Save to disk
 		p1 = p1 + theme_classic(base_size=16) + theme(legend.position = "none")
-		ggsave(paste('figures/', elssp_dataset$cdi_form,'_trajectories.pdf', sep=''), width=6, height=4)
+		ggsave(paste('../figures/', elssp_dataset$cdi_form,'_trajectories.pdf', sep=''), width=6, height=4)
         graph <- p1
 	}
 return(graph)

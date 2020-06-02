@@ -6,19 +6,19 @@ library('reshape2')
 library('dotwhisker')
 library('gplots')
 library('MASS')
-source('CDI_ELSSP.R')
+source('../CDI_ELSSP.R')
 source("https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R")
 
 
 #read in data
-elssp = read.csv("data/ELSSP_SubjectInfo_02042020.csv", stringsAsFactors=F) %>% mutate(InSample=as.factor(InSample)) %>% filter(VisitNumber==1)	
+elssp = read.csv("../data/ELSSP_SubjectInfo_02042020.csv", stringsAsFactors=F) %>% mutate(InSample=as.factor(InSample)) %>% filter(VisitNumber==1)	
 elssp$AgeAtEvaluationMonths = elssp$Age #for clarity
 elssp$subject_id = unlist(lapply(strsplit(elssp$SubjectNumber,'_'), function(x){as.numeric(x[2])}))
 elssp$admin_id = elssp$SubjectNumber
 summary(elssp)
 
 #add months-delay to dataframes
-source('CDI_ELSSP.R')
+source('../CDI_ELSSP.R')
 elssp_datasets = lapply(c('WG','WS'), function(x){
   prepare_elssp_df(x, constants, verbose=T)
 })
@@ -50,6 +50,7 @@ ws_elssp <- elssp_datasets[[2]]$elssp_df %>% mutate(Gender=as.factor(Gender), La
                                                     InSample=as.factor(InSample)) %>% filter(VisitNumber==1)
 
 full_elssp <- rbind(wg_elssp, ws_elssp)
+
 
 #rainbow cdi plots
 plot_elssp_df(elssp_datasets[[1]])
@@ -207,7 +208,7 @@ print(eventplot)
 #interactions among variables
 ##should functionalize this
 Gender_DevConcerns <- table(full_elssp$Gender, full_elssp$DevelopmentalConcerns)
-chisq.test(Gender_DevConcerns)
+sum((chisq.test(Gender_DevConcerns))$observed)
 balloonplot(Gender_DevConcerns)
 
 Gender_HealthIssues <- table(full_elssp$Gender, full_elssp$HealthIssues)
@@ -444,13 +445,13 @@ ggplot(data=full_elssp, aes(DevelopmentalConcerns, HLworse, fill=DevelopmentalCo
   geom_violin() + geom_jitter(height = 0, width = 0.1)
 
 shapiro.test(full_elssp$ServicesReceivedPerMonth)
-wilcox.test(ServicesReceivedPerMonth ~ DevelopmentalConcerns, 
+Services_DevDelay <- wilcox.test(ServicesReceivedPerMonth ~ DevelopmentalConcerns, 
             data=(full_elssp %>% filter(full_elssp$DevelopmentalConcerns=="yes"|full_elssp$DevelopmentalConcerns=="no")))
 ggplot(data=full_elssp, aes(DevelopmentalConcerns, ServicesReceivedPerMonth, fill=DevelopmentalConcerns))+
   geom_violin() + geom_jitter(height = 0, width = 0.1)
 
 shapiro.test(full_elssp$HLworse)
-kruskal.test(HLworse ~ Amplification, 
+Degree_Amplification <- kruskal.test(HLworse ~ Amplification, 
              data=(full_elssp %>% filter(full_elssp$Amplification=="CI"|full_elssp$Amplification=="HA"|full_elssp$Amplification=="none")))
 ggplot(data=full_elssp, aes(Amplification, HLworse, fill=Amplification))+
   geom_violin() + geom_jitter(height = 0, width = 0.1)
@@ -480,7 +481,7 @@ ggplot(data=full_elssp, aes(Communication, HLworse, fill=Communication))+
   geom_violin() + geom_jitter(height = 0, width = 0.1)
 
 shapiro.test(full_elssp$ServicesReceivedPerMonth)
-kruskal.test(ServicesReceivedPerMonth ~ Communication, 
+Services_Communication <- kruskal.test(ServicesReceivedPerMonth ~ Communication, 
              data=(full_elssp %>% filter(full_elssp$Communication=="total communication"|full_elssp$Communication=="spoken")))
 ggplot(data=full_elssp, aes(Communication, ServicesReceivedPerMonth, fill=Communication))+
   geom_violin() + geom_jitter(height = 0, width = 0.1)
