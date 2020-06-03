@@ -48,7 +48,7 @@ Additional co-occuring disabilities occur frequently in the DHH population, perh
 
 Some of these conditions, particularly those which carry risk of developmental delay (e.g., Down syndrome), result in language delays independent of hearing loss (@chapman1997; @kristofferson2008; @weismer2010), with cognitive ability more predictive of language outcomes than presence or absence of a specific disability (@meinzen-derr2011; @sarant2008). Disability and hearing loss likely each contribute to a given child’s language development (@rajput2003, @vannierop2016; @ching2013), with differential effects of each (@vesseur2016). In some cases, additional disabilities appear to interact with hearing loss to intensify developmental delays (@birman2012; @pierson2007).
 
-Furthermore, incidence of hearing loss is higher among children born premature (defined as < 37 weeks gestational age). Compared to an incidence 0.2% in full-term infants, incidence of hearing loss in extremely premature infants (defined as <33 weeks gestational age) ranges 2--11%, with increased prematurity associated with increased rates of hearing loss (@wroblewskla-seniuk2017). 
+Furthermore, incidence of hearing loss is higher among children born premature (defined as $\lt$ 37 weeks gestational age). Compared to an incidence 0.2% in full-term infants, incidence of hearing loss in extremely premature infants (defined as $\leq$33 weeks gestational age) ranges 2--11%, with increased prematurity associated with increased rates of hearing loss (@wroblewskla-seniuk2017). 
 
 Independently of hearing status, prematurity is linked to increased risk of language delay and disorder (@rechia2016; @vannoort-vanderspek2012; @carter2017; @vohr2014; @cusson2003; @barre2011). Unfortunately, research on language development in premature DHH children is scant (@vohr2016), so it remains unclear how hearing loss and prematurity may interact within spoken language skills. One study of premature infants finds that auditory brainstem response during newborn hearing screening predicts language performance on the PLS-4 at age 3 (@amin2014), suggesting a link between prematurity and hearing loss in early childhood, though further research is needed in this domain.
 
@@ -92,16 +92,16 @@ For the first and third goal above, we did not have specific hypotheses and soug
 
 ##Methods
 ``` {r demo-data}
-num_subs = nrows(full_elssp)
-num_repeat_subs = nrows(elssp %>% filter(VisitNumber == 2))
-num_girls = nrows(full_elssp %>% filter(Gender == 'female'))
-num_boys = nrows(full_elssp %>% filter(Gender == 'male'))
+num_subs = nrow(full_elssp)
+num_repeat_subs = nrow(elssp %>% filter(VisitNumber == 2)) #FIX THIS - comes out to 0?
+num_girls = nrow(full_elssp %>% filter(Gender == 'female'))
+num_boys = nrow(full_elssp %>% filter(Gender == 'male'))
 min_age = min(full_elssp$Age)
 max_age = max(full_elssp$Age)
 mean_age = mean(full_elssp$Age)
 sd_age = sd(full_elssp$Age)
-num_too_old_wg = nrows(wg_elssp %>% filter(Age>18)))
-num_spanish_cdi = nrows(full_elssp %>% filter(PrimaryLanguage == 'Spanish))
+num_too_old_wg = nrow(wg_elssp %>% filter(Age>18))
+num_spanish_cdi = nrow(full_elssp %>% filter(PrimaryLanguage == 'Spanish'))
 ```
 
 Clinical evaluations were obtained through an ongoing collaboration with  the North Carolina Early Language Sensory Support Program (ELSSP), an early intervention program serving children with sensory impairments from birth to 36 months. ELSSP passed along deidentified evaluations to our team after obtaining consent to do so from each family. No eligibility criteria beyond hearing loss and receiving an ELSSP evaluation were imposed, given our goal of characterizing the full range of DHH children with hearing loss in North Carolina.
@@ -149,7 +149,7 @@ All analyses were conducted in R. All code is available on Github. In the first 
 
 Part I: Structure of different variables with chi-square tests, correlation matrices, etc.
 
-Shapiro–Wilk tests revealed that all of our continuous measures (i.e. degree of hearing loss, services received per month, vocabulary delay) significantly differed from a normal distribution (ps <.05), so we used nonparametric tests to explore relationships among our variables. For categorical-categorical relationships, we used chi square tests; for continuous-categorical tests, we used mann-whitney U tests (2 levels for categorical variable) or kruskal-wallis tests (>2 levels for categorical variable; for continuous-continuous relationships, we used Of the fifty-five combinations of variables, p < .05 for sixteen, and seven survived bonferroni correction (p < `r round(.05/55, digits = 5)`). The full set of comparisons is shown in figure XXX.
+Shapiro–Wilk tests revealed that all of our continuous measures (i.e. degree of hearing loss, services received per month, vocabulary delay) significantly differed from a normal distribution (ps $\lt$.05), so we used nonparametric tests to explore relationships among our variables. For categorical-categorical relationships, we used chi square tests; for continuous-categorical tests, we used mann-whitney U tests (2 levels for categorical variable) or kruskal-wallis tests ($\gt$2 levels for categorical variable; for continuous-continuous relationships, we used Of the fifty-five combinations of variables, p $\lt$ .05 for sixteen, and seven survived bonferroni correction (p $\lt$ `r round(.05/55, digits = 5)`). The full set of comparisons is shown in figure XXX.
 
 
 ```{r relationships_plot}
@@ -157,7 +157,7 @@ Shapiro–Wilk tests revealed that all of our continuous measures (i.e. degree o
 # caption: 
 ```
 
-From this analysis, we found that children born premature were more likely to also have health issues (X2 (`r (chisq.test(HealthIssues_Premature))$parameter`, N = `r sum((chisq.test(HealthIssues_Premature))$observed`) = `r (chisq.test(HealthIssues_Premature))$statistic`, p = `r (chisq.test(HealthIssues_Premature))$p.value`.) Children with conductive hearing loss were more likely to have unilateral hearing loss (X2 (`r (chisq.test(Etiology_Laterality))$parameter`, N = `r sum((chisq.test(Etiology_Laterality))$observed`) = `r (chisq.test(Etiology_Laterality))$statistic`, p = `r (chisq.test(Etiology_Laterality))$p.value`). Children with unilateral hearing loss were unlikely to receive a cochlear implant and more likely to use no amplification (X2 (`r (chisq.test(Amplification_Laterality))$parameter`, N = `r sum((chisq.test(Amplification_Laterality))$observed`) = `r (chisq.test(Amplification_Laterality))$statistic`, p = `r (chisq.test(Amplification_Laterality))$p.value`). Children with more severe hearing loss were more likely to use a cochlear implant than children with milder hearing loss (H(`r Degree_Amplification$parameter`)=`r Degree_Amplification$statistic`, p=`r Degree_Amplification$p.value`). Children with developmental delays received more services per month than typically developing DHH children (H(`r Services_DevDelay$parameter`)=`r Services_DevDelay$statistic`, p=`r Services_DevDelay$p.value`)and were more likely to use total communication (X2 (`r (chisq.test(DevConcerns_Communication))$parameter`, N = `r sum((chisq.test(DevConcerns_Communication))$observed`)) = `r (chisq.test(DevConcerns_Communication))$statistic`, p = `r (chisq.test(DevConcerns_Communication))$statistic`). Children who used total communication received more services per month than children using spoken language (H(`r Services_Communication$parameter`)=`r Services_Communication$statistic`, p=`r Services_Communication$p.value`).
+From this analysis, we found that children born premature were more likely to also have health issues (X2 (`r (chisq.test(HealthIssues_Premature))$parameter`, N = `r (chisq.test(HealthIssues_Premature))$observed`) = `r (chisq.test(HealthIssues_Premature))$statistic`, p = `r (chisq.test(HealthIssues_Premature))$p.value`.) Children with conductive hearing loss were more likely to have unilateral hearing loss (X2 (`r (chisq.test(Etiology_Laterality))$parameter`, N = `r (chisq.test(Etiology_Laterality))$observed`) = `r (chisq.test(Etiology_Laterality))$statistic`, p = `r (chisq.test(Etiology_Laterality))$p.value`). Children with unilateral hearing loss were unlikely to receive a cochlear implant and more likely to use no amplification (X2 (`r (chisq.test(Amplification_Laterality))$parameter`, N = `r (chisq.test(Amplification_Laterality))$observed`) = `r (chisq.test(Amplification_Laterality))$statistic`, p = `r (chisq.test(Amplification_Laterality))$p.value`). Children with more severe hearing loss were more likely to use a cochlear implant than children with milder hearing loss (H(`r Degree_Amplification$parameter`)=`r Degree_Amplification$statistic`, p=`r Degree_Amplification$p.value`). Children with developmental delays received more services per month than typically developing DHH children (H(`r Services_DevDelay$parameter`)=`r Services_DevDelay$statistic`, p=`r Services_DevDelay$p.value`)and were more likely to use total communication (X2 (`r (chisq.test(DevConcerns_Communication))$parameter`, N = `r (chisq.test(DevConcerns_Communication))$observed`)) = `r (chisq.test(DevConcerns_Communication))$statistic`, p = `r (chisq.test(DevConcerns_Communication))$statistic`). Children who used total communication received more services per month than children using spoken language (H(`r Services_Communication$parameter`)=`r Services_Communication$statistic`, p=`r Services_Communication$p.value`).
 
 Part II: Influence on vocabulary
 
@@ -180,9 +180,9 @@ Boys were significantly more delayed than girls on Words and Sentences but not W
 
 Part III: Meets136 success
 ```{r 136-summary-stats}
-perc_136 <- (nrow(full_elssp%>%filter(Meets136=='yes'))/(nrow(full_elssp %>% filter(Meets136=='yes'|Meets136=='no')))*100
-perc_136_TD <- 
-perc_136_DA <- 
+perc_136 <- (nrow(full_elssp%>%filter(Meets136=='yes'))/(nrow(full_elssp %>% filter(Meets136=='yes'|Meets136=='no'))))*100
+perc_136_TD <- (nrow(full_elssp%>%filter(DevelopmentalConcerns=='no')%>%filter(Meets136=='yes'))/(nrow(full_elssp%>%filter(DevelopmentalConcerns=='no')%>%filter(Meets136=='yes'|Meets136=='no'))))*100
+perc_136_DA <- (nrow(full_elssp%>%filter(DevelopmentalConcerns=='yes')%>%filter(Meets136=='yes'))/(nrow(full_elssp%>%filter(DevelopmentalConcerns=='yes')%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 ```
 Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. `r perc_136`% of our sample met 1-3-6 guidelines for early diagnosis and intervention. Of children with comorbidities (developmental concerns, prematurity, health issues), only `perc_136_DA`% met 1-3-6 guidelines, compared to `perc_136_TD`% of typically developing children. See table XXX for complete breakdown.
 
@@ -219,7 +219,7 @@ lm_pvalue <- function (modelobject) {
 ```
 We created linear regression models for age at diagnosis and age at intervention. Models were paired down using stepwise regression by AIC using the stepAIC function (cite MASS package). For age at diagnosis, we included the set of child-specific factors that would be relevant before diagnosis of hearing loss. We began with:
 Age diagnosis ~ gender + laterality + degree (worse ear) + developmental delay + health issues + prematurity + laterality + language background + etiology
-The best fit model (R2=`r summary(diagnosis_aic)$r.squared` , p=`r lm_pvalue(diagnosis_aic)` )included health issues (beta weight = `r summary(diagnosis_aic)$coefficients[2,4]`, p = `r summary(diagnosis_aic)$coefficients[2,1]`) and language background (beta weight = `r summary(diagnosis_aic)$coefficients[3,4]`, p = `r summary(diagnosis_aic)$coefficients[3,1]`).
+The best fit model (R2=`r summary(diagnosis_aic)$r.squared` , p=`r lm_pvalue(diagnosis_aic)` )included health issues (beta weight = `r summary(diagnosis_aic)$coefficients[2,1]`, p = `r summary(diagnosis_aic)$coefficients[2,4]`) and language background (beta weight = `r summary(diagnosis_aic)$coefficients[3,1]`, p = `r summary(diagnosis_aic)$coefficients[3,4]`).
 Age diagnosis ~ health issues + language background
 
 ```{r diagnosis_betas}
@@ -238,7 +238,7 @@ print(dw_diagnosis)
 
 For age at intervention, we first included the variables potentially relevant prior to intervention: 
 Age intervention ~ gender + degree (worse ear) + developmental delay + health issues + prematurity + laterality + language background + etiology + age diagnosis
-The best fit model (R2=`r summary(services_aic)$r.squared` , p=`r lm_pvalue(services_aic)`) included prematurity (beta weight = `r summary(diagnosis_aic)$coefficients[4,4]`, p = `r summary(diagnosis_aic)$coefficients[4,1]`), laterality (beta weight = `r summary(diagnosis_aic)$coefficients[3,4]`, p = `r summary(diagnosis_aic)$coefficients[3,1]`), degree of hearing loss (beta weight = `r summary(diagnosis_aic)$coefficients[2,4]`, p = `r summary(diagnosis_aic)$coefficients[2,1]`), and age at diagnosis (beta weight = `r summary(diagnosis_aic)$coefficients[5,4]`, p = `r summary(diagnosis_aic)$coefficients[5,1]`). 
+The best fit model (R2=`r summary(services_aic)$r.squared` , p=`r lm_pvalue(services_aic)`) included prematurity (beta weight = `r summary(services_aic)$coefficients[4,1]`, p = `r summary(services_aic)$coefficients[4,4]`), laterality (beta weight = `r summary(services_aic)$coefficients[3,1]`, p = `r summary(services_aic)$coefficients[3,4]`), degree of hearing loss (beta weight = `r summary(diagnosis_aic)$coefficients[2,1]`, p = `r summary(services_aic)$coefficients[2,4]`), and age at diagnosis (beta weight = `r summary(services_aic)$coefficients[5,1]`, p = `r summary(services_aic)$coefficients[5,4]`). 
 Age intervention ~ laterality + degree (worse ear) + prematurity + laterality + age diagnosis
 
 ```{r intervention_betas}

@@ -66,7 +66,8 @@ wilcox.test(diff_age_from_expected ~ Gender, data=ws_elssp)
 ws_gender <- plot_elssp_df(elssp_datasets[[2]], 'Gender')
 
 ##laterality
-wilcox.test(diff_age_from_expected ~ Laterality, data=wg_elssp)
+wilcox.test(diff_age_from_expected ~ Laterality, data=(wg_elssp %>% 
+                                                         dplyr::filter(Laterality=='Unilateral'|Laterality=='Bilateral')))
 wg_laterality <- plot_elssp_df(elssp_datasets[[1]], 'Laterality')
 
 wilcox.test(diff_age_from_expected ~ Laterality, data=ws_elssp)
@@ -101,7 +102,7 @@ wilcox.test(diff_age_from_expected ~ IsPremature, data=ws_elssp)
 ws_prematurity <- plot_elssp_df(elssp_datasets[[2]], 'IsPremature')
 
 #meets136
-wilcox.test(diff_age_from_expected ~ Meets136, data=wg_elssp)
+wilcox.test(diff_age_from_expected ~ Meets136, data=(wg_elssp %>% filter(Meets136=='yes'|Meets136=='no')))
 wg_meets136 <- plot_elssp_df(elssp_datasets[[1]], 'Meets136')
 
 wilcox.test(diff_age_from_expected ~ Meets136, data=ws_elssp)
@@ -489,7 +490,7 @@ ggplot(data=full_elssp, aes(Communication, ServicesReceivedPerMonth, fill=Commun
 cor.test(full_elssp$HLworse, full_elssp$ServicesReceivedPerMonth, method="kendall")
 
 ##test plots
-hm_test <- read.csv("data/heat_map_test.csv")
+hm_test <- read.csv("../data/heat_map_test.csv")
 hm_test_plot <- ggplot(hm_test, aes(x=var1, y=var2)) +
   geom_tile(aes(fill = p)) + theme_classic() +
   theme(axis.text.x = element_text(angle = 90)) +
