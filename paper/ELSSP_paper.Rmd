@@ -10,7 +10,7 @@ bibliography: ELSSP.bib
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r load_packages, cache = FALSE, include = FALSE}
+```{r load_packages, cache = FALSE, include = FALSE, echo=FALSE}
 library(papaja) 
 library(tidyverse)
 library(knitr)
@@ -20,30 +20,31 @@ library(citr)
 library(readxl)
 library(broom)
 library(stargazer)
+library(glue)
 
 knitr::opts_chunk$set(fig.width=12, fig.height=12, comment=F, message=F, hide = T, warning = F, echo = F)
 ```
 
-```{r read-in-data, echo = F, results = 'hide', message = F, comment = F}
+```{r read-in-data, echo = F, results = 'hide', message = F, comment = F, fig.show='hide'}
 source('../CDI_ELSSP.R')
 source('../elssp_plots_analysis.R')
 ```
 
-## Introduction
+# Introduction
 
 In the United States, 1-2 children are born with hearing loss, per 1,000 births (@cdc2018). This translates to 114,000 Deaf or Hard of Hearing (DHH) children born in the U.S. per year (@martin2019). Of these 114,000, ~90% will be born to hearing parents (@mitchell2004), in a home where spoken language is likely the dominant communication method. Depending on the type and degree of hearing loss and whether the child uses amplification, spoken linguistic input will be partially or totally inaccessible. Some of these children will develop spoken language within the range of their hearing peers (@verhaert2008; @geers2017), but many will face persistent spoken language deficits (@eisenburg2007; @moeller2007; @luckner2010; @sarchet2014), which may later affect reading ability (@kyle1010) and academic achievement (@qi2012; @karchmer2003). 
 
 Despite many excellent studies examining language development in DHH children, there is still a gap in the literature describing and analyzing spoken language development across the full range of children receiving state services for hearing loss, with many studies focusing in on specific subgroups (e.g. children under age X with Y level of hearing loss and Z amplification approach, e.g. @yoshinaga-itano2018; @vohr2008). In what follows, we first summarize the previous literature on predictors of spoken language outcomes in DHH children. We then provide  a brief overview of a common vocabulary measure used in the current study, the MacArthur-Bates Communicative Development Inventory (CDI). Finally, we turn to an empirical analysis of  early vocabulary in a wide range of young children receiving state services in North Carolina. We have two broad goals in what follows. First, we aim to provide a comprehensive description of a heterogeneous group of young children who receive state services for hearing loss. Second, we aim to connect the intervention approaches and child characteristics of this sample with children’s vocabulary, with the broader goal of considering the success of early diagnosis and intervention initiatives. 
 
-### Predictors of Language Outcomes
+## Predictors of Language Outcomes
 Though the literature points towards spoken language delays and deficits for DHH children, this is a highly variable population with highly variable outcomes (@pisoni2018). Previous research indicates that gender (@kiese-himmel2002a; @ching2013), additional disability (@ching2013; @yoshinaga-itano2017; @verhaert2008), degree and configuration of hearing loss (@ching2013; @dediego-lazaro2018; @vohr2011; @yoshinaga-itano2017), amplification (@walker2015), communication (@geers2017), and early diagnosis/intervention (@yoshinaga-itano2017; @yoshinaga-itano2018) predict language outcomes in DHH children.
 
-####Gender
+### Gender
 For hearing children, the literature points to a female gender advantage in early language acquisition. Girls speak their first word earlier (@macoby1966), have a larger (@bornstein2004; @fenson1994; @frank2017) and faster-growing vocabulary (@huttonlocher1991), and stronger grammatical and phonological skills (@lange2016; @ozcaliskan2010). This finding appears to be consistent across studies (@wallentin2009), various spoken languages (@frank2019), and gesture (@ozcaliskan2010). 
 
 The DHH literature presents a more mixed (though rather understudied) picture. On one hand, DHH girls,  like hearing girls, have been found to have a larger spoken vocabulary than DHH boys (@kiese-himmel2002a; @ching2013). However, in contrast to their hearing peers, DHH children do not seem to show a gender-based difference for some aspects of syntactic development (@pahlevannezhad2014).
 
-####Comorbidities
+### Comorbidities
 Additional co-occuring disabilities occur frequently in the DHH population, perhaps as much as three times more than in the hearing population (Pollack, 1997). Incidence estimates for co-occurring disabilities in DHH children range from 25-51% (@bruce2008; @guardino2008; @luckner2001; @picard2004; @schildroth1996; @soukup2007; @holden-pitt1998; @karchmer1999), with approximately 8% children living with 2 or more co-occurring disabilities (@schildroth1996). 
 
 Some of these conditions, particularly those which carry risk of developmental delay (e.g., Down syndrome), result in language delays independent of hearing loss (@chapman1997; @kristofferson2008; @weismer2010), with cognitive ability more predictive of language outcomes than presence or absence of a specific disability (@meinzen-derr2011; @sarant2008). Disability and hearing loss likely each contribute to a given child’s language development (@rajput2003, @vannierop2016; @ching2013), with differential effects of each (@vesseur2016). In some cases, additional disabilities appear to interact with hearing loss to intensify developmental delays (@birman2012; @pierson2007).
@@ -54,18 +55,18 @@ Independently of hearing status, prematurity is linked to increased risk of lang
 
 In extremely premature DHH children, incidence of additional disabilities may be as high as 73% (@robertson2009). Indeed, pre-term infants with comorbidities have been found to be more likely to also have hearing loss than those without comorbidities (@schmidt2003), further complicating language development for this population.
 
-####Audiological characteristics
+### Audiological Characteristics
 Hearing loss varies in severity, ranging from slight to profound (@clark1981). More severe hearing loss (less access to spoken language) typically results in more difficulty with spoken language in infancy (@vohr2008), early childhood (@ching2010; @ching2013; @tomblin2015; @sarant2008; @siniger2010) and school-age (@wake2004). Although profound hearing loss is associated with more pronounced spoken language difficulty, even mild to moderate hearing loss is associated with elevated risk of language disorders (@delage2007; @blair1985).
 Hearing loss also varies in whether it affects one ear or both. Bilateral hearing assists speech perception, sound localization, and loudness perception in quiet and noisy environments (@ching2007). The literature on hearing aids and cochlear implants points to benefits for bilateral auditory input (@sarant2014; @lovett2010; @smulders2016). At school-age, 3--6% of children have unilateral hearing loss (@ross2010). Although children with unilateral hearing loss have one “good ear,” even mild unilateral hearing loss has been tied to higher risk of language delays and educational challenges relative to hearing children (@vila2015; @lieu2013; @lieu2004; @lieu2012, @kiese-himmel2002). That is, just as in the bilateral case, more severe hearing loss leads to greater deficits in language and educational outcomes for children with unilateral hearing loss (@lieu2013;@anne2017). 
 Many DHH children receive hearing aids (HAs) or cochlear implants (CIs) to boost access to the aural world. These devices have been associated with better speech perception and spoken language outcomes (@walker2015; @waltzman1997; @niparko2010). In turn, aided audibility predicts lexical abilities with children in HAs (@stiles2012). 
 For both hearing aids and cochlear implants, earlier fit leads to better spoken language skills, if the amplification is effective. For hearing aids, some studies find that children with milder hearing loss who receive hearing aids earlier have better early language achievement than children who are fit later (@tomblin2015), but this finding does not hold for children with severe to profound hearing loss (@kiese-himmel2002; @watkin2007) (for whom hearing aids are generally ineffective). Analogously, children who are eligible and receive cochlear implants earlier have better speech perception and spoken language outcomes than those implanted later (@dettman2007; @miyamoto2008; @svirsky2004, @yoshinaga-itano2018; @artiere2009), with best outcomes for children receiving implants before their first birthday (@dettman2007). 
 
-####Communication
+### Communication
 Total Communication (TC) refers to communication that combines speech, gesture, and elements of sign (but not a full sign language, such as American Sign Language), sometimes simultaneously. Clinicians currently employ TC as an alternative or augmentative communication method for children with a wide range of disabilities (@branson2009; @gibbs1991; @mirenda2003).
 
 Compared to total communication, DHH children using an exclusively oral approach have better speech intelligibility (@geers2017; @dillon2004; @geers2002; @hodges1999) and auditory perception (@geers2017; @odonologhue2000). That said, there is some debate as to whether an oral approach facilitates higher spoken language performance, or whether children who demonstrate aptitude for spoken language are steered towards the oral approach rather than TC (@hall2017).
 
-####1-3-6 Guidelines
+### 1-3-6 Guidelines
 Early identification (@yoshinaga-itano2018; @yoshinaga-itano1998; @white1987; @robinshaw1995; @apuzzo1995; @kennedy2006) and timely enrollment in early intervention programs (@vohr2008, @watkin2007; @ching2013; @holzinger2011; @vohr2011) are associated with better language proficiency. Indeed, DHH children who receive prompt diagnosis and early access to services have been found to meet age-appropriate developmental outcomes, including language (@stika2015). 
 
 In line with these findings, the American Academy of Pediatricians (AAP) has set an initiative for Early Hearing Detection and Intervention (EHDI). Their EHDI guidelines recommend that DHH children are screened by 1 month old, diagnosed by 3 months old, and enter early intervention services by 6 months old. We refer to this guideline as 1-3-6. Meeting this standard appears to improve spoken language outcomes for children with HL (@yoshinaga-itano2017; @yoshinaga-itano2018) and the benefits appear consistent across a range of demographic characteristics. 
@@ -74,7 +75,7 @@ At a federal level in the U.S., the Early Hearing Detection and Intervention Act
 
 In evaluating the success of this initiative, the AAP (@ehdi) finds that about 70% of US children who fail their newborn hearing screening test are diagnosed with hearing loss before 3 months old, and that 67% of those diagnosed (46% of those that fail newborn hearing screening) begin early intervention services by 6 months old. These findings suggest that there may be breaks in the chain from screening to diagnosis and from diagnosis to intervention, and the effect may be further delays in language development for children not meeting these guidelines.
  
-###Quantifying vocabulary growth in DHH children
+## Quantifying vocabulary growth in DHH children
 The MacArthur Bates Communicative Development Inventory (CDI, @fenson1994) is a parent-report instrument that gathers information about children’s vocabulary development. The Words and Gestures version of the form (CDI-WG) is normed for 8-18-month-olds, and includes 398 vocabulary items that parents indicate whether their child understands or produces, along with  questions about young children’s early communicative milestones.  The Words and Sentences version of the form (CDI-WS) is normed for 16-30-month-olds, and includes 680 vocabulary items that parents indicate whether their child produces, along with some questions about grammatical development. The CDI has been normed on a large set of participants across many languages (@anderson2002; @frank2017; @jackson-maldonado2003). 
 
 The CDI has also been validated for DHH children with cochlear implants (@thal2007). More specifically, in this validation, researchers asked parents to complete the CDI, administered the Reynell Developmental Language Scales, and collected a spontaneous speech sample. All comparisons between the CDI and the other measures yielded significant correlations ranging from 0.58 to 0.93. Critically, the children in this study were above the normed age range for the CDI, and thus this validation helps to confirm that the CDI is a valid measurement tool for older DHH children. In further work, @castellanos2016 finds that in children with CIs, number of words produced on the CDI predicts language, executive function, and academic skills up to 16 years later. Building on this work, several studies have used the CDI to measure vocabulary development in DHH children (@ching2013; @yoshinaga-itano2017; @yoshinaga-itano2018; @dediego-lazaro2018; @vohr2008; @vohr2011). 
@@ -84,13 +85,13 @@ The CDI has also been validated for DHH children with cochlear implants (@thal20
 # create "Summary of findings of CDI studies in DHH children""
 ```
 
-##Goals and Predictions
+## Goals and Predictions
 
 This study aims to 1) characterize the demographic, audiological, and intervention variability in the population of DHH children receiving state services for hearing loss; 2) identify predictors of vocabulary delays; and 3) evaluate the success of early identification and intervention efforts at a state level. We include two subgroups of DHH children traditionally excluded from studies of language development: children with additional disabilities and children with unilateral hearing loss (e.g., @yoshinaga-itano2018). 
 
 For the first and third goal above, we did not have specific hypotheses and sought to provide descriptive information about a diverse sample of DHH children receiving state services. For the second, we hypothesized that male gender, more severe degree of hearing loss,  bilateral hearing loss, no amplification use, prematurity, and presence of additional disabilities would predict larger spoken vocabulary delay. We did not have strong predictions regarding communication method, language background, or presence of other health issues (e.g., congenital heart malformation).
 
-##Methods
+# Methods
 ``` {r demo-data}
 num_subs = nrow(full_elssp)
 num_repeat_subs = nrow(elssp %>% filter(VisitNumber == 2)) #FIX THIS - comes out to 0?
@@ -111,19 +112,176 @@ The clinical evaluations included demographic and audiological information, CDI 
 While this collaboration is ongoing, we opted to pause for this analysis upon receiving data from 100 children. Thus, the reported sample below consists of `r num_subs` children (`r num_boys` male/`r num_girls` female) ages `r min_age`--`r max_age`(M=`r mean_age`, SD=`r sd_age`). Race and SES information was not available. Families were administered either the WG or WS version of the CDI based on clinician judgement. Children who were too old for WG, but who were not producing many words at the time of assessment, were often given WG (n=`r num_too_old_wg`). Families for whom Spanish was the primary language (n = `r num_spanish_cdi`) completed the Spanish version of the CDI (@jackson-maldonado2003).
 
 ```{r CDIinfo}
-# create "Some table with information about WG/WS breakdown, perhaps average age, average understands score, average produces score"
+WG_n <- nrow(wg_elssp)
+WS_n <- nrow(ws_elssp)
+WG_age <- mean(wg_elssp$Age)
+WG_age_sd <- sd(wg_elssp$Age)
+WS_age <- mean(ws_elssp$Age)
+WS_age_sd <- sd(ws_elssp$Age)
+WG_comp <- mean(wg_elssp$ComprehensionCDI, na.rm = TRUE)
+WS_comp <- mean(ws_elssp$ComprehensionCDI)
+WG_comp_sd <- sd(wg_elssp$ComprehensionCDI, na.rm = TRUE)
+WS_comp_sd <- sd(ws_elssp$ComprehensionCDI)
+WG_prod <- mean(wg_elssp$ProductionCDI, na.rm = TRUE)
+WS_prod <- mean(ws_elssp$ProductionCDI, na.rm = TRUE)
+WG_prod_sd <- sd(wg_elssp$ProductionCDI, na.rm = TRUE)
+WS_prod_sd <- sd(ws_elssp$ProductionCDI, na.rm = TRUE)
+WG_percDD <- ((nrow(wg_elssp %>% filter(DevelopmentalConcerns=='yes')))/(nrow(wg_elssp)))*100
+WS_percDD <- ((nrow(ws_elssp %>% filter(DevelopmentalConcerns=='yes')))/(nrow(ws_elssp)))*100
+
+CDI_table <- tribble(
+  ~'CDI version', ~'Average Age (SD)',  ~'Average Comprehension (SD)', ~'Average Production (SD)', ~'% Developmental Delays',
+  glue('WG (n={WG_n})'), glue('{round(WG_age, digits=2)} ({round(WG_age_sd, digits=2)}) months'), glue('{round(WG_comp, digits=0)} ({round(WG_comp_sd, digits=1)}) words'), glue('{round(WG_prod, digits=0)} ({round(WG_prod_sd,digits=1)}) words'), glue('{round(WG_percDD, digits=2)}%'),
+  glue('WS (n={WS_n})'), glue('{round(WS_age, digits=2)} ({round(WS_age_sd, digits=2)}) months'), glue({WS_comp}), glue('{round(WS_prod, digits=0)} ({round(WS_prod_sd, digits=1)}) words'), glue('{WS_percDD}%'))
+
+
+
+kable(CDI_table,
+      caption = "CDI details") %>%
+  kable_styling(latex_options = c("scale_down"))
+
 ```
 
 Children in this sample were coded as yes/no for cognitive development concerns (e.g., Down syndrome, global developmental delays; Cornelia de Lange syndrome), yes/no for prematurity (i.e., more than 3 weeks premature), yes/no for health issues (e.g., heart defects, kidney malformations, VACTERL association), and yes/no for vision loss (not corrected to normal by surgery or glasses)
 
 ```{r comorbid_info}
-# create "Table of different comorbidities, frequency, prematurity"
+comorbid <- read.csv("../data/elssp_comorbidities.csv")
+num_premature <- nrow(comorbid %>% filter(WeeksGestation<37))
+num_v_premature <- nrow(comorbid %>% filter(WeeksGestation<33))
+num_NICU <- num_downsyndrome <- nrow(comorbid %>% filter(NICU==1))
+
+num_vision_loss <- nrow(comorbid %>% filter(VisionLoss==1))
+num_ROP <- nrow(comorbid %>% filter(RetinopathyOfPrematurity==1))
+num_hyperopia <- nrow(comorbid %>% filter(hyperopia==1))
+num_cvi <- nrow(comorbid %>% filter(corticalvisualimpairment==1))
+num_myopia <- nrow(comorbid %>% filter(myopia==1))
+
+num_dev_delay <- nrow(comorbid %>% filter(DevelopmentalConcerns==1))
+num_downsyndrome <- nrow(comorbid %>% filter(downsyndrome==1))
+num_otherchromissues <- nrow(comorbid %>% filter(MissingChrom7==1|chromosomalproblems14and15==1))
+num_encephalocele <- nrow(comorbid %>% filter(occipitalencephalocele==1|encephalocelecyst))
+num_cdl <- nrow(comorbid %>% filter(corneliadelange==1))
+num_agenisis_cc <- nrow(comorbid %>% filter(agenesiscorpuscallosum==1))
+num_ventricular_issues <- nrow(comorbid %>% filter(intraventricularhemorrhage==1|periventricularleukomalacia==1))
+num_hydrocephalus <- nrow(comorbid %>% filter(hydrocephalus==1))
+num_overall_dev_concerns <- nrow(comorbid %>% filter(overalldevconcerns==1))
+num_apraxia <- nrow(comorbid %>% filter(oculomotorapraxia==1))
+num_cvi
+
+num_health_issues <- nrow(comorbid %>% filter(HealthIssues==1))
+num_heart_issues <- nrow(comorbid %>% filter(HeartValveProblems==1|heartabnormalities==1|supraventriculartachycardia==1|bradycardia==1|coarctationofaorta==1|patentductusarteriosus|perferatedheart==1|pulmonaryarterystenosis))
+num_lung_issues <- nrow(comorbid %>%  filter(asthma==1|bronchopulmonarydysplasia==1|chroniclungdisease|tracheotomy==1|trachoesophagealfistula==1|esophagealatresia==1))
+num_feeding_issues <- nrow(comorbid %>% filter(Gtube==1|reflux==1|dysphagia==1|feedingproblems_nos|esophagealatresia==1))
+num_illness <- nrow(comorbid %>% filter(chroniclungdisease==1|MRSA==1|meningitis==1|frequentfevers==1|Sepsis==1|jaundice==1|pneumonia==1))
+num_preg_birth_comp <- nrow(comorbid %>% filter(preeclampsia==1|gestationaldiabetes==1|otherpregnancycomplications==1|jaundice==1|respiratorydistress==1|fetaldistress==1|meconiumaspiration==1))
+num_mus_skel <- nrow(comorbid %>% filter(hypertonia==1|torticollis==1|oralmotorweakness==1|missingribs==1|vertebraldefects==1|bonefracture==1|limbabnormalities==1|PDAscoliosis==1|CHARGEorVATER==1|VACTERL==1|treachercollins==1|sagittalsyntosis==1))
+num_preg_birth_comp <- nrow(comorbid %>% filter(preeclampsia==1|gestationaldiabetes==1|otherpregnancycomplications==1|jaundice==1|respiratorydistress==1|fetaldistress==1|meconiumaspiration==1|intrauterinegrowthretardation==1))
+num_cleft <- nrow(comorbid %>% filter(cleftlip==1|cleftpalate==1))
+num_health_issues_other <- nrow(comorbid %>% filter(esotropia==1|iriscoloboma==1|dysplastickidney==1|CHARGEorVATER==1|apnea==1|hydronephrosis==1|seizures==1|laryngomalacia==1|tonguetie==1|midlinedefect==1|hypoglycemia==1|anemia==1|mitochondrialdisorder==1|skinbreakdown==1|VACTERL==1|analatresia==1|renalabnormalities==1|enlargedadenoids==1|liptie==1|sacraldimple==1))
+
+
+num_anycomorbid <- nrow(comorbid %>% filter(VisionLoss==1|DevelopmentalConcerns==1|HealthIssues==1|IsPremature==1))
+
+comorbid_table <- tribble(
+  ~Condition, ~'Specific Condition',  ~n,
+  "Premature", "", num_premature,
+  "", "Extremely Premature", num_v_premature,
+  "", "NICU stay", num_NICU,
+  "Health Issues", "", num_health_issues,
+  "", "Heart", num_heart_issues,
+  "", "Lung", num_lung_issues,
+  "", "Illness", num_illness,
+  "", "Feeding Issues", num_feeding_issues,
+  "", "Pregnancy/Birth Complications", num_preg_birth_comp,
+  "", "Musculoskeletal", num_mus_skel,
+  "", "Cleft Lip/Palate", num_cleft,
+  "", "Other", num_health_issues_other,
+  "Developmental Concerns", "",  num_dev_delay,
+  "", "Down Syndrome", num_downsyndrome,
+  "", "Chromosomal Issues", num_otherchromissues,
+  "", "Neural Tube Defects", num_encephalocele,
+  "", "Other", sum(num_agenisis_cc, num_apraxia, num_cvi, num_ventricular_issues, num_hydrocephalus, num_overall_dev_concerns),
+  "Vision Loss", "",  num_vision_loss,
+  "", "Retinopathy of Prematurity",  num_ROP,
+  "", "Nearsightedness",  num_myopia,
+  "", "Farsightedness",  num_hyperopia,
+  "", "Cortical Visual Impairment",  num_cvi
+)
+
+# comorbid_table %>% gt()  %>%
+#   tab_header(
+#     title = glue::glue("Additional Diagnoses (n={num_anycomorbid})")
+#   ) 
+
+
+kable(comorbid_table,
+      caption = glue::glue("Additional Diagnoses (n={num_anycomorbid})")) %>%
+  kable_styling(latex_options = c("scale_down")) %>%
+  add_footnote("N.B. ns do not sum to total because many participants had multiple diagnoses")
+
 ```
 
 Degree of hearing loss was most often reported with a written description (e.g., “mild sloping to moderate” or “profound high frequency loss”). We created 3 variables: hearing loss in the better ear, hearing loss in the worse ear, and average hearing loss (average of better and worse ear). Using the ASHA hearing loss guidelines, each of these was coded with a dB HL value corresponding with the median dB HL for the level of hearing loss (e.g., moderate hearing loss was coded as 48dB HL), and sloping hearing loss was coded as the average of the levels (e.g. mild to moderate was coded as 40.5 dB HL). Participants were also coded for unilateral or bilateral hearing loss; presence or absence of Auditory Neuropathy Spectrum Disorder; sensorineural, conditive, or mixed hearing loss. Amplification was recorded as the device the child used at the time of assessment--either hearing aid, cochlear implant, or none.
 
 ```{r amp_info}
-# create "Table with hearing aid, cochlear implant, age at implantation/fitting, degree, unilateral/bilateral"
+# This feels like a lot of info in one table. 
+
+n_HA_u <- nrow(full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))
+n_HA_b <- nrow(full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='HA'))
+n_CI_u <- nrow(full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='CI'))
+n_CI_b <- nrow(full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='CI'))
+n_none_u <- nrow(full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='none'))
+n_none_b <- nrow(full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='none'))
+n_total_u <- nrow(full_elssp %>% filter(Laterality=='Unilateral'))
+n_total_b <- nrow(full_elssp %>% filter(Laterality=='Bilateral'))
+
+meanbetter_HA_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))$HLbetter)
+meanbetter_HA_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='HA'))$HLbetter, na.rm = TRUE)
+meanbetter_CI_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='CI'))$HLbetter)
+meanbetter_CI_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='CI'))$HLbetter)
+meanbetter_none_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='none'))$HLbetter)
+meanbetter_none_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='none'))$HLbetter)
+meanbetter_total_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'))$HLbetter)
+meanbetter_total_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'))$HLbetter, na.rm = TRUE)
+
+meanworse_HA_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))$HLworse, na.rm = TRUE)
+meanworse_HA_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='HA'))$HLworse, na.rm = TRUE)
+meanworse_CI_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='CI'))$HLworse)
+meanworse_CI_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='CI'))$HLworse)
+meanworse_none_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='none'))$HLworse, na.rm = TRUE)
+meanworse_none_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='none'))$HLworse)
+meanworse_total_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'))$HLworse, na.rm = TRUE)
+meanworse_total_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'))$HLworse, na.rm = TRUE)
+
+ageamp_HA_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))$AgeAmplification)
+ageamp_HA_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='HA'))$AgeAmplification, na.rm = TRUE)
+ageamp_CI_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='CI'))$AgeImplantation)
+ageamp_CI_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='CI'))$AgeImplantation)
+ageamp_total_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'))$AgeAmplification, na.rm = TRUE)
+ageamp_total_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'))$AgeAmplification, na.rm = TRUE)
+
+n_HA <- nrow(full_elssp %>% filter(Amplification=='HA'))
+n_CI <- nrow(full_elssp %>% filter(Amplification=='CI'))
+n_none <- nrow(full_elssp %>% filter(Amplification=='none'))
+
+
+hearing_table <- tribble(
+  ~'', ~n, ~'Average HL (better ear)',  ~'Average HL (worse ear)', ~'Average Age at Amplification',
+  glue('Hearing Aid (n={n_HA})'), glue('{n_HA_u} / {n_HA_b}'), glue('{round(meanbetter_HA_u, digits=2)} / {round(meanbetter_HA_b, digits=2)} dB'), glue('{round(meanworse_HA_u, digits=2)} / {round(meanworse_HA_b, digits=2)} dB'), glue('{round(ageamp_HA_u, digits=2)} / {round(ageamp_HA_b,digits=2)} months'),
+  glue('Cochlear Implant (n={n_CI})'), glue('{n_CI_u} / {n_CI_b}'), glue('NA / {round(meanbetter_CI_b, digits=2)} dB'), glue('NA / {round(meanworse_CI_b, digits=2)} dB'),
+  glue('NA / {round(ageamp_CI_b, digits=2)} months'),
+  glue('No Amplification (n={n_none})'), glue('{n_none_u} / {n_none_b}'), glue('{round(meanbetter_none_u, digits=2)} / {round(meanbetter_none_b, digits=2)} dB'), glue('{round(meanworse_none_u, digits=2)} / {round(meanworse_none_b, digits=2)} dB'),
+  glue('NA'),
+  glue('Total (n={nrow(full_elssp)})'), glue('{n_total_u} / {n_total_b}'), glue('{round(meanbetter_total_u, digits=2)} / {round(meanbetter_total_b, digits=2)} dB'), glue('{round(meanworse_total_u, digits=2)} / {round(meanworse_total_b, digits=2)} dB'),
+  glue('NA')
+)
+ 
+
+kable(hearing_table,
+      caption = glue::glue("Audiological Characteristics of the Sample \n for Unilateral / Bilateral Hearing Loss")) %>%
+  kable_styling(latex_options = c("scale_down")) %>%
+  add_footnote("N.B. Age Amplification for children with CIs represents age at implantation")
+
 ```
 
 Communication method was recorded as spoken language, total communication, or cued speech. One participant had a parent fluent in sign language, but the reported communication method in the home was total communication. No child in our sample used sign language. Participants were also coded as monolingual or multilingual based on whether families reported using more than one language at home. Total communication was not counted as multilingualism.
@@ -144,22 +302,22 @@ Because of the sparse data on screening age, if participants had an age at diagn
 # create "Table of variables"
 ```
 
-Results
+# Results
 All analyses were conducted in R. All code is available on Github. In the first section, we explore relationships among child demographic, audiological, and clinical variables. In the second section, we examine the influence of these factors on vocabulary development. In the third section, we describe the implementation of the EHDI 1-3-6 guidelines and predictors of early diagnosis and intervention.
 
-Part I: Structure of different variables with chi-square tests, correlation matrices, etc.
+## Part I: Interactions Among Variables
 
 Shapiro–Wilk tests revealed that all of our continuous measures (i.e. degree of hearing loss, services received per month, vocabulary delay) significantly differed from a normal distribution (ps <.05), so we used nonparametric tests to explore relationships among our variables. For categorical-categorical relationships, we used chi square tests; for continuous-categorical tests, we used mann-whitney U tests (2 levels for categorical variable) or kruskal-wallis tests (>2 levels for categorical variable; for continuous-continuous relationships, we used Of the fifty-five combinations of variables, p < .05 for sixteen, and seven survived bonferroni correction (p < `r round(.05/55, digits = 5)`). The full set of comparisons is shown in figure XXX.
 
 
 ```{r relationships_plot}
-# create relationships plot"
-# caption: 
+print(hm_test_plot)
+print(hm_test_plot2)
 ```
 
-From this analysis, we found that children born premature were more likely to also have health issues (X2 (`r (chisq.test(HealthIssues_Premature))$parameter`, N = `r (chisq.test(HealthIssues_Premature))$observed`) = `r (chisq.test(HealthIssues_Premature))$statistic`, p = `r (chisq.test(HealthIssues_Premature))$p.value`.) Children with conductive hearing loss were more likely to have unilateral hearing loss (X2 (`r (chisq.test(Etiology_Laterality))$parameter`, N = `r (chisq.test(Etiology_Laterality))$observed`) = `r (chisq.test(Etiology_Laterality))$statistic`, p = `r (chisq.test(Etiology_Laterality))$p.value`). Children with unilateral hearing loss were unlikely to receive a cochlear implant and more likely to use no amplification (X2 (`r (chisq.test(Amplification_Laterality))$parameter`, N = `r (chisq.test(Amplification_Laterality))$observed`) = `r (chisq.test(Amplification_Laterality))$statistic`, p = `r (chisq.test(Amplification_Laterality))$p.value`). Children with more severe hearing loss were more likely to use a cochlear implant than children with milder hearing loss (H(`r Degree_Amplification$parameter`)=`r Degree_Amplification$statistic`, p=`r Degree_Amplification$p.value`). Children with developmental delays received more services per month than typically developing DHH children (H(`r Services_DevDelay$parameter`)=`r Services_DevDelay$statistic`, p=`r Services_DevDelay$p.value`)and were more likely to use total communication (X2 (`r (chisq.test(DevConcerns_Communication))$parameter`, N = `r (chisq.test(DevConcerns_Communication))$observed`)) = `r (chisq.test(DevConcerns_Communication))$statistic`, p = `r (chisq.test(DevConcerns_Communication))$statistic`). Children who used total communication received more services per month than children using spoken language (H(`r Services_Communication$parameter`)=`r Services_Communication$statistic`, p=`r Services_Communication$p.value`).
+From this analysis, we found that children born premature were more likely to also have health issues (X2 (`r (chisq.test(HealthIssues_Premature))$parameter`, N = `r sum(((chisq.test(HealthIssues_Premature))$observed))`) = `r (chisq.test(HealthIssues_Premature))$statistic`, p = `r (chisq.test(HealthIssues_Premature))$p.value`.) Children with conductive hearing loss were more likely to have unilateral hearing loss (X2 (`r (chisq.test(Etiology_Laterality))$parameter`, N = `r sum(((chisq.test(Etiology_Laterality))$observed))`) = `r (chisq.test(Etiology_Laterality))$statistic`, p = `r (chisq.test(Etiology_Laterality))$p.value`). Children with unilateral hearing loss were unlikely to receive a cochlear implant and more likely to use no amplification (X2 (`r (chisq.test(Amplification_Laterality))$parameter`, N = `r sum(((chisq.test(Amplification_Laterality))$observed))`) = `r (chisq.test(Amplification_Laterality))$statistic`, p = `r (chisq.test(Amplification_Laterality))$p.value`). Children with more severe hearing loss were more likely to use a cochlear implant than children with milder hearing loss (H(`r Degree_Amplification$parameter`)=`r Degree_Amplification$statistic`, p=`r Degree_Amplification$p.value`). Children with developmental delays received more services per month than typically developing DHH children (H(`r Services_DevDelay$parameter`)=`r Services_DevDelay$statistic`, p=`r Services_DevDelay$p.value`)and were more likely to use total communication (X2 (`r (chisq.test(DevConcerns_Communication))$parameter`, N = `r sum(((chisq.test(DevConcerns_Communication))$observed))`)) = `r (chisq.test(DevConcerns_Communication))$statistic`, p = `r (chisq.test(DevConcerns_Communication))$statistic`). Children who used total communication received more services per month than children using spoken language (H(`r Services_Communication$parameter`)=`r Services_Communication$statistic`, p=`r Services_Communication$p.value`).
 
-Part II: Influence on vocabulary
+## Part II: Influence on vocabulary
 
 We first constructed a binary logistic growth curve for vocabulary from the 50th percentile data for typically developing children from Wordbank. With this function, each participant’s CDI score yielded a predicted age from the normative data. For each child, we subtracted this predicted age (given the score) from the child’s actual age to give us a measure of delay in months. Descriptively, we found widespread vocabulary delays on both Words and Gestures and Words and Sentences, with the majority of DHH children testing around or below the 25th percentile for hearing children. 
 
@@ -178,13 +336,13 @@ Boys were significantly more delayed than girls on Words and Sentences but not W
 # create delay table
 ```
 
-Part III: Meets136 success
+## Part III: Meets136 success
 ```{r 136-summary-stats}
 perc_136 <- (nrow(full_elssp%>%filter(Meets136=='yes'))/(nrow(full_elssp %>% filter(Meets136=='yes'|Meets136=='no'))))*100
 perc_136_TD <- (nrow(full_elssp%>%filter(DevelopmentalConcerns=='no')%>%filter(Meets136=='yes'))/(nrow(full_elssp%>%filter(DevelopmentalConcerns=='no')%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 perc_136_DA <- (nrow(full_elssp%>%filter(DevelopmentalConcerns=='yes')%>%filter(Meets136=='yes'))/(nrow(full_elssp%>%filter(DevelopmentalConcerns=='yes')%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 ```
-Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. `r perc_136`% of our sample met 1-3-6 guidelines for early diagnosis and intervention. Of children with comorbidities (developmental concerns, prematurity, health issues), only `perc_136_DA`% met 1-3-6 guidelines, compared to `perc_136_TD`% of typically developing children. See table XXX for complete breakdown.
+Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. `r perc_136`% of our sample met 1-3-6 guidelines for early diagnosis and intervention. Of children with comorbidities (developmental concerns, prematurity, health issues), only `r round(perc_136_DA, digits = 0)`% met 1-3-6 guidelines, compared to `r perc_136_TD`% of typically developing children. See table XXX for complete breakdown.
 
 ```{r meets136_table}
 # create 136 table
@@ -252,7 +410,9 @@ print(dw_services)
 
 #caption:  
 ```
+## Discussion
 
+## Conclusion
 
 
 

@@ -158,7 +158,7 @@ dw_diagnosis = dwplot(diagnosis_aic)
 dw_diagnosis = dw_diagnosis + geom_vline(xintercept=0, linetype = 'dashed') + theme_classic(
 )+ theme(legend.position="none")
 options(repr.plot.width=6, repr.plot.height=4)
-print(dw_diagnosis)
+
 
 ##services
 services_full <- lm(AgeStartedServices ~ Gender + Etiology +HLbetter + 
@@ -176,7 +176,7 @@ dw_services = dwplot(services_aic)
 dw_services = dw_services + geom_vline(xintercept=0, linetype = 'dashed') + theme_classic(
 )+ theme(legend.position="none")
 options(repr.plot.width=6, repr.plot.height=4)
-print(dw_services)
+
 
 ##event plot
 event <- c('Diagnosis','Intervention','Amplification', 'Implantation')
@@ -204,7 +204,6 @@ eventplot <- ggplot(data = event_data,
   theme(legend.position = "none") +
   theme_classic()
 
-print(eventplot)
 
 #interactions among variables
 ##should functionalize this
