@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  8 JUN 2020 12:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  9 JUN 2020 10:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -711,7 +711,7 @@ File: ELSSP_paper_files/figure-latex/relationships_plot-1.pdf Graphic file (typ
 e pdf)
 <use ELSSP_paper_files/figure-latex/relationships_plot-1.pdf>
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/relationships_plot-1.pd
-f  used on input line 592.
+f  used on input line 632.
 (pdftex.def)             Requested size: 469.76094pt x 473.08473pt.
 <ELSSP_paper_files/figure-latex/relationships_plot-2.pdf, id=479, 851.18pt x 85
 7.2025pt>
@@ -719,72 +719,87 @@ File: ELSSP_paper_files/figure-latex/relationships_plot-2.pdf Graphic file (typ
 e pdf)
 <use ELSSP_paper_files/figure-latex/relationships_plot-2.pdf>
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/relationships_plot-2.pd
-f  used on input line 593.
+f  used on input line 633.
 (pdftex.def)             Requested size: 469.76094pt x 473.08473pt.
 [5pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
 as been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.594 
+l.634 
       ] [6pdfTeX warning (ext4): destination with the same identifier (name{tab
 le.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.594 
+l.634 
       pdfTeX warning (ext4): destination with the same identifier (name{table.3
 }) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.594 
-      ] [7 <./ELSSP_paper_files/figure-latex/relationships_plot-1.pdf>] [8 <./E
-LSSP_paper_files/figure-latex/relationships_plot-2.pdf>]
-<ELSSP_paper_files/figure-latex/wg_ws_rainbow_plot-1.pdf, id=525, 859.21pt x 85
+l.634 
+      ]
+Overfull \vbox (131.61993pt too high) has occurred while \output is active []
+
+[7pdfTeX warning (ext4): destination with the same identifier (name{table.4}) h
+as been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.634 
+      pdfTeX warning (ext4): destination with the same identifier (name{table.5
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.634 
+       <./ELSSP_paper_files/figure-latex/relationships_plot-1.pdf>] [8 <./ELSSP
+_paper_files/figure-latex/relationships_plot-2.pdf>]
+<ELSSP_paper_files/figure-latex/wg_ws_rainbow_plot-1.pdf, id=527, 859.21pt x 85
 2.18375pt>
 File: ELSSP_paper_files/figure-latex/wg_ws_rainbow_plot-1.pdf Graphic file (typ
 e pdf)
 <use ELSSP_paper_files/figure-latex/wg_ws_rainbow_plot-1.pdf>
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/wg_ws_rainbow_plot-1.pd
-f  used on input line 627.
+f  used on input line 667.
 (pdftex.def)             Requested size: 469.76132pt x 465.9198pt.
 [9 <./ELSSP_paper_files/figure-latex/wg_ws_rainbow_plot-1.pdf>]
-<ELSSP_paper_files/figure-latex/meets136_timeline-1.pdf, id=537, 838.13126pt x 
+<ELSSP_paper_files/figure-latex/meets136_timeline-1.pdf, id=539, 838.13126pt x 
 858.20625pt>
 File: ELSSP_paper_files/figure-latex/meets136_timeline-1.pdf Graphic file (type
  pdf)
 <use ELSSP_paper_files/figure-latex/meets136_timeline-1.pdf>
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/meets136_timeline-1.pdf
-  used on input line 673.
+  used on input line 713.
 (pdftex.def)             Requested size: 469.74677pt x 480.99818pt.
 [10]
-<ELSSP_paper_files/figure-latex/diagnosis_betas-1.pdf, id=543, 843.15pt x 842.1
+<ELSSP_paper_files/figure-latex/diagnosis_betas-1.pdf, id=545, 843.15pt x 842.1
 4626pt>
 File: ELSSP_paper_files/figure-latex/diagnosis_betas-1.pdf Graphic file (type p
 df)
 <use ELSSP_paper_files/figure-latex/diagnosis_betas-1.pdf>
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/diagnosis_betas-1.pdf  
-used on input line 688.
+used on input line 728.
 (pdftex.def)             Requested size: 469.75494pt x 469.19572pt.
 [11 <./ELSSP_paper_files/figure-latex/meets136_timeline-1.pdf>]
-<ELSSP_paper_files/figure-latex/intervention_betas-1.pdf, id=560, 843.15pt x 84
+<ELSSP_paper_files/figure-latex/intervention_betas-1.pdf, id=562, 843.15pt x 84
 2.14626pt>
 File: ELSSP_paper_files/figure-latex/intervention_betas-1.pdf Graphic file (typ
 e pdf)
 <use ELSSP_paper_files/figure-latex/intervention_betas-1.pdf>
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/intervention_betas-1.pd
-f  used on input line 703.
+f  used on input line 743.
 (pdftex.def)             Requested size: 469.75494pt x 469.19572pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 703--705
+Underfull \hbox (badness 10000) in paragraph at lines 743--745
 [][]
  []
 
 [12 <./ELSSP_paper_files/figure-latex/diagnosis_betas-1.pdf>]
 
 Package natbib Warning: Citation `davidson2014' on page 13 undefined on input l
-ine 711.
+ine 751.
 
 (./ELSSP_paper.bbl [13 <./ELSSP_paper_files/figure-latex/intervention_betas-1.p
 df>] [14] [15] [16] [17] [18]
@@ -796,20 +811,20 @@ File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 721.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 761.
 [20]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 721.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 761.
 (./ELSSP_paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 721.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 721.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 761.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 761.
 Package rerunfilecheck Info: File `ELSSP_paper.out' has not changed.
 (rerunfilecheck)             Checksum: 94A6451C674F74A870CEB65EDE92E57C;2380.
  ) 
 Here is how much of TeX's memory you used:
- 15162 strings out of 480608
- 223141 string characters out of 5903631
- 524723 words of memory out of 5000000
- 30439 multiletter control sequences out of 15000+600000
+ 15166 strings out of 480608
+ 223189 string characters out of 5903631
+ 526838 words of memory out of 5000000
+ 30441 multiletter control sequences out of 15000+600000
  593561 words of font info for 146 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  34i,14n,42p,819b,618s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -826,10 +841,10 @@ ist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2020/texmf-dist/fonts/ty
 pe1/public/lm/lmri10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public
 /lm/lmsy10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmsy7.
 pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on ELSSP_paper.pdf (20 pages, 310489 bytes).
+Output written on ELSSP_paper.pdf (20 pages, 311336 bytes).
 PDF statistics:
- 710 PDF objects out of 1000 (max. 8388607)
- 652 compressed objects within 7 object streams
- 158 named destinations out of 1000 (max. 500000)
+ 712 PDF objects out of 1000 (max. 8388607)
+ 654 compressed objects within 7 object streams
+ 160 named destinations out of 1000 (max. 500000)
  12439 words of extra memory for PDF output out of 14400 (max. 10000000)
 

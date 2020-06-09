@@ -287,7 +287,38 @@ kable(hearing_table,
 Communication method was recorded as spoken language, total communication, or cued speech. One participant had a parent fluent in sign language, but the reported communication method in the home was total communication. No child in our sample used sign language. Participants were also coded as monolingual or multilingual based on whether families reported using more than one language at home. Total communication was not counted as multilingualism.
 
 ```{r comm_info}
-# create "Table with communication method, language background"
+n_spoken <- nrow(full_elssp %>% filter(Communication=='spoken'))
+n_CS <- nrow(full_elssp %>% filter(Communication=='cued speech'))
+n_TC <- nrow(full_elssp %>% filter(Communication=='total communication'))
+n_Eng <- nrow(full_elssp %>% filter(PrimaryLanguage=='English'))
+n_Span <- nrow(full_elssp %>% filter(PrimaryLanguage=='Spanish'))
+n_Hindi <- nrow(full_elssp %>% filter(PrimaryLanguage=='Hindi'))
+
+n_spoken_English <- nrow(full_elssp %>% filter(Communication=='spoken'&PrimaryLanguage=='English'))
+n_spoken_Spanish <- nrow(full_elssp %>% filter(Communication=='spoken'&PrimaryLanguage=='Spanish'))
+n_spoken_Hindi <- nrow(full_elssp %>% filter(Communication=='spoken'&PrimaryLanguage=='Hindi'))
+
+n_TC_English <- nrow(full_elssp %>% filter(Communication=='total communication'&PrimaryLanguage=='English'))
+n_TC_Spanish <- nrow(full_elssp %>% filter(Communication=='total communication'&PrimaryLanguage=='Spanish'))
+n_TC_Hindi <- nrow(full_elssp %>% filter(Communication=='total communication'&PrimaryLanguage=='Hindi'))
+
+n_CS_English <- nrow(full_elssp %>% filter(Communication=='cued speech'&PrimaryLanguage=='English'))
+n_CS_Spanish <- nrow(full_elssp %>% filter(Communication=='cued speech'&PrimaryLanguage=='Spanish'))
+n_CS_Hindi <- nrow(full_elssp %>% filter(Communication=='cued speech'&PrimaryLanguage=='Hindi'))
+
+
+
+language_table <- tribble(
+  ~'Communication Method', ~English, ~Spanish,  ~Hindi, 
+  glue('Spoken Language (n={n_spoken})'), n_spoken_English, n_spoken_Spanish, n_spoken_Hindi,
+  glue('Total Communication (n={n_TC})'), n_TC_English, n_TC_Spanish, n_TC_Hindi,
+  glue('Cued Speech (n={n_CS})'), n_CS_English, n_CS_Spanish, n_CS_Hindi
+)
+ 
+
+kable(language_table,
+      caption = glue::glue("Language and communication characteristics of the sample")) %>%
+  kable_styling(latex_options = c("scale_down")) 
 ```
 
 
@@ -296,6 +327,28 @@ Because of the sparse data on screening age, if participants had an age at diagn
 
 ```{r meets136_info}
 # create "Table with meets136 info"
+perc_136 <- (nrow(full_elssp%>%filter(Meets136=='yes'))/(nrow(full_elssp %>% filter(Meets136=='yes'|Meets136=='no'))))*100
+perc_13 <- (nrow(full_elssp%>%filter(meets13=='yes'))/(nrow(full_elssp %>% filter(meets13=='yes'|meets13=='no'))))*100
+perc_6 <- (nrow(full_elssp%>%filter(meets6=='yes'))/(nrow(full_elssp %>% filter(meets6=='yes'|meets6=='no'))))*100
+
+age_diagnosis <- mean(full_elssp$IdentificationOfHLMonths, na.rm = TRUE)
+age_diagnosis_sd <- sd(full_elssp$IdentificationOfHLMonths, na.rm = TRUE)
+
+age_services <- mean(full_elssp$AgeStartedServices, na.rm = TRUE)
+age_services_sd <- sd(full_elssp$AgeStartedServices, na.rm = TRUE)
+
+meets136_table <- tribble(
+  ~'', ~'', 
+'Diagnosis by 3 months', glue('{round(perc_13, digits=2)}%'),
+'Average Age Diagnosis (SD)', glue('{round(age_diagnosis, digits=2)} ({round(age_diagnosis_sd, digits=2)}) months'),
+'Intervention by 6 months', glue('{round(perc_6, digits=2)}%'),
+'Average Age Intervention (SD)', glue('{round(age_services, digits=2)} ({round(age_services_sd, digits=2)}) months'),
+'Meets 1-3-6', glue('{round(perc_136, digits=2)}%')
+)
+
+kable(meets136_table,
+      caption = "Meets 1-3-6 table") %>%
+  kable_styling(latex_options = c("scale_down")) 
 ```
 
 ```{r variables_list}
@@ -338,7 +391,7 @@ Boys were significantly more delayed than girls on Words and Sentences but not W
 
 ## Part III: Meets136 success
 ```{r 136-summary-stats}
-perc_136 <- (nrow(full_elssp%>%filter(Meets136=='yes'))/(nrow(full_elssp %>% filter(Meets136=='yes'|Meets136=='no'))))*100
+
 perc_136_TD <- (nrow(full_elssp%>%filter(DevelopmentalConcerns=='no')%>%filter(Meets136=='yes'))/(nrow(full_elssp%>%filter(DevelopmentalConcerns=='no')%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 perc_136_DA <- (nrow(full_elssp%>%filter(DevelopmentalConcerns=='yes')%>%filter(Meets136=='yes'))/(nrow(full_elssp%>%filter(DevelopmentalConcerns=='yes')%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 ```
