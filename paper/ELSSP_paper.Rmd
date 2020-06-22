@@ -139,23 +139,23 @@ For the first and third goal above, we did not have specific hypotheses and soug
 
 # Methods
 ``` {r demo-data}
-num_subs = nrow(full_elssp)
-num_repeat_subs = nrow(full_elssp %>% filter(VisitTotal > 1)) 
-num_girls = nrow(full_elssp %>% filter(Gender == 'female'))
-num_boys = nrow(full_elssp %>% filter(Gender == 'male'))
-min_age = min(full_elssp$Age)
-max_age = max(full_elssp$Age)
-mean_age = mean(full_elssp$Age)
-sd_age = sd(full_elssp$Age)
+num_subs = nrow(elssp)
+num_repeat_subs = nrow(elssp %>% filter(VisitTotal > 1)) 
+num_girls = nrow(elssp %>% filter(Gender == 'female'))
+num_boys = nrow(elssp %>% filter(Gender == 'male'))
+min_age = min(elssp$Age)
+max_age = max(elssp$Age)
+mean_age = mean(elssp$Age)
+sd_age = sd(elssp$Age)
 num_too_old_wg = nrow(wg_elssp %>% filter(Age>18))
-num_spanish_cdi = nrow(full_elssp %>% filter(PrimaryLanguage == 'Spanish'))
+num_spanish_cdi = nrow(elssp %>% filter(PrimaryLanguage == 'Spanish'))
 ```
 
 Clinical evaluations were obtained through an ongoing collaboration with  the North Carolina Early Language Sensory Support Program (ELSSP), an early intervention program serving children with sensory impairments from birth to 36 months. ELSSP passed along deidentified evaluations to our team after obtaining consent to do so from each family. No eligibility criteria beyond hearing loss and receiving an ELSSP evaluation were imposed, given our goal of characterizing the full range of DHH children with hearing loss in North Carolina.
 
-The clinical evaluations included demographic and audiological information, CDI vocabulary scores, and the results of any clinical assessments administered (e.g., PPVT), all detailed further below. For some children (n=`r num_repeat_subs`), multiple evaluations were available from different timepoints. In these cases, only the first evaluation was considered for this study due to concerns regarding within-subjects variance for statistical analysis.
+The clinical evaluations included demographic and audiological information, CDI vocabulary scores, and the results of any clinical assessments administered (e.g., PPVT), all detailed further below. For some children (n=`r num_repeat_subs`), multiple evaluations were available from different timepoints. In these cases, only the first evaluation was considered for this study, due to concerns regarding within-subjects variance for statistical analysis.
 
-While this collaboration is ongoing, we opted to pause for this analysis upon receiving data from 100 children. Thus, the reported sample below consists of `r num_subs` children (`r num_boys` male/`r num_girls` female) ages `r min_age`--`r max_age`(M=`r mean_age`, SD=`r sd_age`). Race and SES information was not available. Families were administered either the WG or WS version of the CDI based on clinician judgement. Children who were too old for WG, but who were not producing many words at the time of assessment, were often given WG (n=`r num_too_old_wg`). Families for whom Spanish was the primary language (n = `r num_spanish_cdi`) completed the Spanish version of the CDI [@jackson-maldonado2003].
+While this collaboration is ongoing, we opted to pause for this analysis upon receiving data from 100 children. Thus, the reported sample below consists of `r num_subs` children (`r num_boys` male / `r num_girls` female) ages `r min_age`--`r max_age`(M=`r mean_age`, SD=`r sd_age`). Race and SES information was not available. Families were administered either the WG or WS version of the CDI based on clinician judgement. Children who were too old for WG, but who were not producing many words at the time of assessment, were often given WG (n=`r num_too_old_wg`). Families for whom Spanish was the primary language (n = `r num_spanish_cdi`) completed the Spanish version of the CDI [@jackson-maldonado2003].
 
 ```{r CDIinfo}
 WG_n <- nrow(wg_elssp)
@@ -194,7 +194,7 @@ Children in this sample were coded as yes/no for cognitive development concerns 
 comorbid <- read.csv("../data/elssp_comorbidities.csv")
 num_premature <- nrow(comorbid %>% filter(WeeksGestation<37))
 num_v_premature <- nrow(comorbid %>% filter(WeeksGestation<33))
-num_NICU <- num_downsyndrome <- nrow(comorbid %>% filter(NICU==1))
+num_NICU <- nrow(comorbid %>% filter(NICU==1))
 
 num_vision_loss <- nrow(comorbid %>% filter(VisionLoss==1))
 num_ROP <- nrow(comorbid %>% filter(RetinopathyOfPrematurity==1))
@@ -273,43 +273,43 @@ Degree of hearing loss was most often reported with a written description (e.g.,
 ```{r amp_info}
 # This feels like a lot of info in one table. 
 
-n_HA_u <- nrow(full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))
-n_HA_b <- nrow(full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='HA'))
-n_CI_u <- nrow(full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='CI'))
-n_CI_b <- nrow(full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='CI'))
-n_none_u <- nrow(full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='none'))
-n_none_b <- nrow(full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='none'))
-n_total_u <- nrow(full_elssp %>% filter(Laterality=='Unilateral'))
-n_total_b <- nrow(full_elssp %>% filter(Laterality=='Bilateral'))
+n_HA_u <- nrow(elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))
+n_HA_b <- nrow(elssp %>% filter(Laterality=='Bilateral'&Amplification=='HA'))
+n_CI_u <- nrow(elssp %>% filter(Laterality=='Unilateral'&Amplification=='CI'))
+n_CI_b <- nrow(elssp %>% filter(Laterality=='Bilateral'&Amplification=='CI'))
+n_none_u <- nrow(elssp %>% filter(Laterality=='Unilateral'&Amplification=='none'))
+n_none_b <- nrow(elssp %>% filter(Laterality=='Bilateral'&Amplification=='none'))
+n_total_u <- nrow(elssp %>% filter(Laterality=='Unilateral'))
+n_total_b <- nrow(elssp %>% filter(Laterality=='Bilateral'))
 
-meanbetter_HA_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))$HLbetter)
-meanbetter_HA_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='HA'))$HLbetter, na.rm = TRUE)
-meanbetter_CI_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='CI'))$HLbetter)
-meanbetter_CI_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='CI'))$HLbetter)
-meanbetter_none_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='none'))$HLbetter)
-meanbetter_none_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='none'))$HLbetter)
-meanbetter_total_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'))$HLbetter)
-meanbetter_total_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'))$HLbetter, na.rm = TRUE)
+meanbetter_HA_u <- mean((elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))$HLbetter)
+meanbetter_HA_b <- mean((elssp %>% filter(Laterality=='Bilateral'&Amplification=='HA'))$HLbetter, na.rm = TRUE)
+meanbetter_CI_u <- mean((elssp %>% filter(Laterality=='Unilateral'&Amplification=='CI'))$HLbetter)
+meanbetter_CI_b <- mean((elssp %>% filter(Laterality=='Bilateral'&Amplification=='CI'))$HLbetter)
+meanbetter_none_u <- mean((elssp %>% filter(Laterality=='Unilateral'&Amplification=='none'))$HLbetter)
+meanbetter_none_b <- mean((elssp %>% filter(Laterality=='Bilateral'&Amplification=='none'))$HLbetter)
+meanbetter_total_u <- mean((elssp %>% filter(Laterality=='Unilateral'))$HLbetter)
+meanbetter_total_b <- mean((elssp %>% filter(Laterality=='Bilateral'))$HLbetter, na.rm = TRUE)
 
-meanworse_HA_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))$HLworse, na.rm = TRUE)
-meanworse_HA_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='HA'))$HLworse, na.rm = TRUE)
-meanworse_CI_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='CI'))$HLworse)
-meanworse_CI_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='CI'))$HLworse)
-meanworse_none_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='none'))$HLworse, na.rm = TRUE)
-meanworse_none_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='none'))$HLworse)
-meanworse_total_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'))$HLworse, na.rm = TRUE)
-meanworse_total_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'))$HLworse, na.rm = TRUE)
+meanworse_HA_u <- mean((elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))$HLworse, na.rm = TRUE)
+meanworse_HA_b <- mean((elssp %>% filter(Laterality=='Bilateral'&Amplification=='HA'))$HLworse, na.rm = TRUE)
+meanworse_CI_u <- mean((elssp %>% filter(Laterality=='Unilateral'&Amplification=='CI'))$HLworse)
+meanworse_CI_b <- mean((elssp %>% filter(Laterality=='Bilateral'&Amplification=='CI'))$HLworse)
+meanworse_none_u <- mean((elssp %>% filter(Laterality=='Unilateral'&Amplification=='none'))$HLworse, na.rm = TRUE)
+meanworse_none_b <- mean((elssp %>% filter(Laterality=='Bilateral'&Amplification=='none'))$HLworse)
+meanworse_total_u <- mean((elssp %>% filter(Laterality=='Unilateral'))$HLworse, na.rm = TRUE)
+meanworse_total_b <- mean((elssp %>% filter(Laterality=='Bilateral'))$HLworse, na.rm = TRUE)
 
-ageamp_HA_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))$AgeAmplification)
-ageamp_HA_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='HA'))$AgeAmplification, na.rm = TRUE)
-ageamp_CI_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'&Amplification=='CI'))$AgeImplantation)
-ageamp_CI_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'&Amplification=='CI'))$AgeImplantation)
-ageamp_total_u <- mean((full_elssp %>% filter(Laterality=='Unilateral'))$AgeAmplification, na.rm = TRUE)
-ageamp_total_b <- mean((full_elssp %>% filter(Laterality=='Bilateral'))$AgeAmplification, na.rm = TRUE)
+ageamp_HA_u <- mean((elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))$AgeAmplification)
+ageamp_HA_b <- mean((elssp %>% filter(Laterality=='Bilateral'&Amplification=='HA'))$AgeAmplification, na.rm = TRUE)
+ageamp_CI_u <- mean((elssp %>% filter(Laterality=='Unilateral'&Amplification=='CI'))$AgeImplantation)
+ageamp_CI_b <- mean((elssp %>% filter(Laterality=='Bilateral'&Amplification=='CI'))$AgeImplantation)
+ageamp_total_u <- mean((elssp %>% filter(Laterality=='Unilateral'))$AgeAmplification, na.rm = TRUE)
+ageamp_total_b <- mean((elssp %>% filter(Laterality=='Bilateral'))$AgeAmplification, na.rm = TRUE)
 
-n_HA <- nrow(full_elssp %>% filter(Amplification=='HA'))
-n_CI <- nrow(full_elssp %>% filter(Amplification=='CI'))
-n_none <- nrow(full_elssp %>% filter(Amplification=='none'))
+n_HA <- nrow(elssp %>% filter(Amplification=='HA'))
+n_CI <- nrow(elssp %>% filter(Amplification=='CI'))
+n_none <- nrow(elssp %>% filter(Amplification=='none'))
 
 
 hearing_table <- tribble(
@@ -319,14 +319,14 @@ hearing_table <- tribble(
   glue('NA / {round(ageamp_CI_b, digits=2)} months'),
   glue('No Amplification (n={n_none})'), glue('{n_none_u} / {n_none_b}'), glue('{round(meanbetter_none_u, digits=2)} / {round(meanbetter_none_b, digits=2)} dB'), glue('{round(meanworse_none_u, digits=2)} / {round(meanworse_none_b, digits=2)} dB'),
   glue('NA'),
-  glue('Total (n={nrow(full_elssp)})'), glue('{n_total_u} / {n_total_b}'), glue('{round(meanbetter_total_u, digits=2)} / {round(meanbetter_total_b, digits=2)} dB'), glue('{round(meanworse_total_u, digits=2)} / {round(meanworse_total_b, digits=2)} dB'),
+  glue('Total (n={nrow(elssp)})'), glue('{n_total_u} / {n_total_b}'), glue('{round(meanbetter_total_u, digits=2)} / {round(meanbetter_total_b, digits=2)} dB'), glue('{round(meanworse_total_u, digits=2)} / {round(meanworse_total_b, digits=2)} dB'),
   glue('NA')
 )
  
 
 kable(hearing_table,
       caption = glue::glue("Audiological Characteristics of the Sample \n for Unilateral / Bilateral Hearing Loss")) %>%
-  kable_styling(latex_options = c("scale_down", "hold_position")) %>%
+  kable_styling(latex_options = "scale_down") %>%
   add_footnote("N.B. Age Amplification for children with CIs represents age at implantation")
 
 ```
@@ -334,24 +334,24 @@ kable(hearing_table,
 Communication method was recorded as spoken language, total communication, or cued speech. One participant had a parent fluent in sign language, but the reported communication method in the home was total communication. No child in our sample used sign language. Participants were also coded as monolingual or multilingual based on whether families reported using more than one language at home. Total communication was not counted as multilingualism.
 
 ```{r comm_info}
-n_spoken <- nrow(full_elssp %>% filter(Communication=='spoken'))
-n_CS <- nrow(full_elssp %>% filter(Communication=='cued speech'))
-n_TC <- nrow(full_elssp %>% filter(Communication=='total communication'))
-n_Eng <- nrow(full_elssp %>% filter(PrimaryLanguage=='English'))
-n_Span <- nrow(full_elssp %>% filter(PrimaryLanguage=='Spanish'))
-n_Hindi <- nrow(full_elssp %>% filter(PrimaryLanguage=='Hindi'))
+n_spoken <- nrow(elssp %>% filter(Communication=='spoken'))
+n_CS <- nrow(elssp %>% filter(Communication=='cued speech'))
+n_TC <- nrow(elssp %>% filter(Communication=='total communication'))
+n_Eng <- nrow(elssp %>% filter(PrimaryLanguage=='English'))
+n_Span <- nrow(elssp %>% filter(PrimaryLanguage=='Spanish'))
+n_Hindi <- nrow(elssp %>% filter(PrimaryLanguage=='Hindi'))
 
-n_spoken_English <- nrow(full_elssp %>% filter(Communication=='spoken'&PrimaryLanguage=='English'))
-n_spoken_Spanish <- nrow(full_elssp %>% filter(Communication=='spoken'&PrimaryLanguage=='Spanish'))
-n_spoken_Hindi <- nrow(full_elssp %>% filter(Communication=='spoken'&PrimaryLanguage=='Hindi'))
+n_spoken_English <- nrow(elssp %>% filter(Communication=='spoken'&PrimaryLanguage=='English'))
+n_spoken_Spanish <- nrow(elssp %>% filter(Communication=='spoken'&PrimaryLanguage=='Spanish'))
+n_spoken_Hindi <- nrow(elssp %>% filter(Communication=='spoken'&PrimaryLanguage=='Hindi'))
 
-n_TC_English <- nrow(full_elssp %>% filter(Communication=='total communication'&PrimaryLanguage=='English'))
-n_TC_Spanish <- nrow(full_elssp %>% filter(Communication=='total communication'&PrimaryLanguage=='Spanish'))
-n_TC_Hindi <- nrow(full_elssp %>% filter(Communication=='total communication'&PrimaryLanguage=='Hindi'))
+n_TC_English <- nrow(elssp %>% filter(Communication=='total communication'&PrimaryLanguage=='English'))
+n_TC_Spanish <- nrow(elssp %>% filter(Communication=='total communication'&PrimaryLanguage=='Spanish'))
+n_TC_Hindi <- nrow(elssp %>% filter(Communication=='total communication'&PrimaryLanguage=='Hindi'))
 
-n_CS_English <- nrow(full_elssp %>% filter(Communication=='cued speech'&PrimaryLanguage=='English'))
-n_CS_Spanish <- nrow(full_elssp %>% filter(Communication=='cued speech'&PrimaryLanguage=='Spanish'))
-n_CS_Hindi <- nrow(full_elssp %>% filter(Communication=='cued speech'&PrimaryLanguage=='Hindi'))
+n_CS_English <- nrow(elssp %>% filter(Communication=='cued speech'&PrimaryLanguage=='English'))
+n_CS_Spanish <- nrow(elssp %>% filter(Communication=='cued speech'&PrimaryLanguage=='Spanish'))
+n_CS_Hindi <- nrow(elssp %>% filter(Communication=='cued speech'&PrimaryLanguage=='Hindi'))
 
 
 
@@ -365,7 +365,7 @@ language_table <- tribble(
 
 kable(language_table,
       caption = glue::glue("Language and communication characteristics of the sample")) %>%
-  kable_styling(latex_options = c("scale_down", "hold_position")) 
+  kable_styling(latex_options = "scale_down") 
 ```
 
 
@@ -374,15 +374,15 @@ Because of the sparse data on screening age, if participants had an age at diagn
 
 ```{r meets136_info}
 # create "Table with meets136 info"
-perc_136 <- (nrow(full_elssp%>%filter(Meets136=='yes'))/(nrow(full_elssp %>% filter(Meets136=='yes'|Meets136=='no'))))*100
-perc_13 <- (nrow(full_elssp%>%filter(meets13=='yes'))/(nrow(full_elssp %>% filter(meets13=='yes'|meets13=='no'))))*100
-perc_6 <- (nrow(full_elssp%>%filter(meets6=='yes'))/(nrow(full_elssp %>% filter(meets6=='yes'|meets6=='no'))))*100
+perc_136 <- (nrow(elssp%>%filter(Meets136=='yes'))/(nrow(elssp %>% filter(Meets136=='yes'|Meets136=='no'))))*100
+perc_13 <- (nrow(elssp%>%filter(meets13=='yes'))/(nrow(elssp %>% filter(meets13=='yes'|meets13=='no'))))*100
+perc_6 <- (nrow(elssp%>%filter(meets6=='yes'))/(nrow(elssp %>% filter(meets6=='yes'|meets6=='no'))))*100
 
-age_diagnosis <- mean(full_elssp$IdentificationOfHLMonths, na.rm = TRUE)
-age_diagnosis_sd <- sd(full_elssp$IdentificationOfHLMonths, na.rm = TRUE)
+age_diagnosis <- mean(elssp$IdentificationOfHLMonths, na.rm = TRUE)
+age_diagnosis_sd <- sd(elssp$IdentificationOfHLMonths, na.rm = TRUE)
 
-age_services <- mean(full_elssp$AgeStartedServices, na.rm = TRUE)
-age_services_sd <- sd(full_elssp$AgeStartedServices, na.rm = TRUE)
+age_services <- mean(elssp$AgeStartedServices, na.rm = TRUE)
+age_services_sd <- sd(elssp$AgeStartedServices, na.rm = TRUE)
 
 meets136_table <- tribble(
   ~'', ~'', 
@@ -402,14 +402,14 @@ kable(meets136_table,
 
 variables_table <- tribble(
   ~Variable, ~Scale, ~ Range, 
-'Age', 'Continuous', glue('{min(full_elssp$Age)}-{max(full_elssp$Age)} months'),
-'Age at Amplification', 'Continuous', glue('{min(full_elssp$AgeAmplification, na.rm=TRUE)}-{max(full_elssp$AgeAmplification, na.rm=TRUE)} months'),
-'Age at Diagnosis', 'Continuous', glue('{min(full_elssp$IdentificationOfHLMonths, na.rm=TRUE)}-{max(full_elssp$IdentificationOfHLMonths, na.rm=TRUE)} months'),
-'Age at Implantation', 'Continuous', glue('{min(full_elssp$AgeImplantation, na.rm=TRUE)}-{max(full_elssp$AgeImplantation, na.rm=TRUE)} months'),
-'Age at Intervention', 'Continuous', glue('{min(full_elssp$AgeStartedServices, na.rm=TRUE)}-{max(full_elssp$AgeStartedServices, na.rm=TRUE)} months'),
+'Age', 'Continuous', glue('{min(elssp$Age)}-{round(max(elssp$Age), digits=0)} months'),
+'Age at Amplification', 'Continuous', glue('{min(elssp$AgeAmplification, na.rm=TRUE)}-{max(elssp$AgeAmplification, na.rm=TRUE)} months'),
+'Age at Diagnosis', 'Continuous', glue('{min(elssp$IdentificationOfHLMonths, na.rm=TRUE)}-{max(elssp$IdentificationOfHLMonths, na.rm=TRUE)} months'),
+'Age at Implantation', 'Continuous', glue('{min(elssp$AgeImplantation, na.rm=TRUE)}-{max(elssp$AgeImplantation, na.rm=TRUE)} months'),
+'Age at Intervention', 'Continuous', glue('{min(elssp$AgeStartedServices, na.rm=TRUE)}-{max(elssp$AgeStartedServices, na.rm=TRUE)} months'),
 'Amplification', 'Categorical', 'Hearing Aid / Cochlear Implant / None',
 'Communication', 'Categorical', 'Spoken / Total Communication / Cued Speech',
-'Degree Hearing Loss (worse ear)', 'Continuous', glue('{min(full_elssp$HLworse, na.rm=TRUE)}-{max(full_elssp$HLworse, na.rm=TRUE)} dB HL'),
+'Degree Hearing Loss (worse ear)', 'Continuous', glue('{min(elssp$HLworse, na.rm=TRUE)}-{max(elssp$HLworse, na.rm=TRUE)} dB HL'),
 'Developmental Delay', 'Categorical', 'Yes / No',
 'Gender', 'Categorical', 'Female / Male',
 'Health Issues', 'Categorical', 'Yes / No',
@@ -417,18 +417,14 @@ variables_table <- tribble(
 'Laterality', 'Categorical', 'Unilateral / Bilateral',
 'Meets 1-3-6', 'Categorical', 'Yes / No',
 'Prematurity', 'Categorical', 'Full-term / Premature',
-'Services Received Per Month', 'Continuous', glue('{min(full_elssp$ServicesReceivedPerMonth, na.rm=TRUE)}-{max(full_elssp$ServicesReceivedPerMonth, na.rm=TRUE)} services / month'),
+'Services Received Per Month', 'Continuous', glue('{min(elssp$ServicesReceivedPerMonth, na.rm=TRUE)}-{max(elssp$ServicesReceivedPerMonth, na.rm=TRUE)} services per month'),
 'Type of Hearing Loss', 'Categorical', 'Sensorineural / Conductive / Mixed',
-'CDI - Words Produced', 'Continuous', glue('{min(full_elssp$ProductionCDI)}-{max(full_elssp$ProductionCDI)} words'),
+'CDI - Words Produced', 'Continuous', glue('{min(elssp$ProductionCDI, na.rm=TRUE)}-{max(elssp$ProductionCDI, na.rm=TRUE)} words'),
 )
 
 kable(variables_table,
       caption = "Variables table") %>%
-  kable_styling(latex_options = c("scale_down","hold_position")) 
-
-
-
-
+  kable_styling(latex_options = "scale_down") 
 ```
 
 # Results
@@ -460,16 +456,49 @@ We next explored the effect of the different audiological, demographic, and inte
 
 Boys were significantly more delayed than girls on Words and Sentences but not Words and Gestures. Children with developmental delays had larger vocabulary delays than children without developmental delays on Words and Gestures. Because only one child with a developmental delay took the Words and Sentences form, we did not perform the analysis for Words and Sentences. Premature children and children with health issues had smaller vocabularies than typically developing children on Words and Gestures but not Words and Sentences. Children who met 1-3-6 guidelines had larger vocabulary than children who did not on Words and Gestures but not Words and Sentences. On Words and Gestures but not Words and Sentences, receiving more early intervention services was correlated with lower vocabulary. We did not observe an effect of laterality, communication, degree, or etiology on vocabulary delay on either form of the CDI. For communication, we omitted cued speech from the analysis because only one child in our sample used this method of communication (shown on graph anyway for the curious). A kruskal-wallis test showed a significant effect of amplification on vocabulary delay on Words and Gestures, such that children with no amplification were more delayed than children without amplification.
 
+```{r delay_plots}
+# cowplot::plot_grid(wg_gender, wg_prematurity, wg_healthissues, wg_devconcerns, ws_gender, ws_prematurity, ws_healthissues, ws_devconcerns, nrows=2)
+
+# cowplot::plot_grid(wg_laterality, wg_degree, wg_etiology, wg_amplification, ws_laterality, ws_degree, ws_etiology, ws_amplification, rows=2)
+
+# cowplot::plot_grid(wg_gender, wg_prematurity, wg_healthissues, wg_devconcerns, ws_gender, ws_prematurity, ws_healthissues, ws_devconcerns, rows=2)
+
+# cowplot::plot_grid(wg_communication, wg_meets136, wg_services, ws_communication, ws_meets136, ws_services, rows=2)
+
+# cowplot::plot_grid(wg_gender, ws_gender, rows=2)
+
+
+#right now, only includes graphs where there's a sig relationship between split variable and vocab delay
+cowplot::plot_grid(ws_gender, wg_devconcerns, wg_meets136, wg_amplification, wg_healthissues, wg_prematurity, wg_services, rows=3)
+```
 
 ```{r delay_table}
-# create delay table
+delay_table <- tribble(
+  ~Variable, ~'WG mean delays', ~'WS mean delays', ~Method,
+  'Gender', glue('Boy: {mean((wg_elssp %>% filter(Gender=="male"))$diff_age_from_expected)}; Girl: {mean((wg_elssp %>% filter(Gender=="female"))$diff_age_from_expected)}'), glue('Boy: {mean((ws_elssp %>% filter(Gender=="male"))$diff_age_from_expected)}; Girl: {mean((ws_elssp %>% filter(Gender=="female"))$diff_age_from_expected)}'), 'wilcox', 
+ 'Laterality', glue('Unilateral: {mean((wg_elssp %>% filter(Laterality=="Unilateral"))$diff_age_from_expected)}; Bilateral: {mean((wg_elssp %>% filter(Laterality=="Bilateral"))$diff_age_from_expected)}'), glue('Unilateral: {mean((ws_elssp %>% filter(Laterality=="Unilateral"))$diff_age_from_expected)}; Bilateral: {mean((ws_elssp %>% filter(Laterality=="Bilateral"))$diff_age_from_expected)}'), 'wilcox',
+    'Amplification', glue('CI: {mean((wg_elssp %>% filter(Amplification=="CI"))$diff_age_from_expected)}; HA: {mean((wg_elssp %>% filter(Amplification=="HA"))$diff_age_from_expected)}, none: {mean((wg_elssp %>% filter(Amplification=="none"))$diff_age_from_expected)}'), glue('CI: {mean((ws_elssp %>% filter(Amplification=="CI"))$diff_age_from_expected)}; HA: {mean((ws_elssp %>% filter(Amplification=="HA"))$diff_age_from_expected)}, none: {mean((ws_elssp %>% filter(Amplification=="none"))$diff_age_from_expected)}'),'kruskall',
+   'Health Issues', glue('Yes: {mean((wg_elssp %>% filter(HealthIssues==1))$diff_age_from_expected)}; No: {mean((wg_elssp %>% filter(HealthIssues==0))$diff_age_from_expected)}'), glue('Yes: {mean((ws_elssp %>% filter(HealthIssues==1))$diff_age_from_expected)}; No: {mean((ws_elssp %>% filter(HealthIssues==0))$diff_age_from_expected)}'), 'wilcox',
+   'Developmental Delay', glue('Yes: {mean((wg_elssp %>% filter(DevelopmentalConcerns=="yes"))$diff_age_from_expected)}; No: {mean((wg_elssp %>% filter(DevelopmentalConcerns=="no"))$diff_age_from_expected)}'), glue('Yes: {mean((ws_elssp %>% filter(DevelopmentalConcerns=="yes"))$diff_age_from_expected)}; No: {mean((ws_elssp %>% filter(DevelopmentalConcerns=="no"))$diff_age_from_expected)}'), 'wilcox', 
+    'Prematurity', glue('Premature: {mean((wg_elssp %>% filter(IsPremature==1))$diff_age_from_expected)}; Full-term: {mean((wg_elssp %>% filter(IsPremature==0))$diff_age_from_expected)}'), glue('Premature: {mean((ws_elssp %>% filter(IsPremature==1))$diff_age_from_expected)}; Full-term: {mean((ws_elssp %>% filter(IsPremature==0))$diff_age_from_expected)}'), 'wilcox',
+   '1-3-6 Guidelines', glue('Meets: {mean((wg_elssp %>% filter(Meets136=="yes"))$diff_age_from_expected)}; Does not meet: {mean((wg_elssp %>% filter(Meets136=="no"))$diff_age_from_expected)}'), glue('Meets: {mean((ws_elssp %>% filter(Meets136=="yes"))$diff_age_from_expected)}; Does not meet: {mean((ws_elssp %>% filter(Meets136=="no"))$diff_age_from_expected)}'), 'wilcox',
+  'Communication', glue('Spoken Language: {mean((wg_elssp %>% filter(Communication=="spoken"))$diff_age_from_expected)}; Total Communication: {mean((wg_elssp %>% filter(Communication=="total communication"))$diff_age_from_expected)}'),  glue('Spoken Language: {mean((ws_elssp %>% filter(Communication=="spoken"))$diff_age_from_expected)}; Total Communication: {mean((ws_elssp %>% filter(Communication=="total communication"))$diff_age_from_expected)}'),'wilcox',
+  'Etiology', glue('SNHL: {mean((wg_elssp %>% filter(Etiology=="SNHL"))$diff_age_from_expected)}; Mixed: {mean((wg_elssp %>% filter(Etiology=="Mixed"))$diff_age_from_expected)}, Conductive: {mean((wg_elssp %>% filter(Etiology=="Conductive"))$diff_age_from_expected)}'), glue('SNHL: {mean((ws_elssp %>% filter(Etiology=="SNHL"))$diff_age_from_expected)}; Mixed: {mean((ws_elssp %>% filter(Etiology=="Mixed"))$diff_age_from_expected)}, Conductive: {mean((ws_elssp %>% filter(Etiology=="Conductive"))$diff_age_from_expected)}'),'kruskall',
+  'Degree', glue('More severe: {mean((wg_elssp %>% filter(HLworse>64))$diff_age_from_expected)}; Less severe: {mean((wg_elssp %>% filter(HLworse<64))$diff_age_from_expected)}'),  glue('More severe: {mean((ws_elssp %>% filter(HLworse>56))$diff_age_from_expected)}; Less severe: {mean((ws_elssp %>% filter(HLworse<56))$diff_age_from_expected)}'),'wilcox',
+   'Services Received Per Month', glue('More services: {mean((wg_elssp %>% filter(ServicesReceivedPerMonth>4))$diff_age_from_expected)}; Less services: {mean((wg_elssp %>% filter(ServicesReceivedPerMonth<4))$diff_age_from_expected)}'),  glue('More services: {mean((ws_elssp %>% filter(ServicesReceivedPerMonth>2))$diff_age_from_expected)}; Less services: {mean((ws_elssp %>% filter(ServicesReceivedPerMonth<2))$diff_age_from_expected)}'),'wilcox'
+)
+
+kable(delay_table,
+      caption = "Delay table") %>%
+  kable_styling(latex_options = "scale_down")
+
 ```
 
 ## Part III: Meets136 success
 ```{r 136-summary-stats}
 
-perc_136_TD <- (nrow(full_elssp%>%filter(DevelopmentalConcerns=='no')%>%filter(Meets136=='yes'))/(nrow(full_elssp%>%filter(DevelopmentalConcerns=='no')%>%filter(Meets136=='yes'|Meets136=='no'))))*100
-perc_136_DA <- (nrow(full_elssp%>%filter(DevelopmentalConcerns=='yes')%>%filter(Meets136=='yes'))/(nrow(full_elssp%>%filter(DevelopmentalConcerns=='yes')%>%filter(Meets136=='yes'|Meets136=='no'))))*100
+perc_136_TD <- (nrow(elssp%>%filter(anycomorbid==0)%>%filter(Meets136=='yes'))/(nrow(elssp%>%filter(anycomorbid==0)%>%filter(Meets136=='yes'|Meets136=='no'))))*100
+perc_136_DA <- (nrow(elssp%>%filter(anycomorbid==1)%>%filter(Meets136=='yes'))/(nrow(elssp%>%filter(anycomorbid==1)%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 ```
 Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. `r perc_136`% of our sample met 1-3-6 guidelines for early diagnosis and intervention. Of children with comorbidities (developmental concerns, prematurity, health issues), only `r round(perc_136_DA, digits = 0)`% met 1-3-6 guidelines, compared to `r perc_136_TD`% of typically developing children. See table XXX for complete breakdown.
 
@@ -510,7 +539,7 @@ The best fit model (R2=`r summary(diagnosis_aic)$r.squared` , p=`r lm_pvalue(dia
 Age diagnosis ~ health issues + language background
 
 ```{r diagnosis_betas}
-diagnosis_aic <- lm(formula = IdentificationOfHLMonths ~ HealthIssues + Monolingual_English, data = full_elssp)
+diagnosis_aic <- lm(formula = IdentificationOfHLMonths ~ HealthIssues + Monolingual_English, data = elssp)
 
 
 dw_diagnosis = dwplot(diagnosis_aic)
@@ -529,7 +558,7 @@ The best fit model (R2=`r summary(services_aic)$r.squared` , p=`r lm_pvalue(serv
 Age intervention ~ laterality + degree (worse ear) + prematurity + laterality + age diagnosis
 
 ```{r intervention_betas}
-services_aic <- lm(formula = AgeStartedServices ~ HLworse + Laterality + IsPremature + IdentificationOfHLMonths, data = (data = full_elssp %>% filter(HLworse != "NA")))
+services_aic <- lm(formula = AgeStartedServices ~ HLworse + Laterality + IsPremature + IdentificationOfHLMonths, data = (data = elssp %>% filter(HLworse != "NA")))
 
 dw_services = dwplot(services_aic)
 dw_services = dw_services + geom_vline(xintercept=0, linetype = 'dashed') + theme_classic(

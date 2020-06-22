@@ -8,8 +8,10 @@ getScoreForAge = function(lm, age, num_items){
   return(prop*num_items)
 }
 
+
+#added point .000001 to avoid getting inf delay when score is 0
 getAgeForScore = function(lm, score, num_items){
-  proportion = score / num_items
+  proportion = (score + .000001) / num_items
 # http://www.talkstats.com/threads/inverse-prediction-from-binary-logistic-regression.52121/
   b0 = lm$coefficients[1]
   b1 = lm$coefficients[2]
@@ -583,3 +585,52 @@ augment_data = function(df, instrument){
 	print(paste('Now ', nrow(augmented_df),' observations!'))
 	return(augmented_df)
 }	
+
+
+
+
+
+
+
+
+plot_elssp_df_2 = function(elssp_dataset, split=NULL, save=T) {
+  
+  wordbank_norms_melted = elssp_dataset$wordbank_norms_melted
+  samples_from_growth_curve_model = elssp_dataset$samples_from_growth_curve_model
+  elssp_df = elssp_dataset$elssp_df
+  if (!is.null(split)){		
+    elssp_df = elssp_df[!is.na(elssp_df[[split]]) & elssp_df[[split]] != '',]
+  }	
+  cdi_form = elssp_dataset$cdi_form
+  
+  if (!is.null(split)){
+    elssp_df$split  = as.factor(elssp_df[[split]]) # make the split var in the df on the fly		
+    print(unique(elssp_df$split))
+   
+    p3 = make_rainplot(elssp_df, split, 'diff_age_from_expected', '') + coord_cartesian(ylim = c(-2, 25)) + coord_flip()
+
+    
+    
+    
+    # Save to disk
+     graph <- p3
+    return(graph)
+    
+  } else {
+    
+    p1 = ggplot() + geom_point (data=wordbank_norms_melted, aes(x=age, y=value, colour=variable)) + 
+      theme_classic() + geom_line(data=wordbank_norms_melted, aes(x=age, y=value, 
+                                                                  colour=variable)) + geom_line(data = samples_from_growth_curve_model, aes(x=predict_ages, y=scores), 
+                                                                                                colour='black') + geom_point(data = subset(elssp_df, !is.na(ProductionCDI)), 
+                                                                                                                             aes(x= AgeAtEvaluationMonths, y= ProductionCDI), shape=17
+                                                                                                ) + ggtitle(paste("Normative", cdi_form, "vs. ELSSP"))	
+    
+    seq_and_labels = seq(from=0,to=48,by=6)
+    p1 = p1 + scale_x_continuous(breaks = seq_and_labels, labels = seq_and_labels)
+    p1 = p1 + ylab(paste0("CDI Score (",cdi_form,")"))
+    p1 = p1 + xlab("Age in Months")
+    p1 = p1 + coord_cartesian(xlim=c(0,40))
+    
+  }
+  return(graph)
+}

@@ -17,6 +17,14 @@ elssp$subject_id = unlist(lapply(strsplit(elssp$SubjectNumber,'_'), function(x){
 elssp$admin_id = elssp$SubjectNumber
 summary(elssp)
 
+elssp$anycomorbid = ifelse(elssp$VisionLoss == 1 | 
+                             elssp$DevelopmentalConcerns == 1 | 
+                             elssp$HealthIssues == 1 |
+                             elssp$IsPremature == 1, "1", 
+                           "0")
+            
+                     
+
 #add months-delay to dataframes
 source('../CDI_ELSSP.R')
 elssp_datasets = lapply(c('WG','WS'), function(x){
