@@ -22,7 +22,7 @@ wordcount         : "X"
 
 bibliography      : ["ELSSP.bib"]
 
-floatsintext      : yes
+floatsintext      : no
 figurelist        : no
 tablelist         : no
 footnotelist      : no
@@ -58,10 +58,10 @@ knitr::opts_chunk$set(fig.width=12, fig.height=12, comment=F, message=F, hide = 
 ```{r read-in-data, echo = F, results = 'hide', message = F, comment = F, fig.show='hide'}
 source('../CDI_ELSSP.R')
 source('../elssp_plots_analysis.R')
+comorbid <- read.csv("../data/elssp_comorbidities.csv")
 ```
 
 # Introduction
-
 In the United States, 1-2 children are born with hearing loss, per 1,000 births [@cdc2018]. This translates to 114,000 Deaf or Hard of Hearing (DHH) children born in the U.S. per year [@martin2019]. Of these 114,000, ~90% will be born to hearing parents [@mitchell2004], in a home where spoken language is likely the dominant communication method. Depending on the type and degree of hearing loss and whether the child uses amplification, spoken linguistic input will be partially or totally inaccessible. Some of these children will develop spoken language within the range of their hearing peers [@verhaert2008; @geers2017], but many will face persistent spoken language deficits [@eisenberg2007; @moeller2007; @luckner2010; @sarchet2014], which may later affect reading ability [@kyle2010] and academic achievement [@qi2012; @karchmer2003]. 
 
 Despite many excellent studies examining language development in DHH children, there is still a gap in the literature describing and analyzing spoken language development across the full range of children receiving state services for hearing loss, with many studies focusing in on specific subgroups (e.g. children under age X with Y level of hearing loss and Z amplification approach, e.g. [@yoshinaga-itano2018; @vohr2008]). In what follows, we first summarize the previous literature on predictors of spoken language outcomes in DHH children. We then provide  a brief overview of a common vocabulary measure used in the current study, the MacArthur-Bates Communicative Development Inventory (CDI). Finally, we turn to an empirical analysis of  early vocabulary in a wide range of young children receiving state services in North Carolina. We have two broad goals in what follows. First, we aim to provide a comprehensive description of a heterogeneous group of young children who receive state services for hearing loss. Second, we aim to connect the intervention approaches and child characteristics of this sample with children’s vocabulary, with the broader goal of considering the success of early diagnosis and intervention initiatives. 
@@ -77,19 +77,20 @@ The DHH literature presents a more mixed (though rather understudied) picture. O
 ### Comorbidities
 Additional co-occuring disabilities occur frequently in the DHH population, perhaps as much as three times more than in the hearing population [@pollack1997]. Incidence estimates for co-occurring disabilities in DHH children range from 25-51% [@bruce2015; @guardino2008; @luckner2001; @picard2004; @schildroth1996; @soukup2007; @holden-pitt1998], with approximately 8% children living with 2 or more co-occurring disabilities [@schildroth1996]. 
 
-Some of these conditions, particularly those which carry risk of developmental delay (e.g., Down syndrome), result in language delays independent of hearing loss [@chapman1997; @kristoffersen2008; @weismer2010], with cognitive ability more predictive of language outcomes than presence or absence of a specific disability [@meinzen-derr2011; @sarant2008]. Disability and hearing loss likely each contribute to a given child’s language development [@rajput2003, @vannierop2016; @ching2013], with differential effects of each [@vesseur2016]. In some cases, additional disabilities appear to interact with hearing loss to intensify developmental delays [@birman2012; @pierson2007].
+Some of these conditions, particularly those which carry risk of developmental delay (e.g., Down syndrome), result in language delays independent of hearing loss [@chapman1997; @kristoffersen2008; @weismer2010], with cognitive ability more predictive of language outcomes than presence or absence of a specific disability [@meinzen-derr2011; @sarant2008]. Disability and hearing loss likely each contribute to a given child’s language development [@rajput2003; @vannierop2016; @ching2013], with differential effects of each [@vesseur2016]. In some cases, additional disabilities appear to interact with hearing loss to intensify developmental delays [@birman2012; @pierson2007].
 
 Furthermore, incidence of hearing loss is higher among children born premature (defined as 37 weeks gestational age). Compared to an incidence 0.2% in full-term infants, incidence of hearing loss in extremely premature infants (defined as 33 weeks gestational age) ranges 2--11%, with increased prematurity associated with increased rates of hearing loss [@wroblewska-seniuk2017]. 
 
-Independently of hearing status, prematurity is linked to increased risk of language delay and disorder [@rechia2016; @vannoort-vanderspek2012; @carter2017; @vohr2014; @cusson2003; @barre2011]. Unfortunately, research on language development in premature DHH children is scant [@vohr2016], so it remains unclear how hearing loss and prematurity may interact within spoken language skills. One study of premature infants finds that auditory brainstem response during newborn hearing screening predicts language performance on the PLS-4 at age 3 [@amin2014], suggesting a link between prematurity and hearing loss in early childhood, though further research is needed in this domain.
-
-In extremely premature DHH children, incidence of additional disabilities may be as high as 73% [@robertson2009]. Indeed, pre-term infants with comorbidities have been found to be more likely to also have hearing loss than those without comorbidities [@schmidt2003], further complicating language development for this population.
+Independently of hearing status, prematurity is linked to increased risk of language delay and disorder [@rechia2016; @vannoort-vanderspek2012; @carter2017; @vohr2014; @cusson2003; @barre2011]. Unfortunately, research on language development in premature DHH children is scant [@vohr2016], so it remains unclear how hearing loss and prematurity may interact within spoken language skills. One study of premature infants finds that auditory brainstem response during newborn hearing screening predicts language performance on the PLS-4 at age 3 [@amin2014], suggesting a link between prematurity and hearing loss in early childhood, though further research is needed in this domain. In extremely premature DHH children, incidence of additional disabilities may be as high as 73% [@robertson2009]. Indeed, pre-term infants with comorbidities have been found to be more likely to also have hearing loss than those without comorbidities [@schmidt2003], further complicating language development for this population.
 
 ### Audiological Characteristics
 Hearing loss varies in severity, ranging from slight to profound [@clark1981]. More severe hearing loss (less access to spoken language) typically results in more difficulty with spoken language in infancy [@vohr2008], early childhood [@ching2010; @ching2013; @tomblin2015; @sarant2008; @sininger2010] and school-age [@wake2004]. Although profound hearing loss is associated with more pronounced spoken language difficulty, even mild to moderate hearing loss is associated with elevated risk of language disorders [@delage2007; @blair1985].
-Hearing loss also varies in whether it affects one ear or both. Bilateral hearing assists speech perception, sound localization, and loudness perception in quiet and noisy environments [@ching2007]. The literature on hearing aids and cochlear implants points to benefits for bilateral auditory input [@sarant2014; @lovett2010; @smulders2016]. At school-age, 3--6% of children have unilateral hearing loss [@ross2010]. Although children with unilateral hearing loss have one “good ear,” even mild unilateral hearing loss has been tied to higher risk of language delays and educational challenges relative to hearing children [@vila2015; @lieu2013; @lieu2004; @lieu2012, @kiese-himmel2002]. That is, just as in the bilateral case, more severe hearing loss leads to greater deficits in language and educational outcomes for children with unilateral hearing loss [@lieu2013;@anne2017]. 
+
+Hearing loss also varies in whether it affects one ear or both. Bilateral hearing assists speech perception, sound localization, and loudness perception in quiet and noisy environments [@ching2007]. The literature on hearing aids and cochlear implants also points to benefits for bilateral auditory input [@sarant2014; @lovett2010; @smulders2016]. At school-age, 3--6% of children have unilateral hearing loss [@ross2010]. Although children with unilateral hearing loss have one “good ear,” even mild unilateral hearing loss has been tied to higher risk of language delays and educational challenges relative to hearing children [@vila2015; @lieu2013; @lieu2004; @lieu2012; @kiese-himmel2002]. That is, just as in the bilateral case, more severe hearing loss leads to greater deficits in language and educational outcomes for children with unilateral hearing loss [@lieu2013;@anne2017]. 
+
 Many DHH children receive hearing aids (HAs) or cochlear implants (CIs) to boost access to the aural world. These devices have been associated with better speech perception and spoken language outcomes [@walker2015; @waltzman1997; @niparko2010]. In turn, aided audibility predicts lexical abilities with children in HAs [@stiles2012]. 
-For both hearing aids and cochlear implants, earlier fit leads to better spoken language skills, if the amplification is effective. For hearing aids, some studies find that children with milder hearing loss who receive hearing aids earlier have better early language achievement than children who are fit later [@tomblin2015], but this finding does not hold for children with severe to profound hearing loss [@kiese-himmel2002; @watkin2007] (for whom hearing aids are generally ineffective). Analogously, children who are eligible and receive cochlear implants earlier have better speech perception and spoken language outcomes than those implanted later [@dettman2007; @miyamoto2008; @svirsky2004, @yoshinaga-itano2018; @artieres2009], with best outcomes for children receiving implants before their first birthday [@dettman2007]. 
+
+For both hearing aids and cochlear implants, earlier fit leads to better spoken language skills, if the amplification is effective. For hearing aids, some studies find that children with milder hearing loss who receive hearing aids earlier have better early language achievement than children who are fit later [@tomblin2015], but this finding does not hold for children with severe to profound hearing loss [@kiese-himmel2002; @watkin2007] (for whom hearing aids are generally ineffective). Analogously, children who are eligible and receive cochlear implants earlier have better speech perception and spoken language outcomes than those implanted later [@dettman2007; @miyamoto2008; @svirsky2004; @yoshinaga-itano2018; @artieres2009], with best outcomes for children receiving implants before their first birthday [@dettman2007]. 
 
 ### Communication
 Total Communication (TC) refers to communication that combines speech, gesture, and elements of sign (but not a full sign language, such as American Sign Language), sometimes simultaneously. Clinicians currently employ TC as an alternative or augmentative communication method for children with a wide range of disabilities [@branson2009; @gibbs1991; @mirenda2003].
@@ -97,16 +98,16 @@ Total Communication (TC) refers to communication that combines speech, gesture, 
 Compared to total communication, DHH children using an exclusively oral approach have better speech intelligibility [@geers2017; @dillon2004; @geers2002; @hodges1999] and auditory perception [@geers2017; @odonoghue2000]. That said, there is some debate as to whether an oral approach facilitates higher spoken language performance, or whether children who demonstrate aptitude for spoken language are steered towards the oral approach rather than TC [@hall2017].
 
 ### 1-3-6 Guidelines
-Early identification [@yoshinaga-itano2018; @yoshinaga-itano1998; @white1987; @robinshaw1995; @apuzzo1995; @kennedy2006] and timely enrollment in early intervention programs [@vohr2008, @watkin2007; @ching2013; @holzinger2011; @vohr2011] are associated with better language proficiency. Indeed, DHH children who receive prompt diagnosis and early access to services have been found to meet age-appropriate developmental outcomes, including language [@stika2015]. 
+Early identification [@yoshinaga-itano2018; @yoshinaga-itano1998; @white1987; @robinshaw1995; @apuzzo1995; @kennedy2006] and timely enrollment in early intervention programs [@vohr2008; @watkin2007; @ching2013; @holzinger2011; @vohr2011] are associated with better language proficiency. Indeed, DHH children who receive prompt diagnosis and early access to services have been found to meet age-appropriate developmental outcomes, including language [@stika2015]. 
 
 In line with these findings, the American Academy of Pediatricians (AAP) has set an initiative for Early Hearing Detection and Intervention (EHDI). Their EHDI guidelines recommend that DHH children are screened by 1 month old, diagnosed by 3 months old, and enter early intervention services by 6 months old. We refer to this guideline as 1-3-6. Meeting this standard appears to improve spoken language outcomes for children with HL [@yoshinaga-itano2017; @yoshinaga-itano2018] and the benefits appear consistent across a range of demographic characteristics. 
 
-At a federal level in the U.S., the Early Hearing Detection and Intervention Act of 2010 [@capps2009] was passed to develop state-wide systems for screening, evaluation, diagnosis, and “appropriate education, audiological, medical interventions for children identified with hearing loss,” but policies for early diagnosis and intervention vary by state.  As of 2011, 36 states (including North Carolina, @2000] mandate universal newborn hearing screening [national conference of state legislatures, 2011 FIX CITE]. All states have some form of  early intervention programs that children with hearing loss can access [@nad], but these also vary state-by-state. For instance, half of the states in the US do not consider mild hearing loss an eligibility criterion for early intervention [@holstrum2008].
+At a federal level in the U.S., the Early Hearing Detection and Intervention Act of 2010 [@capps2009] was passed to develop state-wide systems for screening, evaluation, diagnosis, and “appropriate education, audiological, medical interventions for children identified with hearing loss,” but policies for early diagnosis and intervention vary by state.  As of 2011, 36 states (including North Carolina, @2000] mandate universal newborn hearing screening [@nationalconferenceofstatelegislatures2011]. All states have some form of  early intervention programs that children with hearing loss can access [@nad], but these also vary state-by-state. For instance, half of the states in the US do not consider mild hearing loss an eligibility criterion for early intervention [@holstrum2008].
 
 In evaluating the success of this initiative, the AAP [@ehdi] finds that about 70% of US children who fail their newborn hearing screening test are diagnosed with hearing loss before 3 months old, and that 67% of those diagnosed (46% of those that fail newborn hearing screening) begin early intervention services by 6 months old. These findings suggest that there may be breaks in the chain from screening to diagnosis and from diagnosis to intervention, and the effect may be further delays in language development for children not meeting these guidelines.
  
 ## Quantifying vocabulary growth in DHH children
-The MacArthur Bates Communicative Development Inventory (CDI, @fenson1994] is a parent-report instrument that gathers information about children’s vocabulary development. The Words and Gestures version of the form (CDI-WG) is normed for 8-18-month-olds, and includes 398 vocabulary items that parents indicate whether their child understands or produces, along with  questions about young children’s early communicative milestones.  The Words and Sentences version of the form (CDI-WS) is normed for 16-30-month-olds, and includes 680 vocabulary items that parents indicate whether their child produces, along with some questions about grammatical development. The CDI has been normed on a large set of participants across many languages [@anderson2002; @frank2017; @jackson-maldonado2003]. 
+The MacArthur Bates Communicative Development Inventory [CDI, @fenson1994] is a parent-report instrument that gathers information about children’s vocabulary development. The Words and Gestures version of the form (CDI-WG) is normed for 8-18-month-olds, and includes 398 vocabulary items that parents indicate whether their child understands or produces, along with  questions about young children’s early communicative milestones.  The Words and Sentences version of the form (CDI-WS) is normed for 16-30-month-olds, and includes 680 vocabulary items that parents indicate whether their child produces, along with some questions about grammatical development. The CDI has been normed on a large set of participants across many languages [@anderson2002; @frank2017; @jackson-maldonado2003]. 
 
 The CDI has also been validated for DHH children with cochlear implants [@thal2007]. More specifically, in this validation, researchers asked parents to complete the CDI, administered the Reynell Developmental Language Scales, and collected a spontaneous speech sample. All comparisons between the CDI and the other measures yielded significant correlations ranging from 0.58 to 0.93. Critically, the children in this study were above the normed age range for the CDI, and thus this validation helps to confirm that the CDI is a valid measurement tool for older DHH children. In further work, @castellanos2016 finds that in children with CIs, number of words produced on the CDI predicts language, executive function, and academic skills up to 16 years later. Building on this work, several studies have used the CDI to measure vocabulary development in DHH children [@ching2013; @yoshinaga-itano2017; @yoshinaga-itano2018; @dediego-lazaro2018; @vohr2008; @vohr2011; summarized in table XXX]. 
 
@@ -132,7 +133,6 @@ kable(research_table,
 ```
 
 ## Goals and Predictions
-
 This study aims to 1) characterize the demographic, audiological, and intervention variability in the population of DHH children receiving state services for hearing loss; 2) identify predictors of vocabulary delays; and 3) evaluate the success of early identification and intervention efforts at a state level. We include two subgroups of DHH children traditionally excluded from studies of language development: children with additional disabilities and children with unilateral hearing loss [e.g., @yoshinaga-itano2018]. 
 
 For the first and third goal above, we did not have specific hypotheses and sought to provide descriptive information about a diverse sample of DHH children receiving state services. For the second, we hypothesized that male gender, more severe degree of hearing loss,  bilateral hearing loss, no amplification use, prematurity, and presence of additional disabilities would predict larger spoken vocabulary delay. We did not have strong predictions regarding communication method, language background, or presence of other health issues (e.g., congenital heart malformation).
@@ -191,7 +191,6 @@ kable(CDI_table,
 Children in this sample were coded as yes/no for cognitive development concerns (e.g., Down syndrome, global developmental delays; Cornelia de Lange syndrome), yes/no for prematurity (i.e., more than 3 weeks premature), yes/no for health issues (e.g., heart defects, kidney malformations, VACTERL association), and yes/no for vision loss (not corrected to normal by surgery or glasses)
 
 ```{r comorbid_info}
-comorbid <- read.csv("../data/elssp_comorbidities.csv")
 num_premature <- nrow(comorbid %>% filter(WeeksGestation<37))
 num_v_premature <- nrow(comorbid %>% filter(WeeksGestation<33))
 num_NICU <- nrow(comorbid %>% filter(NICU==1))
@@ -212,7 +211,6 @@ num_ventricular_issues <- nrow(comorbid %>% filter(intraventricularhemorrhage==1
 num_hydrocephalus <- nrow(comorbid %>% filter(hydrocephalus==1))
 num_overall_dev_concerns <- nrow(comorbid %>% filter(overalldevconcerns==1))
 num_apraxia <- nrow(comorbid %>% filter(oculomotorapraxia==1))
-num_cvi
 
 num_health_issues <- nrow(comorbid %>% filter(HealthIssues==1))
 num_heart_issues <- nrow(comorbid %>% filter(HeartValveProblems==1|heartabnormalities==1|supraventriculartachycardia==1|bradycardia==1|coarctationofaorta==1|patentductusarteriosus|perferatedheart==1|pulmonaryarterystenosis))
@@ -255,15 +253,10 @@ comorbid_table <- tribble(
   "", "Cortical Visual Impairment",  num_cvi
 )
 
-# comorbid_table %>% gt()  %>%
-#   tab_header(
-#     title = glue::glue("Additional Diagnoses (n={num_anycomorbid})")
-#   ) 
-
 
 kable(comorbid_table,
       caption = glue::glue("Additional Diagnoses (n={num_anycomorbid})")) %>%
-  kable_styling(latex_options = c("scale_down")) %>%
+  kable_styling(latex_options = "scale_down") %>%
   add_footnote("N.B. ns do not sum to total because many participants had multiple diagnoses")
 
 ```
@@ -500,7 +493,7 @@ kable(delay_table,
 perc_136_TD <- (nrow(elssp%>%filter(anycomorbid==0)%>%filter(Meets136=='yes'))/(nrow(elssp%>%filter(anycomorbid==0)%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 perc_136_DA <- (nrow(elssp%>%filter(anycomorbid==1)%>%filter(Meets136=='yes'))/(nrow(elssp%>%filter(anycomorbid==1)%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 ```
-Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. `r perc_136`% of our sample met 1-3-6 guidelines for early diagnosis and intervention. Of children with comorbidities (developmental concerns, prematurity, health issues), only `r round(perc_136_DA, digits = 0)`% met 1-3-6 guidelines, compared to `r perc_136_TD`% of typically developing children. See table XXX for complete breakdown.
+Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. `r perc_136`% of our sample met 1-3-6 guidelines for early diagnosis and intervention. Of children with comorbidities (i.e., developmental concerns, prematurity, health issues, vision loss), only `r round(perc_136_DA, digits = 0)`% met 1-3-6 guidelines, compared to `r perc_136_TD`% of typically developing children. See table XXX for complete breakdown.
 
 ```{r meets136_table}
 # create 136 table
@@ -568,9 +561,9 @@ print(dw_services)
 
 #caption:  
 ```
-## Discussion
+# Discussion
 
-## Conclusion
+# Conclusion
 
 
 
@@ -578,4 +571,4 @@ print(dw_services)
 
 Footnotes: Despite exciting, increasing, and converging evidence for benefits of early sign language exposure [e.g., @schick2007; @spencer1993; @davidson2014; @magnuson2000; @clark2016; @hrastinski2016], the majority of DHH children will not be raised in a sign language environment. This is particularly true for North Carolina, which does not have a large community of sign language users, relative to states like Maryland or areas like Washington D.C. or Rochester, NY. For this reason, we focus on spoken language development. 
 
-
+# References
