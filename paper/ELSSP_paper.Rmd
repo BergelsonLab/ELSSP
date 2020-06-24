@@ -39,7 +39,7 @@ output            : papaja::apa6_pdf
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r load_packages, cache = FALSE, include = FALSE, echo=FALSE}
+```{r load-packages, cache = FALSE, include = FALSE, echo=FALSE}
 library(papaja) 
 library(tidyverse)
 library(knitr)
@@ -79,7 +79,7 @@ Additional co-occuring disabilities occur frequently in the DHH population, perh
 
 Some of these conditions, particularly those which carry risk of developmental delay (e.g., Down syndrome), result in language delays independent of hearing loss [@chapman1997; @kristoffersen2008; @weismer2010], with cognitive ability more predictive of language outcomes than presence or absence of a specific disability [@meinzen-derr2011; @sarant2008]. Disability and hearing loss likely each contribute to a given child’s language development [@rajput2003; @vannierop2016; @ching2013], with differential effects of each [@vesseur2016]. In some cases, additional disabilities appear to interact with hearing loss to intensify developmental delays [@birman2012; @pierson2007].
 
-Furthermore, incidence of hearing loss is higher among children born premature (defined as 37 weeks gestational age). Compared to an incidence 0.2% in full-term infants, incidence of hearing loss in extremely premature infants (defined as 33 weeks gestational age) ranges 2--11%, with increased prematurity associated with increased rates of hearing loss [@wroblewska-seniuk2017]. 
+Furthermore, incidence of hearing loss is higher among children born premature (defined as < 37 weeks gestational age). Compared to an incidence 0.2% in full-term infants, incidence of hearing loss in extremely premature infants (defined as < 33 weeks gestational age) ranges 2--11%, with increased prematurity associated with increased rates of hearing loss [@wroblewska-seniuk2017]. 
 
 Independently of hearing status, prematurity is linked to increased risk of language delay and disorder [@rechia2016; @vannoort-vanderspek2012; @carter2017; @vohr2014; @cusson2003; @barre2011]. Unfortunately, research on language development in premature DHH children is scant [@vohr2016], so it remains unclear how hearing loss and prematurity may interact within spoken language skills. One study of premature infants finds that auditory brainstem response during newborn hearing screening predicts language performance on the PLS-4 at age 3 [@amin2014], suggesting a link between prematurity and hearing loss in early childhood, though further research is needed in this domain. In extremely premature DHH children, incidence of additional disabilities may be as high as 73% [@robertson2009]. Indeed, pre-term infants with comorbidities have been found to be more likely to also have hearing loss than those without comorbidities [@schmidt2003], further complicating language development for this population.
 
@@ -157,7 +157,7 @@ The clinical evaluations included demographic and audiological information, CDI 
 
 While this collaboration is ongoing, we opted to pause for this analysis upon receiving data from 100 children. Thus, the reported sample below consists of `r num_subs` children (`r num_boys` male / `r num_girls` female) ages `r min_age`--`r max_age`(M=`r mean_age`, SD=`r sd_age`). Race and SES information was not available. Families were administered either the WG or WS version of the CDI based on clinician judgement. Children who were too old for WG, but who were not producing many words at the time of assessment, were often given WG (n=`r num_too_old_wg`). Families for whom Spanish was the primary language (n = `r num_spanish_cdi`) completed the Spanish version of the CDI [@jackson-maldonado2003].
 
-```{r CDIinfo}
+```{r CDIinfo, echo=FALSE}
 WG_n <- nrow(wg_elssp)
 WS_n <- nrow(ws_elssp)
 WG_age <- mean(wg_elssp$Age)
@@ -182,7 +182,7 @@ CDI_table <- tribble(
 
 
 
-kable(CDI_table,
+kable(CDI_table, longtable=T,
       caption = "CDI details") %>%
   kable_styling(latex_options = c("scale_down"))
 
@@ -190,7 +190,7 @@ kable(CDI_table,
 
 Children in this sample were coded as yes/no for cognitive development concerns (e.g., Down syndrome, global developmental delays; Cornelia de Lange syndrome), yes/no for prematurity (i.e., more than 3 weeks premature), yes/no for health issues (e.g., heart defects, kidney malformations, VACTERL association), and yes/no for vision loss (not corrected to normal by surgery or glasses)
 
-```{r comorbid_info}
+```{r comorbid-info}
 num_premature <- nrow(comorbid %>% filter(WeeksGestation<37))
 num_v_premature <- nrow(comorbid %>% filter(WeeksGestation<33))
 num_NICU <- nrow(comorbid %>% filter(NICU==1))
@@ -256,14 +256,14 @@ comorbid_table <- tribble(
 
 kable(comorbid_table,
       caption = glue::glue("Additional Diagnoses (n={num_anycomorbid})")) %>%
-  kable_styling(latex_options = "scale_down") %>%
+  kable_styling(latex_options = "hold_position") %>%
   add_footnote("N.B. ns do not sum to total because many participants had multiple diagnoses")
 
 ```
 
 Degree of hearing loss was most often reported with a written description (e.g., “mild sloping to moderate” or “profound high frequency loss”). We created 3 variables: hearing loss in the better ear, hearing loss in the worse ear, and average hearing loss (average of better and worse ear). Using the ASHA hearing loss guidelines, each of these was coded with a dB HL value corresponding with the median dB HL for the level of hearing loss (e.g., moderate hearing loss was coded as 48dB HL), and sloping hearing loss was coded as the average of the levels (e.g. mild to moderate was coded as 40.5 dB HL). Participants were also coded for unilateral or bilateral hearing loss; presence or absence of Auditory Neuropathy Spectrum Disorder; sensorineural, conditive, or mixed hearing loss. Amplification was recorded as the device the child used at the time of assessment--either hearing aid, cochlear implant, or none.
 
-```{r amp_info}
+```{r amp-info}
 # This feels like a lot of info in one table. 
 
 n_HA_u <- nrow(elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))
@@ -319,14 +319,14 @@ hearing_table <- tribble(
 
 kable(hearing_table,
       caption = glue::glue("Audiological Characteristics of the Sample \n for Unilateral / Bilateral Hearing Loss")) %>%
-  kable_styling(latex_options = "scale_down") %>%
+  kable_styling(latex_options = c("hold_position", "scale_down")) %>%
   add_footnote("N.B. Age Amplification for children with CIs represents age at implantation")
 
 ```
 
 Communication method was recorded as spoken language, total communication, or cued speech. One participant had a parent fluent in sign language, but the reported communication method in the home was total communication. No child in our sample used sign language. Participants were also coded as monolingual or multilingual based on whether families reported using more than one language at home. Total communication was not counted as multilingualism.
 
-```{r comm_info}
+```{r comm-info}
 n_spoken <- nrow(elssp %>% filter(Communication=='spoken'))
 n_CS <- nrow(elssp %>% filter(Communication=='cued speech'))
 n_TC <- nrow(elssp %>% filter(Communication=='total communication'))
@@ -358,14 +358,14 @@ language_table <- tribble(
 
 kable(language_table,
       caption = glue::glue("Language and communication characteristics of the sample")) %>%
-  kable_styling(latex_options = "scale_down") 
+  kable_styling(latex_options = "hold_position") 
 ```
 
 
 Age at screening was measured as the child’s age in months at their first hearing screening. Age at screening was only available for (XXX) participants. If participants received their newborn hearing screening, age at screening was recorded as 0 (months). Age at diagnosis was taken as the age in months when children received their first hearing loss diagnosis. All children were enrolled in birth-to-three early intervention services through NC ELSSP, and the date of enrollment was listed on the clinician evaluation. From the clinician report, we calculated the number of hours of early intervention services received per month (including service coordination, speech therapy, and occupational therapy, among others). 
-Because of the sparse data on screening age, if participants had an age at diagnosis  <= 3 mo. and an age of intervention  <= 6 mo., they were recorded as meeting 1-3-6. It is possible that a participant did not receive screening by 1 month, but did receive diagnosis by 3 months and services by 6 months. This special case would be coded as meeting 1-3-6 by our criteria.
+Because of the sparse data on screening age, if participants had an age at diagnosis  $\leq$ 3 mo. and an age of intervention  $\leq$ 6 mo., they were recorded as meeting 1-3-6. It is possible that a participant did not receive screening by 1 month, but did receive diagnosis by 3 months and services by 6 months. This special case would be coded as meeting 1-3-6 by our criteria.
 
-```{r meets136_info}
+```{r meets136-info}
 # create "Table with meets136 info"
 perc_136 <- (nrow(elssp%>%filter(Meets136=='yes'))/(nrow(elssp %>% filter(Meets136=='yes'|Meets136=='no'))))*100
 perc_13 <- (nrow(elssp%>%filter(meets13=='yes'))/(nrow(elssp %>% filter(meets13=='yes'|meets13=='no'))))*100
@@ -391,7 +391,7 @@ kable(meets136_table,
   kable_styling(latex_options = c("scale_down")) 
 ```
 
-```{r variables_list}
+```{r variables-list}
 
 variables_table <- tribble(
   ~Variable, ~Scale, ~ Range, 
@@ -428,7 +428,7 @@ All analyses were conducted in R. All code is available on Github. In the first 
 Shapiro–Wilk tests revealed that all of our continuous measures (i.e. degree of hearing loss, services received per month, vocabulary delay) significantly differed from a normal distribution (ps <.05), so we used nonparametric tests to explore relationships among our variables. For categorical-categorical relationships, we used chi square tests; for continuous-categorical tests, we used mann-whitney U tests (2 levels for categorical variable) or kruskal-wallis tests (>2 levels for categorical variable; for continuous-continuous relationships, we used Of the fifty-five combinations of variables, p < .05 for sixteen, and seven survived bonferroni correction (p < `r round(.05/55, digits = 5)`). The full set of comparisons is shown in figure XXX.
 
 
-```{r relationships_plot}
+```{r relationships-plot}
 print(hm_test_plot)
 print(hm_test_plot2)
 ```
@@ -440,7 +440,7 @@ From this analysis, we found that children born premature were more likely to al
 We first constructed a binary logistic growth curve for vocabulary from the 50th percentile data for typically developing children from Wordbank. With this function, each participant’s CDI score yielded a predicted age from the normative data. For each child, we subtracted this predicted age (given the score) from the child’s actual age to give us a measure of delay in months. Descriptively, we found widespread vocabulary delays on both Words and Gestures and Words and Sentences, with the majority of DHH children testing around or below the 25th percentile for hearing children. 
 
 
-```{r wg_ws_rainbow_plot}
+```{r wg-ws-rainbow-plot}
 cowplot::plot_grid(wg_rainbow, ws_rainbow)
 # caption: Figures XXX - Colored lines show vocabulary percentiles from wordbank. black line shows growth curve from 50th percentile data. Black triangles show vocabulary scores of individual DHH children.
 ```
@@ -449,7 +449,7 @@ We next explored the effect of the different audiological, demographic, and inte
 
 Boys were significantly more delayed than girls on Words and Sentences but not Words and Gestures. Children with developmental delays had larger vocabulary delays than children without developmental delays on Words and Gestures. Because only one child with a developmental delay took the Words and Sentences form, we did not perform the analysis for Words and Sentences. Premature children and children with health issues had smaller vocabularies than typically developing children on Words and Gestures but not Words and Sentences. Children who met 1-3-6 guidelines had larger vocabulary than children who did not on Words and Gestures but not Words and Sentences. On Words and Gestures but not Words and Sentences, receiving more early intervention services was correlated with lower vocabulary. We did not observe an effect of laterality, communication, degree, or etiology on vocabulary delay on either form of the CDI. For communication, we omitted cued speech from the analysis because only one child in our sample used this method of communication (shown on graph anyway for the curious). A kruskal-wallis test showed a significant effect of amplification on vocabulary delay on Words and Gestures, such that children with no amplification were more delayed than children without amplification.
 
-```{r delay_plots}
+```{r delay-plots}
 # cowplot::plot_grid(wg_gender, wg_prematurity, wg_healthissues, wg_devconcerns, ws_gender, ws_prematurity, ws_healthissues, ws_devconcerns, nrows=2)
 
 # cowplot::plot_grid(wg_laterality, wg_degree, wg_etiology, wg_amplification, ws_laterality, ws_degree, ws_etiology, ws_amplification, rows=2)
@@ -465,21 +465,25 @@ Boys were significantly more delayed than girls on Words and Sentences but not W
 cowplot::plot_grid(ws_gender, wg_devconcerns, wg_meets136, wg_amplification, wg_healthissues, wg_prematurity, wg_services, rows=3)
 ```
 
-```{r delay_table}
+```{r delay-table}
 delay_table <- tribble(
   ~Variable, ~'WG mean delays', ~'WS mean delays', ~Method,
-  'Gender', glue('Boy: {mean((wg_elssp %>% filter(Gender=="male"))$diff_age_from_expected)}; Girl: {mean((wg_elssp %>% filter(Gender=="female"))$diff_age_from_expected)}'), glue('Boy: {mean((ws_elssp %>% filter(Gender=="male"))$diff_age_from_expected)}; Girl: {mean((ws_elssp %>% filter(Gender=="female"))$diff_age_from_expected)}'), 'wilcox', 
- 'Laterality', glue('Unilateral: {mean((wg_elssp %>% filter(Laterality=="Unilateral"))$diff_age_from_expected)}; Bilateral: {mean((wg_elssp %>% filter(Laterality=="Bilateral"))$diff_age_from_expected)}'), glue('Unilateral: {mean((ws_elssp %>% filter(Laterality=="Unilateral"))$diff_age_from_expected)}; Bilateral: {mean((ws_elssp %>% filter(Laterality=="Bilateral"))$diff_age_from_expected)}'), 'wilcox',
-    'Amplification', glue('CI: {mean((wg_elssp %>% filter(Amplification=="CI"))$diff_age_from_expected)}; HA: {mean((wg_elssp %>% filter(Amplification=="HA"))$diff_age_from_expected)}, none: {mean((wg_elssp %>% filter(Amplification=="none"))$diff_age_from_expected)}'), glue('CI: {mean((ws_elssp %>% filter(Amplification=="CI"))$diff_age_from_expected)}; HA: {mean((ws_elssp %>% filter(Amplification=="HA"))$diff_age_from_expected)}, none: {mean((ws_elssp %>% filter(Amplification=="none"))$diff_age_from_expected)}'),'kruskall',
-   'Health Issues', glue('Yes: {mean((wg_elssp %>% filter(HealthIssues==1))$diff_age_from_expected)}; No: {mean((wg_elssp %>% filter(HealthIssues==0))$diff_age_from_expected)}'), glue('Yes: {mean((ws_elssp %>% filter(HealthIssues==1))$diff_age_from_expected)}; No: {mean((ws_elssp %>% filter(HealthIssues==0))$diff_age_from_expected)}'), 'wilcox',
-   'Developmental Delay', glue('Yes: {mean((wg_elssp %>% filter(DevelopmentalConcerns=="yes"))$diff_age_from_expected)}; No: {mean((wg_elssp %>% filter(DevelopmentalConcerns=="no"))$diff_age_from_expected)}'), glue('Yes: {mean((ws_elssp %>% filter(DevelopmentalConcerns=="yes"))$diff_age_from_expected)}; No: {mean((ws_elssp %>% filter(DevelopmentalConcerns=="no"))$diff_age_from_expected)}'), 'wilcox', 
-    'Prematurity', glue('Premature: {mean((wg_elssp %>% filter(IsPremature==1))$diff_age_from_expected)}; Full-term: {mean((wg_elssp %>% filter(IsPremature==0))$diff_age_from_expected)}'), glue('Premature: {mean((ws_elssp %>% filter(IsPremature==1))$diff_age_from_expected)}; Full-term: {mean((ws_elssp %>% filter(IsPremature==0))$diff_age_from_expected)}'), 'wilcox',
-   '1-3-6 Guidelines', glue('Meets: {mean((wg_elssp %>% filter(Meets136=="yes"))$diff_age_from_expected)}; Does not meet: {mean((wg_elssp %>% filter(Meets136=="no"))$diff_age_from_expected)}'), glue('Meets: {mean((ws_elssp %>% filter(Meets136=="yes"))$diff_age_from_expected)}; Does not meet: {mean((ws_elssp %>% filter(Meets136=="no"))$diff_age_from_expected)}'), 'wilcox',
-  'Communication', glue('Spoken Language: {mean((wg_elssp %>% filter(Communication=="spoken"))$diff_age_from_expected)}; Total Communication: {mean((wg_elssp %>% filter(Communication=="total communication"))$diff_age_from_expected)}'),  glue('Spoken Language: {mean((ws_elssp %>% filter(Communication=="spoken"))$diff_age_from_expected)}; Total Communication: {mean((ws_elssp %>% filter(Communication=="total communication"))$diff_age_from_expected)}'),'wilcox',
-  'Etiology', glue('SNHL: {mean((wg_elssp %>% filter(Etiology=="SNHL"))$diff_age_from_expected)}; Mixed: {mean((wg_elssp %>% filter(Etiology=="Mixed"))$diff_age_from_expected)}, Conductive: {mean((wg_elssp %>% filter(Etiology=="Conductive"))$diff_age_from_expected)}'), glue('SNHL: {mean((ws_elssp %>% filter(Etiology=="SNHL"))$diff_age_from_expected)}; Mixed: {mean((ws_elssp %>% filter(Etiology=="Mixed"))$diff_age_from_expected)}, Conductive: {mean((ws_elssp %>% filter(Etiology=="Conductive"))$diff_age_from_expected)}'),'kruskall',
-  'Degree', glue('More severe: {mean((wg_elssp %>% filter(HLworse>64))$diff_age_from_expected)}; Less severe: {mean((wg_elssp %>% filter(HLworse<64))$diff_age_from_expected)}'),  glue('More severe: {mean((ws_elssp %>% filter(HLworse>56))$diff_age_from_expected)}; Less severe: {mean((ws_elssp %>% filter(HLworse<56))$diff_age_from_expected)}'),'wilcox',
-   'Services Received Per Month', glue('More services: {mean((wg_elssp %>% filter(ServicesReceivedPerMonth>4))$diff_age_from_expected)}; Less services: {mean((wg_elssp %>% filter(ServicesReceivedPerMonth<4))$diff_age_from_expected)}'),  glue('More services: {mean((ws_elssp %>% filter(ServicesReceivedPerMonth>2))$diff_age_from_expected)}; Less services: {mean((ws_elssp %>% filter(ServicesReceivedPerMonth<2))$diff_age_from_expected)}'),'wilcox'
+  'Gender', glue('Boy: {round(mean((wg_elssp %>% filter(Gender=="male"))$diff_age_from_expected), digits=1)}; Girl: {round(mean((wg_elssp %>% filter(Gender=="female"))$diff_age_from_expected), digits=1)}'), glue('Boy: {round(mean((ws_elssp %>% filter(Gender=="male"))$diff_age_from_expected), digits=1)}; Girl: {round(mean((ws_elssp %>% filter(Gender=="female"))$diff_age_from_expected), digits=1)}'), 'wilcox', 
+ 'Laterality', glue('Unilateral: {round(mean((wg_elssp %>% filter(Laterality=="Unilateral"))$diff_age_from_expected), digits=1)}; Bilateral: {round(mean((wg_elssp %>% filter(Laterality=="Bilateral"))$diff_age_from_expected), digits=1)}'), glue('Unilateral: {round(mean((ws_elssp %>% filter(Laterality=="Unilateral"))$diff_age_from_expected), digits=1)}; Bilateral: {round(mean((ws_elssp %>% filter(Laterality=="Bilateral"))$diff_age_from_expected), digits=1)}'), 'wilcox',
+    'Amplification', glue('CI: {round(mean((wg_elssp %>% filter(Amplification=="CI"))$diff_age_from_expected), digits=1)}; HA: {round(mean((wg_elssp %>% filter(Amplification=="HA"))$diff_age_from_expected), digits=1)}, none: {round(mean((wg_elssp %>% filter(Amplification=="none"))$diff_age_from_expected), digits=1)}'), glue('CI: {round(mean((ws_elssp %>% filter(Amplification=="CI"))$diff_age_from_expected), digits=1)}; HA: {round(mean((ws_elssp %>% filter(Amplification=="HA"))$diff_age_from_expected), digits=1)}, none: {round(mean((ws_elssp %>% filter(Amplification=="none"))$diff_age_from_expected), digits=1)}'),'kruskall',
+   'Health Issues', glue('Yes: {round(mean((wg_elssp %>% filter(HealthIssues==1))$diff_age_from_expected),digits=1)}; No: {round(mean((wg_elssp %>% filter(HealthIssues==0))$diff_age_from_expected), digits=1)}'), glue('Yes: {round(mean((ws_elssp %>% filter(HealthIssues==1))$diff_age_from_expected), digits=1)}; No: {round(mean((ws_elssp %>% filter(HealthIssues==0))$diff_age_from_expected), digits=1)}'), 'wilcox',
+   'Developmental Delay', glue('Yes: {round(mean((wg_elssp %>% filter(DevelopmentalConcerns=="yes"))$diff_age_from_expected), digits=1)}; No: {round(mean((wg_elssp %>% filter(DevelopmentalConcerns=="no"))$diff_age_from_expected), digits=1)}'), glue('Yes: {round(mean((ws_elssp %>% filter(DevelopmentalConcerns=="yes"))$diff_age_from_expected), digits=1)}; No: {round(mean((ws_elssp %>% filter(DevelopmentalConcerns=="no"))$diff_age_from_expected), digits=1)}'), 'wilcox', 
+    'Prematurity', glue('Premature: {round(mean((wg_elssp %>% filter(IsPremature==1))$diff_age_from_expected), digits=1)}; Full-term: {round(mean((wg_elssp %>% filter(IsPremature==0))$diff_age_from_expected), digits=1)}'), glue('Premature: {round(mean((ws_elssp %>% filter(IsPremature==1))$diff_age_from_expected), digits=1)}; Full-term: {round(mean((ws_elssp %>% filter(IsPremature==0))$diff_age_from_expected), digits=1)}'), 'wilcox',
+   '1-3-6 Guidelines', glue('Meets: {round(mean((wg_elssp %>% filter(Meets136=="yes"))$diff_age_from_expected), digits=1)}; Does not meet: {round(mean((wg_elssp %>% filter(Meets136=="no"))$diff_age_from_expected), digits=1)}'), glue('Meets: {round(mean((ws_elssp %>% filter(Meets136=="yes"))$diff_age_from_expected), digits=1)}; Does not meet: {round(mean((ws_elssp %>% filter(Meets136=="no"))$diff_age_from_expected), digits=1)}'), 'wilcox',
+  'Communication', glue('Spoken Language: {round(mean((wg_elssp %>% filter(Communication=="spoken"))$diff_age_from_expected), digits=1)}; Total Communication: {round(mean((wg_elssp %>% filter(Communication=="total communication"))$diff_age_from_expected), digits=1)}'),  glue('Spoken Language: {round(mean((ws_elssp %>% filter(Communication=="spoken"))$diff_age_from_expected), digits=1)}; Total Communication: {round(mean((ws_elssp %>% filter(Communication=="total communication"))$diff_age_from_expected), digits=1)}'),'wilcox',
+  'Etiology', glue('SNHL: {round(mean((wg_elssp %>% filter(Etiology=="SNHL"))$diff_age_from_expected), digits=1)}; Mixed: {round(mean((wg_elssp %>% filter(Etiology=="Mixed"))$diff_age_from_expected), digits=1)}, Conductive: {round(mean((wg_elssp %>% filter(Etiology=="Conductive"))$diff_age_from_expected), digits=1)}'), glue('SNHL: {round(mean((ws_elssp %>% filter(Etiology=="SNHL"))$diff_age_from_expected), digits=1)}; Mixed: {round(mean((ws_elssp %>% filter(Etiology=="Mixed"))$diff_age_from_expected), digits=1)}, Conductive: {round(mean((ws_elssp %>% filter(Etiology=="Conductive"))$diff_age_from_expected), digits=1)}'),'kruskall',
+  'Degree', glue('More severe: {round(mean((wg_elssp %>% filter(HLworse>64))$diff_age_from_expected), digits=1)}; Less severe: {round(mean((wg_elssp %>% filter(HLworse<64))$diff_age_from_expected), digits=1)}'),  glue('More severe: {round(mean((ws_elssp %>% filter(HLworse>56))$diff_age_from_expected), digits=1)}; Less severe: {round(mean((ws_elssp %>% filter(HLworse<56))$diff_age_from_expected), digits=1)}'),'wilcox',
+   'Services Received Per Month', glue('More services: {round(mean((wg_elssp %>% filter(ServicesReceivedPerMonth>4))$diff_age_from_expected), digits=1)}; Less services: {round(mean((wg_elssp %>% filter(ServicesReceivedPerMonth<4))$diff_age_from_expected), digits=1)}'),  glue('More services: {round(mean((ws_elssp %>% filter(ServicesReceivedPerMonth>2))$diff_age_from_expected), digits=1)}; Less services: {round(mean((ws_elssp %>% filter(ServicesReceivedPerMonth<2))$diff_age_from_expected), digits=1)}'),'wilcox'
 )
+
+#currently doesn't include anything about whether it was sig
+#maybe move each category to different row in cell
+#also need to do something else for correlations - as is, not good
 
 kable(delay_table,
       caption = "Delay table") %>%
@@ -493,13 +497,10 @@ kable(delay_table,
 perc_136_TD <- (nrow(elssp%>%filter(anycomorbid==0)%>%filter(Meets136=='yes'))/(nrow(elssp%>%filter(anycomorbid==0)%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 perc_136_DA <- (nrow(elssp%>%filter(anycomorbid==1)%>%filter(Meets136=='yes'))/(nrow(elssp%>%filter(anycomorbid==1)%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 ```
-Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. `r perc_136`% of our sample met 1-3-6 guidelines for early diagnosis and intervention. Of children with comorbidities (i.e., developmental concerns, prematurity, health issues, vision loss), only `r round(perc_136_DA, digits = 0)`% met 1-3-6 guidelines, compared to `r perc_136_TD`% of typically developing children. See table XXX for complete breakdown.
+Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. `r perc_136`% of our sample met 1-3-6 guidelines for early diagnosis and intervention. Of children with comorbidities (i.e., developmental concerns, prematurity, health issues, vision loss), only `r round(perc_136_DA, digits = 0)`% met 1-3-6 guidelines, compared to `r perc_136_TD`% of typically developing children. 
 
-```{r meets136_table}
-# create 136 table
-```
 
-```{r meets136_timeline}
+```{r meets136-timeline}
 ggplot(data = event_data, 
                     mapping = aes(x = reorder(event, eventmean), 
                                   y = eventmean, color=event)) + 
@@ -531,7 +532,7 @@ Age diagnosis ~ gender + laterality + degree (worse ear) + developmental delay +
 The best fit model (R2=`r summary(diagnosis_aic)$r.squared` , p=`r lm_pvalue(diagnosis_aic)` )included health issues (beta weight = `r summary(diagnosis_aic)$coefficients[2,1]`, p = `r summary(diagnosis_aic)$coefficients[2,4]`) and language background (beta weight = `r summary(diagnosis_aic)$coefficients[3,1]`, p = `r summary(diagnosis_aic)$coefficients[3,4]`).
 Age diagnosis ~ health issues + language background
 
-```{r diagnosis_betas}
+```{r diagnosis-betas}
 diagnosis_aic <- lm(formula = IdentificationOfHLMonths ~ HealthIssues + Monolingual_English, data = elssp)
 
 
@@ -550,7 +551,7 @@ Age intervention ~ gender + degree (worse ear) + developmental delay + health is
 The best fit model (R2=`r summary(services_aic)$r.squared` , p=`r lm_pvalue(services_aic)`) included prematurity (beta weight = `r summary(services_aic)$coefficients[4,1]`, p = `r summary(services_aic)$coefficients[4,4]`), laterality (beta weight = `r summary(services_aic)$coefficients[3,1]`, p = `r summary(services_aic)$coefficients[3,4]`), degree of hearing loss (beta weight = `r summary(diagnosis_aic)$coefficients[2,1]`, p = `r summary(services_aic)$coefficients[2,4]`), and age at diagnosis (beta weight = `r summary(services_aic)$coefficients[5,1]`, p = `r summary(services_aic)$coefficients[5,4]`). 
 Age intervention ~ laterality + degree (worse ear) + prematurity + laterality + age diagnosis
 
-```{r intervention_betas}
+```{r intervention-betas}
 services_aic <- lm(formula = AgeStartedServices ~ HLworse + Laterality + IsPremature + IdentificationOfHLMonths, data = (data = elssp %>% filter(HLworse != "NA")))
 
 dw_services = dwplot(services_aic)
