@@ -56,9 +56,8 @@ knitr::opts_chunk$set(fig.width=12, fig.height=12, comment=F, message=F, hide = 
 ```
 
 ```{r read-in-data, echo = F, results = 'hide', message = F, comment = F, fig.show='hide'}
-source('../CDI_ELSSP.R')
-source('../elssp_plots_analysis.R')
-comorbid <- read.csv("../data/elssp_comorbidities.csv")
+source('functions_and_df_prep.R')
+comorbid <- read.csv("data/elssp_comorbidities.csv")
 ```
 
 # Introduction
@@ -139,16 +138,16 @@ For the first and third goal above, we did not have specific hypotheses and soug
 
 # Methods
 ``` {r demo-data}
-num_subs = nrow(elssp)
-num_repeat_subs = nrow(elssp %>% filter(VisitTotal > 1)) 
-num_girls = nrow(elssp %>% filter(Gender == 'female'))
-num_boys = nrow(elssp %>% filter(Gender == 'male'))
-min_age = min(elssp$Age)
-max_age = max(elssp$Age)
-mean_age = mean(elssp$Age)
-sd_age = sd(elssp$Age)
-num_too_old_wg = nrow(wg_elssp %>% filter(Age>18))
-num_spanish_cdi = nrow(elssp %>% filter(PrimaryLanguage == 'Spanish'))
+num_subs <- nrow(elssp)
+num_repeat_subs <- nrow(elssp %>% filter(VisitTotal > 1)) 
+num_girls <- nrow(elssp %>% filter(Gender == 'female'))
+num_boys <- nrow(elssp %>% filter(Gender == 'male'))
+min_age <- min(elssp$Age)
+max_age <- max(elssp$Age)
+mean_age <- mean(elssp$Age)
+sd_age <- sd(elssp$Age)
+num_too_old_wg <- nrow(wg_elssp %>% filter(Age>18))
+num_spanish_cdi <- nrow(elssp %>% filter(PrimaryLanguage == 'Spanish'))
 ```
 
 Clinical evaluations were obtained through an ongoing collaboration with  the North Carolina Early Language Sensory Support Program (ELSSP), an early intervention program serving children with sensory impairments from birth to 36 months. ELSSP passed along deidentified evaluations to our team after obtaining consent to do so from each family. No eligibility criteria beyond hearing loss and receiving an ELSSP evaluation were imposed, given our goal of characterizing the full range of DHH children with hearing loss in North Carolina.
@@ -182,7 +181,7 @@ CDI_table <- tribble(
 
 
 
-kable(CDI_table, longtable=T,
+kable(CDI_table,
       caption = "CDI details") %>%
   kable_styling(latex_options = c("scale_down"))
 
@@ -254,7 +253,7 @@ comorbid_table <- tribble(
 )
 
 
-kable(comorbid_table,
+kable(comorbid_table, longtable=T,
       caption = glue::glue("Additional Diagnoses (n={num_anycomorbid})")) %>%
   kable_styling(latex_options = "hold_position") %>%
   add_footnote("N.B. ns do not sum to total because many participants had multiple diagnoses")
@@ -388,7 +387,7 @@ meets136_table <- tribble(
 
 kable(meets136_table,
       caption = "Meets 1-3-6 table") %>%
-  kable_styling(latex_options = c("scale_down")) 
+  kable_styling(latex_options = c("hold_position")) 
 ```
 
 ```{r variables-list}
@@ -429,11 +428,25 @@ Shapiro–Wilk tests revealed that all of our continuous measures (i.e. degree o
 
 
 ```{r relationships-plot}
+hm_test <- read.csv("data/heat_map_test.csv")
+hm_test_plot <- ggplot(hm_test, aes(x=var1, y=var2)) +
+  geom_tile(aes(fill = p)) + theme_classic() +
+  theme(axis.text.x = element_text(angle = 90)) +
+  scale_fill_distiller(palette = "RdPu") +
+  xlab(NULL) + ylab(NULL) 
+
+
+hm_test_plot2 <- ggplot(hm_test, aes(x=var1, y=var2)) +
+  geom_tile(aes(fill = sig)) + theme_classic() +
+  theme(axis.text.x = element_text(angle = 90)) +
+  xlab(NULL) + ylab(NULL) 
+
+
 print(hm_test_plot)
 print(hm_test_plot2)
 ```
 
-From this analysis, we found that children born premature were more likely to also have health issues (X2 (`r (chisq.test(HealthIssues_Premature))$parameter`, N = `r sum(((chisq.test(HealthIssues_Premature))$observed))`) = `r (chisq.test(HealthIssues_Premature))$statistic`, p = `r (chisq.test(HealthIssues_Premature))$p.value`.) Children with conductive hearing loss were more likely to have unilateral hearing loss (X2 (`r (chisq.test(Etiology_Laterality))$parameter`, N = `r sum(((chisq.test(Etiology_Laterality))$observed))`) = `r (chisq.test(Etiology_Laterality))$statistic`, p = `r (chisq.test(Etiology_Laterality))$p.value`). Children with unilateral hearing loss were unlikely to receive a cochlear implant and more likely to use no amplification (X2 (`r (chisq.test(Amplification_Laterality))$parameter`, N = `r sum(((chisq.test(Amplification_Laterality))$observed))`) = `r (chisq.test(Amplification_Laterality))$statistic`, p = `r (chisq.test(Amplification_Laterality))$p.value`). Children with more severe hearing loss were more likely to use a cochlear implant than children with milder hearing loss (H(`r Degree_Amplification$parameter`)=`r Degree_Amplification$statistic`, p=`r Degree_Amplification$p.value`). Children with developmental delays received more services per month than typically developing DHH children (H(`r Services_DevDelay$parameter`)=`r Services_DevDelay$statistic`, p=`r Services_DevDelay$p.value`)and were more likely to use total communication (X2 (`r (chisq.test(DevConcerns_Communication))$parameter`, N = `r sum(((chisq.test(DevConcerns_Communication))$observed))`)) = `r (chisq.test(DevConcerns_Communication))$statistic`, p = `r (chisq.test(DevConcerns_Communication))$statistic`). Children who used total communication received more services per month than children using spoken language (H(`r Services_Communication$parameter`)=`r Services_Communication$statistic`, p=`r Services_Communication$p.value`).
+From this analysis, we found that children born premature were more likely to also have health issues `r chisq_output(HealthIssues_Premature)`. Children with conductive hearing loss were more likely to have unilateral hearing loss `r chisq_output(Etiology_Laterality)`. Children with unilateral hearing loss were unlikely to receive a cochlear implant and more likely to use no amplification `r chisq_output(Amplification_Laterality)`. Children with more severe hearing loss were more likely to use a cochlear implant than children with milder hearing loss (H(`r Degree_Amplification$parameter`)=`r Degree_Amplification$statistic`, p=`r Degree_Amplification$p.value`). Children with developmental delays received more services per month than typically developing DHH children (H(`r Services_DevDelay$parameter`)=`r Services_DevDelay$statistic`, p=`r Services_DevDelay$p.value`)and were more likely to use total communication `r chisq_output(DevConcerns_Communication)`. Children who used total communication received more services per month than children using spoken language (H(`r Services_Communication$parameter`)=`r Services_Communication$statistic`, p=`r Services_Communication$p.value`).
 
 ## Part II: Influence on vocabulary
 
@@ -501,6 +514,17 @@ Lastly, we looked at the ages at which children received diagnosis and intervent
 
 
 ```{r meets136-timeline}
+event <- c('Diagnosis','Intervention','Amplification', 'Implantation')
+eventmin <- c(min(full_elssp$IdentificationOfHLMonths, na.rm = TRUE), min(full_elssp$AgeStartedServices, na.rm = TRUE), 
+              min(full_elssp$AgeAmplification, na.rm = TRUE), min(full_elssp$AgeImplantation, na.rm = TRUE))
+eventmax <- c(max(full_elssp$IdentificationOfHLMonths, na.rm = TRUE), max(full_elssp$AgeStartedServices, na.rm = TRUE), 
+              max(full_elssp$AgeAmplification, na.rm = TRUE), max(full_elssp$AgeImplantation, na.rm = TRUE))
+eventmean <- c(mean(full_elssp$IdentificationOfHLMonths, na.rm = TRUE), mean(full_elssp$AgeStartedServices, na.rm = TRUE), 
+               mean(full_elssp$AgeAmplification, na.rm = TRUE), mean(full_elssp$AgeImplantation, na.rm = TRUE))
+eventsd <- c(sd(full_elssp$IdentificationOfHLMonths, na.rm = TRUE), sd(full_elssp$AgeStartedServices, na.rm = TRUE), 
+             sd(full_elssp$AgeAmplification, na.rm = TRUE), sd(full_elssp$AgeImplantation, na.rm = TRUE))
+event_data <- data.frame(event, eventmin, eventmax, eventmean, eventsd)
+
 ggplot(data = event_data, 
                     mapping = aes(x = reorder(event, eventmean), 
                                   y = eventmean, color=event)) + 
@@ -526,6 +550,41 @@ lm_pvalue <- function (modelobject) {
     return(p)
 }
 
+stepAIC(lm(IdentificationOfHLMonths ~ Gender + 
+             Etiology +
+             HLbetter + 
+             HLworse + 
+             Laterality + 
+             IsPremature + 
+             HealthIssues + 
+             DevelopmentalConcerns + 
+             Monolingual_English + 
+             VisionLoss + 
+             ANSD, 
+           (data=full_elssp %>% filter(DevelopmentalConcerns=="yes"|DevelopmentalConcerns=="no") %>% 
+              filter(HLworse!="NA"))))
+
+
+diagnosis_aic <- lm(formula = IdentificationOfHLMonths ~ HealthIssues + Monolingual_English, data = elssp)
+
+stepAIC(lm(AgeStartedServices ~ Gender + 
+             Etiology +
+             HLbetter + 
+             HLworse + 
+             Laterality + 
+             IsPremature + 
+             HealthIssues + 
+             DevelopmentalConcerns + 
+             Monolingual_English + 
+             Communication + 
+             VisionLoss + 
+             ANSD + 
+             IdentificationOfHLMonths, 
+           (data=full_elssp %>% filter(HLworse!="NA")))) 
+
+services_aic <- lm(formula = AgeStartedServices ~ HLworse + Laterality + IsPremature + 
+                       IdentificationOfHLMonths, data = (data = full_elssp %>%
+                                                           filter(HLworse!="NA")))
 ```
 We created linear regression models for age at diagnosis and age at intervention. Models were paired down using stepwise regression by AIC using the stepAIC function (cite MASS package). For age at diagnosis, we included the set of child-specific factors that would be relevant before diagnosis of hearing loss. We began with:
 Age diagnosis ~ gender + laterality + degree (worse ear) + developmental delay + health issues + prematurity + laterality + language background + etiology
@@ -533,15 +592,8 @@ The best fit model (R2=`r summary(diagnosis_aic)$r.squared` , p=`r lm_pvalue(dia
 Age diagnosis ~ health issues + language background
 
 ```{r diagnosis-betas}
-diagnosis_aic <- lm(formula = IdentificationOfHLMonths ~ HealthIssues + Monolingual_English, data = elssp)
-
-
-dw_diagnosis = dwplot(diagnosis_aic)
-dw_diagnosis = dw_diagnosis + geom_vline(xintercept=0, linetype = 'dashed') + theme_classic(
-)+ theme(legend.position="none")
+dwplot(diagnosis_aic) + geom_vline(xintercept=0, linetype = 'dashed') + theme_classic()+ theme(legend.position="none")
 options(repr.plot.width=6, repr.plot.height=4)
-print(dw_diagnosis)
-
 #caption: 
 ```
 
@@ -552,13 +604,10 @@ The best fit model (R2=`r summary(services_aic)$r.squared` , p=`r lm_pvalue(serv
 Age intervention ~ laterality + degree (worse ear) + prematurity + laterality + age diagnosis
 
 ```{r intervention-betas}
-services_aic <- lm(formula = AgeStartedServices ~ HLworse + Laterality + IsPremature + IdentificationOfHLMonths, data = (data = elssp %>% filter(HLworse != "NA")))
-
-dw_services = dwplot(services_aic)
-dw_services = dw_services + geom_vline(xintercept=0, linetype = 'dashed') + theme_classic(
-)+ theme(legend.position="none")
+dwplot(services_aic) + geom_vline(xintercept=0, linetype = 'dashed') + 
+  theme_classic() + 
+  theme(legend.position="none")
 options(repr.plot.width=6, repr.plot.height=4)
-print(dw_services)
 
 #caption:  
 ```

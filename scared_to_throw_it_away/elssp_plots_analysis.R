@@ -6,12 +6,12 @@ library('reshape2')
 library('dotwhisker')
 library('gplots')
 library('MASS')
-source('../CDI_ELSSP.R')
+source('CDI_ELSSP.R')
 source("https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R")
 
 
 #read in data
-elssp = read.csv("../data/ELSSP_SubjectInfo_02042020.csv", stringsAsFactors=F) %>% mutate(InSample=as.factor(InSample)) %>% filter(VisitNumber==1)	
+elssp = read.csv("data/ELSSP_SubjectInfo_02042020.csv", stringsAsFactors=F) %>% mutate(InSample=as.factor(InSample)) %>% filter(VisitNumber==1)	
 elssp$AgeAtEvaluationMonths = elssp$Age #for clarity
 elssp$subject_id = unlist(lapply(strsplit(elssp$SubjectNumber,'_'), function(x){as.numeric(x[2])}))
 elssp$admin_id = elssp$SubjectNumber
@@ -26,7 +26,7 @@ elssp$anycomorbid = ifelse(elssp$VisionLoss == 1 |
                      
 
 #add months-delay to dataframes
-source('../CDI_ELSSP.R')
+source('CDI_ELSSP.R')
 elssp_datasets = lapply(c('WG','WS'), function(x){
   prepare_elssp_df(x, constants, verbose=T)
 })
@@ -483,7 +483,7 @@ Services_Communication <- kruskal.test(ServicesReceivedPerMonth ~ Communication,
 cor.test(full_elssp$HLworse, full_elssp$ServicesReceivedPerMonth, method="kendall")
 
 ##test plots
-hm_test <- read.csv("../data/heat_map_test.csv")
+hm_test <- read.csv("data/heat_map_test.csv")
 hm_test_plot <- ggplot(hm_test, aes(x=var1, y=var2)) +
   geom_tile(aes(fill = p)) + theme_classic() +
   theme(axis.text.x = element_text(angle = 90)) +
