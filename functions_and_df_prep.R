@@ -804,3 +804,13 @@ chisq_output <- function(data) {
                     ")", sep='')
   chisq_output
 }
+
+beta_output <- function(model, predictornum) {
+  beta_output = paste("(B = ", round(summary(model)$coefficients[predictornum,1], 2),
+                       ", p = ", summary(model)$coefficients[predictornum,4],
+                       ")", sep='')
+  beta_output
+}
+
+# (beta weight = `r summary(diagnosis_aic)$coefficients[2,1]`, 
+#   p = `r summary(diagnosis_aic)$coefficients[2,4]`)

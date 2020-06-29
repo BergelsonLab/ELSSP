@@ -540,7 +540,7 @@ ggplot(data = event_data,
 #caption: Figure XXX - Dots represent average age of diagnosis, etc. Stronger lines represent standard deviation. Softer lines show range. 
 ```
 
-```{r lm-stats}
+```{r lm-stats, include=FALSE}
 
 lm_pvalue <- function (modelobject) {
     if (class(modelobject) != "lm") stop("Not an object of class 'lm' ")
@@ -588,7 +588,7 @@ services_aic <- lm(formula = AgeStartedServices ~ HLworse + Laterality + IsPrema
 ```
 We created linear regression models for age at diagnosis and age at intervention. Models were paired down using stepwise regression by AIC using the stepAIC function (cite MASS package). For age at diagnosis, we included the set of child-specific factors that would be relevant before diagnosis of hearing loss. We began with:
 Age diagnosis ~ gender + laterality + degree (worse ear) + developmental delay + health issues + prematurity + laterality + language background + etiology
-The best fit model (R2=`r summary(diagnosis_aic)$r.squared` , p=`r lm_pvalue(diagnosis_aic)` )included health issues (beta weight = `r summary(diagnosis_aic)$coefficients[2,1]`, p = `r summary(diagnosis_aic)$coefficients[2,4]`) and language background (beta weight = `r summary(diagnosis_aic)$coefficients[3,1]`, p = `r summary(diagnosis_aic)$coefficients[3,4]`).
+The best fit model (R2=`r summary(diagnosis_aic)$r.squared` , p=`r lm_pvalue(diagnosis_aic)` )included health issues `r beta_output(diagnosis_aic, 2)` and language background `r beta_output(diagnosis_aic, 3)`.
 Age diagnosis ~ health issues + language background
 
 ```{r diagnosis-betas}
@@ -600,7 +600,7 @@ options(repr.plot.width=6, repr.plot.height=4)
 
 For age at intervention, we first included the variables potentially relevant prior to intervention: 
 Age intervention ~ gender + degree (worse ear) + developmental delay + health issues + prematurity + laterality + language background + etiology + age diagnosis
-The best fit model (R2=`r summary(services_aic)$r.squared` , p=`r lm_pvalue(services_aic)`) included prematurity (beta weight = `r summary(services_aic)$coefficients[4,1]`, p = `r summary(services_aic)$coefficients[4,4]`), laterality (beta weight = `r summary(services_aic)$coefficients[3,1]`, p = `r summary(services_aic)$coefficients[3,4]`), degree of hearing loss (beta weight = `r summary(diagnosis_aic)$coefficients[2,1]`, p = `r summary(services_aic)$coefficients[2,4]`), and age at diagnosis (beta weight = `r summary(services_aic)$coefficients[5,1]`, p = `r summary(services_aic)$coefficients[5,4]`). 
+The best fit model (R2=`r summary(services_aic)$r.squared` , p=`r lm_pvalue(services_aic)`) included prematurity `r beta_output(services_aic, 4)`, laterality `r beta_output(services_aic, 3)`, degree of hearing loss `r beta_output(services_aic, 2)`, and age at diagnosis `r beta_output(services_aic, 5)`.
 Age intervention ~ laterality + degree (worse ear) + prematurity + laterality + age diagnosis
 
 ```{r intervention-betas}
