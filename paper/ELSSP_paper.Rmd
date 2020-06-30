@@ -8,7 +8,7 @@ author:
     affiliation   : "1"
     corresponding : yes    
     email         : "erin.e.campbell@duke.edu"
-    address       : "508B Gurley St., Durham, NC, 27701"
+    address       : "Address here"
   - name          : "Elika Bergelson"
     affiliation   : "1"
 
@@ -193,6 +193,7 @@ Children in this sample were coded as yes/no for cognitive development concerns 
 num_premature <- nrow(comorbid %>% filter(WeeksGestation<37))
 num_v_premature <- nrow(comorbid %>% filter(WeeksGestation<33))
 num_NICU <- nrow(comorbid %>% filter(NICU==1))
+num_prem_NICU <- (nrow(comorbid%>%filter(NICU==1&IsPremature==1))/(nrow(elssp %>% filter(IsPremature==1))))*100
 
 num_vision_loss <- nrow(comorbid %>% filter(VisionLoss==1))
 num_ROP <- nrow(comorbid %>% filter(RetinopathyOfPrematurity==1))
@@ -215,14 +216,14 @@ num_health_issues <- nrow(comorbid %>% filter(HealthIssues==1))
 num_heart_issues <- nrow(comorbid %>% filter(HeartValveProblems==1|heartabnormalities==1|supraventriculartachycardia==1|bradycardia==1|coarctationofaorta==1|patentductusarteriosus|perferatedheart==1|pulmonaryarterystenosis))
 num_lung_issues <- nrow(comorbid %>%  filter(asthma==1|bronchopulmonarydysplasia==1|chroniclungdisease|tracheotomy==1|trachoesophagealfistula==1|esophagealatresia==1))
 num_feeding_issues <- nrow(comorbid %>% filter(Gtube==1|reflux==1|dysphagia==1|feedingproblems_nos|esophagealatresia==1))
-num_illness <- nrow(comorbid %>% filter(chroniclungdisease==1|MRSA==1|meningitis==1|frequentfevers==1|Sepsis==1|jaundice==1|pneumonia==1))
+num_illness <- nrow(comorbid %>% filter(chroniclungdisease==1|MRSA==1|meningitis==1|frequentfevers==1|Sepsis==1|jaundice==1|pneumonia==1|cytomegalovirus==1))
 num_preg_birth_comp <- nrow(comorbid %>% filter(preeclampsia==1|gestationaldiabetes==1|otherpregnancycomplications==1|jaundice==1|respiratorydistress==1|fetaldistress==1|meconiumaspiration==1))
 num_mus_skel <- nrow(comorbid %>% filter(hypertonia==1|torticollis==1|oralmotorweakness==1|missingribs==1|vertebraldefects==1|bonefracture==1|limbabnormalities==1|PDAscoliosis==1|CHARGEorVATER==1|VACTERL==1|treachercollins==1|sagittalsyntosis==1))
 num_preg_birth_comp <- nrow(comorbid %>% filter(preeclampsia==1|gestationaldiabetes==1|otherpregnancycomplications==1|jaundice==1|respiratorydistress==1|fetaldistress==1|meconiumaspiration==1|intrauterinegrowthretardation==1))
 num_cleft <- nrow(comorbid %>% filter(cleftlip==1|cleftpalate==1))
-num_health_issues_other <- nrow(comorbid %>% filter(esotropia==1|iriscoloboma==1|dysplastickidney==1|CHARGEorVATER==1|apnea==1|hydronephrosis==1|seizures==1|laryngomalacia==1|tonguetie==1|midlinedefect==1|hypoglycemia==1|anemia==1|mitochondrialdisorder==1|skinbreakdown==1|VACTERL==1|analatresia==1|renalabnormalities==1|enlargedadenoids==1|liptie==1|sacraldimple==1))
+num_health_issues_other <- nrow(comorbid %>% filter(esotropia==1|iriscoloboma==1|dysplastickidney==1|CHARGEorVATER==1|apnea==1|hydronephrosis==1|seizures==1|laryngomalacia==1|tonguetie==1|midlinedefect==1|hypoglycemia==1|anemia==1|mitochondrialdisorder==1|skinbreakdown==1|VACTERL==1|analatresia==1|renalabnormalities==1|enlargedadenoids==1|liptie==1|sacraldimple==1|enlargedliver==1|petachialrash==1|thrombocytopenia==1))
 
-num_pos_acqHL <- nrow(comorbid %>% filter(anemia==1|MRSA==1|meningitis==1|frequentfevers==1|Sepsis==1|jaundice==1|pneumonia==1|seizures==1|hydrocephalus))
+num_pos_acqHL <- nrow(comorbid %>% filter(anemia==1|MRSA==1|meningitis==1|frequentfevers==1|Sepsis==1|jaundice==1|pneumonia==1|seizures==1|hydrocephalus==1|cytomegalovirus==1))
 
 num_anycomorbid <- nrow(comorbid %>% filter(VisionLoss==1|DevelopmentalConcerns==1|HealthIssues==1|IsPremature==1))
 
@@ -361,7 +362,7 @@ kable(language_table,
 ```
 
 
-Age at screening was measured as the child’s age in months at their first hearing screening. Age at screening was only available for (XXX) participants. If participants received their newborn hearing screening, age at screening was recorded as 0 (months). Age at diagnosis was taken as the age in months when children received their first hearing loss diagnosis. All children were enrolled in birth-to-three early intervention services through NC ELSSP, and the date of enrollment was listed on the clinician evaluation. From the clinician report, we calculated the number of hours of early intervention services received per month (including service coordination, speech therapy, and occupational therapy, among others). 
+Age at screening was measured as the child’s age in months at their first hearing screening. Age at screening was available for `r nrow(elssp %>% filter(NBHS=='Y'))` participants. All participants with a screening age available were screened at birth or while in the NICU. We presume that the vast majority of participants without age at screening received their newborn hearing screening, as North Carolina boasts a 98% NBHS rate (CITE). Age at diagnosis was taken as the age in months when children received their first hearing loss diagnosis. All children were enrolled in birth-to-three early intervention services through NC ELSSP, and the date of enrollment was listed on the clinician evaluation. From the clinician report, we calculated the number of hours of early intervention services received per month (including service coordination, speech therapy, and occupational therapy, among others). 
 Because of the sparse data on screening age, if participants had an age at diagnosis  $\leq$ 3 mo. and an age of intervention  $\leq$ 6 mo., they were recorded as meeting 1-3-6. It is possible that a participant did not receive screening by 1 month, but did receive diagnosis by 3 months and services by 6 months. This special case would be coded as meeting 1-3-6 by our criteria.
 
 ```{r meets136-info}
@@ -540,7 +541,7 @@ ggplot(data = event_data,
 #caption: Figure XXX - Dots represent average age of diagnosis, etc. Stronger lines represent standard deviation. Softer lines show range. 
 ```
 
-```{r lm-stats, include=FALSE}
+```{r lm-stats}
 
 lm_pvalue <- function (modelobject) {
     if (class(modelobject) != "lm") stop("Not an object of class 'lm' ")
@@ -552,44 +553,43 @@ lm_pvalue <- function (modelobject) {
 
 stepAIC(lm(IdentificationOfHLMonths ~ Gender + 
              Etiology +
-             HLbetter + 
              HLworse + 
              Laterality + 
              IsPremature + 
              HealthIssues + 
              DevelopmentalConcerns + 
-             Monolingual_English + 
+             PrimaryLanguage + 
              VisionLoss + 
              ANSD, 
-           (data=full_elssp %>% filter(DevelopmentalConcerns=="yes"|DevelopmentalConcerns=="no") %>% 
+           (data=elssp %>% 
               filter(HLworse!="NA"))))
+#Health issues , primary language
 
-
-diagnosis_aic <- lm(formula = IdentificationOfHLMonths ~ HealthIssues + Monolingual_English, data = elssp)
+diagnosis_aic <- lm(formula = IdentificationOfHLMonths ~ HealthIssues + PrimaryLanguage, data = elssp)
 
 stepAIC(lm(AgeStartedServices ~ Gender + 
              Etiology +
-             HLbetter + 
              HLworse + 
              Laterality + 
-             IsPremature + 
              HealthIssues + 
+             IsPremature + 
              DevelopmentalConcerns + 
              Monolingual_English + 
              Communication + 
              VisionLoss + 
              ANSD + 
-             IdentificationOfHLMonths, 
+             IdentificationOfHLMonths +
+             anycomorbid, 
            (data=full_elssp %>% filter(HLworse!="NA")))) 
 
-services_aic <- lm(formula = AgeStartedServices ~ HLworse + Laterality + IsPremature + 
-                       IdentificationOfHLMonths, data = (data = full_elssp %>%
-                                                           filter(HLworse!="NA")))
+services_aic <- lm(formula = AgeStartedServices ~ HLworse + IsPremature + 
+                       IdentificationOfHLMonths, data = full_elssp)
 ```
 We created linear regression models for age at diagnosis and age at intervention. Models were paired down using stepwise regression by AIC using the stepAIC function (cite MASS package). For age at diagnosis, we included the set of child-specific factors that would be relevant before diagnosis of hearing loss. We began with:
+$$Age\:at\:Diagnosis \sim Gender + Degree\:of\:Hearing\:Loss\:(worse\:ear) + Developmental\:Delay + Health\:Issues + Prematurity + Laterality + Language \:Background + Etiology$$
 Age diagnosis ~ gender + laterality + degree (worse ear) + developmental delay + health issues + prematurity + laterality + language background + etiology
 The best fit model (R2=`r summary(diagnosis_aic)$r.squared` , p=`r lm_pvalue(diagnosis_aic)` )included health issues `r beta_output(diagnosis_aic, 2)` and language background `r beta_output(diagnosis_aic, 3)`.
-Age diagnosis ~ health issues + language background
+$$Age\:at\:Diagnosis \sim Health\:Issues + Language\:Background$$
 
 ```{r diagnosis-betas}
 dwplot(diagnosis_aic) + geom_vline(xintercept=0, linetype = 'dashed') + theme_classic()+ theme(legend.position="none")
@@ -600,8 +600,9 @@ options(repr.plot.width=6, repr.plot.height=4)
 
 For age at intervention, we first included the variables potentially relevant prior to intervention: 
 Age intervention ~ gender + degree (worse ear) + developmental delay + health issues + prematurity + laterality + language background + etiology + age diagnosis
-The best fit model (R2=`r summary(services_aic)$r.squared` , p=`r lm_pvalue(services_aic)`) included prematurity `r beta_output(services_aic, 4)`, laterality `r beta_output(services_aic, 3)`, degree of hearing loss `r beta_output(services_aic, 2)`, and age at diagnosis `r beta_output(services_aic, 5)`.
-Age intervention ~ laterality + degree (worse ear) + prematurity + laterality + age diagnosis
+$$Age\:at\:Intervention \sim Gender + Degree\:of\:Hearing\:Loss\:(worse\:ear) + Developmental\:Delay + Health\:Issues + Prematurity + Laterality + Language \:Background + Etiology +Age\:at\:Diagnosis$$
+The best fit model (R2=`r summary(services_aic)$r.squared` , p=`r lm_pvalue(services_aic)`) included prematurity `r beta_output(services_aic, 3)`, degree of hearing loss `r beta_output(services_aic, 2)`, and age at diagnosis `r beta_output(services_aic, 4)`.
+$$Age\:at\:Intervention \sim Degree\:of\:Hearing\:Loss\:(worse\:ear) + Prematurity + Age\:at\:Diagnosis$$
 
 ```{r intervention-betas}
 dwplot(services_aic) + geom_vline(xintercept=0, linetype = 'dashed') + 
