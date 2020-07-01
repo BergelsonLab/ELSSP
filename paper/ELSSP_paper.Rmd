@@ -26,7 +26,7 @@ floatsintext      : no
 figurelist        : no
 tablelist         : no
 footnotelist      : no
-linenumbers       : yes
+linenumbers       : no
 mask              : no
 draft             : no
 
@@ -425,7 +425,7 @@ All analyses were conducted in R. All code is available on Github. In the first 
 
 ## Part I: Interactions Among Variables
 
-Shapiro–Wilk tests revealed that all of our continuous measures (i.e. degree of hearing loss, services received per month, vocabulary delay) significantly differed from a normal distribution (ps <.05), so we used nonparametric tests to explore relationships among our variables. For categorical-categorical relationships, we used chi square tests; for continuous-categorical tests, we used mann-whitney U tests (2 levels for categorical variable) or kruskal-wallis tests (>2 levels for categorical variable; for continuous-continuous relationships, we used Of the fifty-five combinations of variables, p < .05 for sixteen, and seven survived bonferroni correction (p < `r round(.05/55, digits = 5)`). The full set of comparisons is shown in figure XXX.
+Shapiro–Wilk tests revealed that all of our continuous measures (i.e. degree of hearing loss, services received per month, vocabulary delay) significantly differed from a normal distribution (ps <.05), so we used nonparametric tests to explore relationships among our variables. For categorical-categorical relationships, we used chi square tests; for continuous-categorical tests, we used mann-whitney U tests (2 levels for categorical variable) or kruskal-wallis tests (>2 levels for categorical variable; for continuous-continuous relationships, we used Of the fifty-five combinations of variables, p < .05 for sixteen, and seven survived bonferroni correction (p < `r format.pval(.05/55, digits = 2)`). The full set of comparisons is shown in figure XXX.
 
 
 ```{r relationships-plot}
@@ -433,8 +433,11 @@ hm_test <- read.csv("data/heat_map_test.csv")
 hm_test_plot <- ggplot(hm_test, aes(x=var1, y=var2)) +
   geom_tile(aes(fill = p)) + theme_classic() +
   theme(axis.text.x = element_text(angle = 90)) +
-  scale_fill_distiller(palette = "RdPu") +
-  xlab(NULL) + ylab(NULL) 
+  scale_fill_distiller(palette = "RdPu", direction=1) +
+  xlab(NULL) + ylab(NULL) +
+  geom_text(aes(label=ifelse(sig=='survives_bc',eff_size,'')))
+
+#if sig = survives_bc geom_text(aes(label=eff_size)) if else NULL
 
 
 hm_test_plot2 <- ggplot(hm_test, aes(x=var1, y=var2)) +
@@ -455,8 +458,8 @@ We first constructed a binary logistic growth curve for vocabulary from the 50th
 
 
 ```{r wg-ws-rainbow-plot}
-cowplot::plot_grid(wg_rainbow, ws_rainbow)
-# caption: Figures XXX - Colored lines show vocabulary percentiles from wordbank. black line shows growth curve from 50th percentile data. Black triangles show vocabulary scores of individual DHH children.
+cowplot::plot_grid(wg_rainbow, ws_rainbow) +
+  labs(caption = "Figures XXX - Colored lines show vocabulary percentiles from wordbank. black line shows growth curve from 50th percentile data. Black triangles show vocabulary scores of individual DHH children.")
 ```
 
 We next explored the effect of the different audiological, demographic, and intervention characteristics on vocabulary delay. Vocabulary delay did not meet the assumption of normality, so we used non-parametric tests for the following set of analyses. Mann-Whitney-Wilcoxen tests were conducted to examine the effects of gender, laterality, developmental delay, health issues, prematurity, meeting 1-3-6 guidelines, and communication on vocabulary delay. We used kruskal-wallis tests for amplification and etiology, and Kendall’s rank correlations for degree of hearing loss (worse ear) and services received per month. These results are exploratory and descriptive, and their interpretation should be tempered accordingly. 
@@ -536,12 +539,11 @@ ggplot(data = event_data,
   labs(x= "", y= "Age Months") + 
   coord_flip() +
   theme(legend.position = "none") +
-  theme_classic()
+  theme_classic() + labs(caption = "Figure XXX - Dots represent average age of diagnosis, etc. Stronger lines represent standard deviation. Softer lines show range.")
 
-#caption: Figure XXX - Dots represent average age of diagnosis, etc. Stronger lines represent standard deviation. Softer lines show range. 
 ```
 
-```{r lm-stats}
+```{r lm-stats, include=F}
 
 lm_pvalue <- function (modelobject) {
     if (class(modelobject) != "lm") stop("Not an object of class 'lm' ")

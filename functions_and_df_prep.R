@@ -800,17 +800,15 @@ chisq_output <- function(data) {
   chisq_output = paste("($X^2$ (", round((chisq.test(data))$parameter,2),
                     ", N = ", sum(((chisq.test(data))$observed)),
                     ") = ", round(chisq.test(data)$statistic, 2),
-                    ", p = ", round(chisq.test(data)$p.value, 4),
+                    ", p = ", format.pval(chisq.test(data)$p.value, digits = 2),
                     ")", sep='')
   chisq_output
 }
 
 beta_output <- function(model, predictornum) {
   beta_output = paste("(B = ", round(summary(model)$coefficients[predictornum,1], 2),
-                       ", p = ", summary(model)$coefficients[predictornum,4],
+                       ", p = ",format.pval(summary(model)$coefficients[predictornum,4], digits=2),
                        ")", sep='')
   beta_output
 }
 
-# (beta weight = `r summary(diagnosis_aic)$coefficients[2,1]`, 
-#   p = `r summary(diagnosis_aic)$coefficients[2,4]`)
