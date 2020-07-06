@@ -429,25 +429,7 @@ Shapiro–Wilk tests revealed that all of our continuous measures (i.e. degree o
 
 
 ```{r relationships-plot}
-hm_test <- read.csv("data/heat_map_test.csv")
-hm_test_plot <- ggplot(hm_test, aes(x=var1, y=var2)) +
-  geom_tile(aes(fill = p)) + theme_classic() +
-  theme(axis.text.x = element_text(angle = 90)) +
-  scale_fill_distiller(palette = "RdPu", direction=1) +
-  xlab(NULL) + ylab(NULL) +
-  geom_text(aes(label=ifelse(sig=='survives_bc',eff_size,'')))
-
-#if sig = survives_bc geom_text(aes(label=eff_size)) if else NULL
-
-
-hm_test_plot2 <- ggplot(hm_test, aes(x=var1, y=var2)) +
-  geom_tile(aes(fill = sig)) + theme_classic() +
-  theme(axis.text.x = element_text(angle = 90)) +
-  xlab(NULL) + ylab(NULL) 
-
-
-print(hm_test_plot)
-print(hm_test_plot2)
+print(hm_plot)
 ```
 
 From this analysis, we found that children born premature were more likely to also have health issues `r chisq_output(HealthIssues_Premature)`. Children with conductive hearing loss were more likely to have unilateral hearing loss `r chisq_output(Etiology_Laterality)`. Children with unilateral hearing loss were unlikely to receive a cochlear implant and more likely to use no amplification `r chisq_output(Amplification_Laterality)`. Children with more severe hearing loss were more likely to use a cochlear implant than children with milder hearing loss (H(`r Degree_Amplification$parameter`)=`r Degree_Amplification$statistic`, p=`r Degree_Amplification$p.value`). Children with developmental delays received more services per month than typically developing DHH children (H(`r Services_DevDelay$parameter`)=`r Services_DevDelay$statistic`, p=`r Services_DevDelay$p.value`)and were more likely to use total communication `r chisq_output(DevConcerns_Communication)`. Children who used total communication received more services per month than children using spoken language (H(`r Services_Communication$parameter`)=`r Services_Communication$statistic`, p=`r Services_Communication$p.value`).

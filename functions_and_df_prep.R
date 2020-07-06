@@ -674,119 +674,313 @@ ws_services <- ggplot(data=elssp_datasets[[2]]$elssp_df, aes(x=ServicesReceivedP
   geom_point() + geom_smooth(method='lm')
 
 #interactions among variables
+hm_prep <- data.frame(var1=character(),
+                      var2=character(),
+                      eff_size=double(),
+                      pval=double(),
+                      sig=factor())
+
+prep_hm_df <- function(df) {
+  hm_list <- list(
+    "var1" = as.character(word(deparse(substitute(df)), 1, sep = fixed("_"))),
+    "var2" = as.character(word(deparse(substitute(df)), 2, sep = fixed("_"))),
+    "eff_size" = round(unname(cramerV(df)), digits=3),
+    "pval" = (chisq.test(df))$p.value)
+}
+
+prep_hm_catcont <- function(cat, cont) {
+  hm_list <- list(
+    "var1" = cat,
+    "var2" = substitute(cont),
+    "eff_size" <- unname(ifelse(nlevels(cat)==2, (wilcox.test(cont~cat))$statistic, 
+                         (kruskall.test(cont~cat, data=df))$statistic)),
+    "pval" = unname(ifelse(nlevels(cat)==2, (wilcox.test(cont~cat, data=df))$p.value, 
+                    (kruskall.test(cont~cat, data=df))$p.value)))
+  hm_list
+}
+
+hm_list <- list(
+  "var1" = cat,
+  "var2" = substitute(cont),
+  "eff_size" <- unname(ifelse(nlevels(cat)==2, (wilcox.test(cont~cat))$statistic, 
+                              (kruskall.test(cont~cat, data=df))$statistic)),
+  "pval" = unname(ifelse(nlevels(cat)==2, (wilcox.test(cont~cat, data=df))$p.value, 
+                         (kruskall.test(cont~cat, data=df))$p.value)))
+
+cor.test(formula = ~ x + y,
+         data = df)
+
 ##should functionalize this
 Gender_DevConcerns <- table(full_elssp$Gender, full_elssp$DevelopmentalConcerns)
+Gender_DevConcerns_list <- prep_hm_df(Gender_DevConcerns)
+hm_prep <- rbind(hm_prep, Gender_DevConcerns_list)
 
-Gender_HealthIssues <- table(full_elssp$Gender, full_elssp$HealthIssues)
+i <- sapply(hm_prep, is.factor) #prevent var2 from turning into character??
+hm_prep[i] <- lapply(hm_prep[i], as.character)
 
-Gender_Premature <- table(full_elssp$Gender, full_elssp$IsPremature)
+HealthIssues_Gender <- table(full_elssp$Gender, full_elssp$HealthIssues)
+HealthIssues_Gender_list <- prep_hm_df(HealthIssues_Gender)
+hm_prep <- rbind(hm_prep, HealthIssues_Gender_list)
 
-Gender_Laterality <- table(full_elssp$Gender, full_elssp$Laterality)
-Gender_Laterality <- Gender_Laterality[, c("Bilateral", "Unilateral")]
+Prematurity_Gender <- table(full_elssp$Gender, full_elssp$IsPremature)
+Prematurity_Gender_list <- prep_hm_df(Prematurity_Gender)
+hm_prep <- rbind(hm_prep, Prematurity_Gender_list)
 
-Gender_Meets136 <- table(full_elssp$Gender, full_elssp$Meets136)
-Gender_Meets136 <- Gender_Meets136[, -1]
+Laterality_Gender <- table(full_elssp$Gender, full_elssp$Laterality)
+Laterality_Gender <- Laterality_Gender[, c("Bilateral", "Unilateral")]
+Laterality_Gender_list <- prep_hm_df(Laterality_Gender)
+hm_prep <- rbind(hm_prep, Laterality_Gender_list)
 
-Gender_Amp <- table(full_elssp$Gender, full_elssp$Amplification)
-Gender_Amp <- Gender_Amp[, -1]
+
+Meets136_Gender <- table(full_elssp$Gender, full_elssp$Meets136)
+Meets136_Gender <- Meets136_Gender[, -1]
+Meets136_Gender_list <- prep_hm_df(Meets136_Gender)
+hm_prep <- rbind(hm_prep, Meets136_Gender_list)
+
+
+Gender_Amplification <- table(full_elssp$Gender, full_elssp$Amplification)
+Gender_Amplification <- Gender_Amplification[, -1]
+Gender_Amplification_list <- prep_hm_df(Gender_Amplification)
+hm_prep <- rbind(hm_prep, Gender_Amplification_list)
+
 
 Gender_Etiology <- table(full_elssp$Gender, full_elssp$Etiology)
 Gender_Etiology <- Gender_Etiology[, -1]
+Gender_Etiology_list <- prep_hm_df(Gender_Etiology)
+hm_prep <- rbind(hm_prep, Gender_Etiology_list)
+
 
 Gender_Communication <- table(full_elssp$Gender, full_elssp$Communication)
 Gender_Communication <- Gender_Communication[, -1]
+Gender_Communication_list <- prep_hm_df(Gender_Communication)
+hm_prep <- rbind(hm_prep, Gender_Communication_list)
 
-HealthIssues_Premature <- table(full_elssp$HealthIssues, full_elssp$IsPremature)
 
-HealthIssues_Laterality <- table(full_elssp$HealthIssues, full_elssp$Laterality)
-HealthIssues_Laterality <- HealthIssues_Laterality[, c("Bilateral", "Unilateral")]
+Prematurity_HealthIssues <- table(full_elssp$HealthIssues, full_elssp$IsPremature)
+Prematurity_HealthIssues_list <- prep_hm_df(Prematurity_HealthIssues)
+hm_prep <- rbind(hm_prep, Prematurity_HealthIssues_list)
 
-HealthIssues_Meets136 <- table(full_elssp$HealthIssues, full_elssp$Meets136)
-HealthIssues_Meets136 <- HealthIssues_Meets136[, -1]
 
-HealthIssues_DevDelay <- table(full_elssp$DevelopmentalConcerns, full_elssp$IsPremature)
+Laterality_HealthIssues <- table(full_elssp$HealthIssues, full_elssp$Laterality)
+Laterality_HealthIssues <- Laterality_HealthIssues[, c("Bilateral", "Unilateral")]
+Laterality_HealthIssues_list <- prep_hm_df(Laterality_HealthIssues)
+hm_prep <- rbind(hm_prep, Laterality_HealthIssues_list)
+
+Meets136_HealthIssues <- table(full_elssp$HealthIssues, full_elssp$Meets136)
+Meets136_HealthIssues <- Meets136_HealthIssues[, -1]
+Meets136_HealthIssues_list <- prep_hm_df(Meets136_HealthIssues)
+hm_prep <- rbind(hm_prep, Meets136_HealthIssues_list)
+
+HealthIssues_DevConcerns <- table(full_elssp$DevelopmentalConcerns, full_elssp$HealthIssues)
+HealthIssues_DevConcerns_list <- prep_hm_df(HealthIssues_DevConcerns)
+hm_prep <- rbind(hm_prep, HealthIssues_DevConcerns_list)
 
 HealthIssues_Amplification <- table(full_elssp$HealthIssues, full_elssp$Amplification)
 HealthIssues_Amplification <- HealthIssues_Amplification[, -1]
+HealthIssues_Amplification_list <- prep_hm_df(HealthIssues_Amplification)
+hm_prep <- rbind(hm_prep, HealthIssues_Amplification_list)
 
 HealthIssues_Etiology <- table(full_elssp$HealthIssues, full_elssp$Etiology)
 HealthIssues_Etiology <- HealthIssues_Etiology[, -1]
+HealthIssues_Etiology_list <- prep_hm_df(HealthIssues_Etiology)
+hm_prep <- rbind(hm_prep, HealthIssues_Etiology_list)
 
 HealthIssues_Communication <- table(full_elssp$HealthIssues, full_elssp$Communication)
 HealthIssues_Communication <- HealthIssues_Communication[, -1]
+HealthIssues_Communication_list <- prep_hm_df(HealthIssues_Communication)
+hm_prep <- rbind(hm_prep, HealthIssues_Communication_list)
 
 Prematurity_Laterality <- table(full_elssp$IsPremature, full_elssp$Laterality)
 Prematurity_Laterality <- Prematurity_Laterality[, c("Bilateral", "Unilateral")]
+Prematurity_Laterality_list <- prep_hm_df(Prematurity_Laterality)
+hm_prep <- rbind(hm_prep, Prematurity_Laterality_list)
 
 Prematurity_Meets136 <- table(full_elssp$IsPremature, full_elssp$Meets136)
 Prematurity_Meets136 <- Prematurity_Meets136[, -1]
+Prematurity_Meets136_list <- prep_hm_df(Prematurity_Meets136)
+hm_prep <- rbind(hm_prep, Prematurity_Meets136_list)
 
 Prematurity_DevConcerns <- table(full_elssp$IsPremature, full_elssp$DevelopmentalConcerns)
 Prematurity_DevConcerns
+Prematurity_DevConcerns_list <- prep_hm_df(Prematurity_DevConcerns)
+hm_prep <- rbind(hm_prep, Prematurity_DevConcerns_list)
 
 Prematurity_Amplification <- table(full_elssp$IsPremature, full_elssp$Amplification)
 Prematurity_Amplification <- Prematurity_Amplification[, -1]
+Prematurity_Amplification_list <- prep_hm_df(Prematurity_Amplification)
+hm_prep <- rbind(hm_prep, Prematurity_Amplification_list)
 
 Prematurity_Etiology <- table(full_elssp$IsPremature, full_elssp$Etiology)
 Prematurity_Etiology <- Prematurity_Etiology[, -1]
+Prematurity_Etiology_list <- prep_hm_df(Prematurity_Etiology)
+hm_prep <- rbind(hm_prep, Prematurity_Etiology_list)
 
 Prematurity_Communication <- table(full_elssp$IsPremature, full_elssp$Communication)
 Prematurity_Communication <- Prematurity_Communication[, -1]
+Prematurity_Communication_list <- prep_hm_df(Prematurity_Communication)
+hm_prep <- rbind(hm_prep, Prematurity_Communication_list)
 
 Meets136_Laterality <- table(full_elssp$Meets136, full_elssp$Laterality)
 Meets136_Laterality <- Meets136_Laterality[, c("Bilateral", "Unilateral")]
+Meets136_Laterality_list <- prep_hm_df(Meets136_Laterality)
+hm_prep <- rbind(hm_prep, Meets136_Laterality_list)
 
-Amplification_Laterality <- table(full_elssp$Amplification, full_elssp$Laterality)
-Amplification_Laterality <- Amplification_Laterality[-1, c("Bilateral", "Unilateral")]
+Laterality_Amplification <- table(full_elssp$Amplification, full_elssp$Laterality)
+Laterality_Amplification <- Laterality_Amplification[-1, c("Bilateral", "Unilateral")]
+Laterality_Amplification_list <- prep_hm_df(Laterality_Amplification)
+hm_prep <- rbind(hm_prep, Laterality_Amplification_list)
 
-DevConcerns_Laterality <- table(full_elssp$DevelopmentalConcerns, full_elssp$Laterality)
-DevConcerns_Laterality <- DevConcerns_Laterality[, c("Bilateral", "Unilateral")]
+Laterality_DevConcerns <- table(full_elssp$DevelopmentalConcerns, full_elssp$Laterality)
+Laterality_DevConcerns <- Laterality_DevConcerns[, c("Bilateral", "Unilateral")]
+Laterality_DevConcerns_list <- prep_hm_df(Laterality_DevConcerns)
+hm_prep <- rbind(hm_prep, Laterality_DevConcerns_list)
 
-Etiology_Laterality <- table(full_elssp$Etiology, full_elssp$Laterality)
-Etiology_Laterality <- Etiology_Laterality[-1, c("Bilateral", "Unilateral")]
+Laterality_Etiology <- table(full_elssp$Etiology, full_elssp$Laterality)
+Laterality_Etiology <- Laterality_Etiology[-1, c("Bilateral", "Unilateral")]
+Laterality_Etiology_list <- prep_hm_df(Laterality_Etiology)
+hm_prep <- rbind(hm_prep, Laterality_Etiology_list)
 
-Communication_Laterality <- table(full_elssp$Communication, full_elssp$Laterality)
-Communication_Laterality <- Communication_Laterality[-1, c("Bilateral", "Unilateral")]
+Laterality_Communication <- table(full_elssp$Communication, full_elssp$Laterality)
+Laterality_Communication <- Laterality_Communication[-1, c("Bilateral", "Unilateral")]
+Laterality_Communication_list <- prep_hm_df(Laterality_Communication)
+hm_prep <- rbind(hm_prep, Laterality_Communication_list)
 
-Meets136_DevDelay <- table(full_elssp$Meets136, full_elssp$DevelopmentalConcerns)
-Meets136_DevDelay <- Meets136_DevDelay[-1, ]
+Meets136_DevConcerns <- table(full_elssp$Meets136, full_elssp$DevelopmentalConcerns)
+Meets136_DevConcerns <- Meets136_DevConcerns[-1, ]
+Meets136_DevConcerns_list <- prep_hm_df(Meets136_DevConcerns)
+hm_prep <- rbind(hm_prep, Meets136_DevConcerns_list)
 
 Meets136_Amplification <- table(full_elssp$Meets136, full_elssp$Amplification)
 Meets136_Amplification <- Meets136_Amplification[-1, -1]
+Meets136_Amplification_list <- prep_hm_df(Meets136_Amplification)
+hm_prep <- rbind(hm_prep, Meets136_Amplification_list)
 
 Meets136_Etiology <- table(full_elssp$Meets136, full_elssp$Etiology)
 Meets136_Etiology <- Meets136_Etiology[-1, -1]
+Meets136_Etiology_list <- prep_hm_df(Meets136_Etiology)
+hm_prep <- rbind(hm_prep, Meets136_Etiology_list)
 
 Meets136_Communication <- table(full_elssp$Meets136, full_elssp$Communication)
 Meets136_Communication <- Meets136_Communication[-1, -1]
+Meets136_Communication_list <- prep_hm_df(Meets136_Communication)
+hm_prep <- rbind(hm_prep, Meets136_Communication_list)
 
-Amplification_DevConcerns <- table(full_elssp$Amplification, full_elssp$DevelopmentalConcerns)
-Amplification_DevConcerns <- Amplification_DevConcerns[-1, ]
+DevConcerns_Amplification <- table(full_elssp$Amplification, full_elssp$DevelopmentalConcerns)
+DevConcerns_Amplification <- DevConcerns_Amplification[-1, ]
+DevConcerns_Amplification_list <- prep_hm_df(DevConcerns_Amplification)
+hm_prep <- rbind(hm_prep, DevConcerns_Amplification_list)
 
-Amplification_Etiology <- table(full_elssp$Amplification, full_elssp$Etiology)
-Amplification_Etiology <- Amplification_Etiology[-1, -1]
+Etiology_Amplification <- table(full_elssp$Amplification, full_elssp$Etiology)
+Etiology_Amplification <- Etiology_Amplification[-1, -1]
+Etiology_Amplification_list <- prep_hm_df(Etiology_Amplification)
+hm_prep <- rbind(hm_prep, Etiology_Amplification_list)
 
-Amplification_Communication <- table(full_elssp$Amplification, full_elssp$Communication)
-Amplification_Communication <- Amplification_Communication[-1, -1]
+Communication_Amplification <- table(full_elssp$Amplification, full_elssp$Communication)
+Communication_Amplification <- Communication_Amplification[-1, -1]
+Communication_Amplification_list <- prep_hm_df(Communication_Amplification)
+hm_prep <- rbind(hm_prep, Communication_Amplification_list)
 
-DevConcerns_Etiology <- table(full_elssp$DevelopmentalConcerns, full_elssp$Etiology)
-DevConcerns_Etiology <- DevConcerns_Etiology[, -1]
+Etiology_DevConcerns <- table(full_elssp$DevelopmentalConcerns, full_elssp$Etiology)
+Etiology_DevConcerns <- Etiology_DevConcerns[, -1]
+Etiology_DevConcerns_list <- prep_hm_df(Etiology_DevConcerns)
+hm_prep <- rbind(hm_prep, Etiology_DevConcerns_list)
 
 DevConcerns_Communication <- table(full_elssp$DevelopmentalConcerns, full_elssp$Communication)
 DevConcerns_Communication <- DevConcerns_Communication[, -1]
+DevConcerns_Communication_list <- prep_hm_df(DevConcerns_Communication)
+hm_prep <- rbind(hm_prep, DevConcerns_Communication_list)
 
-Communication_Etiology <- table(full_elssp$Communication, full_elssp$Etiology)
-Communication_Etiology <- Communication_Etiology[-1, -1]
+Etiology_Communication <- table(full_elssp$Communication, full_elssp$Etiology)
+Etiology_Communication <- Etiology_Communication[-1, -1]
+Etiology_Communication_list <- prep_hm_df(Etiology_Communication)
+hm_prep <- rbind(hm_prep, Etiology_Communication_list)
+
+Language_DevConcerns <- table(full_elssp$PrimaryLanguage, full_elssp$DevelopmentalConcerns)
+Language_DevConcerns_list <- prep_hm_df(Language_DevConcerns)
+hm_prep <- rbind(hm_prep, Language_DevConcerns_list)
+
+Language_HealthIssues <- table(full_elssp$PrimaryLanguage, full_elssp$HealthIssues)
+Language_HealthIssues_list <- prep_hm_df(Language_HealthIssues)
+hm_prep <- rbind(hm_prep, Language_HealthIssues_list)
+
+Prematurity_Language <- table(full_elssp$PrimaryLanguage, full_elssp$IsPremature)
+Prematurity_Language_list <- prep_hm_df(Prematurity_Language)
+hm_prep <- rbind(hm_prep, Prematurity_Language_list)
+
+Laterality_Language <- table(full_elssp$PrimaryLanguage, full_elssp$Laterality)
+Laterality_Language <- Laterality_Language[, c("Bilateral", "Unilateral")]
+Laterality_Language_list <- prep_hm_df(Laterality_Language)
+hm_prep <- rbind(hm_prep, Laterality_Language_list)
+
+
+Meets136_Language <- table(full_elssp$PrimaryLanguage, full_elssp$Meets136)
+Meets136_Language <- Meets136_Language[, -1]
+Meets136_Language_list <- prep_hm_df(Meets136_Language)
+hm_prep <- rbind(hm_prep, Meets136_Language_list)
+
+
+Language_Amplification <- table(full_elssp$PrimaryLanguage, full_elssp$Amplification)
+Language_Amplification <- Language_Amplification[, -1]
+Language_Amplification_list <- prep_hm_df(Language_Amplification)
+hm_prep <- rbind(hm_prep, Language_Amplification_list)
+
+
+Language_Etiology <- table(full_elssp$PrimaryLanguage, full_elssp$Etiology)
+Language_Etiology <- Language_Etiology[, -1]
+Language_Etiology_list <- prep_hm_df(Language_Etiology)
+hm_prep <- rbind(hm_prep, Language_Etiology_list)
+
+
+Language_Communication <- table(full_elssp$PrimaryLanguage, full_elssp$Communication)
+Language_Communication <- Language_Communication[, -1]
+Language_Communication_list <- prep_hm_df(Language_Communication)
+hm_prep <- rbind(hm_prep, Language_Communication_list)
+
+Language_Gender <- table(full_elssp$PrimaryLanguage, full_elssp$Gender)
+Language_Gender_list <- prep_hm_df(Language_Gender)
+hm_prep <- rbind(hm_prep, Language_Gender_list)
+
+
+
+hm_plot <- ggplot(hm_prep, aes(y=var1, x=var2)) +
+  geom_tile(aes(fill = sig)) + theme_classic() +
+  theme(axis.text.x = element_text(angle = 90)) +
+  scale_fill_brewer(palette = "RdPu", direction=-1) +
+  xlab(NULL) + ylab(NULL) +
+  geom_text(aes(label=ifelse(sig=='survives_bc',eff_size,'')))
+hm_plot
+
 
 Degree_Amplification <- kruskal.test(HLworse ~ Amplification, 
                                      data=(full_elssp %>% filter(full_elssp$Amplification=="CI"|full_elssp$Amplification=="HA"|full_elssp$Amplification=="none")))
+Degree_Amplification_list <- list(
+  "var1" = "Degree",
+  "var2" = "Amplification",
+  "eff_size" = unname(Degree_Amplification$statistic),
+  "pval" = Degree_Amplification$p.value
+)
+hm_prep <- rbind(hm_prep, Degree_Amplification_list)
 
-Services_DevDelay <- wilcox.test(ServicesReceivedPerMonth ~ DevelopmentalConcerns, 
+Services_DevConcerns <- wilcox.test(ServicesReceivedPerMonth ~ DevelopmentalConcerns, 
                                  data=(full_elssp %>% filter(full_elssp$DevelopmentalConcerns=="yes"|full_elssp$DevelopmentalConcerns=="no")))
+Services_DevConcerns_list <- list(
+  "var1" = "Degree",
+  "var2" = "Amplification",
+  "eff_size" = unname(Services_DevConcerns$statistic),
+  "pval" = Services_DevConcerns$p.value
+)
+hm_prep <- rbind(hm_prep, Services_DevConcerns_list)
+
 
 Services_Communication <- kruskal.test(ServicesReceivedPerMonth ~ Communication, 
                                        data=(full_elssp %>% filter(full_elssp$Communication=="total communication"|full_elssp$Communication=="spoken")))
-
+Services_Communication_list <- list(
+  "var1" = "Degree",
+  "var2" = "Amplification",
+  "eff_size" = unname(Services_Communication$statistic),
+  "pval" = Services_Communication$p.value
+)
+hm_prep <- rbind(hm_prep, Services_Communication_list)
 
 # lm_output <- function(data) {
 #   print_res = paste("ß=", round(data$Estimate,2),
@@ -812,3 +1006,26 @@ beta_output <- function(model, predictornum) {
   beta_output
 }
 
+# df_names <- list()
+df_refs <- list (Gender_DevConcerns, Gender_HealthIssues, Gender_Premature, Gender_Laterality)
+
+
+for (df in df_refs) {
+  hm_list <- prep_hm_df(df);
+  hm_prep <- rbind(hm_list, hm_prep);
+}
+print(hm_prep)
+
+library(fastDummies)
+corr_prep <- dummy_cols(full_elssp, select_columns = c("Gender", "Meets136", 
+                                                       "Etiology", "Laterality", "Amplification", 
+                                                       "Communication", "PrimaryLanguage", "DevelopmentalConcerns")) %>% 
+  dplyr::select(ServicesReceivedPerMonth, HLworse,
+                Gender_female, Gender_male,
+                Amplification_CI, Amplification_HA, Amplification_none, 
+                PrimaryLanguage_Spanish, PrimaryLanguage_English, PrimaryLanguage_Hindi,
+                Etiology_SNHL, Etiology_Mixed, Etiology_Conductive,
+                Communication_spoken,
+                DevelopmentalConcerns_yes)
+elssp_corr <- cor(corr_prep)
+corrplot(elssp_corr, insig = "blank")
