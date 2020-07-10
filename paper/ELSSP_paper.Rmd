@@ -429,10 +429,15 @@ Shapiro–Wilk tests revealed that all of our continuous measures (i.e. degree o
 
 
 ```{r relationships-plot}
+corrplot(elssp_corr, insig = "blank", method = 'color', 
+         sig.level = 0.0007575758, type = "upper",
+         order = "alphabet", tl.cex=1,
+         tl.col = "black", )
+
 print(hm_plot)
 ```
 
-From this analysis, we found that children born premature were more likely to also have health issues `r chisq_output(HealthIssues_Premature)`. Children with conductive hearing loss were more likely to have unilateral hearing loss `r chisq_output(Etiology_Laterality)`. Children with unilateral hearing loss were unlikely to receive a cochlear implant and more likely to use no amplification `r chisq_output(Amplification_Laterality)`. Children with more severe hearing loss were more likely to use a cochlear implant than children with milder hearing loss (H(`r Degree_Amplification$parameter`)=`r Degree_Amplification$statistic`, p=`r Degree_Amplification$p.value`). Children with developmental delays received more services per month than typically developing DHH children (H(`r Services_DevDelay$parameter`)=`r Services_DevDelay$statistic`, p=`r Services_DevDelay$p.value`)and were more likely to use total communication `r chisq_output(DevConcerns_Communication)`. Children who used total communication received more services per month than children using spoken language (H(`r Services_Communication$parameter`)=`r Services_Communication$statistic`, p=`r Services_Communication$p.value`).
+From this analysis, we found that children born premature were more likely to also have health issues `r chisq_output(Prematurity_HealthIssues)`. Children with conductive hearing loss were more likely to have unilateral hearing loss `r chisq_output(Laterality_Etiology)`. Children with unilateral hearing loss were unlikely to receive a cochlear implant and more likely to use no amplification `r chisq_output(Laterality_Amplification)`. Children with more severe hearing loss were more likely to use a cochlear implant than children with milder hearing loss (H(`r Degree_Amplification$parameter`)=`r Degree_Amplification$statistic`, p=`r Degree_Amplification$p.value`). Children with developmental delays received more services per month than typically developing DHH children (H(`r Services_DevConcerns$parameter`)=`r Services_DevConcerns$statistic`, p=`r Services_DevConcerns$p.value`)and were more likely to use total communication `r chisq_output(DevConcerns_Communication)`. Children who used total communication received more services per month than children using spoken language (H(`r Services_Communication$parameter`)=`r Services_Communication$statistic`, p=`r Services_Communication$p.value`).
 
 ## Part II: Influence on vocabulary
 

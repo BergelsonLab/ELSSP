@@ -2,7 +2,7 @@ inv_logit <- function(x){
   return(1 / (exp(-x) + 1))
 } 
 
-getScoreForAge = function(lm, age, num_items){
+getScoreForAge = function(lm, age, num_items){ #function that takes lm, child's age, and the number of possible words (from WG/WS)
   # just predict
   prop = inv_logit(predict.glm(lm, newdata = data.frame(age=age)))
   return(prop*num_items)
@@ -19,16 +19,16 @@ getAgeForScore = function(lm, score, num_items){
   return(predicted_age)
 }
 
-constants = list()
-constants[['WG']] = list()
-constants[['WG']]$lowest_num_id = 33
-constants[['WG']]$highest_num_id = 430
-constants[['WG']]$num_items = constants[['WG']]$highest_num_id - constants[['WG']]$lowest_num_id + 1
+constants = list() #create a list called constants
+constants[['WG']] = list() #add a WG section to the list
+constants[['WG']]$lowest_num_id = 33 #sets the lowest_num_id to 33 (the first question on WG asking 'does your child know X?')
+constants[['WG']]$highest_num_id = 430 #sets the highest_num_id to 430 (the last question on WG asking 'does your child know X?')
+constants[['WG']]$num_items = constants[['WG']]$highest_num_id - constants[['WG']]$lowest_num_id + 1 #substracts lowest_  and highest_num_ids and adds 1, to get highest possible score on WG
 
-constants[['WS']] = list()
-constants[['WS']]$lowest_num_id = 1
-constants[['WS']]$highest_num_id = 680
-constants[['WS']]$num_items = constants[['WS']]$highest_num_id - constants[['WS']]$lowest_num_id + 1
+constants[['WS']] = list() #add a WS section to the list
+constants[['WS']]$lowest_num_id = 1 #sets the lowest_num_id to 1 (the first question on WS asking 'does your child know X?')
+constants[['WS']]$highest_num_id = 680 #sets the highest_num_id to 680 (the last question on WS asking 'does your child know X?')
+constants[['WS']]$num_items = constants[['WS']]$highest_num_id - constants[['WS']]$lowest_num_id + 1 #substracts lowest_  and highest_num_ids and adds 1, to get highest possible score on WS
 
 
 
@@ -37,15 +37,15 @@ prepare_elssp_df = function(cdi_form, constants, verbose=F){
   
   num_items = (constants[[cdi_form]][['highest_num_id']] - constants[[cdi_form]][['lowest_num_id']]) + 1	
   print('Number of items:')
-  print(num_items)
+  print(num_items) #Prints number of items possible given CDI version
   
   eng_data <- get_instrument_data(language = "English (American)", 
                                   form = cdi_form, administrations = TRUE)	
-  eng_words = subset(eng_data, num_item_id < constants[[cdi_form]][['highest_num_id']] & num_item_id > constants[[cdi_form]][['lowest_num_id']])
+  eng_words = subset(eng_data, num_item_id < constants[[cdi_form]][['highest_num_id']] & num_item_id > constants[[cdi_form]][['lowest_num_id']]) #takes the subset of columns related to 'does your child know X word?'
   
-  print('Computing counts...')
-  counts = eng_words %>%
-    dplyr::filter(!is.na(.data$age)) %>%
+  print('Computing counts...') #Prints "Computing counts" message
+  counts <- eng_words %>% #creates counts df
+    dplyr::filter(!is.na(.data$age)) %>% #filters entries without an age 
     dplyr::mutate(produces = !is.na(.data$value) & .data$value == "produces",
                   understands = !is.na(.data$value) &
                     (.data$value == "understands" | .data$value == "produces")) %>%
@@ -57,11 +57,11 @@ prepare_elssp_df = function(cdi_form, constants, verbose=F){
                      num_false = n() - .data$num_true)
   print(counts)
   
-  print('Fitting model...')
+  print('Fitting model...') #prints "Fitting model" message
   model <- stats::glm(cbind(num_true, num_false) ~ age, counts,
                       family = "binomial")
   
-  if (verbose){
+  if (verbose){ #if verbose argument is TRUE, prints a summary of the model
     print(summary(model))
   }
   
@@ -86,10 +86,10 @@ prepare_elssp_df = function(cdi_form, constants, verbose=F){
   wordbank_norms_melted = melt(wordbank_norms, id.vars = c("language", "form", "measure", "age", "identity"))
   
   elssp_for_form = subset(elssp, CDIversion == cdi_form)
-  elssp_for_form$SubjectNumber = as.factor(elssp_for_form$SubjectNumber)
-  elssp_for_form$DevelopmentalConcerns[elssp_for_form$DevelopmentalConcerns == 1] = 'yes'
-  elssp_for_form$DevelopmentalConcerns[elssp_for_form$DevelopmentalConcerns == 0] = 'no'
-  elssp_for_form$DevelopmentalConcerns = as.factor(elssp_for_form$DevelopmentalConcerns)
+  # elssp_for_form$SubjectNumber = as.factor(elssp_for_form$SubjectNumber)
+  # elssp_for_form$DevelopmentalConcerns[elssp_for_form$DevelopmentalConcerns == 1] = 'yes'
+  # elssp_for_form$DevelopmentalConcerns[elssp_for_form$DevelopmentalConcerns == 0] = 'no'
+  # elssp_for_form$DevelopmentalConcerns = as.factor(elssp_for_form$DevelopmentalConcerns)
   elssp_for_form$ProductionCDI_no = num_items - elssp_for_form$ProductionCDI 
   elssp_for_form$expected_score_at_chron_age = sapply(elssp_for_form$AgeAtEvaluationMonths,
                                                       function(age){getScoreForAge(model, age, num_items)})
@@ -102,7 +102,9 @@ prepare_elssp_df = function(cdi_form, constants, verbose=F){
   elssp_for_form$diff_age_from_expected = elssp_for_form$AgeAtEvaluationMonths - elssp_for_form$expected_age_for_score
   
   if (verbose){
-    print(elssp_for_form[,c('SubjectNumber','AgeAtEvaluationMonths', 'ProductionCDI', 'expected_score_at_chron_age', 'diff_age_from_expected','diff_score_from_expected')])
+    print(elssp_for_form[,c('SubjectNumber','AgeAtEvaluationMonths', 
+                            'ProductionCDI', 'expected_score_at_chron_age', 
+                            'diff_age_from_expected','diff_score_from_expected')])
   }
   
   
@@ -117,37 +119,37 @@ prepare_elssp_df = function(cdi_form, constants, verbose=F){
 
 
 plot_elssp_df = function(elssp_dataset, split=NULL, save=T) {
-  
+
   wordbank_norms_melted = elssp_dataset$wordbank_norms_melted
   samples_from_growth_curve_model = elssp_dataset$samples_from_growth_curve_model
   elssp_df = elssp_dataset$elssp_df
-  if (!is.null(split)){		
+  if (!is.null(split)){
     elssp_df = elssp_df[!is.na(elssp_df[[split]]) & elssp_df[[split]] != '',]
-  }	
+  }
   cdi_form = elssp_dataset$cdi_form
-  
+
   if (!is.null(split)){ #if there's a variable listed in split position
-    elssp_df$split  = as.factor(elssp_df[[split]]) # make the split var in the df on the fly		
-    print(unique(elssp_df$split))
-    p1 = ggplot()  + geom_line(data=wordbank_norms_melted, aes(x=age, y=value,  group=variable), linetype= 'dashed', alpha= .5) + geom_line(data = samples_from_growth_curve_model, aes(x=predict_ages, y=scores), 
-                                                                                                                                            colour='black', alpha= .5) + theme_classic() 
-    p1 = p1 + ylab(paste0("CDI Score (",cdi_form,")"))
-    p1 = p1 + xlab("Age in Months") 
-    p1 = p1 + coord_cartesian(xlim=c(0,40)) + geom_point(data = subset(elssp_df, !is.na(ProductionCDI)), aes(x= AgeAtEvaluationMonths, y= ProductionCDI, shape=split, color=split)) +labs(colour=split, shape=split)
+    elssp_df$split  = as.factor(elssp_df[[split]]) # make the split var in the df on the fly
+    print(unique(elssp_df$split)) #print all of the factor levels for the grouping variable
+    p1 = ggplot()  + 
+      geom_line(data=wordbank_norms_melted, aes(x=age, y=value,  group=variable), linetype= 'dashed', alpha= .5) + 
+      geom_line(data = samples_from_growth_curve_model, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+      theme_classic() + ylab(paste0("CDI Score (",cdi_form,")")) + 
+      xlab("Age in Months") + 
+      coord_cartesian(xlim=c(0,40)) + 
+      geom_point(data = subset(elssp_df, !is.na(ProductionCDI)), aes(x= AgeAtEvaluationMonths, y= ProductionCDI, shape=split, color=split)) +
+      labs(colour=split, shape=split)
+
+    p2 = make_rainplot(elssp_df, split, 'diff_score_from_expected', 'CDI Score Deficit') + 
+      ggtitle(paste0(cdi_form,': ', split)) + 
+      coord_cartesian(ylim = c(-2, 25)) + 
+      coord_flip()
     
-    p2 = make_rainplot(elssp_df, split, 'diff_score_from_expected', 'CDI Score Deficit')
-    p2 = p2 + ggtitle(paste0(cdi_form,': ', split)) + coord_cartesian(ylim = c(-2, 25)) + coord_flip()
-    p3 = make_rainplot(elssp_df, split, 'diff_age_from_expected', 'Delay in Months') + coord_cartesian(ylim = c(-2, 25)) + coord_flip()
-    p3 = p3 + ggtitle(paste0(cdi_form,': ', split))
-    
-    # Jupyter preview
-    #options(repr.plot.width=4, repr.plot.height=3)
-    #print(p1)
-    #print(p2)
-    #print(p3)
-    
-    
-    
+    p3 = make_rainplot(elssp_df, split, 'diff_age_from_expected', 'Delay in Months') + 
+      coord_cartesian(ylim = c(-2, 25)) + 
+      coord_flip() + 
+      ggtitle(paste0(cdi_form,': ', split))
+
     # Save to disk
     p1 = p1 + theme_classic(base_size=16)
     ggsave(plot=p1, paste('figures/', elssp_dataset$cdi_form,'_', split, '_trajectory.pdf', sep=''), width=6, height=4)
@@ -155,25 +157,25 @@ plot_elssp_df = function(elssp_dataset, split=NULL, save=T) {
     ggsave(plot=p2, paste('figures/', elssp_dataset$cdi_form,'_', split, '_deficit.pdf', sep=''), width=6, height=4)
     p3 = p3 + theme_classic(base_size=16)
     ggsave(plot=p3, paste('figures/', elssp_dataset$cdi_form,'_', split, '_delay.pdf', sep=''), width=6, height=4)
-    
+
     graph <- p3
     return(graph)
-    
-  } else {
-    
-    p1 = ggplot() + geom_point (data=wordbank_norms_melted, aes(x=age, y=value, colour=variable)) + 
-      theme_classic() + geom_line(data=wordbank_norms_melted, aes(x=age, y=value, 
-                                                                  colour=variable)) + geom_line(data = samples_from_growth_curve_model, aes(x=predict_ages, y=scores), 
-                                                                                                colour='black') + geom_point(data = subset(elssp_df, !is.na(ProductionCDI)), 
-                                                                                                                             aes(x= AgeAtEvaluationMonths, y= ProductionCDI), shape=17
-                                                                                                ) + ggtitle(paste("Normative", cdi_form, "vs. ELSSP"))	
-    
+
+  } else { #if there's NO variable in the split position
+
+    p1 = ggplot() + geom_point (data=wordbank_norms_melted, aes(x=age, y=value, colour=variable)) +
+      theme_classic() + geom_line(data=wordbank_norms_melted, aes(x=age, y=value,
+                                                                  colour=variable)) + 
+      geom_line(data = samples_from_growth_curve_model, aes(x=predict_ages, y=scores), colour='black') + 
+      geom_point(data = subset(elssp_df, !is.na(ProductionCDI)),aes(x= AgeAtEvaluationMonths, y= ProductionCDI), shape=17) + 
+      ggtitle(paste("Normative", cdi_form, "vs. ELSSP"))
+
     seq_and_labels = seq(from=0,to=48,by=6)
     p1 = p1 + scale_x_continuous(breaks = seq_and_labels, labels = seq_and_labels)
     p1 = p1 + ylab(paste0("CDI Score (",cdi_form,")"))
     p1 = p1 + xlab("Age in Months")
     p1 = p1 + coord_cartesian(xlim=c(0,40))
-    
+
     # Jupyter preview
     options(repr.plot.width=4, repr.plot.height=3)
     print(p1)
@@ -186,71 +188,67 @@ plot_elssp_df = function(elssp_dataset, split=NULL, save=T) {
 }
 
 filter_to_longitudinal_admins = function(elssp_df){
-  
+
   admins_per_subject_number = aggregate(admin_id ~ subject_id, elssp_df, length)
-  subjects_with_multiple_admins = subset(admins_per_subject_number,  admin_id > 1)$subject_id 	
+  subjects_with_multiple_admins = subset(admins_per_subject_number,  admin_id > 1)$subject_id
   return(subset(elssp_df, subject_id %in% subjects_with_multiple_admins))
 }
 
-
-
 longitudinal_plot_elssp_df = function(elssp_dataset, colorize_by=NULL) {
-  
+
   wordbank_norms_melted = elssp_dataset$wordbank_norms_melted
   samples_from_growth_curve_model = elssp_dataset$samples_from_growth_curve_model
   elssp_df = elssp_dataset$elssp_df
-  if (!is.null(colorize_by)){		
+  if (!is.null(colorize_by)){
     elssp_df = elssp_df[!is.na(elssp_df[[colorize_by]]),]
-  }	
+  }
   cdi_form = elssp_dataset$cdi_form
-  
+
   options(repr.plot.width=8, repr.plot.height=5)
-  
+
   longitudinal_children = filter_to_longitudinal_admins(elssp_df)
   print(paste('Found', length(longitudinal_children), 'longitudinal_children.'))
-  
-  
-  p1 = ggplot() + geom_point (data=wordbank_norms_melted, aes(x=age, y=value, group=variable), color ='black', alpha=.25) + 
-    theme_classic() + geom_line(data=wordbank_norms_melted, aes(x=age, y=value, group=variable), color='black', alpha=.25) 
-  
-  if (!is.null(colorize_by)){		
-    p1 = p1 + geom_point(data = subset(longitudinal_children, !is.na(ProductionCDI)), 
+
+
+  p1 = ggplot() + geom_point (data=wordbank_norms_melted, aes(x=age, y=value, group=variable), color ='black', alpha=.25) +
+    theme_classic() + geom_line(data=wordbank_norms_melted, aes(x=age, y=value, group=variable), color='black', alpha=.25)
+
+  if (!is.null(colorize_by)){
+    p1 = p1 + geom_point(data = subset(longitudinal_children, !is.na(ProductionCDI)),
                          aes_string(x= 'AgeAtEvaluationMonths', y= 'ProductionCDI', colour = colorize_by), shape=17
-    ) + ggtitle(paste("Normative", cdi_form, "vs. ELSSP")) + geom_line(data = subset(longitudinal_children, !is.na(ProductionCDI)), 
+    ) + ggtitle(paste("Normative", cdi_form, "vs. ELSSP")) + geom_line(data = subset(longitudinal_children, !is.na(ProductionCDI)),
                                                                        aes_string(x= 'AgeAtEvaluationMonths', y= 'ProductionCDI', colour = colorize_by, group = 'subject_id'))
-    
+
   } else {
-    p1 = p1 + geom_point(data = subset(longitudinal_children, !is.na(ProductionCDI)), 
-                         aes_string(x= 'AgeAtEvaluationMonths', y= 'ProductionCDI'), shape=17) + ggtitle(paste("Normative", cdi_form, "vs. ELSSP")) + geom_line(data = subset(longitudinal_children, !is.na(ProductionCDI)), 
+    p1 = p1 + geom_point(data = subset(longitudinal_children, !is.na(ProductionCDI)),
+                         aes_string(x= 'AgeAtEvaluationMonths', y= 'ProductionCDI'), shape=17) + ggtitle(paste("Normative", cdi_form, "vs. ELSSP")) + geom_line(data = subset(longitudinal_children, !is.na(ProductionCDI)),
                                                                                                                                                                 aes_string(x= 'AgeAtEvaluationMonths', y= 'ProductionCDI',  group = 'subject_id'))
   }
   p1 = p1 + ylab(paste0("CDI Score (",cdi_form,")"))
   p1 = p1 + xlab("Age in Months")
   seq_and_labels = seq(from=0,to=48,by=6)
   p1 = p1 + scale_x_continuous(breaks = seq_and_labels, labels = seq_and_labels)
-  
-  print(p1)	
-  p1 = p1 + theme_classic(base_size=16)	
+
+  print(p1)
+  p1 = p1 + theme_classic(base_size=16)
   if (!is.null(colorize_by)){
-    ggsave(plot=p1, paste('figures/', elssp_dataset$cdi_form,'_', colorize_by, '_longitudinal.pdf', sep=''), width=6, height=4)	
+    ggsave(plot=p1, paste('figures/', elssp_dataset$cdi_form,'_', colorize_by, '_longitudinal.pdf', sep=''), width=6, height=4)
   } else {
-    ggsave(plot=p1, paste('figures/', elssp_dataset$cdi_form,'_longitudinal.pdf', sep=''), width=6, height=4)	
+    ggsave(plot=p1, paste('figures/', elssp_dataset$cdi_form,'_longitudinal.pdf', sep=''), width=6, height=4)
   }
 }
 
-
-
 lms_elssp_df = function(elssp_dataset) {
-  
+
   wordbank_norms_melted = elssp_dataset$wordbank_norms_melted
   samples_from_growth_curve_model = elssp_dataset$samples_from_growth_curve_model
   elssp_df = elssp_dataset$elssp_df
   cdi_form = elssp_dataset$cdi_form
-  
+
   # models go here
 }
 
-raincloud_theme <- theme(
+raincloud_theme <- theme( #create theme for raincloud plots
   text = element_text(size = 10),
   axis.title.x = element_text(size = 16),
   axis.title.y = element_text(size = 16),
@@ -271,31 +269,31 @@ string_to_var = function(str){
 }
 
 make_rainplot = function(data_df, xvar, yvar,ylabel){
-  
+
   lb <- function(x) mean(x) - sd(x)
   ub <- function(x) mean(x) + sd(x)
-  
+
   data_df = data_df[!is.na(data_df[[xvar]]),]
-  
-  sum_df = do.call('data.frame', aggregate(as.formula(paste(yvar,'~', xvar)), data_df, FUN = function(x){ 
+
+  sum_df = do.call('data.frame', aggregate(as.formula(paste(yvar,'~', xvar)), data_df, FUN = function(x){
     c(mean = mean(x), median=median(x), lb = lb(x), ub = ub(x), n =length(x))}))
-  
-  names(sum_df) = gsub(paste(yvar,'.',sep=''),'',names(sum_df))	
+
+  names(sum_df) = gsub(paste(yvar,'.',sep=''),'',names(sum_df))
   print(sum_df)
   sum_df[[xvar]] = as.factor(sum_df[[xvar]])
   data_df[[xvar]] = as.factor(data_df[[xvar]])
-  
+
   #note the reversal
-  p1 <- ggplot(data = data_df, 
+  p1 <- ggplot(data = data_df,
                aes_string(x = xvar, y = yvar), colour = 'green3', fill='palegreen1') +
-    geom_point(aes_string(y = yvar), 
+    geom_point(aes_string(y = yvar),
                position = position_jitter(width = .15), size = .5, alpha = 0.8, color = 'green3') +
     geom_boxplot(width = .1, outlier.shape = NA, alpha = 0.5, colour='green3', fill='palegreen1') +
     guides(fill = FALSE) +
     guides(color = FALSE) +
     ylab(ylabel) +
     theme_bw() + geom_hline(yintercept=0, colour='black',linetype='dashed') + theme(aspect.ratio=2/4)
-  
+
   if (xvar == 'diff_age_from_expected'){
     p1 = p1 + ylab(ylabel)
   } else if (xvar == 'diff_score_from_expected'){
@@ -310,11 +308,11 @@ get_empirical_percentile_rank = function(score, age, monthly_scores_for_instrume
 
 
 get_monthly_scores_for_instrument = function(cdi_form){
-  
-  eng_data <- get_instrument_data(language = "English (American)", 
-                                  form = cdi_form, administrations = TRUE)	
+
+  eng_data <- get_instrument_data(language = "English (American)",
+                                  form = cdi_form, administrations = TRUE)
   eng_words = subset(eng_data, num_item_id < constants[[cdi_form]][['highest_num_id']] & num_item_id > constants[[cdi_form]][['lowest_num_id']])
-  
+
   print('Computing counts...')
   counts = eng_words %>%
     dplyr::filter(!is.na(.data$age)) %>%
@@ -332,10 +330,10 @@ get_monthly_scores_for_instrument = function(cdi_form){
 
 
 dropIfNA = function(df, vars){
-  rdf = df 
+  rdf = df
   for (colname in vars){
     rdf = rdf[(!is.na(rdf[[colname]]) & !is.nan(rdf[[colname]])),]
-  } 
+  }
   return(rdf[,vars])
 }
 
@@ -347,243 +345,28 @@ all.subsets <- function(set) {
   unname(sets[sapply(sets, function(set){length(set) > 0})])
 }
 
-
-cv_model_search = function(response_vars, predictor_vars, covar, df, parallel=T, mixed_effects=F){
-  # enumerate the set of all predictor_vars
-  
-  # generate the powerset of model predictors
-  predictor_sets = all.subsets(predictor_vars)
-  if (length(predictor_sets) > 1024){
-    print('Requested evaluation of too many models... reduce the set of predictor vars')
-  } 
-  
-  # parallel call to cv_model_eval
-  if (parallel){
-    print(paste('Requested parallel evaluation of', length(predictor_sets),'models...'))
-    model_results = mclapply(predictor_sets, function(predictor_set){
-      return(cv_model_eval(response_vars, predictor_set, covar, df, mixed_effects))
-    }, mc.cores= detectCores())
-  } else {
-    print(paste('Requested serial evaluation of', length(predictor_sets),'models...'))
-    model_results = lapply(predictor_sets, function(predictor_set){
-      return(cv_model_eval(response_vars, predictor_set, covar, df, mixed_effects))
-    })
-  }
-  
-  # make a df of the scores
-  scores = do.call('rbind', lapply(model_results, function(x){
-    x$score
-  }))	
-  scores$index = 1:nrow(scores)
-  scores = scores[order(scores$aic),]	
-  
-  #return both the scores and the models
-  rlist = list()
-  rlist[['model_scores']] = scores
-  rlist[['models']] = lapply(model_results, function(x){
-    x$model
-  })
-  
-  if (nrow(rlist[['model_scores']]) != length(rlist[['models']])){
-    stop('Mismatch in the number of model scores and models')
-  }
-  
-  return(rlist)
-}
-
-
-
-cv_model_eval = function(response_vars, predictor_vars, covar, df, mixed_effects=F){
-  
-  # generate a model name
-  model_name = paste(predictor_vars, collapse=' + ') 
-  
-  # build LHS, which can be reused for the null model
-  if (length(response_vars) == 2){
-    LHS = paste("cbind(",response_vars[1],",",response_vars[2],") ~ ", sep="")
-  } else if (length(response_vars) == 1){
-    LHS = paste(response_vars," ~ ")
-  } else {
-    stop('cv_model_search only handles 1 or 2 reponse_vars (t/f obs)')
-  }
-  
-  # build RHS for the real model
-  if (mixed_effects){
-    RHS = paste("(", covar, " | SubjectNumber) + ", covar, "* (", paste(predictor_vars, collapse=" + "), ")")
-  } else {
-    RHS = paste(covar, "* (", paste(predictor_vars, collapse=" + "), ")")
-  }
-  
-  # fit it
-  model_eq = paste(LHS, RHS, sep='')
-  print(paste('Model eq: ', model_eq))
-  
-  if (mixed_effects){
-    fitted_model = lme4::glmer(as.formula(model_eq), df, family = "binomial")
-  } else {
-    fitted_model = stats::glm(as.formula(model_eq), df, family = "binomial")
-  }
-  #print('Finished fitting!')
-  #print(fitted_model)
-  
-  # get McFadden's pseudo R-squared
-  # fit the null model (intercept_only)
-  if (mixed_effects){
-    null_model_eq = paste(LHS, "(1 | SubjectNumber)")	
-    null_model = lme4::glmer(as.formula(null_model_eq), df, family = "binomial")
-  } else {
-    null_model_eq = paste(LHS, "1")	
-    null_model = stats::glm(as.formula(null_model_eq), df, family = "binomial")
-  }
-  print(paste('null model eq: ', null_model_eq))
-  
-  
-  pseudoR2 = 1 - (logLik(fitted_model) / logLik(null_model))
-  
-  # do H1O CV and get 1 - delta
-  df_clean = dropIfNA(subset(df, type=='real'), c(predictor_vars, response_vars, covar))
-  if (mixed_effects){
-    stop("Not implemented. Need to compute by hand with Mika's approach")
-    
-  } else {
-    cv_scores = cv.glm(df_clean, fitted_model)
-    mspe = cv_scores$delta[1]
-    mspe_adjusted = cv_scores$delta[2]	
-  }	
-  
-  aic = AIC(fitted_model)
-  logLik = logLik(fitted_model)
-  
-  # return parameter settings plus the above two measures
-  rlist = list()
-  rlist[['score']] = data.frame(model_name=RHS, mspe, mspe_adjusted, pseudoR2, aic)
-  rlist[['model']] = fitted_model
-  return(rlist)
-}
-
-
-predictFromModel = function(model, participant_properties, num_items, range='full'){
-  # build a dataframe with predictions over the range of ages
-  if (range == 'full'){
-    AgeAtEvaluationMonths = seq(from=8, to=36, by=.1)
-  } else if (range == 'last'){
-    AgeAtEvaluationMonths = c(36)
-  }	
-  rdf = data.frame(AgeAtEvaluationMonths)
-  for (property in names(participant_properties)){
-    rdf[[property]] = participant_properties[[property]]
-  }
-  
-  predicted_probs = data.frame(predict(model, rdf, type='response', se.fit=T))
-  if (range == 'full'){    	
-    predicted_probs$se_high = predicted_probs$fit + predicted_probs$se.fit
-    predicted_probs$se_low = predicted_probs$fit - predicted_probs$se.fit
-    rdf$score = predicted_probs$fit * num_items
-    rdf$se_high = predicted_probs$se_high * num_items
-    rdf$se_low = predicted_probs$se_low * num_items
-    return(rdf)
-  } else if (range == 'last'){
-    score = predicted_probs$fit * num_items		
-    return(score)	
-  }
-  
-}
-
-
-get_all_obs_levels = function(model, df, covar){
-  # enumerate all combinations of factor levels, 
-  # and max and min for each continuous variable
-  var_inventory = list()	
-  for (column in names(df)){
-    if (column %in% colnames(attr(model$terms, 'factors')) & 
-        column != covar
-    ){				
-      if (is.factor(df[[column]]) || is.character(df[[column]])){
-        var_inventory[[column]] = levels(as.factor(df[[column]]))
-      } else if (is.numeric(df[[column]])){
-        var_inventory[[column]] = c(min(df[[column]], na.rm=T), max(df[[column]], na.rm=T))
-      }	
-    }
-  } 
-  
-  print(var_inventory)
-  all_obs = do.call(expand.grid, var_inventory)
-  return(all_obs)
-}
-
-# auto-discover the best and worst trajectories
-get_trajectory_plot = function(model, df, instrument, covar=c()){
-  
-  all_obs = get_all_obs_levels(model, df, covar)
-  
-  all_obs$score = sapply(1:nrow(all_obs), function(i){
-    return(predictFromModel(model, all_obs[i,], constants[[instrument]]$num_items,
-                            range='last'))		
-  })
-  all_obs = all_obs[order(all_obs$score, decreasing=T),]
-  
-  print(all_obs)
-  
-  best_performing_properties =  all_obs[1,]
-  worst_performing_properties =  all_obs[nrow(all_obs),]
-  
-  
-  best_curve = predictFromModel(model, best_performing_properties, 
-                                constants[[instrument]]$num_items, range='full')
-  worst_curve = predictFromModel(model, worst_performing_properties, 
-                                 constants[[instrument]]$num_items, range='full')
-  
-  seq_and_labels = seq(from=0,to=48,by=6)
-  options(repr.plot.idth=6, repr.plot.height=4)
-  
-  p1 = ggplot(worst_curve) + geom_line(aes(x=AgeAtEvaluationMonths, y=score), color='red') + geom_errorbar(aes(x=AgeAtEvaluationMonths, ymin=se_low,
-                                                                                                               ymax = se_high), alpha =.25, color='red') + geom_line(data= best_curve, 
-                                                                                                                                                                     aes(x=AgeAtEvaluationMonths, y=score), color='green') + geom_errorbar(data= best_curve, aes(x=AgeAtEvaluationMonths, ymin=se_low,
-                                                                                                                                                                                                                                                                 ymax = se_high), alpha =.25, color='green') + theme_classic() + ylab(paste('Score on', instrument)) + xlab('Age at Evaluation') + geom_hline(yintercept=constants[[instrument]]$num_items, color='black',
-                                                                                                                                                                                                                                                                                                                                                                                                              alpha=.2)
-  
-  
-  if (instrument  == 'WG'){
-    p1 =  p1 + geom_errorbar(data= subset(
-      elssp_datasets[[1]]$samples_from_growth_curve_model, predict_ages < 36 & predict_ages > 8),
-      aes(x=predict_ages, ymin=se_low,
-          ymax = se_high), alpha =.75, color='black') + theme_classic() + ylab('Score on WG') + xlab('Age at Evaluation') + scale_x_continuous(
-            breaks = seq_and_labels, labels = seq_and_labels)
-  } else if (instrument == 'WS'){
-    p1 =  p1 + geom_errorbar(data= subset(
-      elssp_datasets[[2]]$samples_from_growth_curve_model, predict_ages < 36 & predict_ages > 8),
-      aes(x=predict_ages, ymin=se_low,
-          ymax = se_high), alpha =.75, color='black') + theme_classic() + ylab('Score on WS') + xlab('Age at Evaluation') + scale_x_continuous(breaks = seq_and_labels, labels = seq_and_labels) 
-  }
-  
-  rlist = list()
-  rlist[['plot']] = p1
-  rlist[['best_performing_properties']] = best_performing_properties
-  rlist[['worst_performing_properties']] = worst_performing_properties
-  return(rlist)
-}
-
 library('wordbankr')
 library('plyr')
 library('reshape2')
 library('dotwhisker')
 library('MASS')
 library('tidyverse')
+library('rcompanion')
 source("https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R")
-
+library('fastDummies')
+library('corrplot')
 
 #read in data
-elssp = read.csv("data/ELSSP_SubjectInfo_02042020.csv", stringsAsFactors=F) %>% mutate(InSample=as.factor(InSample)) %>% filter(VisitNumber==1)	
-elssp$AgeAtEvaluationMonths = elssp$Age #for clarity
+elssp = read.csv("data/ELSSP_SubjectInfo_02042020.csv", stringsAsFactors=F) %>% mutate(InSample=as.factor(InSample)) %>% filter(VisitNumber==1)
+elssp$AgeAtEvaluationMonths <- elssp$Age #for clarity NEED TO DO THIS TIDYVERSE WAY
 elssp$subject_id = unlist(lapply(strsplit(elssp$SubjectNumber,'_'), function(x){as.numeric(x[2])}))
 elssp$admin_id = elssp$SubjectNumber
-summary(elssp)
 
-elssp$anycomorbid = ifelse(elssp$VisionLoss == 1 | 
-                             elssp$DevelopmentalConcerns == 1 | 
+elssp$anycomorbid <- ifelse(elssp$VisionLoss == 1 |
+                             elssp$DevelopmentalConcerns == 1 |
                              elssp$HealthIssues == 1 |
-                             elssp$IsPremature == 1, "1", 
-                           "0")
+                             elssp$IsPremature == 1, "1",
+                           "0") #create a column called AnyComorbid, which is a "1" if child has Vision Loss, Developmental Concerns, Health Issues, or Prematurity
 
 #add months-delay to dataframes
 elssp_datasets = lapply(c('WG','WS'), function(x){
@@ -591,32 +374,33 @@ elssp_datasets = lapply(c('WG','WS'), function(x){
 })
 
 #make dataframes easier to call
-wg_elssp <- elssp_datasets[[1]]$elssp_df %>% mutate(Gender=as.factor(Gender), Laterality=as.factor(Laterality), 
-                                                    Meets136=as.factor(Meets136), meets13=as.factor(meets13), 
-                                                    meets6=as.factor(meets6), Etiology=as.factor(Etiology), 
-                                                    Side=as.factor(Side), ANSD=as.factor(ANSD), 
-                                                    Amplification=as.factor(Amplification), 
-                                                    Communication=as.factor(Communication), 
-                                                    IsPremature=as.factor(IsPremature), 
-                                                    HealthIssues=as.factor(HealthIssues), 
-                                                    CDIversion=as.factor(CDIversion), 
-                                                    Monolingual_English=as.factor(Monolingual_English), 
-                                                    InSample=as.factor(InSample)) %>% filter(VisitNumber==1)
+wg_elssp <- elssp_datasets[[1]]$elssp_df %>% mutate(Gender=as.factor(Gender), Laterality=as.factor(Laterality),
+                                                    Meets136=as.factor(Meets136), meets13=as.factor(meets13),
+                                                    meets6=as.factor(meets6), Etiology=as.factor(Etiology),
+                                                    Side=as.factor(Side), ANSD=as.factor(ANSD),
+                                                    Amplification=as.factor(Amplification),
+                                                    Communication=as.factor(Communication),
+                                                    IsPremature=as.factor(IsPremature),
+                                                    HealthIssues=as.factor(HealthIssues),
+                                                    CDIversion=as.factor(CDIversion),
+                                                    Monolingual_English=as.factor(Monolingual_English),
+                                                    InSample=as.factor(InSample)) %>% filter(VisitNumber==1) #change this to strings as factors??
 
 
-ws_elssp <- elssp_datasets[[2]]$elssp_df %>% mutate(Gender=as.factor(Gender), Laterality=as.factor(Laterality), 
-                                                    Meets136=as.factor(Meets136), meets13=as.factor(meets13), 
-                                                    meets6=as.factor(meets6), Etiology=as.factor(Etiology), 
-                                                    Side=as.factor(Side), ANSD=as.factor(ANSD), 
-                                                    Amplification=as.factor(Amplification), 
-                                                    Communication=as.factor(Communication), 
-                                                    IsPremature=as.factor(IsPremature), 
-                                                    HealthIssues=as.factor(HealthIssues), 
-                                                    CDIversion=as.factor(CDIversion), 
-                                                    Monolingual_English=as.factor(Monolingual_English), 
-                                                    InSample=as.factor(InSample)) %>% filter(VisitNumber==1)
+ws_elssp <- elssp_datasets[[2]]$elssp_df %>% mutate(Gender=as.factor(Gender), Laterality=as.factor(Laterality),
+                                                    Meets136=as.factor(Meets136), meets13=as.factor(meets13),
+                                                    meets6=as.factor(meets6), Etiology=as.factor(Etiology),
+                                                    Side=as.factor(Side), ANSD=as.factor(ANSD),
+                                                    Amplification=as.factor(Amplification),
+                                                    Communication=as.factor(Communication),
+                                                    IsPremature=as.factor(IsPremature),
+                                                    HealthIssues=as.factor(HealthIssues),
+                                                    CDIversion=as.factor(CDIversion),
+                                                    Monolingual_English=as.factor(Monolingual_English),
+                                                    InSample=as.factor(InSample)) %>% filter(VisitNumber==1) #change to strings as factors??
 
-full_elssp <- rbind(wg_elssp, ws_elssp)
+full_elssp <- rbind(wg_elssp, ws_elssp) #bind together wg_elssp and ws_elssp 
+#(full_elssp is different from elssp in that it has the growth curve values)
 
 
 #rainbow cdi plots
@@ -669,9 +453,11 @@ ws_degree <- ggplot(data=elssp_datasets[[2]]$elssp_df, aes(x=HLworse, y=diff_age
 
 #services/month
 wg_services <- ggplot(data=elssp_datasets[[1]]$elssp_df, aes(x=ServicesReceivedPerMonth, y=diff_age_from_expected))+
-  geom_point() + geom_smooth(method='lm')
+  geom_point() + 
+   geom_smooth(method='lm')
 ws_services <- ggplot(data=elssp_datasets[[2]]$elssp_df, aes(x=ServicesReceivedPerMonth, y=diff_age_from_expected))+
-  geom_point() + geom_smooth(method='lm')
+  geom_point() + 
+  geom_smooth(method='lm')
 
 #interactions among variables
 hm_prep <- data.frame(var1=character(),
@@ -688,34 +474,32 @@ prep_hm_df <- function(df) {
     "pval" = (chisq.test(df))$p.value)
 }
 
-prep_hm_catcont <- function(cat, cont) {
-  hm_list <- list(
-    "var1" = cat,
-    "var2" = substitute(cont),
-    "eff_size" <- unname(ifelse(nlevels(cat)==2, (wilcox.test(cont~cat))$statistic, 
-                         (kruskall.test(cont~cat, data=df))$statistic)),
-    "pval" = unname(ifelse(nlevels(cat)==2, (wilcox.test(cont~cat, data=df))$p.value, 
-                    (kruskall.test(cont~cat, data=df))$p.value)))
-  hm_list
-}
-
-hm_list <- list(
-  "var1" = cat,
-  "var2" = substitute(cont),
-  "eff_size" <- unname(ifelse(nlevels(cat)==2, (wilcox.test(cont~cat))$statistic, 
-                              (kruskall.test(cont~cat, data=df))$statistic)),
-  "pval" = unname(ifelse(nlevels(cat)==2, (wilcox.test(cont~cat, data=df))$p.value, 
-                         (kruskall.test(cont~cat, data=df))$p.value)))
-
-cor.test(formula = ~ x + y,
-         data = df)
+# prep_hm_catcont <- function(cat, cont) {
+#   hm_list <- list(
+#     "var1" = cat,
+#     "var2" = substitute(cont),
+#     "eff_size" <- unname(ifelse(nlevels(cat)==2, (wilcox.test(cont~cat))$statistic, 
+#                          (kruskal.test(cont~cat, data=df))$statistic)),
+#     "pval" = unname(ifelse(nlevels(cat)==2, (wilcox.test(cont~cat, data=df))$p.value, 
+#                     (kruskal.test(cont~cat, data=df))$p.value)))
+#   hm_list
+# }
+# 
+# hm_list <- list(
+#   "var1" = cat,
+#   "var2" = substitute(cont),
+#   "eff_size" <- unname(ifelse(nlevels(cat)==2, (wilcox.test(cont~cat))$statistic, 
+#                               (kruskal.test(cont~cat, data=df))$statistic)),
+#   "pval" = unname(ifelse(nlevels(cat)==2, (wilcox.test(cont~cat, data=df))$p.value, 
+#                          (kruskal.test(cont~cat, data=df))$p.value)))
+# 
 
 ##should functionalize this
 Gender_DevConcerns <- table(full_elssp$Gender, full_elssp$DevelopmentalConcerns)
 Gender_DevConcerns_list <- prep_hm_df(Gender_DevConcerns)
 hm_prep <- rbind(hm_prep, Gender_DevConcerns_list)
 
-i <- sapply(hm_prep, is.factor) #prevent var2 from turning into character??
+i <- sapply(hm_prep, is.factor) #prevent var2 from turning into factor??
 hm_prep[i] <- lapply(hm_prep[i], as.character)
 
 HealthIssues_Gender <- table(full_elssp$Gender, full_elssp$HealthIssues)
@@ -942,16 +726,9 @@ hm_prep <- rbind(hm_prep, Language_Gender_list)
 
 
 
-hm_plot <- ggplot(hm_prep, aes(y=var1, x=var2)) +
-  geom_tile(aes(fill = sig)) + theme_classic() +
-  theme(axis.text.x = element_text(angle = 90)) +
-  scale_fill_brewer(palette = "RdPu", direction=-1) +
-  xlab(NULL) + ylab(NULL) +
-  geom_text(aes(label=ifelse(sig=='survives_bc',eff_size,'')))
-hm_plot
 
 
-Degree_Amplification <- kruskal.test(HLworse ~ Amplification, 
+Degree_Amplification <- kruskal.test(HLworse ~ Amplification,
                                      data=(full_elssp %>% filter(full_elssp$Amplification=="CI"|full_elssp$Amplification=="HA"|full_elssp$Amplification=="none")))
 Degree_Amplification_list <- list(
   "var1" = "Degree",
@@ -961,26 +738,30 @@ Degree_Amplification_list <- list(
 )
 hm_prep <- rbind(hm_prep, Degree_Amplification_list)
 
-Services_DevConcerns <- wilcox.test(ServicesReceivedPerMonth ~ DevelopmentalConcerns, 
-                                 data=(full_elssp %>% filter(full_elssp$DevelopmentalConcerns=="yes"|full_elssp$DevelopmentalConcerns=="no")))
-Services_DevConcerns_list <- list(
-  "var1" = "Degree",
-  "var2" = "Amplification",
-  "eff_size" = unname(Services_DevConcerns$statistic),
-  "pval" = Services_DevConcerns$p.value
-)
-hm_prep <- rbind(hm_prep, Services_DevConcerns_list)
+Services_DevConcerns <- wilcox.test(ServicesReceivedPerMonth ~ DevelopmentalConcerns,
+                                 data=(full_elssp %>% filter(full_elssp$DevelopmentalConcerns==1|full_elssp$DevelopmentalConcerns==0)))
+# Services_DevConcerns_list <- list(
+#   "var1" = "Services",
+#   "var2" = "DevConcerns",
+#   "eff_size" = unname(Services_DevConcerns$statistic),
+#   "pval" = Services_DevConcerns$p.value
+# )
+
+hm_prep <- hm_prep %>% mutate(sig = ifelse(pval>.05, "ns", 
+                                           ifelse(pval>0.0007575758, "sig", "
+                                                  survivesbc")))
 
 
-Services_Communication <- kruskal.test(ServicesReceivedPerMonth ~ Communication, 
+Services_Communication <- kruskal.test(ServicesReceivedPerMonth ~ Communication,
                                        data=(full_elssp %>% filter(full_elssp$Communication=="total communication"|full_elssp$Communication=="spoken")))
-Services_Communication_list <- list(
-  "var1" = "Degree",
-  "var2" = "Amplification",
-  "eff_size" = unname(Services_Communication$statistic),
-  "pval" = Services_Communication$p.value
-)
-hm_prep <- rbind(hm_prep, Services_Communication_list)
+
+hm_plot <- ggplot(hm_prep, aes(y=var1, x=var2)) +
+  geom_tile(aes(fill = sig)) + theme_classic() +
+  theme(axis.text.x = element_text(angle = 90)) +
+  scale_fill_brewer(palette = "RdPu", direction=-1) +
+  xlab(NULL) + ylab(NULL) +
+  geom_text(aes(label=ifelse(sig=='survives_bc',eff_size,'')))
+hm_plot
 
 # lm_output <- function(data) {
 #   print_res = paste("ß=", round(data$Estimate,2),
@@ -1000,32 +781,24 @@ chisq_output <- function(data) {
 }
 
 beta_output <- function(model, predictornum) {
-  beta_output = paste("(B = ", round(summary(model)$coefficients[predictornum,1], 2),
+  beta_output = paste("(ß = ", round(summary(model)$coefficients[predictornum,1], 2),
                        ", p = ",format.pval(summary(model)$coefficients[predictornum,4], digits=2),
                        ")", sep='')
   beta_output
 }
 
-# df_names <- list()
-df_refs <- list (Gender_DevConcerns, Gender_HealthIssues, Gender_Premature, Gender_Laterality)
 
 
-for (df in df_refs) {
-  hm_list <- prep_hm_df(df);
-  hm_prep <- rbind(hm_list, hm_prep);
-}
-print(hm_prep)
-
-library(fastDummies)
-corr_prep <- dummy_cols(full_elssp, select_columns = c("Gender", "Meets136", 
-                                                       "Etiology", "Laterality", "Amplification", 
-                                                       "Communication", "PrimaryLanguage", "DevelopmentalConcerns")) %>% 
-  dplyr::select(ServicesReceivedPerMonth, HLworse,
-                Gender_female, Gender_male,
-                Amplification_CI, Amplification_HA, Amplification_none, 
+corr_prep <- dummy_cols(elssp, select_columns = c("Gender", "Meets136",
+                                                       "Etiology", "Laterality", "Amplification",
+                                                       "Communication", "PrimaryLanguage", "DevelopmentalConcerns")) %>%
+  dplyr::select(ServicesReceivedPerMonth, HLworse, Gender_male,
+                Amplification_CI, Amplification_HA, Amplification_none,
                 PrimaryLanguage_Spanish, PrimaryLanguage_English, PrimaryLanguage_Hindi,
                 Etiology_SNHL, Etiology_Mixed, Etiology_Conductive,
-                Communication_spoken,
-                DevelopmentalConcerns_yes)
-elssp_corr <- cor(corr_prep)
-corrplot(elssp_corr, insig = "blank")
+                Communication_spoken, DevelopmentalConcerns, HealthIssues, IsPremature,
+                VisionLoss) %>%
+  mutate()
+elssp_corr <- cor(corr_prep, use="pairwise.complete.obs")
+
+

@@ -33,9 +33,9 @@ Vohr et al., 2011 & 18-24 month olds with hearing loss & Did not study & Earlier
 \hline
 CDI version & Average Age (SD) & Average Comprehension (SD) & Average Production (SD) & \% Developmental Delays\\
 \hline
-WG (n=74) & 20.05 (8.82) months & 105 (99.7) words & 32 (53.4) words & 18.92\%\\
+WG (n=74) & 20.05 (8.82) months & 105 (99.7) words & 32 (53.4) words & 0\%\\
 \hline
-WS (n=23) & 25.96 (7.95) months & NA & 139 (178.3) words & 4.34782608695652\%\\
+WS (n=23) & 25.96 (7.95) months & NA & 139 (178.3) words & 0\%\\
 \hline
 \end{tabular}}
 \end{table*}
@@ -222,7 +222,7 @@ Amplification & CI: 8.7; HA: 13.9, none: 23 & CI: 19.7; HA: 7.3, none: 10.3 & kr
 \hline
 Health Issues & Yes: 14.1; No: 15.5 & Yes: 8.2; No: 9.9 & wilcox\\
 \hline
-Developmental Delay & Yes: 22.6; No: 13.1 & Yes: 4.5; No: 9.8 & wilcox\\
+Developmental Delay & Yes: NaN; No: NaN & Yes: NaN; No: NaN & wilcox\\
 \hline
 Prematurity & Premature: 19.3; Full-term: 14.1 & Premature: 8.9; Full-term: 9.7 & wilcox\\
 \hline

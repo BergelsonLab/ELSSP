@@ -235,9 +235,9 @@ While this collaboration is ongoing, we opted to pause for this analysis upon re
 \hline
 CDI version & Average Age (SD) & Average Comprehension (SD) & Average Production (SD) & \% Developmental Delays\\
 \hline
-WG (n=74) & 20.05 (8.82) months & 105 (99.7) words & 32 (53.4) words & 18.92\%\\
+WG (n=74) & 20.05 (8.82) months & 105 (99.7) words & 32 (53.4) words & 0\%\\
 \hline
-WS (n=23) & 25.96 (7.95) months & NA & 139 (178.3) words & 4.34782608695652\%\\
+WS (n=23) & 25.96 (7.95) months & NA & 139 (178.3) words & 0\%\\
 \hline
 \end{tabular}}
 \end{table}
@@ -454,7 +454,7 @@ Amplification & CI: 8.7; HA: 13.9, none: 23 & CI: 19.7; HA: 7.3, none: 10.3 & kr
 \hline
 Health Issues & Yes: 14.1; No: 15.5 & Yes: 8.2; No: 9.9 & wilcox\\
 \hline
-Developmental Delay & Yes: 22.6; No: 13.1 & Yes: 4.5; No: 9.8 & wilcox\\
+Developmental Delay & Yes: NaN; No: NaN & Yes: NaN; No: NaN & wilcox\\
 \hline
 Prematurity & Premature: 19.3; Full-term: 14.1 & Premature: 8.9; Full-term: 9.7 & wilcox\\
 \hline
@@ -481,7 +481,7 @@ Lastly, we looked at the ages at which children received diagnosis and intervent
 We created linear regression models for age at diagnosis and age at intervention. Models were paired down using stepwise regression by AIC using the stepAIC function (cite MASS package). For age at diagnosis, we included the set of child-specific factors that would be relevant before diagnosis of hearing loss. We began with:
 \[Age\:at\:Diagnosis \sim Gender + Degree\:of\:Hearing\:Loss\:(worse\:ear) + Developmental\:Delay + Health\:Issues + Prematurity + Laterality + Language \:Background + Etiology\]
 Age diagnosis \textasciitilde{} gender + laterality + degree (worse ear) + developmental delay + health issues + prematurity + laterality + language background + etiology
-The best fit model (R2=0.25 , p=0.00 )included health issues (B = 4.18, p = 0.0028) and language background (B = 27.68, p = 3.8e-05).
+The best fit model (R2=0.25 , p=0.00 )included health issues (ß = 4.18, p = 0.0028) and language background (ß = 27.68, p = 3.8e-05).
 \[Age\:at\:Diagnosis \sim Health\:Issues + Language\:Background\]
 
 \includegraphics{ELSSP_paper_files/figure-latex/diagnosis-betas-1.pdf}
@@ -489,7 +489,7 @@ The best fit model (R2=0.25 , p=0.00 )included health issues (B = 4.18, p = 0.00
 For age at intervention, we first included the variables potentially relevant prior to intervention:
 Age intervention \textasciitilde{} gender + degree (worse ear) + developmental delay + health issues + prematurity + laterality + language background + etiology + age diagnosis
 \[Age\:at\:Intervention \sim Gender + Degree\:of\:Hearing\:Loss\:(worse\:ear) + Developmental\:Delay + Health\:Issues + Prematurity + Laterality + Language \:Background + Etiology +Age\:at\:Diagnosis\]
-The best fit model (R2=0.46 , p=0.00) included prematurity (B = 4.6, p = 0.02), degree of hearing loss (B = -0.09, p = 0.0039), and age at diagnosis (B = 0.68, p = 1e-09).
+The best fit model (R2=0.46 , p=0.00) included prematurity (ß = 4.6, p = 0.02), degree of hearing loss (ß = -0.09, p = 0.0039), and age at diagnosis (ß = 0.68, p = 1e-09).
 \[Age\:at\:Intervention \sim Degree\:of\:Hearing\:Loss\:(worse\:ear) + Prematurity + Age\:at\:Diagnosis\]
 
 \includegraphics{ELSSP_paper_files/figure-latex/intervention-betas-1.pdf}
