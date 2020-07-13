@@ -801,4 +801,23 @@ corr_prep <- dummy_cols(elssp, select_columns = c("Gender", "Meets136",
   mutate()
 elssp_corr <- cor(corr_prep, use="pairwise.complete.obs")
 
+comorbid <- read.csv("data/elssp_comorbidities.csv") %>% mutate(anycomorbid = ifelse(VisionLoss==1|
+                                                                                       DevelopmentalConcerns==1|
+                                                                                       HealthIssues==1|
+                                                                                       IsPremature==1, 1,
+                                                                                     0), 
+                                                                extremelypremature = ifelse(WeeksGestation > 33, 0,
+                                                                                            1))
+comorbid_long <- comorbid %>% pivot_longer(cols = c(ANSD, IsPremature:extremelypremature, -WeeksGestation), 
+                                           names_to = "condition", 
+                                           values_to = "n") %>% 
+  mutate(condition = as.factor(condition))
+condition_tallies <- aggregate(n ~ condition, data=comorbid_long, FUN = sum) %>% remove_rownames %>% column_to_rownames(var="condition")
+
+
+#make.names(condition_tallies$condition)
+
+n_condition <- function(condition){
+  as.numeric(condition_tallies[paste(enexpr(condition)),"n"])
+}
 

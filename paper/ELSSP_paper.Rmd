@@ -57,7 +57,6 @@ knitr::opts_chunk$set(fig.width=12, fig.height=12, comment=F, message=F, hide = 
 
 ```{r read-in-data, echo = F, results = 'hide', message = F, comment = F, fig.show='hide'}
 source('functions_and_df_prep.R')
-comorbid <- read.csv("data/elssp_comorbidities.csv")
 ```
 
 # Introduction
@@ -157,27 +156,11 @@ The clinical evaluations included demographic and audiological information, CDI 
 While this collaboration is ongoing, we opted to pause for this analysis upon receiving data from 100 children. Thus, the reported sample below consists of `r num_subs` children (`r num_boys` male / `r num_girls` female) ages `r min_age`--`r max_age`(M=`r mean_age`, SD=`r sd_age`). Race and SES information was not available. Families were administered either the WG or WS version of the CDI based on clinician judgement. Children who were too old for WG, but who were not producing many words at the time of assessment, were often given WG (n=`r num_too_old_wg`). Families for whom Spanish was the primary language (n = `r num_spanish_cdi`) completed the Spanish version of the CDI [@jackson-maldonado2003].
 
 ```{r CDIinfo, echo=FALSE}
-WG_n <- nrow(wg_elssp)
-WS_n <- nrow(ws_elssp)
-WG_age <- mean(wg_elssp$Age)
-WG_age_sd <- sd(wg_elssp$Age)
-WS_age <- mean(ws_elssp$Age)
-WS_age_sd <- sd(ws_elssp$Age)
-WG_comp <- mean(wg_elssp$ComprehensionCDI, na.rm = TRUE)
-WS_comp <- mean(ws_elssp$ComprehensionCDI)
-WG_comp_sd <- sd(wg_elssp$ComprehensionCDI, na.rm = TRUE)
-WS_comp_sd <- sd(ws_elssp$ComprehensionCDI)
-WG_prod <- mean(wg_elssp$ProductionCDI, na.rm = TRUE)
-WS_prod <- mean(ws_elssp$ProductionCDI, na.rm = TRUE)
-WG_prod_sd <- sd(wg_elssp$ProductionCDI, na.rm = TRUE)
-WS_prod_sd <- sd(ws_elssp$ProductionCDI, na.rm = TRUE)
-WG_percDD <- ((nrow(wg_elssp %>% filter(DevelopmentalConcerns=='yes')))/(nrow(wg_elssp)))*100
-WS_percDD <- ((nrow(ws_elssp %>% filter(DevelopmentalConcerns=='yes')))/(nrow(ws_elssp)))*100
 
 CDI_table <- tribble(
   ~'CDI version', ~'Average Age (SD)',  ~'Average Comprehension (SD)', ~'Average Production (SD)', ~'% Developmental Delays',
-  glue('WG (n={WG_n})'), glue('{round(WG_age, digits=2)} ({round(WG_age_sd, digits=2)}) months'), glue('{round(WG_comp, digits=0)} ({round(WG_comp_sd, digits=1)}) words'), glue('{round(WG_prod, digits=0)} ({round(WG_prod_sd,digits=1)}) words'), glue('{round(WG_percDD, digits=2)}%'),
-  glue('WS (n={WS_n})'), glue('{round(WS_age, digits=2)} ({round(WS_age_sd, digits=2)}) months'), glue({WS_comp}), glue('{round(WS_prod, digits=0)} ({round(WS_prod_sd, digits=1)}) words'), glue('{WS_percDD}%'))
+  glue('WG (n={nrow(wg_elssp)})'), glue('{round(mean(wg_elssp$Age), digits=2)} ({round(sd(wg_elssp$Age), digits=2)}) months'), glue('{round(mean(wg_elssp$ComprehensionCDI, na.rm = TRUE), digits=0)} ({round(sd(wg_elssp$ComprehensionCDI, na.rm = TRUE), digits=1)}) words'), glue('{round(mean(wg_elssp$ProductionCDI, na.rm = TRUE), digits=0)} ({round(sd(wg_elssp$ProductionCDI, na.rm = TRUE),digits=1)}) words'), glue('{round(((nrow(wg_elssp %>% filter(DevelopmentalConcerns=="1")))/(nrow(wg_elssp)))*100, digits=2)}%'),
+  glue('WS (n={nrow(ws_elssp)})'), glue('{round(mean(ws_elssp$Age), digits=2)} ({round( sd(ws_elssp$Age), digits=2)}) months'), 'NA', glue('{round(mean(ws_elssp$ProductionCDI, na.rm = TRUE), digits=0)} ({round(sd(ws_elssp$ProductionCDI, na.rm = TRUE), digits=1)}) words'), glue('{round(((nrow(ws_elssp %>% filter(DevelopmentalConcerns=="1")))/(nrow(ws_elssp)))*100, digits=2)}%'))
 
 
 
@@ -187,32 +170,14 @@ kable(CDI_table,
 
 ```
 
-Children in this sample were coded as yes/no for cognitive development concerns (e.g., Down syndrome, global developmental delays; Cornelia de Lange syndrome), yes/no for prematurity (i.e., more than 3 weeks premature), yes/no for health issues (e.g., heart defects, kidney malformations, VACTERL association), and yes/no for vision loss (not corrected to normal by surgery or glasses)
+Children in this sample were coded as yes/no for cognitive development concerns (e.g., Down syndrome, global developmental delays; Cornelia de Lange syndrome), yes/no for prematurity (i.e., more than 3 weeks premature), yes/no for health issues (e.g., heart defects, kidney malformations, VACTERL association), and yes/no for vision loss (not corrected to normal by surgery or glasses). 
 
 ```{r comorbid-info}
-num_premature <- nrow(comorbid %>% filter(WeeksGestation<37))
-num_v_premature <- nrow(comorbid %>% filter(WeeksGestation<33))
-num_NICU <- nrow(comorbid %>% filter(NICU==1))
-num_prem_NICU <- (nrow(comorbid%>%filter(NICU==1&IsPremature==1))/(nrow(elssp %>% filter(IsPremature==1))))*100
+perc_prem_NICU <- (nrow(comorbid%>%filter(NICU==1&IsPremature==1))/(nrow(elssp %>% filter(IsPremature==1))))*100
 
-num_vision_loss <- nrow(comorbid %>% filter(VisionLoss==1))
-num_ROP <- nrow(comorbid %>% filter(RetinopathyOfPrematurity==1))
-num_hyperopia <- nrow(comorbid %>% filter(hyperopia==1))
-num_cvi <- nrow(comorbid %>% filter(corticalvisualimpairment==1))
-num_myopia <- nrow(comorbid %>% filter(myopia==1))
-
-num_dev_delay <- nrow(comorbid %>% filter(DevelopmentalConcerns==1))
-num_downsyndrome <- nrow(comorbid %>% filter(downsyndrome==1))
 num_otherchromissues <- nrow(comorbid %>% filter(MissingChrom7==1|chromosomalproblems14and15==1))
-num_encephalocele <- nrow(comorbid %>% filter(occipitalencephalocele==1|encephalocelecyst))
-num_cdl <- nrow(comorbid %>% filter(corneliadelange==1))
-num_agenisis_cc <- nrow(comorbid %>% filter(agenesiscorpuscallosum==1))
 num_ventricular_issues <- nrow(comorbid %>% filter(intraventricularhemorrhage==1|periventricularleukomalacia==1))
-num_hydrocephalus <- nrow(comorbid %>% filter(hydrocephalus==1))
-num_overall_dev_concerns <- nrow(comorbid %>% filter(overalldevconcerns==1))
-num_apraxia <- nrow(comorbid %>% filter(oculomotorapraxia==1))
 
-num_health_issues <- nrow(comorbid %>% filter(HealthIssues==1))
 num_heart_issues <- nrow(comorbid %>% filter(HeartValveProblems==1|heartabnormalities==1|supraventriculartachycardia==1|bradycardia==1|coarctationofaorta==1|patentductusarteriosus|perferatedheart==1|pulmonaryarterystenosis))
 num_lung_issues <- nrow(comorbid %>%  filter(asthma==1|bronchopulmonarydysplasia==1|chroniclungdisease|tracheotomy==1|trachoesophagealfistula==1|esophagealatresia==1))
 num_feeding_issues <- nrow(comorbid %>% filter(Gtube==1|reflux==1|dysphagia==1|feedingproblems_nos|esophagealatresia==1))
@@ -225,14 +190,12 @@ num_health_issues_other <- nrow(comorbid %>% filter(esotropia==1|iriscoloboma==1
 
 num_pos_acqHL <- nrow(comorbid %>% filter(anemia==1|MRSA==1|meningitis==1|frequentfevers==1|Sepsis==1|jaundice==1|pneumonia==1|seizures==1|hydrocephalus==1|cytomegalovirus==1))
 
-num_anycomorbid <- nrow(comorbid %>% filter(VisionLoss==1|DevelopmentalConcerns==1|HealthIssues==1|IsPremature==1))
-
 comorbid_table <- tribble(
   ~Condition, ~'Specific Condition',  ~n,
-  "Premature", "", num_premature,
-  "", "Extremely Premature", num_v_premature,
-  "", "NICU stay", num_NICU,
-  "Health Issues", "", num_health_issues,
+  "Premature", "", n_condition(IsPremature),
+  "", "Extremely Premature", n_condition(extremelypremature),
+  "", "NICU stay", n_condition(NICU),
+  "Health Issues", "", n_condition(HealthIssues),
   "", "Heart", num_heart_issues,
   "", "Lung", num_lung_issues,
   "", "Illness", num_illness,
@@ -241,21 +204,21 @@ comorbid_table <- tribble(
   "", "Musculoskeletal", num_mus_skel,
   "", "Cleft Lip/Palate", num_cleft,
   "", "Other", num_health_issues_other,
-  "Developmental Concerns", "",  num_dev_delay,
-  "", "Down Syndrome", num_downsyndrome,
+  "Developmental Concerns", "",  n_condition(DevelopmentalConcerns),
+  "", "Down Syndrome", n_condition(downsyndrome),
   "", "Chromosomal Issues", num_otherchromissues,
-  "", "Neural Tube Defects", num_encephalocele,
-  "", "Other", sum(num_agenisis_cc, num_apraxia, num_cvi, num_ventricular_issues, num_hydrocephalus, num_overall_dev_concerns),
-  "Vision Loss", "",  num_vision_loss,
-  "", "Retinopathy of Prematurity",  num_ROP,
-  "", "Nearsightedness",  num_myopia,
-  "", "Farsightedness",  num_hyperopia,
-  "", "Cortical Visual Impairment",  num_cvi
+  "", "Neural Tube Defects", sum(n_condition(encephalocelecyst), n_condition(occipitalencephalocele)),
+  "", "Other", sum(n_condition(agenesiscorpuscallosum), n_condition(oculomotorapraxia), num_ventricular_issues, n_condition(corticalvisualimpairment), n_condition(hydrocephalus), n_condition(overalldevconcerns), n_condition(corneliadelange)),
+  "Vision Loss", "",  n_condition(VisionLoss),
+  "", "Retinopathy of Prematurity",  n_condition(RetinopathyOfPrematurity),
+  "", "Nearsightedness",  n_condition(myopia),
+  "", "Farsightedness",  n_condition(hyperopia),
+  "", "Cortical Visual Impairment",  n_condition(corticalvisualimpairment)
 )
 
 
 kable(comorbid_table, longtable=T,
-      caption = glue::glue("Additional Diagnoses (n={num_anycomorbid})")) %>%
+      caption = glue::glue("Additional Diagnoses (n={n_condition(anycomorbid)})")) %>%
   kable_styling(latex_options = "hold_position") %>%
   add_footnote("N.B. ns do not sum to total because many participants had multiple diagnoses")
 
