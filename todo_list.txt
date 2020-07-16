@@ -1,12 +1,22 @@
 Need to fix for ELSSP:
 
+Green:
 
+Yellow:
+
+
+Red:
+- title
+- table #s
+- elaborate on growth curve
+- citing packages
+
+
+Working on:
 - How to make table text bigger
 - Merge cells in 1-3-6 table
 - Fix p=0.00
-- Fix heat map
 - Make pn-opus ELSSP agree with git ELSSP
-- Change B to beta symbol
 - Add line breaks to equations
 - Add captions to all plots / tables
 - Bigger labels on graphs

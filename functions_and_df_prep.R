@@ -821,3 +821,8 @@ n_condition <- function(condition){
   as.numeric(condition_tallies[paste(enexpr(condition)),"n"])
 }
 
+hearing_means <- function(col, uni_bi, amp){ifelse(is.null(amp),
+  mean((elssp %>% filter(Laterality==enexpr(uni_bi)))$col, na.rm = TRUE),
+  mean((elssp %>% filter(Laterality==enexpr(uni_bi) & Amplification==enexpr(amp)))$col)
+)
+}
