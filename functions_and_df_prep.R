@@ -790,16 +790,30 @@ beta_output <- function(model, predictornum) {
 
 
 corr_prep <- dummy_cols(elssp, select_columns = c("Gender", "Meets136",
-                                                       "Etiology", "Laterality", "Amplification",
-                                                       "Communication", "PrimaryLanguage", "DevelopmentalConcerns")) %>%
+                                                  "Laterality", "Communication", 
+                                                  "PrimaryLanguage", "DevelopmentalConcerns")) %>%
   dplyr::select(ServicesReceivedPerMonth, HLworse, Gender_male,
-                Amplification_CI, Amplification_HA, Amplification_none,
-                PrimaryLanguage_Spanish, PrimaryLanguage_English, PrimaryLanguage_Hindi,
-                Etiology_SNHL, Etiology_Mixed, Etiology_Conductive,
-                Communication_spoken, DevelopmentalConcerns, HealthIssues, IsPremature,
-                VisionLoss) %>%
+                PrimaryLanguage_English, Communication_spoken, DevelopmentalConcerns, 
+                HealthIssues, IsPremature, Meets136_yes) %>%
   mutate()
 elssp_corr <- cor(corr_prep, use="pairwise.complete.obs")
+p_corr <- cor.mtest(corr_prep) 
+dimnames(p_corr$p) <- dimnames(elssp_corr)
+corrplot(elssp_corr, method = 'color', p.mat = p_corr$p,
+         type = "upper",
+         order = "hclust", tl.cex=1,
+         tl.col = "black", addCoef.col = "black",
+         sig.level = 0.001, insig = "blank", diag = FALSE)
+
+
+corrplot.mixed(elssp_corr, tl.pos = "lt",
+               p.mat = p_corr$p, insig = "blank", sig.level = 0.05, 
+         upper = "color",
+         order = "alphabet", tl.cex=1,
+         tl.col = "black",
+         addgrid.col = "grey")
+
+
 
 comorbid <- read.csv("data/elssp_comorbidities.csv") %>% mutate(anycomorbid = ifelse(VisionLoss==1|
                                                                                        DevelopmentalConcerns==1|

@@ -390,7 +390,7 @@ Shapiro–Wilk tests revealed that all of our continuous measures (i.e. degree o
 corrplot(elssp_corr, insig = "blank", method = 'color', 
          sig.level = 0.0007575758, type = "upper",
          order = "alphabet", tl.cex=1,
-         tl.col = "black", )
+         tl.col = "black")
 
 print(hm_plot)
 ```
