@@ -56,6 +56,7 @@ knitr::opts_chunk$set(fig.width=12, fig.height=12, comment=F, message=F, hide = 
 ```
 
 ```{r read-in-data, echo = F, results = 'hide', message = F, comment = F, fig.show='hide'}
+source('SM_functions.R')
 source('functions_and_df_prep.R')
 ```
 
@@ -383,64 +384,71 @@ All analyses were conducted in R. All code is available on Github. In the first 
 
 ## Part I: Interactions Among Variables
 
-Shapiro–Wilk tests revealed that all of our continuous measures (i.e. degree of hearing loss, services received per month, vocabulary delay) significantly differed from a normal distribution (ps <.05), so we used nonparametric tests to explore relationships among our variables. For categorical-categorical relationships, we used chi square tests; for continuous-categorical tests, we used mann-whitney U tests (2 levels for categorical variable) or kruskal-wallis tests (>2 levels for categorical variable; for continuous-continuous relationships, we used Of the fifty-five combinations of variables, p < .05 for sixteen, and seven survived bonferroni correction (p < `r format.pval(.05/55, digits = 2)`). The full set of comparisons is shown in figure XXX.
+For categorical-categorical relationships, we used chi square tests; for continuous-categorical tests, we used mann-whitney U tests (2 levels for categorical variable) or kruskal-wallis tests (>2 levels for categorical variable; for continuous-continuous relationships, we used Of the fifty-five combinations of variables, p < .05 for sixteen, and seven survived bonferroni correction (p < `r format.pval(.05/55, digits = 2)`). The full set of comparisons is shown in figure XXX.
 
 
 ```{r relationships-plot}
-corrplot(elssp_corr, insig = "blank", method = 'color', 
-         sig.level = 0.0007575758, type = "upper",
-         order = "alphabet", tl.cex=1,
-         tl.col = "black")
+corrplot(elssp_corr, method = 'color', p.mat = p_corr$p,
+         type = "upper",
+         order = "hclust", tl.cex=1,
+         tl.col = "black", addCoef.col = "black",
+         sig.level = 0.001, insig = "blank", diag = FALSE)
 
-print(hm_plot)
+corrplot.mixed(elssp_corr, tl.pos = "lt",
+               p.mat = p_corr$p, insig = "blank", sig.level = 0.05, 
+         upper = "color",
+         order = "alphabet", tl.cex=1,
+         tl.col = "black",
+         addgrid.col = "grey")
+
+ggplot(chi_sq_all, aes(y=Var1, x=Var2)) +
+  geom_tile(aes(fill = sig)) + theme_classic() +
+  theme(axis.text.x = element_text(angle = 90)) +
+  scale_fill_brewer(palette = "RdPu", direction=-1) +
+  xlab(NULL) + ylab(NULL) 
 ```
 
 From this analysis, we found that children born premature were more likely to also have health issues `r chisq_output(Prematurity_HealthIssues)`. Children with conductive hearing loss were more likely to have unilateral hearing loss `r chisq_output(Laterality_Etiology)`. Children with unilateral hearing loss were unlikely to receive a cochlear implant and more likely to use no amplification `r chisq_output(Laterality_Amplification)`. Children with more severe hearing loss were more likely to use a cochlear implant than children with milder hearing loss (H(`r Degree_Amplification$parameter`)=`r Degree_Amplification$statistic`, p=`r Degree_Amplification$p.value`). Children with developmental delays received more services per month than typically developing DHH children (H(`r Services_DevConcerns$parameter`)=`r Services_DevConcerns$statistic`, p=`r Services_DevConcerns$p.value`)and were more likely to use total communication `r chisq_output(DevConcerns_Communication)`. Children who used total communication received more services per month than children using spoken language (H(`r Services_Communication$parameter`)=`r Services_Communication$statistic`, p=`r Services_Communication$p.value`).
 
+```{r balloon-plots}
+nz_balloons("Laterality", "Amplification")
+nz_balloons("Laterality", "Etiology")
+nz_balloons("HLworse_cat", "Amplification")
+nz_balloons("DevelopmentalConcerns", "SPM_cat")
+nz_balloons("DevelopmentalConcerns", "Communication")
+nz_balloons("DevelopmentalConcerns", "IsPremature")
+nz_balloons("HealthIssues", "DevelopmentalConcerns")
+nz_balloons("HealthIssues", "IsPremature")
+```
+
 ## Part II: Influence on vocabulary
 
-We first constructed a binary logistic growth curve for vocabulary from the 50th percentile data for typically developing children from Wordbank. With this function, each participant’s CDI score yielded a predicted age from the normative data. For each child, we subtracted this predicted age (given the score) from the child’s actual age to give us a measure of delay in months. Descriptively, we found widespread vocabulary delays on both Words and Gestures and Words and Sentences, with the majority of DHH children testing around or below the 25th percentile for hearing children. 
 
 
 ```{r wg-ws-rainbow-plot}
-cowplot::plot_grid(wg_rainbow, ws_rainbow) +
-  labs(caption = "Figures XXX - Colored lines show vocabulary percentiles from wordbank. black line shows growth curve from 50th percentile data. Black triangles show vocabulary scores of individual DHH children.")
+cowplot::plot_grid((plot_elssp_df(elssp_datasets[[1]])), (plot_elssp_df(elssp_datasets[[2]]))) +
+  labs(caption = "Figures XXX - Colored lines show vocabulary percentiles from wordbank. black line shows growth curve from Wordbank 50th percentile data. Black triangles show vocabulary scores of individual DHH children.")
 ```
 
-We next explored the effect of the different audiological, demographic, and intervention characteristics on vocabulary delay. Vocabulary delay did not meet the assumption of normality, so we used non-parametric tests for the following set of analyses. Mann-Whitney-Wilcoxen tests were conducted to examine the effects of gender, laterality, developmental delay, health issues, prematurity, meeting 1-3-6 guidelines, and communication on vocabulary delay. We used kruskal-wallis tests for amplification and etiology, and Kendall’s rank correlations for degree of hearing loss (worse ear) and services received per month. These results are exploratory and descriptive, and their interpretation should be tempered accordingly. 
-
-Boys were significantly more delayed than girls on Words and Sentences but not Words and Gestures. Children with developmental delays had larger vocabulary delays than children without developmental delays on Words and Gestures. Because only one child with a developmental delay took the Words and Sentences form, we did not perform the analysis for Words and Sentences. Premature children and children with health issues had smaller vocabularies than typically developing children on Words and Gestures but not Words and Sentences. Children who met 1-3-6 guidelines had larger vocabulary than children who did not on Words and Gestures but not Words and Sentences. On Words and Gestures but not Words and Sentences, receiving more early intervention services was correlated with lower vocabulary. We did not observe an effect of laterality, communication, degree, or etiology on vocabulary delay on either form of the CDI. For communication, we omitted cued speech from the analysis because only one child in our sample used this method of communication (shown on graph anyway for the curious). A kruskal-wallis test showed a significant effect of amplification on vocabulary delay on Words and Gestures, such that children with no amplification were more delayed than children without amplification.
 
 ```{r delay-plots}
-# cowplot::plot_grid(wg_gender, wg_prematurity, wg_healthissues, wg_devconcerns, ws_gender, ws_prematurity, ws_healthissues, ws_devconcerns, nrows=2)
 
-# cowplot::plot_grid(wg_laterality, wg_degree, wg_etiology, wg_amplification, ws_laterality, ws_degree, ws_etiology, ws_amplification, rows=2)
-
-# cowplot::plot_grid(wg_gender, wg_prematurity, wg_healthissues, wg_devconcerns, ws_gender, ws_prematurity, ws_healthissues, ws_devconcerns, rows=2)
-
-# cowplot::plot_grid(wg_communication, wg_meets136, wg_services, ws_communication, ws_meets136, ws_services, rows=2)
-
-# cowplot::plot_grid(wg_gender, ws_gender, rows=2)
-
-
-#right now, only includes graphs where there's a sig relationship between split variable and vocab delay
-cowplot::plot_grid(ws_gender, wg_devconcerns, wg_meets136, wg_amplification, wg_healthissues, wg_prematurity, wg_services, rows=3)
 ```
 
 ```{r delay-table}
 delay_table <- tribble(
-  ~Variable, ~'WG mean delays', ~'WS mean delays', ~Method,
-  'Gender', glue('Boy: {round(mean((wg_elssp %>% filter(Gender=="male"))$diff_age_from_expected), digits=1)}; Girl: {round(mean((wg_elssp %>% filter(Gender=="female"))$diff_age_from_expected), digits=1)}'), glue('Boy: {round(mean((ws_elssp %>% filter(Gender=="male"))$diff_age_from_expected), digits=1)}; Girl: {round(mean((ws_elssp %>% filter(Gender=="female"))$diff_age_from_expected), digits=1)}'), 'wilcox', 
- 'Laterality', glue('Unilateral: {round(mean((wg_elssp %>% filter(Laterality=="Unilateral"))$diff_age_from_expected), digits=1)}; Bilateral: {round(mean((wg_elssp %>% filter(Laterality=="Bilateral"))$diff_age_from_expected), digits=1)}'), glue('Unilateral: {round(mean((ws_elssp %>% filter(Laterality=="Unilateral"))$diff_age_from_expected), digits=1)}; Bilateral: {round(mean((ws_elssp %>% filter(Laterality=="Bilateral"))$diff_age_from_expected), digits=1)}'), 'wilcox',
-    'Amplification', glue('CI: {round(mean((wg_elssp %>% filter(Amplification=="CI"))$diff_age_from_expected), digits=1)}; HA: {round(mean((wg_elssp %>% filter(Amplification=="HA"))$diff_age_from_expected), digits=1)}, none: {round(mean((wg_elssp %>% filter(Amplification=="none"))$diff_age_from_expected), digits=1)}'), glue('CI: {round(mean((ws_elssp %>% filter(Amplification=="CI"))$diff_age_from_expected), digits=1)}; HA: {round(mean((ws_elssp %>% filter(Amplification=="HA"))$diff_age_from_expected), digits=1)}, none: {round(mean((ws_elssp %>% filter(Amplification=="none"))$diff_age_from_expected), digits=1)}'),'kruskall',
-   'Health Issues', glue('Yes: {round(mean((wg_elssp %>% filter(HealthIssues==1))$diff_age_from_expected),digits=1)}; No: {round(mean((wg_elssp %>% filter(HealthIssues==0))$diff_age_from_expected), digits=1)}'), glue('Yes: {round(mean((ws_elssp %>% filter(HealthIssues==1))$diff_age_from_expected), digits=1)}; No: {round(mean((ws_elssp %>% filter(HealthIssues==0))$diff_age_from_expected), digits=1)}'), 'wilcox',
-   'Developmental Delay', glue('Yes: {round(mean((wg_elssp %>% filter(DevelopmentalConcerns=="yes"))$diff_age_from_expected), digits=1)}; No: {round(mean((wg_elssp %>% filter(DevelopmentalConcerns=="no"))$diff_age_from_expected), digits=1)}'), glue('Yes: {round(mean((ws_elssp %>% filter(DevelopmentalConcerns=="yes"))$diff_age_from_expected), digits=1)}; No: {round(mean((ws_elssp %>% filter(DevelopmentalConcerns=="no"))$diff_age_from_expected), digits=1)}'), 'wilcox', 
-    'Prematurity', glue('Premature: {round(mean((wg_elssp %>% filter(IsPremature==1))$diff_age_from_expected), digits=1)}; Full-term: {round(mean((wg_elssp %>% filter(IsPremature==0))$diff_age_from_expected), digits=1)}'), glue('Premature: {round(mean((ws_elssp %>% filter(IsPremature==1))$diff_age_from_expected), digits=1)}; Full-term: {round(mean((ws_elssp %>% filter(IsPremature==0))$diff_age_from_expected), digits=1)}'), 'wilcox',
-   '1-3-6 Guidelines', glue('Meets: {round(mean((wg_elssp %>% filter(Meets136=="yes"))$diff_age_from_expected), digits=1)}; Does not meet: {round(mean((wg_elssp %>% filter(Meets136=="no"))$diff_age_from_expected), digits=1)}'), glue('Meets: {round(mean((ws_elssp %>% filter(Meets136=="yes"))$diff_age_from_expected), digits=1)}; Does not meet: {round(mean((ws_elssp %>% filter(Meets136=="no"))$diff_age_from_expected), digits=1)}'), 'wilcox',
-  'Communication', glue('Spoken Language: {round(mean((wg_elssp %>% filter(Communication=="spoken"))$diff_age_from_expected), digits=1)}; Total Communication: {round(mean((wg_elssp %>% filter(Communication=="total communication"))$diff_age_from_expected), digits=1)}'),  glue('Spoken Language: {round(mean((ws_elssp %>% filter(Communication=="spoken"))$diff_age_from_expected), digits=1)}; Total Communication: {round(mean((ws_elssp %>% filter(Communication=="total communication"))$diff_age_from_expected), digits=1)}'),'wilcox',
-  'Etiology', glue('SNHL: {round(mean((wg_elssp %>% filter(Etiology=="SNHL"))$diff_age_from_expected), digits=1)}; Mixed: {round(mean((wg_elssp %>% filter(Etiology=="Mixed"))$diff_age_from_expected), digits=1)}, Conductive: {round(mean((wg_elssp %>% filter(Etiology=="Conductive"))$diff_age_from_expected), digits=1)}'), glue('SNHL: {round(mean((ws_elssp %>% filter(Etiology=="SNHL"))$diff_age_from_expected), digits=1)}; Mixed: {round(mean((ws_elssp %>% filter(Etiology=="Mixed"))$diff_age_from_expected), digits=1)}, Conductive: {round(mean((ws_elssp %>% filter(Etiology=="Conductive"))$diff_age_from_expected), digits=1)}'),'kruskall',
-  'Degree', glue('More severe: {round(mean((wg_elssp %>% filter(HLworse>64))$diff_age_from_expected), digits=1)}; Less severe: {round(mean((wg_elssp %>% filter(HLworse<64))$diff_age_from_expected), digits=1)}'),  glue('More severe: {round(mean((ws_elssp %>% filter(HLworse>56))$diff_age_from_expected), digits=1)}; Less severe: {round(mean((ws_elssp %>% filter(HLworse<56))$diff_age_from_expected), digits=1)}'),'wilcox',
-   'Services Received Per Month', glue('More services: {round(mean((wg_elssp %>% filter(ServicesReceivedPerMonth>4))$diff_age_from_expected), digits=1)}; Less services: {round(mean((wg_elssp %>% filter(ServicesReceivedPerMonth<4))$diff_age_from_expected), digits=1)}'),  glue('More services: {round(mean((ws_elssp %>% filter(ServicesReceivedPerMonth>2))$diff_age_from_expected), digits=1)}; Less services: {round(mean((ws_elssp %>% filter(ServicesReceivedPerMonth<2))$diff_age_from_expected), digits=1)}'),'wilcox'
+  ~Variable, ~'mean delays', ~Method,
+  'Gender', glue('Boy: {round(mean((full_elssp %>% filter(Gender=="male"))$diff_age_from_expected), digits=1)}; Girl: {round(mean((full_elssp %>% filter(Gender=="female"))$diff_age_from_expected), digits=1)}'), 'wilcox', 
+ 'Laterality', glue('Unilateral: {round(mean((full_elssp %>% filter(Laterality=="Unilateral"))$diff_age_from_expected), digits=1)}; Bilateral: {round(mean((full_elssp %>% filter(Laterality=="Bilateral"))$diff_age_from_expected), digits=1)}'), 'wilcox',
+    'Amplification', glue('CI: {round(mean((full_elssp %>% filter(Amplification=="CI"))$diff_age_from_expected), digits=1)}; HA: {round(mean((full_elssp %>% filter(Amplification=="HA"))$diff_age_from_expected), digits=1)}, none: {round(mean((full_elssp %>% filter(Amplification=="none"))$diff_age_from_expected), digits=1)}'), 'kruskall',
+   'Health Issues', glue('Yes: {round(mean((full_elssp %>% filter(HealthIssues==1))$diff_age_from_expected),digits=1)}; No: {round(mean((full_elssp %>% filter(HealthIssues==0))$diff_age_from_expected), digits=1)}'), 'wilcox',
+   'Developmental Delay', glue('Yes: {round(mean((full_elssp %>% filter(DevelopmentalConcerns=="1"))$diff_age_from_expected), digits=1)}; No: {round(mean((full_elssp %>% filter(DevelopmentalConcerns=="0"))$diff_age_from_expected), digits=1)}'),  'wilcox', 
+    'Prematurity', glue('Premature: {round(mean((full_elssp %>% filter(IsPremature==1))$diff_age_from_expected), digits=1)}; Full-term: {round(mean((full_elssp %>% filter(IsPremature==0))$diff_age_from_expected), digits=1)}'), 'wilcox',
+   '1-3-6 Guidelines', glue('Meets: {round(mean((full_elssp %>% filter(Meets136=="yes"))$diff_age_from_expected), digits=1)}; Does not meet: {round(mean((full_elssp %>% filter(Meets136=="no"))$diff_age_from_expected), digits=1)}'), 'wilcox',
+  'Communication', glue('Spoken Language: {round(mean((full_elssp %>% filter(Communication=="spoken"))$diff_age_from_expected), digits=1)}; Total Communication: {round(mean((full_elssp %>% filter(Communication=="total communication"))$diff_age_from_expected), digits=1)}'), 'wilcox',
+  'Etiology', glue('SNHL: {round(mean((full_elssp %>% filter(Etiology=="SNHL"))$diff_age_from_expected), digits=1)}; Mixed: {round(mean((full_elssp %>% filter(Etiology=="Mixed"))$diff_age_from_expected), digits=1)}, Conductive: {round(mean((full_elssp %>% filter(Etiology=="Conductive"))$diff_age_from_expected), digits=1)}'), 'kruskall',
+  'Degree', glue('More severe: {round(mean((full_elssp %>% filter(HLworse>64))$diff_age_from_expected), digits=1)}; Less severe: {round(mean((full_elssp %>% filter(HLworse<64))$diff_age_from_expected), digits=1)}'),  'wilcox',
+   'Services Received Per Month', glue('More services: {round(mean((full_elssp %>% filter(ServicesReceivedPerMonth>4))$diff_age_from_expected), digits=1)}; Less services: {round(mean((full_elssp %>% filter(ServicesReceivedPerMonth<4))$diff_age_from_expected), digits=1)}'), 'wilcox'
 )
 
 #currently doesn't include anything about whether it was sig
@@ -459,7 +467,7 @@ kable(delay_table,
 perc_136_TD <- (nrow(elssp%>%filter(anycomorbid==0)%>%filter(Meets136=='yes'))/(nrow(elssp%>%filter(anycomorbid==0)%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 perc_136_DA <- (nrow(elssp%>%filter(anycomorbid==1)%>%filter(Meets136=='yes'))/(nrow(elssp%>%filter(anycomorbid==1)%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 ```
-Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. `r perc_136`% of our sample met 1-3-6 guidelines for early diagnosis and intervention. Of children with comorbidities (i.e., developmental concerns, prematurity, health issues, vision loss), only `r round(perc_136_DA, digits = 0)`% met 1-3-6 guidelines, compared to `r perc_136_TD`% of typically developing children. 
+Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. Overall, `r perc_136`% of our sample met 1-3-6 guidelines for early diagnosis and intervention. 
 
 
 ```{r meets136-timeline}
