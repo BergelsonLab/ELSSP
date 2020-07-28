@@ -7,6 +7,7 @@ library('tidyverse')
 library('rcompanion')
 library('fastDummies')
 library('corrplot')
+library('gplots')
 source('SM_functions.R')
 
 #read in data
@@ -36,59 +37,23 @@ full_elssp <- bind_rows(elssp_datasets[[1]]$elssp_df, elssp_datasets[[2]]$elssp_
   mutate_if(is.character, as.factor) 
 #(full_elssp is different from elssp in that it has the growth curve values)
 
-#interactions among variables
-hm_prep <- data.frame(var1=character(),
-                      var2=character(),
-                      eff_size=double(),
-                      pval=double(),
-                      sig=factor())
-
-prep_hm_df <- function(df) {
-  hm_list <- list(
-    "var1" = as.character(word(deparse(substitute(df)), 1, sep = fixed("_"))),
-    "var2" = as.character(word(deparse(substitute(df)), 2, sep = fixed("_"))),
-    "eff_size" = round(unname(cramerV(df)), digits=3),
-    "pval" = (chisq.test(df))$p.value)
-}
-
-# prep_hm_catcont <- function(cat, cont) {
-#   hm_list <- list(
-#     "var1" = cat,
-#     "var2" = substitute(cont),
-#     "eff_size" <- unname(ifelse(nlevels(cat)==2, (wilcox.test(cont~cat))$statistic, 
-#                          (kruskal.test(cont~cat, data=df))$statistic)),
-#     "pval" = unname(ifelse(nlevels(cat)==2, (wilcox.test(cont~cat, data=df))$p.value, 
-#                     (kruskal.test(cont~cat, data=df))$p.value)))
-#   hm_list
-# }
-# 
-# hm_list <- list(
-#   "var1" = cat,
-#   "var2" = substitute(cont),
-#   "eff_size" <- unname(ifelse(nlevels(cat)==2, (wilcox.test(cont~cat))$statistic, 
-#                               (kruskal.test(cont~cat, data=df))$statistic)),
-#   "pval" = unname(ifelse(nlevels(cat)==2, (wilcox.test(cont~cat, data=df))$p.value, 
-#                          (kruskal.test(cont~cat, data=df))$p.value)))
-# 
-
-
-
-
-# library(plyr)
-combos <- combn(ncol(select(elssp, 
-                            Gender, HealthIssues, DevelopmentalConcerns, 
-                            IsPremature, PrimaryLanguage, HLworse_cat, SPM_cat, 
-                            Communication, Meets136, Laterality, Amplification, Etiology)),2)
+elssp_cat <- dplyr::select(elssp, 
+              Gender, HealthIssues, DevelopmentalConcerns, 
+              IsPremature, PrimaryLanguage, HLworse_cat, SPM_cat, 
+              Communication, Meets136, Laterality, Amplification, Etiology)
+combos <- combn(ncol(elssp_cat),2)
 
 chi_sq_all <- adply(combos, 2, function(x) {
   subset_elssp <- elssp_cat %>% filter((elssp_cat)[x[1]] !='' & (elssp_cat[x[2]] !=''))
   test <- chisq.test(subset_elssp[, x[1]], subset_elssp[, x[2]])
+  eff.size <- cramerV(subset_elssp[, x[1]], subset_elssp[, x[2]])
 
   out <- data.frame("Var1" = colnames(elssp_cat)[x[1]], 
                     "Var2" = colnames(elssp_cat[x[2]]), 
                     "Chi.Square" = round(test$statistic,3), 
                     "df"= test$parameter, 
-                    "p.value" = round(test$p.value, 6)) %>% 
+                    "p.value" = round(test$p.value, 6),
+                    "eff.size" = eff.size) %>% 
     mutate(sig = ifelse(p.value>.05, "ns", 
                             ifelse(p.value>0.0007575758, "sig", "survivesbc")))
   return(out)
@@ -111,11 +76,13 @@ nz_balloons <- function(Var1, Var2){ #balloon plots without NA cells
 #   print_res
 # }
 
-chisq_output <- function(data) {
-  chisq_output = paste("($X^2$ (", round((chisq.test(data))$parameter,2),
-                    ", N = ", sum(((chisq.test(data))$observed)),
-                    ") = ", round(chisq.test(data)$statistic, 2),
-                    ", p = ", format.pval(chisq.test(data)$p.value, digits = 2),
+chisq_output <- function(Var1, Var2) {
+  subset_elssp <- elssp %>% filter(elssp[[Var1]]!='' & elssp[[Var2]]!='')
+  test <- chisq.test(table(subset_elssp[[Var1]], subset_elssp[[Var2]]))
+  chisq_output = paste("($X^2$ (", round(test$parameter,2),
+                    ", N = ", sum((test$observed)),
+                    ") = ", round(test$statistic, 2),
+                    ", p = ", format.pval(test$p.value, digits = 2),
                     ")", sep='')
   chisq_output
 }
@@ -146,7 +113,9 @@ comorbid_long <- comorbid %>% pivot_longer(cols = c(ANSD, IsPremature:extremelyp
                                            names_to = "condition", 
                                            values_to = "n") %>% 
   mutate(condition = as.factor(condition))
-condition_tallies <- aggregate(n ~ condition, data=comorbid_long, FUN = sum) %>% remove_rownames %>% column_to_rownames(var="condition")
+condition_tallies <- aggregate(n ~ condition, data=comorbid_long, FUN = sum) %>% 
+  remove_rownames %>% 
+  column_to_rownames(var="condition")
 #make.names(condition_tallies$condition)
 
 n_condition <- function(condition){

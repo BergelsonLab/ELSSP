@@ -94,7 +94,7 @@ prepare_elssp_df = function(cdi_form, constants, verbose=F){
   # elssp_for_form$DevelopmentalConcerns[elssp_for_form$DevelopmentalConcerns == 0] = 'no'
   # elssp_for_form$DevelopmentalConcerns = as.factor(elssp_for_form$DevelopmentalConcerns)
   elssp_for_form$ProductionCDI_no = num_items - elssp_for_form$ProductionCDI 
-  elssp_for_form$expected_score_at_chron_age = sapply(elssp_for_form$AgeAtEvaluationMonths,
+  elssp_for_form$expected_score_at_chron_age = sapply(elssp_for_form$Age,
                                                       function(age){getScoreForAge(model, age, num_items)})
   elssp_for_form$expected_age_for_score = sapply(elssp_for_form$ProductionCDI,
                                                  function(score){getAgeForScore(model, score, num_items)})
@@ -102,10 +102,10 @@ prepare_elssp_df = function(cdi_form, constants, verbose=F){
   print('Computing differences...')	
   elssp_for_form$diff_score_from_expected = -1 * (elssp_for_form$ProductionCDI - elssp_for_form$expected_score_at_chron_age)
   # more negative, more baf
-  elssp_for_form$diff_age_from_expected = elssp_for_form$AgeAtEvaluationMonths - elssp_for_form$expected_age_for_score
+  elssp_for_form$diff_age_from_expected = elssp_for_form$Age - elssp_for_form$expected_age_for_score
   
   if (verbose){
-    print(elssp_for_form[,c('SubjectNumber','AgeAtEvaluationMonths', 
+    print(elssp_for_form[,c('SubjectNumber','Age', 
                             'ProductionCDI', 'expected_score_at_chron_age', 
                             'diff_age_from_expected','diff_score_from_expected')])
   }
@@ -140,7 +140,7 @@ plot_elssp_df = function(elssp_dataset, split=NULL, save=T) {
       theme_classic() + ylab(paste0("CDI Score (",cdi_form,")")) + 
       xlab("Age in Months") + 
       coord_cartesian(xlim=c(0,40)) + 
-      geom_point(data = subset(elssp_df, !is.na(ProductionCDI)), aes(x= AgeAtEvaluationMonths, y= ProductionCDI, shape=split, color=split)) +
+      geom_point(data = subset(elssp_df, !is.na(ProductionCDI)), aes(x= Age, y= ProductionCDI, shape=split, color=split)) +
       labs(colour=split, shape=split)
     
     p2 = make_rainplot(elssp_df, split, 'diff_score_from_expected', 'CDI Score Deficit') + 
@@ -170,7 +170,7 @@ plot_elssp_df = function(elssp_dataset, split=NULL, save=T) {
       theme_classic() + geom_line(data=wordbank_norms_melted, aes(x=age, y=value,
                                                                   colour=variable)) + 
       geom_line(data = samples_from_growth_curve_model, aes(x=predict_ages, y=scores), colour='black') + 
-      geom_point(data = subset(elssp_df, !is.na(ProductionCDI)),aes(x= AgeAtEvaluationMonths, y= ProductionCDI), shape=17) + 
+      geom_point(data = subset(elssp_df, !is.na(ProductionCDI)),aes(x= Age, y= ProductionCDI), shape=17) + 
       ggtitle(paste("Normative", cdi_form, "vs. ELSSP"))
     
     seq_and_labels = seq(from=0,to=48,by=6)
@@ -218,14 +218,14 @@ longitudinal_plot_elssp_df = function(elssp_dataset, colorize_by=NULL) {
   
   if (!is.null(colorize_by)){
     p1 = p1 + geom_point(data = subset(longitudinal_children, !is.na(ProductionCDI)),
-                         aes_string(x= 'AgeAtEvaluationMonths', y= 'ProductionCDI', colour = colorize_by), shape=17
+                         aes_string(x= 'Age', y= 'ProductionCDI', colour = colorize_by), shape=17
     ) + ggtitle(paste("Normative", cdi_form, "vs. ELSSP")) + geom_line(data = subset(longitudinal_children, !is.na(ProductionCDI)),
-                                                                       aes_string(x= 'AgeAtEvaluationMonths', y= 'ProductionCDI', colour = colorize_by, group = 'subject_id'))
+                                                                       aes_string(x= 'Age', y= 'ProductionCDI', colour = colorize_by, group = 'subject_id'))
     
   } else {
     p1 = p1 + geom_point(data = subset(longitudinal_children, !is.na(ProductionCDI)),
-                         aes_string(x= 'AgeAtEvaluationMonths', y= 'ProductionCDI'), shape=17) + ggtitle(paste("Normative", cdi_form, "vs. ELSSP")) + geom_line(data = subset(longitudinal_children, !is.na(ProductionCDI)),
-                                                                                                                                                                aes_string(x= 'AgeAtEvaluationMonths', y= 'ProductionCDI',  group = 'subject_id'))
+                         aes_string(x= 'Age', y= 'ProductionCDI'), shape=17) + ggtitle(paste("Normative", cdi_form, "vs. ELSSP")) + geom_line(data = subset(longitudinal_children, !is.na(ProductionCDI)),
+                                                                                                                                                                aes_string(x= 'Age', y= 'ProductionCDI',  group = 'subject_id'))
   }
   p1 = p1 + ylab(paste0("CDI Score (",cdi_form,")"))
   p1 = p1 + xlab("Age in Months")

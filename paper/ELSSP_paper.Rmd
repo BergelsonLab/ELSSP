@@ -146,7 +146,7 @@ min_age <- min(elssp$Age)
 max_age <- max(elssp$Age)
 mean_age <- mean(elssp$Age)
 sd_age <- sd(elssp$Age)
-num_too_old_wg <- nrow(wg_elssp %>% filter(Age>18))
+num_too_old_wg <- nrow(elssp_datasets[[1]]$elssp_df %>% filter(Age>18))
 num_spanish_cdi <- nrow(elssp %>% filter(PrimaryLanguage == 'Spanish'))
 ```
 
@@ -160,8 +160,8 @@ While this collaboration is ongoing, we opted to pause for this analysis upon re
 
 CDI_table <- tribble(
   ~'CDI version', ~'Average Age (SD)',  ~'Average Comprehension (SD)', ~'Average Production (SD)', ~'% Developmental Delays',
-  glue('WG (n={nrow(wg_elssp)})'), glue('{round(mean(wg_elssp$Age), digits=2)} ({round(sd(wg_elssp$Age), digits=2)}) months'), glue('{round(mean(wg_elssp$ComprehensionCDI, na.rm = TRUE), digits=0)} ({round(sd(wg_elssp$ComprehensionCDI, na.rm = TRUE), digits=1)}) words'), glue('{round(mean(wg_elssp$ProductionCDI, na.rm = TRUE), digits=0)} ({round(sd(wg_elssp$ProductionCDI, na.rm = TRUE),digits=1)}) words'), glue('{round(((nrow(wg_elssp %>% filter(DevelopmentalConcerns=="1")))/(nrow(wg_elssp)))*100, digits=2)}%'),
-  glue('WS (n={nrow(ws_elssp)})'), glue('{round(mean(ws_elssp$Age), digits=2)} ({round( sd(ws_elssp$Age), digits=2)}) months'), 'NA', glue('{round(mean(ws_elssp$ProductionCDI, na.rm = TRUE), digits=0)} ({round(sd(ws_elssp$ProductionCDI, na.rm = TRUE), digits=1)}) words'), glue('{round(((nrow(ws_elssp %>% filter(DevelopmentalConcerns=="1")))/(nrow(ws_elssp)))*100, digits=2)}%'))
+  glue('WG (n={nrow(elssp_datasets[[1]]$elssp_df)})'), glue('{round(mean(elssp_datasets[[1]]$elssp_df$Age), digits=2)} ({round(sd(elssp_datasets[[1]]$elssp_df$Age), digits=2)}) months'), glue('{round(mean(elssp_datasets[[1]]$elssp_df$ComprehensionCDI, na.rm = TRUE), digits=0)} ({round(sd(elssp_datasets[[1]]$elssp_df$ComprehensionCDI, na.rm = TRUE), digits=1)}) words'), glue('{round(mean(elssp_datasets[[1]]$elssp_df$ProductionCDI, na.rm = TRUE), digits=0)} ({round(sd(elssp_datasets[[1]]$elssp_df$ProductionCDI, na.rm = TRUE),digits=1)}) words'), glue('{round(((nrow(elssp_datasets[[1]]$elssp_df %>% filter(DevelopmentalConcerns=="1")))/(nrow(elssp_datasets[[1]]$elssp_df)))*100, digits=2)}%'),
+  glue('WS (n={nrow(elssp_datasets[[2]]$elssp_df)})'), glue('{round(mean(elssp_datasets[[2]]$elssp_df$Age), digits=2)} ({round( sd(elssp_datasets[[2]]$elssp_df$Age), digits=2)}) months'), 'NA', glue('{round(mean(elssp_datasets[[2]]$elssp_df$ProductionCDI, na.rm = TRUE), digits=0)} ({round(sd(elssp_datasets[[2]]$elssp_df$ProductionCDI, na.rm = TRUE), digits=1)}) words'), glue('{round(((nrow(elssp_datasets[[2]]$elssp_df %>% filter(DevelopmentalConcerns=="1")))/(nrow(elssp_datasets[[2]]$elssp_df)))*100, digits=2)}%'))
 
 
 
@@ -401,14 +401,17 @@ corrplot.mixed(elssp_corr, tl.pos = "lt",
          tl.col = "black",
          addgrid.col = "grey")
 
-ggplot(chi_sq_all, aes(y=Var1, x=Var2)) +
+ggplot(chi_sq_all, aes(y=Var2, x=Var1)) +
   geom_tile(aes(fill = sig)) + theme_classic() +
   theme(axis.text.x = element_text(angle = 90)) +
   scale_fill_brewer(palette = "RdPu", direction=-1) +
+  geom_text(aes(label=ifelse(sig=='survivesbc', round(eff.size,2), 
+                            '')), 
+            size=5) +
   xlab(NULL) + ylab(NULL) 
 ```
 
-From this analysis, we found that children born premature were more likely to also have health issues `r chisq_output(Prematurity_HealthIssues)`. Children with conductive hearing loss were more likely to have unilateral hearing loss `r chisq_output(Laterality_Etiology)`. Children with unilateral hearing loss were unlikely to receive a cochlear implant and more likely to use no amplification `r chisq_output(Laterality_Amplification)`. Children with more severe hearing loss were more likely to use a cochlear implant than children with milder hearing loss (H(`r Degree_Amplification$parameter`)=`r Degree_Amplification$statistic`, p=`r Degree_Amplification$p.value`). Children with developmental delays received more services per month than typically developing DHH children (H(`r Services_DevConcerns$parameter`)=`r Services_DevConcerns$statistic`, p=`r Services_DevConcerns$p.value`)and were more likely to use total communication `r chisq_output(DevConcerns_Communication)`. Children who used total communication received more services per month than children using spoken language (H(`r Services_Communication$parameter`)=`r Services_Communication$statistic`, p=`r Services_Communication$p.value`).
+From this analysis, we found that children born premature were more likely to also have health issues `r chisq_output("IsPremature","HealthIssues")`. Children with conductive hearing loss were more likely to have unilateral hearing loss `r chisq_output("Laterality","Etiology")`. Children with unilateral hearing loss were unlikely to receive a cochlear implant and more likely to use no amplification `r chisq_output("Laterality","Amplification")`. Children with more severe hearing loss were more likely to use a cochlear implant than children with milder hearing loss `r chisq_output("HLworse_cat", "Amplification")`. Children with developmental delays received more services per month than typically developing DHH children `r chisq_output("DevelopmentalConcerns", "SPM_cat")` and were more likely to use total communication `r chisq_output("DevelopmentalConcerns","Communication")`. Children who used total communication received more services per month than children using spoken language `r chisq_output("Communication", "SPM_cat")`.
 
 ```{r balloon-plots}
 nz_balloons("Laterality", "Amplification")
