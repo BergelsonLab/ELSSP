@@ -11,12 +11,5 @@ CDI_ELSSP.R preps CDI data and create a growth curve from the normative data. Al
 "Difference from CDI Norms.ipynb" contains code for individual analyses and figures, from functions in CDI_ELSSP.R.
 Both of these files were written primarily by Stephan Meylan.
 
-
-Issues:
-Need to create README in data and figures.
-Need to change "Difference from CDI Norms.ipynb" to R 
-Need to clean up scripts
-Need to format README to make more legible
-
 Last updated: 2/16/2020
 Maintained by: Erin Campbell (eec35@duke.edu)
