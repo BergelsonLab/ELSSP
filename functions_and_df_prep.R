@@ -1,13 +1,13 @@
 library('wordbankr')
-library('plyr')
+library('plyr') # for adply function for chi square analysis
 library('reshape2')
 library('dotwhisker')
 library('MASS')
 library('tidyverse')
-library('rcompanion')
-library('fastDummies')
+library('rcompanion') # for cramerV
+library('fastDummies') # for correlation table
 library('corrplot')
-library('gplots')
+library('gplots') # for balloon plots
 source('SM_functions.R')
 
 #read in data
@@ -126,4 +126,13 @@ hearing_means <- function(col, uni_bi, amp){ifelse(is.null(amp),
   mean((elssp %>% filter(Laterality==enexpr(uni_bi)))$col, na.rm = TRUE),
   mean((elssp %>% filter(Laterality==enexpr(uni_bi) & Amplification==enexpr(amp)))$col)
 )
+}
+
+
+lm_pvalue <- function (modelobject) {
+  if (class(modelobject) != "lm") stop("Not an object of class 'lm' ")
+  f <- summary(modelobject)$fstatistic
+  p <- pf(f[1],f[2],f[3],lower.tail=F)
+  attributes(p) <- NULL
+  return(p)
 }
