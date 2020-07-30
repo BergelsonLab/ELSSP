@@ -180,6 +180,9 @@ num_otherchromissues <- nrow(comorbid %>% filter(MissingChrom7==1|chromosomalpro
 num_ventricular_issues <- nrow(comorbid %>% filter(intraventricularhemorrhage==1|periventricularleukomalacia==1))
 
 num_heart_issues <- nrow(comorbid %>% filter(HeartValveProblems==1|heartabnormalities==1|supraventriculartachycardia==1|bradycardia==1|coarctationofaorta==1|patentductusarteriosus|perferatedheart==1|pulmonaryarterystenosis))
+
+
+
 num_lung_issues <- nrow(comorbid %>%  filter(asthma==1|bronchopulmonarydysplasia==1|chroniclungdisease|tracheotomy==1|trachoesophagealfistula==1|esophagealatresia==1))
 num_feeding_issues <- nrow(comorbid %>% filter(Gtube==1|reflux==1|dysphagia==1|feedingproblems_nos|esophagealatresia==1))
 num_illness <- nrow(comorbid %>% filter(chroniclungdisease==1|MRSA==1|meningitis==1|frequentfevers==1|Sepsis==1|jaundice==1|pneumonia==1|cytomegalovirus==1))
@@ -229,40 +232,15 @@ Degree of hearing loss was most often reported with a written description (e.g.,
 
 ```{r amp-info}
 # This feels like a lot of info in one table. 
-
-n_HA_u <- nrow(elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))
-n_HA_b <- nrow(elssp %>% filter(Laterality=='Bilateral'&Amplification=='HA'))
-n_CI_u <- nrow(elssp %>% filter(Laterality=='Unilateral'&Amplification=='CI'))
-n_CI_b <- nrow(elssp %>% filter(Laterality=='Bilateral'&Amplification=='CI'))
-n_none_u <- nrow(elssp %>% filter(Laterality=='Unilateral'&Amplification=='none'))
-n_none_b <- nrow(elssp %>% filter(Laterality=='Bilateral'&Amplification=='none'))
-n_total_u <- nrow(elssp %>% filter(Laterality=='Unilateral'))
-n_total_b <- nrow(elssp %>% filter(Laterality=='Bilateral'))
-
-meanbetter_HA_u <- mean((elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))$HLbetter)
-meanbetter_HA_b <- mean((elssp %>% filter(Laterality=='Bilateral'&Amplification=='HA'))$HLbetter, na.rm = TRUE)
-meanbetter_CI_u <- mean((elssp %>% filter(Laterality=='Unilateral'&Amplification=='CI'))$HLbetter)
-meanbetter_CI_b <- mean((elssp %>% filter(Laterality=='Bilateral'&Amplification=='CI'))$HLbetter)
-meanbetter_none_u <- mean((elssp %>% filter(Laterality=='Unilateral'&Amplification=='none'))$HLbetter)
-meanbetter_none_b <- mean((elssp %>% filter(Laterality=='Bilateral'&Amplification=='none'))$HLbetter)
-meanbetter_total_u <- mean((elssp %>% filter(Laterality=='Unilateral'))$HLbetter)
-meanbetter_total_b <- mean((elssp %>% filter(Laterality=='Bilateral'))$HLbetter, na.rm = TRUE)
-
-meanworse_HA_u <- mean((elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))$HLworse, na.rm = TRUE)
-meanworse_HA_b <- mean((elssp %>% filter(Laterality=='Bilateral'&Amplification=='HA'))$HLworse, na.rm = TRUE)
-meanworse_CI_u <- mean((elssp %>% filter(Laterality=='Unilateral'&Amplification=='CI'))$HLworse)
-meanworse_CI_b <- mean((elssp %>% filter(Laterality=='Bilateral'&Amplification=='CI'))$HLworse)
-meanworse_none_u <- mean((elssp %>% filter(Laterality=='Unilateral'&Amplification=='none'))$HLworse, na.rm = TRUE)
-meanworse_none_b <- mean((elssp %>% filter(Laterality=='Bilateral'&Amplification=='none'))$HLworse)
-meanworse_total_u <- mean((elssp %>% filter(Laterality=='Unilateral'))$HLworse, na.rm = TRUE)
-meanworse_total_b <- mean((elssp %>% filter(Laterality=='Bilateral'))$HLworse, na.rm = TRUE)
-
-ageamp_HA_u <- mean((elssp %>% filter(Laterality=='Unilateral'&Amplification=='HA'))$AgeAmplification)
-ageamp_HA_b <- mean((elssp %>% filter(Laterality=='Bilateral'&Amplification=='HA'))$AgeAmplification, na.rm = TRUE)
-ageamp_CI_u <- mean((elssp %>% filter(Laterality=='Unilateral'&Amplification=='CI'))$AgeImplantation)
-ageamp_CI_b <- mean((elssp %>% filter(Laterality=='Bilateral'&Amplification=='CI'))$AgeImplantation)
-ageamp_total_u <- mean((elssp %>% filter(Laterality=='Unilateral'))$AgeAmplification, na.rm = TRUE)
-ageamp_total_b <- mean((elssp %>% filter(Laterality=='Bilateral'))$AgeAmplification, na.rm = TRUE)
+hearing_stats <- elssp %>% 
+  filter(Amplification != '', Laterality != '') %>%
+  dplyr::select(VIHI_ID, AgeImplantation, AgeAmplification, HLbetter, HLworse, Laterality, Amplification) %>%
+  group_by(Laterality, Amplification) %>%
+  dplyr::summarise(mean_HLbetter = round(mean(HLbetter, na.rm = TRUE), 2),
+                   mean_HLworse = round(mean(HLworse, na.rm = TRUE), 2),
+                   mean_age_amplification = round(mean(AgeAmplification, na.rm = TRUE), 2),
+                   mean_age_implantation = round(mean(AgeImplantation, na.rm = TRUE), 2))
+  
 
 hearing_table <- tribble(
   ~'', ~n, ~'Average HL (better ear)',  ~'Average HL (worse ear)', ~'Average Age at Amplification',
@@ -286,26 +264,13 @@ kable(hearing_table,
 Communication method was recorded as spoken language, total communication, or cued speech. One participant had a parent fluent in sign language, but the reported communication method in the home was total communication. No child in our sample used American Sign Language or another signed language. The forms also listed the primary language spoken at home. Families in this sample either spoke English or Spanish. For one child, who was adopted from India at 28 months, we recorded the primary language as Hindi, even though the child's adoptive parents are English-speaking.
 
 ```{r comm-info}
-n_spoken <- nrow(elssp %>% filter(Communication=='spoken'))
-n_CS <- nrow(elssp %>% filter(Communication=='cued speech'))
-n_TC <- nrow(elssp %>% filter(Communication=='total communication'))
-n_Eng <- nrow(elssp %>% filter(PrimaryLanguage=='English'))
-n_Span <- nrow(elssp %>% filter(PrimaryLanguage=='Spanish'))
-n_Hindi <- nrow(elssp %>% filter(PrimaryLanguage=='Hindi'))
-
-n_spoken_English <- nrow(elssp %>% filter(Communication=='spoken'&PrimaryLanguage=='English'))
-n_spoken_Spanish <- nrow(elssp %>% filter(Communication=='spoken'&PrimaryLanguage=='Spanish'))
-n_spoken_Hindi <- nrow(elssp %>% filter(Communication=='spoken'&PrimaryLanguage=='Hindi'))
-
-n_TC_English <- nrow(elssp %>% filter(Communication=='total communication'&PrimaryLanguage=='English'))
-n_TC_Spanish <- nrow(elssp %>% filter(Communication=='total communication'&PrimaryLanguage=='Spanish'))
-n_TC_Hindi <- nrow(elssp %>% filter(Communication=='total communication'&PrimaryLanguage=='Hindi'))
-
-n_CS_English <- nrow(elssp %>% filter(Communication=='cued speech'&PrimaryLanguage=='English'))
-n_CS_Spanish <- nrow(elssp %>% filter(Communication=='cued speech'&PrimaryLanguage=='Spanish'))
-n_CS_Hindi <- nrow(elssp %>% filter(Communication=='cued speech'&PrimaryLanguage=='Hindi'))
-
-
+language_stats <- elssp %>% 
+  filter(PrimaryLanguage != '', Communication != '') %>%
+  dplyr::select(VIHI_ID, Communication, PrimaryLanguage) %>%
+  group_by(Communication, PrimaryLanguage) %>%
+  dplyr::count(name = 'Tally') %>%
+  pivot_wider(names_from = PrimaryLanguage, values_from = Tally) %>%
+  mutate(Total = English + Hindi + Spanish)
 
 language_table <- tribble(
   ~'Communication Method', ~English, ~Spanish,  ~Hindi, 

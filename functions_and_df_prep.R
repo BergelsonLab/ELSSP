@@ -1,5 +1,4 @@
 library('wordbankr')
-library('plyr') # for adply function for chi square analysis
 library('reshape2')
 library('dotwhisker')
 library('MASS')
@@ -13,49 +12,69 @@ source('SM_functions.R')
 #read in data
 elssp <- read.csv("data/ELSSP_SubjectInfo_07242020.csv", stringsAsFactors=F) %>% 
   filter(VisitNumber==1) %>%
-  mutate(subject_id = unlist(lapply(strsplit(SubjectNumber,'_'), function(x){as.numeric(x[2])}))) %>%
-  mutate(anycomorbid = ifelse(VisionLoss == 1 |
+  mutate(SubjectNumber = substr(VIHI_ID, 1, 6), 
+         anycomorbid = ifelse(VisionLoss == 1 |
                                 DevelopmentalConcerns == 1 |
                                 HealthIssues == 1 |
                                 IsPremature == 1, "1",
-                              "0")) %>%
-  mutate(HLworse_cat = as.factor(ifelse(HLworse=='NA', 'NA', 
-                                        ifelse(HLworse < 40, "mild", 
-                                               ifelse(HLworse>70, "severe_profound", 
-                                                      "moderate"))))) %>%
-  mutate(SPM_cat = as.factor(ifelse(ServicesReceivedPerMonth=='NA', 'NA', 
-                                    ifelse(ServicesReceivedPerMonth < 4, "0-3", 
-                                           ifelse(ServicesReceivedPerMonth>10, ">10", 
-                                                  "4-10")))))
+                              "0"),
+         HLworse_cat = as.factor(case_when(is.na(HLworse) ~ NA_character_,
+                                           HLworse < 40 ~ "mild", 
+                                           HLworse>70 ~ "severe_profound",
+                                           TRUE ~  "moderate")), 
+         SPM_cat = as.factor(case_when(is.na(ServicesReceivedPerMonth) ~ NA_character_, 
+                                       ServicesReceivedPerMonth < 4 ~ "0-3", 
+                                       ServicesReceivedPerMonth>10 ~ ">10", 
+                                       TRUE ~ "4-10"))) %>% 
+  mutate_if(is.character, as.factor) 
+
+comorbid <- read.csv("data/elssp_comorbidities.csv") %>% 
+  mutate(anycomorbid = ifelse(VisionLoss==1|DevelopmentalConcerns==1|HealthIssues==1|IsPremature==1, 1,
+                              0), 
+         extremelypremature = ifelse(WeeksGestation > 33, 0, 1))
+
+comorbid_long <- comorbid %>% pivot_longer(cols = c(ANSD, IsPremature:extremelypremature, -WeeksGestation), 
+                                           names_to = "condition", 
+                                           values_to = "n") %>% 
+  mutate(condition = as.factor(condition))
+
+condition_tallies <- aggregate(n ~ condition, data=comorbid_long, FUN = sum) %>% 
+  remove_rownames() %>% 
+  column_to_rownames(var="condition")
+#make.names(condition_tallies$condition)
+
+
 #add months-delay to dataframes
-elssp_datasets <- lapply(c('WG','WS'), function(x){
-  prepare_elssp_df(x, constants, verbose=T)
-})
+WG_elssp <- prepare_elssp_df('WG', constants, verbose = F)
+WS_elssp <- prepare_elssp_df('WS', constants, verbose = F)
 
 #make dataframes easier to call
-full_elssp <- bind_rows(elssp_datasets[[1]]$elssp_df, elssp_datasets[[2]]$elssp_df) %>% 
+full_elssp <- bind_rows(WG_elssp$elssp_df, WS_elssp$elssp_df) %>% 
   mutate_if(is.character, as.factor) 
 #(full_elssp is different from elssp in that it has the growth curve values)
 
-elssp_cat <- dplyr::select(elssp, 
-              Gender, HealthIssues, DevelopmentalConcerns, 
+elssp_cat <- elssp %>% 
+  select(Gender, HealthIssues, DevelopmentalConcerns, 
               IsPremature, PrimaryLanguage, HLworse_cat, SPM_cat, 
               Communication, Meets136, Laterality, Amplification, Etiology)
+
 combos <- combn(ncol(elssp_cat),2)
 
-chi_sq_all <- adply(combos, 2, function(x) {
-  subset_elssp <- elssp_cat %>% filter((elssp_cat)[x[1]] !='' & (elssp_cat[x[2]] !=''))
+chi_sq_all <- plyr::adply(combos, 2, function(x) {
+  subset_elssp <- elssp_cat %>% 
+    filter(elssp_cat[x[1]] !='' & elssp_cat[x[2]] !='')
+  
   test <- chisq.test(subset_elssp[, x[1]], subset_elssp[, x[2]])
-  eff.size <- cramerV(subset_elssp[, x[1]], subset_elssp[, x[2]])
 
   out <- data.frame("Var1" = colnames(elssp_cat)[x[1]], 
                     "Var2" = colnames(elssp_cat[x[2]]), 
                     "Chi.Square" = round(test$statistic,3), 
                     "df"= test$parameter, 
                     "p.value" = round(test$p.value, 6),
-                    "eff.size" = eff.size) %>% 
-    mutate(sig = ifelse(p.value>.05, "ns", 
-                            ifelse(p.value>0.0007575758, "sig", "survivesbc")))
+                    "eff.size" = cramerV(subset_elssp[, x[1]], subset_elssp[, x[2]])) %>% 
+    mutate(sig = case_when(p.value>.05 ~ "ns", 
+                            p.value>0.0007575758 ~ "sig", 
+                           TRUE ~ "survivesbc"))
   return(out)
 
 })
@@ -67,14 +86,6 @@ nz_balloons <- function(Var1, Var2){ #balloon plots without NA cells
                     ylab = Var2,
                     main = glue("{Var1} by {Var2}"))
 }
-
-# lm_output <- function(data) {
-#   print_res = paste("ß=", round(data$Estimate,2),
-#                       ", SE=", round(data$Est.Error,2),
-#                       ", 95% CI [", printnum(round(data$l.95..CI,2), format = "f"),
-#                                   ",", round(data$u.95..CI,2),"]", sep='')
-#   print_res
-# }
 
 chisq_output <- function(Var1, Var2) {
   subset_elssp <- elssp %>% filter(elssp[[Var1]]!='' & elssp[[Var2]]!='')
@@ -100,34 +111,16 @@ corr_prep <- dummy_cols(elssp, select_columns = c("Gender", "Meets136",
   dplyr::select(ServicesReceivedPerMonth, HLworse, Gender_male,
                 PrimaryLanguage_English, Communication_spoken, DevelopmentalConcerns, 
                 HealthIssues, IsPremature, Meets136_yes) 
+
 elssp_corr <- cor(corr_prep, use="pairwise.complete.obs")
+
 p_corr <- cor.mtest(corr_prep) 
+
 dimnames(p_corr$p) <- dimnames(elssp_corr)
-
-
-comorbid <- read.csv("data/elssp_comorbidities.csv") %>% 
-  mutate(anycomorbid = ifelse(VisionLoss==1|DevelopmentalConcerns==1|HealthIssues==1|IsPremature==1, 1,
-                                                                                     0), 
-         extremelypremature = ifelse(WeeksGestation > 33, 0, 1))
-comorbid_long <- comorbid %>% pivot_longer(cols = c(ANSD, IsPremature:extremelypremature, -WeeksGestation), 
-                                           names_to = "condition", 
-                                           values_to = "n") %>% 
-  mutate(condition = as.factor(condition))
-condition_tallies <- aggregate(n ~ condition, data=comorbid_long, FUN = sum) %>% 
-  remove_rownames %>% 
-  column_to_rownames(var="condition")
-#make.names(condition_tallies$condition)
 
 n_condition <- function(condition){
   as.numeric(condition_tallies[paste(enexpr(condition)),"n"])
 }
-
-hearing_means <- function(col, uni_bi, amp){ifelse(is.null(amp),
-  mean((elssp %>% filter(Laterality==enexpr(uni_bi)))$col, na.rm = TRUE),
-  mean((elssp %>% filter(Laterality==enexpr(uni_bi) & Amplification==enexpr(amp)))$col)
-)
-}
-
 
 lm_pvalue <- function (modelobject) {
   if (class(modelobject) != "lm") stop("Not an object of class 'lm' ")
