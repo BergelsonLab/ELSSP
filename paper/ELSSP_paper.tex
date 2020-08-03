@@ -30,6 +30,7 @@
 \usepackage{hyperref}
 \hypersetup{
             pdftitle={Characterizing North Carolina's Deaf/Hard-of-Hearing Infants and Toddlers: Predictors of Word Learning, Diagnosis, and Intervention},
+            pdfauthor={Erin Campbell1 \& Elika Bergelson1},
             pdfkeywords={keywords},
             pdfborder={0 0 0},
             breaklinks=true}
@@ -89,15 +90,12 @@
   {\section{\normalfont\normalsize\abstractname}}
   {\section*{\normalfont\normalsize\abstractname}}
   {}{\typeout{Failed to patch abstract.}}
+\patchcmd{\HyOrg@maketitle}
+  {\section{\protect\normalfont{\@title}}}
+  {\section*{\protect\normalfont{\@title}}}
+  {}{\typeout{Failed to patch title.}}
 \makeatother
 \shorttitle{ELSSP}
-\author{Erin Campbell\textsuperscript{1}\ \& Elika Bergelson\textsuperscript{1}}
-\affiliation{
-\vspace{0.5cm}
-\textsuperscript{1} Duke University}
-\authornote{
-
-Correspondence concerning this article should be addressed to Erin Campbell, Address here. E-mail: erin.e.campbell@duke.edu}
 \keywords{keywords\newline\indent Word count: X}
 \DeclareDelayedFloatFlavor{ThreePartTable}{table}
 \DeclareDelayedFloatFlavor{lltable}{table}
@@ -118,8 +116,11 @@ Correspondence concerning this article should be addressed to Erin Campbell, Add
 \fi
 
 \title{Characterizing North Carolina's Deaf/Hard-of-Hearing Infants and Toddlers: Predictors of Word Learning, Diagnosis, and Intervention}
-
+\author{Erin Campbell\textsuperscript{1} \& Elika Bergelson\textsuperscript{1}}
 \date{}
+
+
+\affiliation{\vspace{0.5cm}\textsuperscript{1} Duke University}
 
 \begin{document}
 \maketitle
@@ -225,7 +226,7 @@ For the first and third goal above, we did not have specific hypotheses and soug
 
 Clinical evaluations were obtained through an ongoing collaboration with the North Carolina Early Language Sensory Support Program (ELSSP), an early intervention program serving children with sensory impairments from birth to 36 months. ELSSP passed along deidentified evaluations to our team after obtaining consent to do so from each family. No eligibility criteria beyond hearing loss and receiving an ELSSP evaluation were imposed, given our goal of characterizing the full range of DHH children with hearing loss in North Carolina.
 
-The clinical evaluations included demographic and audiological information, CDI vocabulary scores, and the results of any clinical assessments administered (e.g., PPVT), all detailed further below. For some children (n=47), multiple evaluations were available from different timepoints. In these cases, only the first evaluation was considered for this study, due to concerns regarding within-subjects variance for statistical analysis.
+The clinical evaluations included demographic and audiological information, CDI vocabulary scores, and the results of any clinical assessments administered (e.g., PPVT), all detailed further below. For some children (n=0), multiple evaluations were available from different timepoints. In these cases, only the first evaluation was considered for this study, due to concerns regarding within-subjects variance for statistical analysis.
 
 While this collaboration is ongoing, we opted to pause for this analysis upon receiving data from 100 children. Thus, the reported sample below consists of 100 children (56 male / 44 female) ages 4.20--36.17(M=21.21, SD=9.08). Race and SES information were not available. Families were administered either the WG or WS version of the CDI based on clinician judgement. Children who were too old for WG, but who were not producing many words at the time of assessment, were often given WG (n=37). Families for whom Spanish was the primary language (n = 14) completed the Spanish language version of the CDI (Jackson-Maldonado et al., 2003).
 
@@ -302,23 +303,23 @@ Degree of hearing loss was most often reported with a written description (e.g.,
 
 \begin{table}[!h]
 
-\caption{\label{tab:amp-info}Audiological Characteristics of the Sample 
-for Unilateral / Bilateral Hearing Loss}
+\caption{\label{tab:amp-info}Audiological Characteristics of the Sample}
 \centering
 \resizebox{\linewidth}{!}{
-\begin{tabular}[t]{l|l|l|l|l}
+\begin{tabular}[t]{l|l|r|r|r|r}
 \hline
- & n & Average HL (better ear) & Average HL (worse ear) & Average Age at Amplification\\
+Laterality & Amplification & mean\_HLbetter & mean\_HLworse & mean\_age\_amplification & mean\_age\_implantation\\
 \hline
-Hearing Aid (n=54) & 11 / 43 & 4.7 / 47.02 dB & 56.04 / 55.57 dB & 10.91 / 8.28 months\\
+Bilateral & CI & 85.60 & 89.79 & 11.29 & 14.12\\
 \hline
-Cochlear Implant (n=17) & 0 / 17 & NA / 85.6 dB & NA / 89.79 dB & NA / 14.12 months\\
+Bilateral & HA & 47.02 & 55.57 & 8.28 & NaN\\
 \hline
-No Amplification (n=27) & 14 / 13 & 2.5 / NA dB & 73.9 / NA dB & NA\\
+Bilateral & none & 49.67 & 53.65 & NaN & NaN\\
 \hline
-Total (n=100) & 25 / 73 & 3.47 / 56.84 dB & 66.54 / 63.55 dB & NA\\
+Unilateral & HA & 4.70 & 56.04 & 10.91 & NaN\\
 \hline
-\multicolumn{5}{l}{\textsuperscript{a} N.B. Age Amplification for children with CIs represents age at implantation}\\
+Unilateral & none & 2.50 & 73.90 & 8.50 & NaN\\
+\hline
 \end{tabular}}
 \end{table}
 
@@ -328,15 +329,15 @@ Communication method was recorded as spoken language, total communication, or cu
 
 \caption{\label{tab:comm-info}Language and communication characteristics of the sample}
 \centering
-\begin{tabular}[t]{l|r|r|r}
+\begin{tabular}[t]{l|r|r|r|r}
 \hline
-Communication Method & English & Spanish & Hindi\\
+Communication & English & Hindi & Spanish & Total\\
 \hline
-Spoken Language (n=79) & 68 & 10 & 1\\
+cued speech & 1 & 0 & 0 & 1\\
 \hline
-Total Communication (n=18) & 15 & 3 & 0\\
+spoken & 68 & 1 & 10 & 79\\
 \hline
-Cued Speech (n=1) & 1 & 0 & 0\\
+total communication & 15 & 0 & 3 & 18\\
 \hline
 \end{tabular}
 \end{table}
@@ -427,9 +428,9 @@ Bonferroni-corrected alpha for this set of analyses was p \textless{} (.05/\# pr
 
 \includegraphics{ELSSP_paper_files/figure-latex/relationships-plot-1.pdf} \includegraphics{ELSSP_paper_files/figure-latex/relationships-plot-2.pdf} \includegraphics{ELSSP_paper_files/figure-latex/relationships-plot-3.pdf}
 
-From this set of analyses, we found XXX relationships between variables that survived bonferroni correction. Health issues, developmental delays, and prematurity were highly interrelated in our sample, such that children born premature were more likely to also experience health issues (\(X^2\) (1, N = 98) = 23.9, p = 1e-06) and developmental delays (\(X^2\) (1, N = 98) = 11.63, p = 0.00065), and children with developmental delays were more likely to also experience health issues (\(X^2\) (1, N = 98) = 20.87, p = 4.9e-06). Children with developmental delays received more services per month than typically-developing children (\(X^2\) (2, N = 95) = 19.48, p = 5.9e-05) and were more likely to use total communication (\(X^2\) (2, N = 98) = 22.51, p = 1.3e-05). Likewise, children who used total communication received more services per month than children using spoken language (\(X^2\) (4, N = 95) = 16.67, p = 0.0022).
+From this set of analyses, we found XXX relationships between variables that survived bonferroni correction. Health issues, developmental delays, and prematurity were highly interrelated in our sample, such that children born premature were more likely to also experience health issues (\(X^2\) (1, N = 98) = 23.9, p = 1e-06) and developmental delays (\(X^2\) (1, N = 98) = 11.63, p = 0.00065), and children with developmental delays were more likely to also experience health issues (\(X^2\) (1, N = 98) = 20.87, p = 4.9e-06). Children with developmental delays received more services per month than typically-developing children (\(X^2\) (2, N = 95) = 19.48, p = 5.9e-05) and were more likely to use total communication (\(X^2\) (3, N = 98) = NaN, p = NA). Likewise, children who used total communication received more services per month than children using spoken language (\(X^2\) (6, N = 95) = NaN, p = NA).
 
-We also found relationships among many of the audiological characteristics. There was a significant relationship between laterality and etiology (\(X^2\) (2, N = 88) = 18.29, p = 0.00011), such that children with conductive hearing loss were more likely to have unilateral hearing loss, children with sensorineural hearing loss were more likely to have a bilateral loss, and all children with mixed hearing loss (n = XXX) had bilateral hearing loss. Chi-square tests showed that laterality (\(X^2\) (2, N = 98) = 16.43, p = 0.00027) and degree of hearing loss (\(X^2\) (4, N = 87) = 28.45, p = 1e-05) were related to amplification in our sample. Children with bilateral hearing loss were more likely than children with unilateral hearing loss to use a hearing aid or cochlear implant; no child with unilateral hearing loss used a cochlear implant, and many children with unilateral hearing loss used no amplification. Regarding degree, children with severe-profound hearing loss were more likely to use a cochlear implant than children with less severe hearing loss (i.e., mild or moderate).
+We also found relationships among many of the audiological characteristics. There was a significant relationship between laterality and etiology (\(X^2\) (6, N = 88) = NaN, p = NA), such that children with conductive hearing loss were more likely to have unilateral hearing loss, children with sensorineural hearing loss were more likely to have a bilateral loss, and all children with mixed hearing loss (n = XXX) had bilateral hearing loss. Chi-square tests showed that laterality (\(X^2\) (6, N = 98) = NaN, p = NA) and degree of hearing loss (\(X^2\) (6, N = 87) = NaN, p = NA) were related to amplification in our sample. Children with bilateral hearing loss were more likely than children with unilateral hearing loss to use a hearing aid or cochlear implant; no child with unilateral hearing loss used a cochlear implant, and many children with unilateral hearing loss used no amplification. Regarding degree, children with severe-profound hearing loss were more likely to use a cochlear implant than children with less severe hearing loss (i.e., mild or moderate).
 
 \includegraphics{ELSSP_paper_files/figure-latex/balloon-plots-1.pdf} \includegraphics{ELSSP_paper_files/figure-latex/balloon-plots-2.pdf} \includegraphics{ELSSP_paper_files/figure-latex/balloon-plots-3.pdf} \includegraphics{ELSSP_paper_files/figure-latex/balloon-plots-4.pdf} \includegraphics{ELSSP_paper_files/figure-latex/balloon-plots-5.pdf} \includegraphics{ELSSP_paper_files/figure-latex/balloon-plots-6.pdf} \includegraphics{ELSSP_paper_files/figure-latex/balloon-plots-7.pdf} \includegraphics{ELSSP_paper_files/figure-latex/balloon-plots-8.pdf}
 
@@ -565,7 +566,7 @@ Services Received Per Month & More services: 16.5; Less services: 11.9 & wilcox\
 \hypertarget{part-iii-meets136-success}{%
 \subsection{Part III: Meets136 success}\label{part-iii-meets136-success}}
 
-Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. Overall, 36.84\% of our sample met 1-3-6 guidelines for early diagnosis and intervention.
+Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. Overall, 61\% of our sample met 1-3-6 guidelines for early diagnosis and intervention.
 
 \includegraphics{ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf}
 
@@ -946,5 +947,6 @@ Yoshinaga-Itano, C., Sedey, A. L., Wiggin, M., \& Chung, W. (2017). Early hearin
 
 \leavevmode\hypertarget{ref-yoshinaga-itano2018}{}%
 Yoshinaga-Itano, C., Sedey, A. L., Wiggin, M., \& Mason, C. A. (2018). Language outcomes improved through early hearing detection and earlier cochlear implantation. \emph{Otology and Neurotology}, \emph{39}(10), 1256--1263. \url{https://doi.org/10.1097/MAO.0000000000001976}
+
 
 \end{document}

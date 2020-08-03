@@ -95,23 +95,23 @@ Vision Loss &  & 5\\
 \ifnextchar[{\eatarg}{}
 [!h]
 
-\caption{\label{tab:amp-info}Audiological Characteristics of the Sample
-for Unilateral / Bilateral Hearing Loss}
+\caption{\label{tab:amp-info}Audiological Characteristics of the Sample}
 \centering
 \resizebox{\linewidth}{!}{
-\begin{tabular}[t]{l|l|l|l|l}
+\begin{tabular}[t]{l|l|r|r|r|r}
 \hline
- & n & Average HL (better ear) & Average HL (worse ear) & Average Age at Amplification\\
+Laterality & Amplification & mean\_HLbetter & mean\_HLworse & mean\_age\_amplification & mean\_age\_implantation\\
 \hline
-Hearing Aid (n=54) & 11 / 43 & 4.7 / 47.02 dB & 56.04 / 55.57 dB & 10.91 / 8.28 months\\
+Bilateral & CI & 85.60 & 89.79 & 11.29 & 14.12\\
 \hline
-Cochlear Implant (n=17) & 0 / 17 & NA / 85.6 dB & NA / 89.79 dB & NA / 14.12 months\\
+Bilateral & HA & 47.02 & 55.57 & 8.28 & NaN\\
 \hline
-No Amplification (n=27) & 14 / 13 & 2.5 / NA dB & 73.9 / NA dB & NA\\
+Bilateral & none & 49.67 & 53.65 & NaN & NaN\\
 \hline
-Total (n=100) & 25 / 73 & 3.47 / 56.84 dB & 66.54 / 63.55 dB & NA\\
+Unilateral & HA & 4.70 & 56.04 & 10.91 & NaN\\
 \hline
-\multicolumn{5}{l}{\textsuperscript{a} N.B. Age Amplification for children with CIs represents age at implantation}\\
+Unilateral & none & 2.50 & 73.90 & 8.50 & NaN\\
+\hline
 \end{tabular}}
 \end{table*}
 \begin{table*}[hbt]
@@ -120,15 +120,15 @@ Total (n=100) & 25 / 73 & 3.47 / 56.84 dB & 66.54 / 63.55 dB & NA\\
 
 \caption{\label{tab:comm-info}Language and communication characteristics of the sample}
 \centering
-\begin{tabular}[t]{l|r|r|r}
+\begin{tabular}[t]{l|r|r|r|r}
 \hline
-Communication Method & English & Spanish & Hindi\\
+Communication & English & Hindi & Spanish & Total\\
 \hline
-Spoken Language (n=79) & 68 & 10 & 1\\
+cued speech & 1 & 0 & 0 & 1\\
 \hline
-Total Communication (n=18) & 15 & 3 & 0\\
+spoken & 68 & 1 & 10 & 79\\
 \hline
-Cued Speech (n=1) & 1 & 0 & 0\\
+total communication & 15 & 0 & 3 & 18\\
 \hline
 \end{tabular}
 \end{table*}

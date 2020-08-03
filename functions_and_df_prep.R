@@ -7,6 +7,7 @@ library('rcompanion') # for cramerV
 library('fastDummies') # for correlation table
 library('corrplot')
 library('gplots') # for balloon plots
+
 source('SM_functions.R')
 
 #read in data
@@ -31,9 +32,32 @@ elssp <- read.csv("data/ELSSP_SubjectInfo_07242020.csv", stringsAsFactors=F) %>%
 comorbid <- read.csv("data/elssp_comorbidities.csv") %>% 
   mutate(anycomorbid = ifelse(VisionLoss==1|DevelopmentalConcerns==1|HealthIssues==1|IsPremature==1, 1,
                               0), 
-         extremelypremature = ifelse(WeeksGestation > 33, 0, 1))
+         extremelypremature = ifelse(WeeksGestation > 33, 0, 1),
+         otherchromissues = ifelse(MissingChrom7==1|chromosomalproblems14and15==1, 1, 0),
+         ventricular_issues = ifelse(intraventricularhemorrhage==1|periventricularleukomalacia==1, 1, 0),
+         heart_issues = ifelse(HeartValveProblems==1|heartabnormalities==1|supraventriculartachycardia==1|
+                                 bradycardia==1|coarctationofaorta==1|patentductusarteriosus|perferatedheart==1|
+                                 pulmonaryarterystenosis, 1, 0),
+         lung_issues = ifelse(asthma==1|bronchopulmonarydysplasia==1|chroniclungdisease|tracheotomy==1|
+                                trachoesophagealfistula==1|esophagealatresia==1, 1, 0),
+  feeding_issues = ifelse(Gtube==1|reflux==1|dysphagia==1|feedingproblems_nos|esophagealatresia==1, 1, 0),
+  illness = ifelse(chroniclungdisease==1|MRSA==1|meningitis==1|frequentfevers==1|Sepsis==1|jaundice==1|
+                     pneumonia==1|cytomegalovirus==1, 1, 0),
+  preg_birth_comp = ifelse(preeclampsia==1|gestationaldiabetes==1|otherpregnancycomplications==1|jaundice==1|
+                             respiratorydistress==1|fetaldistress==1|meconiumaspiration==1|intrauterinegrowthretardation==1, 1, 0),
+  mus_skel = ifelse(hypertonia==1|torticollis==1|oralmotorweakness==1|missingribs==1|vertebraldefects==1|
+                      bonefracture==1|limbabnormalities==1|PDAscoliosis==1|CHARGEorVATER==1|VACTERL==1|
+                      treachercollins==1|sagittalsyntosis==1, 1, 0),
+  cleft = ifelse(cleftlip==1|cleftpalate==1,1,0),
+  health_issues_other = ifelse(esotropia==1|iriscoloboma==1|dysplastickidney==1|CHARGEorVATER==1|apnea==1|
+                                 hydronephrosis==1|seizures==1|laryngomalacia==1|tonguetie==1|midlinedefect==1|hypoglycemia==1|
+                                 anemia==1|mitochondrialdisorder==1|skinbreakdown==1|VACTERL==1|analatresia==1|
+                                 renalabnormalities==1|enlargedadenoids==1|liptie==1|sacraldimple==1|enlargedliver==1|
+                                 petachialrash==1|thrombocytopenia==1, 1, 0),
+  pos_acqHL = ifelse(anemia==1|MRSA==1|meningitis==1|frequentfevers==1|Sepsis==1|jaundice==1|pneumonia==1|seizures==1|
+                       hydrocephalus==1|cytomegalovirus==1, 1, 0))
 
-comorbid_long <- comorbid %>% pivot_longer(cols = c(ANSD, IsPremature:extremelypremature, -WeeksGestation), 
+comorbid_long <- comorbid %>% pivot_longer(cols = c(ANSD, IsPremature:pos_acqHL, -WeeksGestation), 
                                            names_to = "condition", 
                                            values_to = "n") %>% 
   mutate(condition = as.factor(condition))
@@ -45,6 +69,9 @@ condition_tallies <- aggregate(n ~ condition, data=comorbid_long, FUN = sum) %>%
 
 
 #add months-delay to dataframes
+elssp_datasets <- lapply(c('WG','WS'), function(x){
+  prepare_elssp_df(x, constants, verbose=T)
+})
 WG_elssp <- prepare_elssp_df('WG', constants, verbose = F)
 WS_elssp <- prepare_elssp_df('WS', constants, verbose = F)
 
@@ -54,7 +81,7 @@ full_elssp <- bind_rows(WG_elssp$elssp_df, WS_elssp$elssp_df) %>%
 #(full_elssp is different from elssp in that it has the growth curve values)
 
 elssp_cat <- elssp %>% 
-  select(Gender, HealthIssues, DevelopmentalConcerns, 
+  dplyr::select(Gender, HealthIssues, DevelopmentalConcerns, 
               IsPremature, PrimaryLanguage, HLworse_cat, SPM_cat, 
               Communication, Meets136, Laterality, Amplification, Etiology)
 

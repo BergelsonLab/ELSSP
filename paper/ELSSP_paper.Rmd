@@ -158,15 +158,11 @@ While this collaboration is ongoing, we opted to pause for this analysis upon re
 
 ```{r CDIinfo, echo=FALSE}
 
-CDI_table <- tribble(
+tribble(
   ~'CDI version', ~'Average Age (SD)',  ~'Average Comprehension (SD)', ~'Average Production (SD)', ~'% Developmental Delays',
   glue('WG (n={nrow(elssp_datasets[[1]]$elssp_df)})'), glue('{round(mean(elssp_datasets[[1]]$elssp_df$Age), digits=2)} ({round(sd(elssp_datasets[[1]]$elssp_df$Age), digits=2)}) months'), glue('{round(mean(elssp_datasets[[1]]$elssp_df$ComprehensionCDI, na.rm = TRUE), digits=0)} ({round(sd(elssp_datasets[[1]]$elssp_df$ComprehensionCDI, na.rm = TRUE), digits=1)}) words'), glue('{round(mean(elssp_datasets[[1]]$elssp_df$ProductionCDI, na.rm = TRUE), digits=0)} ({round(sd(elssp_datasets[[1]]$elssp_df$ProductionCDI, na.rm = TRUE),digits=1)}) words'), glue('{round(((nrow(elssp_datasets[[1]]$elssp_df %>% filter(DevelopmentalConcerns=="1")))/(nrow(elssp_datasets[[1]]$elssp_df)))*100, digits=2)}%'),
-  glue('WS (n={nrow(elssp_datasets[[2]]$elssp_df)})'), glue('{round(mean(elssp_datasets[[2]]$elssp_df$Age), digits=2)} ({round( sd(elssp_datasets[[2]]$elssp_df$Age), digits=2)}) months'), 'NA', glue('{round(mean(elssp_datasets[[2]]$elssp_df$ProductionCDI, na.rm = TRUE), digits=0)} ({round(sd(elssp_datasets[[2]]$elssp_df$ProductionCDI, na.rm = TRUE), digits=1)}) words'), glue('{round(((nrow(elssp_datasets[[2]]$elssp_df %>% filter(DevelopmentalConcerns=="1")))/(nrow(elssp_datasets[[2]]$elssp_df)))*100, digits=2)}%'))
-
-
-
-kable(CDI_table,
-      caption = "CDI details") %>%
+  glue('WS (n={nrow(elssp_datasets[[2]]$elssp_df)})'), glue('{round(mean(elssp_datasets[[2]]$elssp_df$Age), digits=2)} ({round( sd(elssp_datasets[[2]]$elssp_df$Age), digits=2)}) months'), 'NA', glue('{round(mean(elssp_datasets[[2]]$elssp_df$ProductionCDI, na.rm = TRUE), digits=0)} ({round(sd(elssp_datasets[[2]]$elssp_df$ProductionCDI, na.rm = TRUE), digits=1)}) words'), glue('{round(((nrow(elssp_datasets[[2]]$elssp_df %>% filter(DevelopmentalConcerns=="1")))/(nrow(elssp_datasets[[2]]$elssp_df)))*100, digits=2)}%')) %>%
+kable(caption = "CDI details") %>%
   kable_styling(latex_options = c("scale_down"))
 
 ```
@@ -176,43 +172,25 @@ Children in this sample were coded as yes/no for cognitive development concerns 
 ```{r comorbid-info}
 perc_prem_NICU <- (nrow(comorbid%>%filter(NICU==1&IsPremature==1))/(nrow(elssp %>% filter(IsPremature==1))))*100
 
-num_otherchromissues <- nrow(comorbid %>% filter(MissingChrom7==1|chromosomalproblems14and15==1))
-num_ventricular_issues <- nrow(comorbid %>% filter(intraventricularhemorrhage==1|periventricularleukomalacia==1))
-
-num_heart_issues <- nrow(comorbid %>% filter(HeartValveProblems==1|heartabnormalities==1|supraventriculartachycardia==1|bradycardia==1|coarctationofaorta==1|patentductusarteriosus|perferatedheart==1|pulmonaryarterystenosis))
-
-
-
-num_lung_issues <- nrow(comorbid %>%  filter(asthma==1|bronchopulmonarydysplasia==1|chroniclungdisease|tracheotomy==1|trachoesophagealfistula==1|esophagealatresia==1))
-num_feeding_issues <- nrow(comorbid %>% filter(Gtube==1|reflux==1|dysphagia==1|feedingproblems_nos|esophagealatresia==1))
-num_illness <- nrow(comorbid %>% filter(chroniclungdisease==1|MRSA==1|meningitis==1|frequentfevers==1|Sepsis==1|jaundice==1|pneumonia==1|cytomegalovirus==1))
-num_preg_birth_comp <- nrow(comorbid %>% filter(preeclampsia==1|gestationaldiabetes==1|otherpregnancycomplications==1|jaundice==1|respiratorydistress==1|fetaldistress==1|meconiumaspiration==1))
-num_mus_skel <- nrow(comorbid %>% filter(hypertonia==1|torticollis==1|oralmotorweakness==1|missingribs==1|vertebraldefects==1|bonefracture==1|limbabnormalities==1|PDAscoliosis==1|CHARGEorVATER==1|VACTERL==1|treachercollins==1|sagittalsyntosis==1))
-num_preg_birth_comp <- nrow(comorbid %>% filter(preeclampsia==1|gestationaldiabetes==1|otherpregnancycomplications==1|jaundice==1|respiratorydistress==1|fetaldistress==1|meconiumaspiration==1|intrauterinegrowthretardation==1))
-num_cleft <- nrow(comorbid %>% filter(cleftlip==1|cleftpalate==1))
-num_health_issues_other <- nrow(comorbid %>% filter(esotropia==1|iriscoloboma==1|dysplastickidney==1|CHARGEorVATER==1|apnea==1|hydronephrosis==1|seizures==1|laryngomalacia==1|tonguetie==1|midlinedefect==1|hypoglycemia==1|anemia==1|mitochondrialdisorder==1|skinbreakdown==1|VACTERL==1|analatresia==1|renalabnormalities==1|enlargedadenoids==1|liptie==1|sacraldimple==1|enlargedliver==1|petachialrash==1|thrombocytopenia==1))
-
-num_pos_acqHL <- nrow(comorbid %>% filter(anemia==1|MRSA==1|meningitis==1|frequentfevers==1|Sepsis==1|jaundice==1|pneumonia==1|seizures==1|hydrocephalus==1|cytomegalovirus==1))
-
 comorbid_table <- tribble(
   ~Condition, ~'Specific Condition',  ~n,
   "Premature", "", n_condition(IsPremature),
   "", "Extremely Premature", n_condition(extremelypremature),
   "", "NICU stay", n_condition(NICU),
   "Health Issues", "", n_condition(HealthIssues),
-  "", "Heart", num_heart_issues,
-  "", "Lung", num_lung_issues,
-  "", "Illness", num_illness,
-  "", "Feeding Issues", num_feeding_issues,
-  "", "Pregnancy/Birth Complications", num_preg_birth_comp,
-  "", "Musculoskeletal", num_mus_skel,
-  "", "Cleft Lip/Palate", num_cleft,
-  "", "Other", num_health_issues_other,
+  "", "Heart", n_condition(heart_issues),
+  "", "Lung", n_condition(lung_issues),
+  "", "Illness", n_condition(illness),
+  "", "Feeding Issues", n_condition(feeding_issues),
+  "", "Pregnancy/Birth Complications", n_condition(preg_birth_comp),
+  "", "Musculoskeletal", n_condition(mus_skel),
+  "", "Cleft Lip/Palate", n_condition(cleft),
+  "", "Other", n_condition(health_issues_other),
   "Developmental Concerns", "",  n_condition(DevelopmentalConcerns),
   "", "Down Syndrome", n_condition(downsyndrome),
-  "", "Chromosomal Issues", num_otherchromissues,
+  "", "Chromosomal Issues", n_condition(otherchromissues),
   "", "Neural Tube Defects", sum(n_condition(encephalocelecyst), n_condition(occipitalencephalocele)),
-  "", "Other", sum(n_condition(agenesiscorpuscallosum), n_condition(oculomotorapraxia), num_ventricular_issues, n_condition(corticalvisualimpairment), n_condition(hydrocephalus), n_condition(overalldevconcerns), n_condition(corneliadelange)),
+  "", "Other", sum(n_condition(agenesiscorpuscallosum), n_condition(oculomotorapraxia), n_condition(ventricular_issues), n_condition(corticalvisualimpairment), n_condition(hydrocephalus), n_condition(overalldevconcerns), n_condition(corneliadelange)),
   "Vision Loss", "",  n_condition(VisionLoss),
   "", "Retinopathy of Prematurity",  n_condition(RetinopathyOfPrematurity),
   "", "Nearsightedness",  n_condition(myopia),
@@ -231,58 +209,31 @@ kable(comorbid_table, longtable=T,
 Degree of hearing loss was most often reported with a written description (e.g., “mild sloping to moderate” or “profound high frequency loss”). We created 3 variables: hearing loss in the better ear, hearing loss in the worse ear, and average hearing loss (average of better and worse ear). Using the ASHA hearing loss guidelines, each of these was coded with a dB HL value corresponding with the median dB HL for the level of hearing loss (e.g., moderate hearing loss was coded as 48dB HL), and sloping hearing loss was coded as the average of the levels (e.g. mild to moderate was coded as 40.5 dB HL). Participants were also coded for unilateral or bilateral hearing loss; presence or absence of Auditory Neuropathy Spectrum Disorder; and etiology of hearing loss (sensorineural, conditive, or mixed). Amplification was recorded as the device the child used at the time of assessment--either hearing aid, cochlear implant, or none.
 
 ```{r amp-info}
-# This feels like a lot of info in one table. 
-hearing_stats <- elssp %>% 
+elssp %>% 
   filter(Amplification != '', Laterality != '') %>%
   dplyr::select(VIHI_ID, AgeImplantation, AgeAmplification, HLbetter, HLworse, Laterality, Amplification) %>%
   group_by(Laterality, Amplification) %>%
   dplyr::summarise(mean_HLbetter = round(mean(HLbetter, na.rm = TRUE), 2),
                    mean_HLworse = round(mean(HLworse, na.rm = TRUE), 2),
                    mean_age_amplification = round(mean(AgeAmplification, na.rm = TRUE), 2),
-                   mean_age_implantation = round(mean(AgeImplantation, na.rm = TRUE), 2))
-  
-
-hearing_table <- tribble(
-  ~'', ~n, ~'Average HL (better ear)',  ~'Average HL (worse ear)', ~'Average Age at Amplification',
-  glue('Hearing Aid (n={sum(elssp$Amplification=="HA", na.rm=TRUE)})'), glue('{n_HA_u} / {n_HA_b}'), glue('{round(meanbetter_HA_u, digits=2)} / {round(meanbetter_HA_b, digits=2)} dB'), glue('{round(meanworse_HA_u, digits=2)} / {round(meanworse_HA_b, digits=2)} dB'), glue('{round(ageamp_HA_u, digits=2)} / {round(ageamp_HA_b,digits=2)} months'),
-  glue('Cochlear Implant (n={sum(elssp$Amplification=="CI", na.rm=TRUE)})'), glue('{n_CI_u} / {n_CI_b}'), glue('NA / {round(meanbetter_CI_b, digits=2)} dB'), glue('NA / {round(meanworse_CI_b, digits=2)} dB'),
-  glue('NA / {round(ageamp_CI_b, digits=2)} months'),
-  glue('No Amplification (n={sum(elssp$Amplification=="none", na.rm=TRUE)})'), glue('{n_none_u} / {n_none_b}'), glue('{round(meanbetter_none_u, digits=2)} / {round(meanbetter_none_b, digits=2)} dB'), glue('{round(meanworse_none_u, digits=2)} / {round(meanworse_none_b, digits=2)} dB'),
-  glue('NA'),
-  glue('Total (n={nrow(elssp)})'), glue('{n_total_u} / {n_total_b}'), glue('{round(meanbetter_total_u, digits=2)} / {round(meanbetter_total_b, digits=2)} dB'), glue('{round(meanworse_total_u, digits=2)} / {round(meanworse_total_b, digits=2)} dB'),
-  glue('NA')
-)
- 
-
-kable(hearing_table,
-      caption = glue::glue("Audiological Characteristics of the Sample \n for Unilateral / Bilateral Hearing Loss")) %>%
-  kable_styling(latex_options = c("hold_position", "scale_down")) %>%
-  add_footnote("N.B. Age Amplification for children with CIs represents age at implantation")
-
+                   mean_age_implantation = round(mean(AgeImplantation, na.rm = TRUE), 2)) %>% 
+  kable(caption = glue::glue("Audiological Characteristics of the Sample")) %>%
+  kable_styling(latex_options = c("hold_position", "scale_down")) 
 ```
 
 Communication method was recorded as spoken language, total communication, or cued speech. One participant had a parent fluent in sign language, but the reported communication method in the home was total communication. No child in our sample used American Sign Language or another signed language. The forms also listed the primary language spoken at home. Families in this sample either spoke English or Spanish. For one child, who was adopted from India at 28 months, we recorded the primary language as Hindi, even though the child's adoptive parents are English-speaking.
 
 ```{r comm-info}
-language_stats <- elssp %>% 
+kable((language_stats <- elssp %>% 
   filter(PrimaryLanguage != '', Communication != '') %>%
   dplyr::select(VIHI_ID, Communication, PrimaryLanguage) %>%
   group_by(Communication, PrimaryLanguage) %>%
   dplyr::count(name = 'Tally') %>%
   pivot_wider(names_from = PrimaryLanguage, values_from = Tally) %>%
-  mutate(Total = English + Hindi + Spanish)
-
-language_table <- tribble(
-  ~'Communication Method', ~English, ~Spanish,  ~Hindi, 
-  glue('Spoken Language (n={n_spoken})'), n_spoken_English, n_spoken_Spanish, n_spoken_Hindi,
-  glue('Total Communication (n={n_TC})'), n_TC_English, n_TC_Spanish, n_TC_Hindi,
-  glue('Cued Speech (n={n_CS})'), n_CS_English, n_CS_Spanish, n_CS_Hindi
-)
- 
-
-kable(language_table,
-      caption = glue::glue("Language and communication characteristics of the sample")) %>%
-  kable_styling(latex_options = "hold_position") 
+  replace_na(list(English=0, Hindi=0, Spanish=0)) %>%
+  mutate(Total = English + Hindi + Spanish)),
+      caption = "Language and communication characteristics of the sample") %>%
+  kable_styling(latex_options = "hold_position")
 ```
 
 
@@ -290,27 +241,17 @@ Age at screening was measured as the child’s age in months at their first hear
 Because of the sparse data on screening age, if participants had an age at diagnosis  $\leq$ 3 mo. and an age of intervention  $\leq$ 6 mo., they were recorded as meeting 1-3-6. It is possible that a participant did not receive screening by 1 month, but did receive diagnosis by 3 months and services by 6 months. This special case would be coded as meeting 1-3-6 by our criteria.
 
 ```{r meets136-info}
-# create "Table with meets136 info"
-perc_136 <- (nrow(elssp%>%filter(Meets136=='yes'))/(nrow(elssp %>% filter(Meets136=='yes'|Meets136=='no'))))*100
-perc_13 <- (nrow(elssp%>%filter(meets13=='yes'))/(nrow(elssp %>% filter(meets13=='yes'|meets13=='no'))))*100
-perc_6 <- (nrow(elssp%>%filter(meets6=='yes'))/(nrow(elssp %>% filter(meets6=='yes'|meets6=='no'))))*100
-
-age_diagnosis <- mean(elssp$IdentificationOfHLMonths, na.rm = TRUE)
-age_diagnosis_sd <- sd(elssp$IdentificationOfHLMonths, na.rm = TRUE)
-
-age_services <- mean(elssp$AgeStartedServices, na.rm = TRUE)
-age_services_sd <- sd(elssp$AgeStartedServices, na.rm = TRUE)
-
-meets136_table <- tribble(
+kable(tribble(
   ~'', ~'', 
-'Diagnosis by 3 months', glue('{round(perc_13, digits=2)}%'),
-'Average Age Diagnosis (SD)', glue('{round(age_diagnosis, digits=2)} ({round(age_diagnosis_sd, digits=2)}) months'),
-'Intervention by 6 months', glue('{round(perc_6, digits=2)}%'),
-'Average Age Intervention (SD)', glue('{round(age_services, digits=2)} ({round(age_services_sd, digits=2)}) months'),
-'Meets 1-3-6', glue('{round(perc_136, digits=2)}%')
-)
+'Diagnosis by 3 months', glue('{round((nrow(elssp%>%filter(meets13=="yes"))/(nrow(elssp %>% filter(meets13=="yes"|meets13=="no"))))*100,2)}%'),
 
-kable(meets136_table,
+'Average Age Diagnosis (SD)', glue('{round(mean(elssp$IdentificationOfHLMonths, na.rm = TRUE), digits=2)} ({round(sd(elssp$IdentificationOfHLMonths, na.rm = TRUE), digits=2)}) months'),
+'Intervention by 6 months', glue('{round((nrow(elssp%>%filter(meets6=="yes"))/(nrow(elssp %>% filter(meets6=="yes"|meets6=="no"))))*100,2)}%'),
+
+'Average Age Intervention (SD)', glue('{round(mean(elssp$AgeStartedServices, na.rm = TRUE), digits=2)} ({round(sd(elssp$AgeStartedServices, na.rm = TRUE), digits=2)}) months'),
+
+'Meets 1-3-6', glue('{round((nrow(elssp%>%filter(Meets136=="yes"))/(nrow(elssp %>% filter(Meets136=="yes"|Meets136=="no"))))*100,2)}%')
+),
       caption = "Meets 1-3-6 table") %>%
   kable_styling(latex_options = c("hold_position")) 
 ```
@@ -463,10 +404,11 @@ kable(delay_table,
 ## Part III: Meets136 success
 ```{r 136-summary-stats}
 
+perc_136 <- (nrow(elssp%>%filter(Meets136=='yes'))/(nrow(elssp%>%filter(anycomorbid==0)%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 perc_136_TD <- (nrow(elssp%>%filter(anycomorbid==0)%>%filter(Meets136=='yes'))/(nrow(elssp%>%filter(anycomorbid==0)%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 perc_136_DA <- (nrow(elssp%>%filter(anycomorbid==1)%>%filter(Meets136=='yes'))/(nrow(elssp%>%filter(anycomorbid==1)%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 ```
-Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. Overall, `r perc_136`% of our sample met 1-3-6 guidelines for early diagnosis and intervention. 
+Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. Overall, `r round(perc_136)`% of our sample met 1-3-6 guidelines for early diagnosis and intervention. 
 
 
 ```{r meets136-timeline}
