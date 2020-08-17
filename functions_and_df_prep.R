@@ -11,14 +11,14 @@ library('gplots') # for balloon plots
 source('SM_functions.R')
 
 #read in data
-elssp <- read.csv("data/ELSSP_SubjectInfo_07242020.csv", stringsAsFactors=F) %>% 
+elssp <- read.csv("data/ELSSP_SubjectInfo_07242020.csv", stringsAsFactors=F, na.strings=c(""," ","NA")) %>% 
   filter(VisitNumber==1) %>%
   mutate(SubjectNumber = substr(VIHI_ID, 1, 6), 
-         anycomorbid = ifelse(VisionLoss == 1 |
-                                DevelopmentalConcerns == 1 |
-                                HealthIssues == 1 |
-                                IsPremature == 1, "1",
-                              "0"),
+         anycomorbid = ifelse(VisionLoss == "yes" |
+                                DevelopmentalConcerns == "yes" |
+                                HealthIssues == "yes" |
+                                IsPremature == "yes", "yes",
+                              "no"),
          HLworse_cat = as.factor(case_when(is.na(HLworse) ~ NA_character_,
                                            HLworse < 40 ~ "mild", 
                                            HLworse>70 ~ "severe_profound",
@@ -28,6 +28,14 @@ elssp <- read.csv("data/ELSSP_SubjectInfo_07242020.csv", stringsAsFactors=F) %>%
                                        ServicesReceivedPerMonth>10 ~ ">10", 
                                        TRUE ~ "4-10"))) %>% 
   mutate_if(is.character, as.factor) 
+#add months-delay to dataframes
+elssp_datasets <- lapply(c('WG','WS'), function(x){
+  prepare_elssp_df(x, constants, verbose=T)
+})
+#make dataframes easier to call
+full_elssp <- bind_rows(elssp_datasets[[1]]$elssp_df, elssp_datasets[[2]]$elssp_df) %>% 
+  mutate_if(is.character, as.factor) 
+#(full_elssp is different from elssp in that it has the growth curve values)
 
 comorbid <- read.csv("data/elssp_comorbidities.csv") %>% 
   mutate(anycomorbid = ifelse(VisionLoss==1|DevelopmentalConcerns==1|HealthIssues==1|IsPremature==1, 1,
@@ -68,22 +76,11 @@ condition_tallies <- aggregate(n ~ condition, data=comorbid_long, FUN = sum) %>%
 #make.names(condition_tallies$condition)
 
 
-#add months-delay to dataframes
-elssp_datasets <- lapply(c('WG','WS'), function(x){
-  prepare_elssp_df(x, constants, verbose=T)
-})
-WG_elssp <- prepare_elssp_df('WG', constants, verbose = F)
-WS_elssp <- prepare_elssp_df('WS', constants, verbose = F)
-
-#make dataframes easier to call
-full_elssp <- bind_rows(WG_elssp$elssp_df, WS_elssp$elssp_df) %>% 
-  mutate_if(is.character, as.factor) 
-#(full_elssp is different from elssp in that it has the growth curve values)
 
 elssp_cat <- elssp %>% 
-  dplyr::select(Gender, HealthIssues, DevelopmentalConcerns, 
-              IsPremature, PrimaryLanguage, HLworse_cat, SPM_cat, 
-              Communication, Meets136, Laterality, Amplification, Etiology)
+  dplyr::select(Amplification, Communication, DevelopmentalConcerns, 
+                Etiology, Gender, HealthIssues, HLworse_cat, 
+                IsPremature, Laterality, Meets136, PrimaryLanguage, SPM_cat)
 
 combos <- combn(ncol(elssp_cat),2)
 
@@ -99,9 +96,9 @@ chi_sq_all <- plyr::adply(combos, 2, function(x) {
                     "df"= test$parameter, 
                     "p.value" = round(test$p.value, 6),
                     "eff.size" = cramerV(subset_elssp[, x[1]], subset_elssp[, x[2]])) %>% 
-    mutate(sig = case_when(p.value>.05 ~ "ns", 
-                            p.value>0.0007575758 ~ "sig", 
-                           TRUE ~ "survivesbc"))
+    mutate(sig = case_when(p.value>.05 ~ "not significant", 
+                            p.value>0.0007575758 ~ "p<.05", 
+                           TRUE ~ "survives bonferroni correction"))
   return(out)
 
 })
@@ -134,10 +131,11 @@ beta_output <- function(model, predictornum) {
 
 corr_prep <- dummy_cols(elssp, select_columns = c("Gender", "Meets136",
                                                   "Laterality", "Communication", 
-                                                  "PrimaryLanguage", "DevelopmentalConcerns")) %>%
+                                                  "PrimaryLanguage", "DevelopmentalConcerns", 
+                                                  "HealthIssues", "IsPremature")) %>%
   dplyr::select(ServicesReceivedPerMonth, HLworse, Gender_male,
-                PrimaryLanguage_English, Communication_spoken, DevelopmentalConcerns, 
-                HealthIssues, IsPremature, Meets136_yes) 
+                PrimaryLanguage_English, Communication_spoken, DevelopmentalConcerns_yes, 
+                IsPremature_yes, HealthIssues_yes, Meets136_yes) 
 
 elssp_corr <- cor(corr_prep, use="pairwise.complete.obs")
 
@@ -155,4 +153,61 @@ lm_pvalue <- function (modelobject) {
   p <- pf(f[1],f[2],f[3],lower.tail=F)
   attributes(p) <- NULL
   return(p)
+}
+
+#this is the function that i use in the paper
+bp_simple <- function(x_col, plottitle) {
+  full_elssp %>% 
+    drop_na(x_col) %>%
+  ggplot(aes_string(x = x_col, y="diff_age_from_expected")) +
+    geom_boxplot(color = "mediumpurple1", fill = "mediumpurple1", alpha = 0.2, outlier.shape = NA) +
+    geom_jitter(width = 0.2, color = "mediumpurple1", fill = "mediumpurple1", alpha = .8,
+                aes(shape = CDIversion)) +
+    xlab("") +
+    ylab("") +
+    ggtitle(plottitle) +
+    coord_flip() +
+    theme_classic() +
+    theme(legend.position = "none") +
+    theme(plot.title=element_text(size=16))
+}
+
+#these are two plotting functions that i don't use in the paper. 
+#the first one separates WG/WS by creating separate boxes on the same graph
+#the second one (bp_facet) has separate facets for WG/WS
+bp_double <- function(x_col, plottitle) {
+  full_elssp_dropped <- full_elssp %>% 
+    drop_na(x_col) 
+  
+    ggplot(data = full_elssp_dropped, aes_string(x = x_col, y="diff_age_from_expected")) +
+    geom_boxplot(data = (full_elssp_dropped %>% filter(CDIversion=='WG')),color = "mediumpurple1", fill = "mediumpurple1", alpha = 0.2, outlier.shape = NA) +
+    geom_jitter(data = (full_elssp_dropped %>% filter(CDIversion=='WG')),width = 0.2, color = "mediumpurple1", fill = "mediumpurple1", alpha = .8,
+                aes(shape = CDIversion)) +
+    geom_boxplot(data = (full_elssp_dropped %>% filter(CDIversion=='WS')),color = "lightskyblue", fill = "lightskyblue", alpha = 0.2, outlier.shape = NA) +
+    geom_jitter(data = (full_elssp_dropped %>% filter(CDIversion=='WS')),width = 0.2, color = "lightskyblue", fill = "lightskyblue", alpha = .8,
+                aes(shape = CDIversion)) +
+    xlab("") +
+    ylab("") +
+    ggtitle(plottitle) +
+    coord_flip() +
+    theme_classic() +
+    theme(legend.position = "none") +
+    theme(plot.title=element_text(size=24))
+}
+
+bp_facet <- function(x_col, plottitle) {
+  full_elssp %>% 
+    drop_na(x_col) %>%
+    ggplot(aes_string(x = x_col, y="diff_age_from_expected")) +
+    geom_boxplot(color = "mediumpurple1", fill = "mediumpurple1", alpha = 0.2, outlier.shape = NA) +
+    geom_jitter(width = 0.2, color = "mediumpurple1", fill = "mediumpurple1", alpha = .8,
+                aes(shape = CDIversion)) +
+    xlab("") +
+    ylab("") +
+    ggtitle(plottitle) +
+    coord_flip() +
+    theme_classic() +
+    theme(legend.position = "none") +
+    theme(plot.title=element_text(size=24)) + 
+    facet_wrap(CDIversion ~ .)
 }

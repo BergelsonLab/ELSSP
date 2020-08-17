@@ -220,11 +220,11 @@ Laterality & Unilateral: 11.1; Bilateral: 14.4 & wilcox\\
 \hline
 Amplification & CI: 10; HA: 12.2, none: 18.6 & kruskall\\
 \hline
-Health Issues & Yes: 12.9; No: 13.9 & wilcox\\
+Health Issues & Yes: NaN; No: NaN & wilcox\\
 \hline
-Developmental Delay & Yes: 21.4; No: 12.1 & wilcox\\
+Developmental Delay & Yes: NaN; No: NaN & wilcox\\
 \hline
-Prematurity & Premature: 17.2; Full-term: 12.9 & wilcox\\
+Prematurity & Premature: NaN; Full-term: NaN & wilcox\\
 \hline
 1-3-6 Guidelines & Meets: 12.3; Does not meet: 14.2 & wilcox\\
 \hline
