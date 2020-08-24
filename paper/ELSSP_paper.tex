@@ -149,7 +149,7 @@ The DHH literature presents a more mixed (though rather understudied) picture. O
 
 Additional co-occuring disabilities occur frequently in the DHH population, perhaps as much as three times more than in the hearing population (Pollack, 1997). Incidence estimates for co-occurring disabilities in DHH children range from 25-51\% (Bruce \& Borders, 2015; Guardino, 2008; Holden-Pitt \& Diaz, 1998; Luckner \& Carter, 2001; Picard, 2004; Schildroth \& Hotto, 1996; Soukup \& Feinstein, 2007), with approximately 8\% of DHH children living with 2 or more co-occurring disabilities (Schildroth \& Hotto, 1996).
 
-Some of these conditions, particularly those which carry risk of developmental delay (e.g., Down syndrome), result in language delays independent of hearing loss (Chapman, 1997; Kristoffersen, 2008; Weismer, Lord, \& Esler, 2010), with cognitive ability more predictive of language outcomes than presence or absence of a specific disability (Meinzen-Derr, Wiley, Grether, \& Choo, 2011; Sarant, Holt, Dowell, Richards, \& Blamey, 2008). Disability and hearing loss likely each contribute to a given child's language development (Ching et al., 2013; Rajput, Brown, \& Bamiou, 2003; Van Nierop et al., 2016), with differential effects of each (Vesseur et al., 2016). In some cases, additional disabilities appear to interact with hearing loss to intensify developmental delays (Birman, Elliott, \& Gibson, 2012; Pierson et al., 2007).
+Some of these conditions, particularly those which carry risk of developmental delay (e.g., Down syndrome), result in language delays independent of hearing loss (Chapman, 1997; Kristoffersen, 2008; Weismer, Lord, \& Esler, 2010). These effects vary by the nature of the specific disability (Cupples et al., 2014, 2018), with cognitive ability more predictive of language outcomes than presence or absence of additional disability (Meinzen-Derr, Wiley, Grether, \& Choo, 2011; Sarant, Holt, Dowell, Richards, \& Blamey, 2008). Disability and hearing loss likely each contribute to a given child's language development (Ching et al., 2013; Rajput, Brown, \& Bamiou, 2003; Van Nierop et al., 2016), with differential effects of each (Vesseur et al., 2016). In some cases, additional disabilities appear to interact with hearing loss to intensify developmental delays (Birman, Elliott, \& Gibson, 2012; Pierson et al., 2007).
 
 Furthermore, incidence of hearing loss is higher among children born premature (defined as \textless{} 37 weeks gestational age). Compared to an incidence of 0.2\% in full-term infants, incidence of hearing loss in extremely premature infants (defined as \textless{} 33 weeks gestational age) ranges 2--11\%, with increased prematurity associated with increased rates of hearing loss (Wroblewska-Seniuk, Greczka, Dabrowski, Szyfter-Harris, \& Mazela, 2017).
 
@@ -437,125 +437,22 @@ We also found relationships among many of the audiological characteristics. Ther
 \hypertarget{part-ii-influence-on-vocabulary}{%
 \subsection{Part II: Influence on vocabulary}\label{part-ii-influence-on-vocabulary}}
 
-We next turn to the relationship between each of these variables and children's productive vocabulary, measured on the CDI. Descriptively, we found widespread vocabulary delays on both Words and Gestures and Words and Sentences, with the majority of DHH children testing around or below the 25th percentile for hearing children. The CDI is composed of two instruments, which are typically given to different age groups, but in this sample, are administered based on clinician assessment of the child's language ability. The two instruments differ in number of questions; the max score is 398 on Words and Gestures and 680 on Words and Sentences. For this reason, instead of using the raw number of words produced as our outcome variable, we use the difference (in months) between the child's chronological age and their predicted age for their vocabulary -- we call this derived variable vocabulary delay.
+We next turn to the relationship between each of these variables and children's productive vocabulary, measured on the CDI. Figure XXX shows the vocabulary scores of children in our samples relative to norms for hearing children. Descriptively, we found widespread vocabulary delays on both Words and Gestures and Words and Sentences, with the majority of DHH children testing around or below the 25th percentile for hearing children. The CDI is composed of two instruments, which are typically given to different age groups, but in this sample, are administered based on clinician assessment of the child's language ability. The two instruments differ in number of questions; the max score is 398 on Words and Gestures and 680 on Words and Sentences. For this reason, instead of using the raw number of words produced as our outcome variable, we use the difference (in months) between the child's chronological age and their predicted age for their vocabulary -- we call this derived variable vocabulary delay.
 
 To predict age from vocabulary score, we used the 50th percentile for productive vocabulary from Wordbank data from (8,300 typically-developing infants; Frank et al. (2017)) to create a binary logistic growth curve. The growth curve modelled the 50th percentile language trajectories for WG-CDI and WS-CDI. For each child, we took the number of words they produced divided by the number of words on the instrument, to give us the proportion of words produced. We used the proportion of words in an inverse prediction from the binary logistic regression curves to generate a predicted age: predicted\_age = (log(proportion / (1-proportion)) - b0)/ b1 (cite). We subtracted the predicted age from the chronological age to get the vocabulary delay variable.
 
 \includegraphics{ELSSP_paper_files/figure-latex/wg-ws-rainbow-plot-1.pdf} \includegraphics{ELSSP_paper_files/figure-latex/wg-ws-rainbow-plot-2.pdf} \includegraphics{ELSSP_paper_files/figure-latex/wg-ws-rainbow-plot-3.pdf}
 
-To look at the relationship between our predictor variables and vocabulary delay, we created a linear regression model using stepAIC. We also present bonferroni-corrected zero-order tests of each predictor on vocabulary delay. We exclude children from non-English-speaking families from this section of the analysis because our growth curves are based on the English language CDI.
+To look at the relationship between our predictor variables and vocabulary delay, we conducted multiple linear regression, using vocabulary delay as the outcome variable. We also present bonferroni-corrected zero-order tests of each predictor on vocabulary delay. We exclude children from non-English-speaking families from this section of the analysis because our growth curves are based on the English language CDI.
 
 Our full regression model included all of our variables except Language Background: Vocabulary Delay \textasciitilde{} Gender + Developmental Delay + Health Issues + Prematurity + Laterality + Degree + Amplification + Communication + Meets 1-3-6 + ServicesReceivedPerMonth. We performed stepwise model comparison using stepAIC (MASS) to pare down the model. This process selected only the predictors which incrementally improved model fit, measured by Akaike's Information Criterion (AIC), which considers goodness of fit and model complexity (penalizing models with many predictors). Based on this iterative process, we removed Prematurity, Communication, Meets 1-3-6, and ServicesReceivedPerMonth from the model.
 
-Our final model included: Vocabulary Delay \textasciitilde{} Gender + Developmental Delay + Health Issues + Laterality + Degree + Amplification (R2=0.35 , p=0.00 ). In this model, being male, having a developmental delay, bilateral hearing loss, and more severe hearing loss predicted a larger delay. Presence of developmental delay predicted larger vocabulary delay. Having a cochlear implant or hearing aid predicted a smaller delay, relative to no amplification. Presence of health issues trended towards smaller vocabulary delay, but this predictor was not significant.
-This model accounted for roughly 0\% of the variance in children's vocabulary delay.
+Our final model included: Vocabulary Delay \textasciitilde{} Gender + Developmental Delay + Health Issues + Laterality + Degree + Amplification (R2=0.35 , p=0.00). In this model, being male, having a developmental delay, bilateral hearing loss, and more severe hearing loss predicted a larger delay. Presence of developmental delay predicted larger vocabulary delay. Having a cochlear implant or hearing aid predicted a smaller delay, relative to no amplification. Presence of health issues indicated a smaller vocabulary delay.
+This model accounted for roughly 0.35\% of the variance in children's vocabulary delay.
 
 \includegraphics{ELSSP_paper_files/figure-latex/delay-betas-1.pdf}
 
 In addition to the model, we ran bonferroni-corrected zero-order tests of each predictor on vocabulary delay. Because vocabulary delay deviated significantly from a normal distribution (p\textless{}.001 on Shapiro-Wilk normality test), we used non-parametric tests for this set of analyses. For 2-level categorical variables (i.e., Gender, Developmental Concerns, Health Issues, Prematurity, Laterality, Communication, and 1-3-6), we used Wilcoxen Mann-Whitney tests; for \textgreater{}2-level categorical variables (i.e., Etiology, Amplification), we used kruskal-wallis tests; and for continuous variables (i.e., Services Received Per Month, Degree of Hearing Loss), we used Spearman's correlations. Bonferroni-corrected alpha for this set of analyses was p\textless{}0.0045. None of the tests survived Bonferroni-correction. We present the results in Table XXX.
-
-\begin{verbatim}
-FALSE 
-FALSE   Wilcoxon rank sum test with continuity correction
-FALSE 
-FALSE data:  diff_age_from_expected by Gender
-FALSE W = 874, p-value = 0.02745
-FALSE alternative hypothesis: true location shift is not equal to 0
-\end{verbatim}
-
-\begin{verbatim}
-FALSE 
-FALSE   Wilcoxon rank sum test with continuity correction
-FALSE 
-FALSE data:  diff_age_from_expected by DevelopmentalConcerns
-FALSE W = 344, p-value = 0.007958
-FALSE alternative hypothesis: true location shift is not equal to 0
-\end{verbatim}
-
-\begin{verbatim}
-FALSE 
-FALSE   Wilcoxon rank sum test with continuity correction
-FALSE 
-FALSE data:  diff_age_from_expected by HealthIssues
-FALSE W = 1043, p-value = 0.9359
-FALSE alternative hypothesis: true location shift is not equal to 0
-\end{verbatim}
-
-\begin{verbatim}
-FALSE 
-FALSE   Wilcoxon rank sum test with continuity correction
-FALSE 
-FALSE data:  diff_age_from_expected by IsPremature
-FALSE W = 433, p-value = 0.07913
-FALSE alternative hypothesis: true location shift is not equal to 0
-\end{verbatim}
-
-\begin{verbatim}
-FALSE 
-FALSE   Wilcoxon rank sum test with continuity correction
-FALSE 
-FALSE data:  diff_age_from_expected by Laterality
-FALSE W = 1068, p-value = 0.1329
-FALSE alternative hypothesis: true location shift is not equal to 0
-\end{verbatim}
-
-\begin{verbatim}
-FALSE 
-FALSE   Wilcoxon rank sum test with continuity correction
-FALSE 
-FALSE data:  diff_age_from_expected by Meets136
-FALSE W = 1200, p-value = 0.117
-FALSE alternative hypothesis: true location shift is not equal to 0
-\end{verbatim}
-
-\begin{verbatim}
-FALSE 
-FALSE   Wilcoxon rank sum test with continuity correction
-FALSE 
-FALSE data:  diff_age_from_expected by Communication
-FALSE W = 478, p-value = 0.1269
-FALSE alternative hypothesis: true location shift is not equal to 0
-\end{verbatim}
-
-\begin{verbatim}
-FALSE 
-FALSE   Kruskal-Wallis rank sum test
-FALSE 
-FALSE data:  diff_age_from_expected by Amplification
-FALSE Kruskal-Wallis chi-squared = 8.5282, df = 2, p-value = 0.01406
-\end{verbatim}
-
-\begin{verbatim}
-FALSE 
-FALSE   Kruskal-Wallis rank sum test
-FALSE 
-FALSE data:  diff_age_from_expected by Etiology
-FALSE Kruskal-Wallis chi-squared = 0.73823, df = 2, p-value = 0.6913
-\end{verbatim}
-
-\begin{verbatim}
-FALSE 
-FALSE   Spearman's rank correlation rho
-FALSE 
-FALSE data:  full_elssp$diff_age_from_expected and full_elssp$HLworse
-FALSE S = 100095, p-value = 0.6107
-FALSE alternative hypothesis: true rho is not equal to 0
-FALSE sample estimates:
-FALSE       rho 
-FALSE 0.0556673
-\end{verbatim}
-
-\begin{verbatim}
-FALSE 
-FALSE   Spearman's rank correlation rho
-FALSE 
-FALSE data:  full_elssp$diff_age_from_expected and full_elssp$ServicesReceivedPerMonth
-FALSE S = 104483, p-value = 0.01724
-FALSE alternative hypothesis: true rho is not equal to 0
-FALSE sample estimates:
-FALSE       rho 
-FALSE 0.2451466
-\end{verbatim}
 
 \includegraphics{ELSSP_paper_files/figure-latex/delay-plots-1.pdf} \includegraphics{ELSSP_paper_files/figure-latex/delay-plots-2.pdf} \includegraphics{ELSSP_paper_files/figure-latex/delay-plots-3.pdf}
 
@@ -596,7 +493,7 @@ Services Received Per Month & More services: 16.5; Less services: 11.9 & wilcox\
 \hypertarget{part-iii-meets136-success}{%
 \subsection{Part III: Meets136 success}\label{part-iii-meets136-success}}
 
-Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. Overall, Inf\% of our sample met 1-3-6 guidelines for early diagnosis and intervention.
+Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. Overall, 37\% of our sample met 1-3-6 guidelines for early diagnosis and intervention.
 
 \includegraphics{ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf}
 
@@ -692,6 +589,12 @@ Clark, J. G. (1981). Uses and abuses of hearing loss classification. \emph{ASHA:
 
 \leavevmode\hypertarget{ref-clark2016}{}%
 Clark, M. D., Hauser, P. C., Miller, P., Kargin, T., Rathmann, C., Guldenoglu, B., \ldots{} Israel, E. (2016). The Importance of Early Sign Language Acquisition for Deaf Readers. \emph{Reading and Writing Quarterly}, \emph{32}(2), 127--151. \url{https://doi.org/10.1080/10573569.2013.878123}
+
+\leavevmode\hypertarget{ref-cupples2014}{}%
+Cupples, L., Ching, T. Y. C., Crowe, K., Seeto, M., Leigh, G., Street, L., \ldots{} Thomson, J. (2014). Outcomes of 3-year-old children with hearing loss and different types of additional disabilities. \emph{Journal of Deaf Studies and Deaf Education}, \emph{19}(1), 20--39. \url{https://doi.org/10.1093/deafed/ent039}
+
+\leavevmode\hypertarget{ref-cupples2018}{}%
+Cupples, L., Ching, T. Y. C., Leigh, G., Martin, L., Gunnourie, M., Button, L., \ldots{} Van Buynder, P. (2018). Language development in deaf or hard-of-hearing children with additional disabilities: Type matters! \emph{Journal of Intellectual Disability Research: JIDR}, \emph{62}(6), 532--543. \url{https://doi.org/10.1111/jir.12493}
 
 \leavevmode\hypertarget{ref-cusson2003}{}%
 Cusson, R. M. (2003). Factors influencing language development in preterm infants. \emph{Journal of Obstetric, Gynecologic, and Neonatal Nursing : JOGNN / NAACOG}, \emph{32}(3), 402--409. \url{https://doi.org/10.1177/0884217503253530}

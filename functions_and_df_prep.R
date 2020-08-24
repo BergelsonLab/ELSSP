@@ -7,6 +7,7 @@ library('rcompanion') # for cramerV
 library('fastDummies') # for correlation table
 library('corrplot')
 library('gplots') # for balloon plots
+library(reshape2)
 
 source('SM_functions.R')
 
@@ -109,6 +110,17 @@ nz_balloons <- function(Var1, Var2){ #balloon plots without NA cells
                     xlab = Var1,
                     ylab = Var2,
                     main = glue("{Var1} by {Var2}"))
+}
+
+gg_balloons <- function(Var1, Var2){ #balloon plots without NA cells
+  nz_elssp <- elssp %>% filter(elssp[[Var1]]!='' & elssp[[Var2]]!='')
+  nz_table <- melt(table(nz_elssp[[Var1]], nz_elssp[[Var2]])) 
+  balloons <- ggplot(nz_table, aes(x = Var1, y = Var2)) +
+    geom_point(aes(size=value))+
+    theme(panel.background=element_blank(), 
+          panel.border = element_rect(fill=NA, size=1)) +
+    labs(x={Var1}, y={Var2})
+  print(balloons)
 }
 
 chisq_output <- function(Var1, Var2) {
