@@ -116,10 +116,13 @@ gg_balloons <- function(Var1, Var2){ #balloon plots without NA cells
   nz_elssp <- elssp %>% filter(elssp[[Var1]]!='' & elssp[[Var2]]!='')
   nz_table <- melt(table(nz_elssp[[Var1]], nz_elssp[[Var2]])) 
   balloons <- ggplot(nz_table, aes(x = Var1, y = Var2)) +
-    geom_point(aes(size=value))+
+    geom_point(aes(size=value), alpha=0.3)+
+    scale_size_area(max_size = 30) +
+    geom_text(aes(label = value)) + 
     theme(panel.background=element_blank(), 
-          panel.border = element_rect(fill=NA, size=1)) +
-    labs(x={Var1}, y={Var2})
+          panel.border = element_rect(fill=NA, size=1),
+          legend.position = "none") +
+    labs(x={Var1}, y={Var2}) 
   print(balloons)
 }
 
