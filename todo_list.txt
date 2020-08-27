@@ -3,19 +3,17 @@ Need to fix for ELSSP:
 Green:
 
 Yellow:
-- Merge cells in 1-3-6 table
 - Fix p=0.00
 - Add line breaks to equations
 - Add captions to all plots / tables
+- Change labels on figures to align with text (e.g., HLworse -> degree)
 - Bigger labels on graphs
-- Add sig to delay table
 - simplify table code
+- Make 1-3-6 timeline into violin plot
 
 Red:
 - table #s
 - elaborate on growth curve. Made some progress. Need to talk to Stephan and find citation
 - citing packages
-- fix delay table. Need help from lab member
-- not sure what to do with balloon plots
 
-Updated: 8/17/2020
+Updated: 8/27/2020

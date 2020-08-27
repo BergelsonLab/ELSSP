@@ -203,38 +203,3 @@ CDI - Words Produced & Continuous & 0-635 words\\
 \hline
 \end{tabular}}
 \end{table*}
-\begin{table*}[hbt]
-\ifnextchar[{\eatarg}{}
-
-
-\caption{\label{tab:delay-table}Delay table}
-\centering
-\resizebox{\linewidth}{!}{
-\begin{tabular}[t]{l|l|l}
-\hline
-Variable & mean delays & Method\\
-\hline
-Gender & Boy: 16.3; Girl: 10.3 & wilcox\\
-\hline
-Laterality & Unilateral: 11.1; Bilateral: 14.4 & wilcox\\
-\hline
-Amplification & CI: 10; HA: 12.2, none: 18.6 & kruskall\\
-\hline
-Health Issues & Yes: NaN; No: NaN & wilcox\\
-\hline
-Developmental Delay & Yes: NaN; No: NaN & wilcox\\
-\hline
-Prematurity & Premature: NaN; Full-term: NaN & wilcox\\
-\hline
-1-3-6 Guidelines & Meets: 12.3; Does not meet: 14.2 & wilcox\\
-\hline
-Communication & Spoken Language: 12.5; Total Communication: 19.3 & wilcox\\
-\hline
-Etiology & SNHL: 13.2; Mixed: 17.4, Conductive: 13.3 & kruskall\\
-\hline
-Degree & More severe: 14.5; Less severe: 13.3 & wilcox\\
-\hline
-Services Received Per Month & More services: 16.5; Less services: 11.9 & wilcox\\
-\hline
-\end{tabular}}
-\end{table*}
