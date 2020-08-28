@@ -450,29 +450,29 @@ To look at the relationship between our predictor variables and vocabulary delay
 Our full regression model included all of our variables except Language Background: Vocabulary Delay \textasciitilde{} Gender + Developmental Delay + Health Issues + Prematurity + Laterality + Degree + Amplification + Communication + Meets 1-3-6 + ServicesReceivedPerMonth. We performed stepwise model comparison using stepAIC (MASS) to pare down the model. This process selected only the predictors which incrementally improved model fit, measured by Akaike's Information Criterion (AIC), which considers goodness of fit and model complexity (penalizing models with many predictors). Based on this iterative process, we removed Prematurity, Communication, Meets 1-3-6, and ServicesReceivedPerMonth from the model.
 
 Our final model included: Vocabulary Delay \textasciitilde{} Gender + Developmental Delay + Health Issues + Laterality + Degree + Amplification (R2=0.35 , p=0.00). In this model, being male, having a developmental delay, bilateral hearing loss, and more severe hearing loss predicted a larger delay. Presence of developmental delay predicted larger vocabulary delay. Having a cochlear implant or hearing aid predicted a smaller delay, relative to no amplification. Presence of health issues indicated a smaller vocabulary delay.
-This model accounted for roughly 0.35\% of the variance in children's vocabulary delay.
+This model accounted for roughly 0.35\% of the variance in children's vocabulary delay. Although we showed in Part I that relationships exist among several of these variables (e.g., degree and amplification), a vif test on our model revealed that each predictor was responsible for a unique share of the variance.
 
 \includegraphics{ELSSP_paper_files/figure-latex/delay-betas-1.pdf}
 
 \hypertarget{part-iii-meets136-success}{%
 \subsection{Part III: Meets136 success}\label{part-iii-meets136-success}}
 
-Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. Overall, 37\% of our sample met 1-3-6 guidelines for early diagnosis and intervention.
+Lastly, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. Perhaps of greatest importance to clinicians and policymakers is the implementation and effect of existing policies. Although we did not find 1-3-6 guidelines to significantly predict vocabulary delay in our sample, we wanted to examine the reach of 1-3-6 and discuss factors that may influence whether a given child receives early diagnosis and intervention. In this section, we provide a brief description of the implementation of 1-3-6 in our sample and describe the results of linear regression models for age at diagnosis and age at intervention.
 
-\includegraphics{ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf}
+Overall, 37\% of our sample met 1-3-6 guidelines for early diagnosis and intervention (see Table 6). Among the children for which screening information was available (n = 68), 100\% were screened at birth or during NICU stay. 69\% of children received diagnosis by 3 months of age, and 39\% began early intervention by 6 months of age. Among children with comorbidities, 21.05\% met 1-3-6 guidelines, compared to 47.37\% of children without comorbidities. Figure XXX shows the age at first diagnosis, intervention, amplification, and implantation for each child in our sample.
 
-We created linear regression models for age at diagnosis and age at intervention. Models were paired down using stepwise regression by AIC using the stepAIC function (cite MASS package). For age at diagnosis, we included the set of child-specific factors that would be relevant before diagnosis of hearing loss. We began with:
-\[Age\:at\:Diagnosis \sim Gender + Degree\:of\:Hearing\:Loss\:(worse\:ear) + Developmental\:Delay + Health\:Issues + Prematurity + Laterality + Language \:Background + Etiology\]
-Age diagnosis \textasciitilde{} gender + laterality + degree (worse ear) + developmental delay + health issues + prematurity + laterality + language background + etiology
-The best fit model (R2=0.25 , p=0.00) included health issues (ß = 3.99, p = 0.0039) and language background (ß = 27.69, p = 3.8e-05).
+\includegraphics{ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf} \includegraphics{ELSSP_paper_files/figure-latex/meets136-timeline-2.pdf}
+
+We created two linear regression models, one for age at diagnosis and one for age at intervention. For each model, we started with the set of predictors that would have been present prior to or during diagnosis / intervention. We then paired down using stepwise regression by AIC (MASS package), using the process described above in Part II of Results. For age at diagnosis, we included the set of child-specific factors that would be relevant \emph{before} diagnosis of hearing loss (e.g., we excluded amplification type because a child would not receive a hearing aid or cochlear implant prior to being diagnosed with hearing loss.) We began with: gender, degree, developmental delay, health issues, prematurity, laterality, language background, and etiology.
+
+Model selection removed gender, degree, developmental delay, prematurity, laterality, and etiology as predictors. Under the best fit model (R2=0.16 , p=0.00), children with no additional health issues (ß = 3.7, p = 0.011), children from English-speaking households (ß = -6.47, p = 0.0014), and children with unilateral hearing loss (ß = -2.15, p = 0.18) were earlier diagnosed. Presence of health issues indicated a 3.70 months later diagnosis, and coming from a non-English-speaking household resulted in a -6.47 months later diagnosis. This model accounted for roughly 0.16\% of the variance in age at diagnosis.
 \[Age\:at\:Diagnosis \sim Health\:Issues + Language\:Background\]
 
 \includegraphics{ELSSP_paper_files/figure-latex/diagnosis-betas-1.pdf}
 
-For age at intervention, we first included the variables potentially relevant prior to intervention:
+We repeated this model selection process for age at intervention. Our starting model included the variables potentially relevant to intervention:
 Age intervention \textasciitilde{} gender + degree (worse ear) + developmental delay + health issues + prematurity + laterality + language background + etiology + age diagnosis
-\[Age\:at\:Intervention \sim Gender + Degree\:of\:Hearing\:Loss\:(worse\:ear) + Developmental\:Delay + Health\:Issues + Prematurity + Laterality + Language \:Background + Etiology +Age\:at\:Diagnosis\]
-The best fit model (R2=0.45 , p=0.00) included prematurity (ß = 4.46, p = 0.025), degree of hearing loss (ß = -0.09, p = 0.0038), and age at diagnosis (ß = 0.67, p = 1.9e-09).
+Model selection by AIC removed Gender, Developmental Delay, Health Issues, Prematurity, Language Background, and Etiology. In the best fit model (R2=0.45 , p=0.00), prematurity (ß = 4.7, p = 0.02), less severe hearing loss (ß = -0.09, p = 0.0042), later diagnosis (ß = 0.66, p = 1.1e-08), and coming from a non-English-speaking household (ß = -1.38, p = 0.51) predicted later intervention and accounted for roughly 0.45\% of the variance in age at intervention. Infants born premature were diagnosed 4.70 months later than full-term infants. A 1 decibel increase in hearing loss results in 2.68 days earlier intervention. Each one month delay in diagnosis results in a 1.38 month delay in intervention.
 \[Age\:at\:Intervention \sim Degree\:of\:Hearing\:Loss\:(worse\:ear) + Prematurity + Age\:at\:Diagnosis\]
 
 \includegraphics{ELSSP_paper_files/figure-latex/intervention-betas-1.pdf}

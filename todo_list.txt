@@ -9,7 +9,9 @@ Yellow:
 - Change labels on figures to align with text (e.g., HLworse -> degree)
 - Bigger labels on graphs
 - simplify table code
-- Make 1-3-6 timeline into violin plot
+- wordbook curves display twice?
+- In part III, I have the equations printed twice, once in equation formatting. Not sure what to use.
+- inconsistent spacing around =s
 
 Red:
 - table #s
