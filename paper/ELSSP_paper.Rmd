@@ -481,6 +481,9 @@ stepAIC(lm(AgeStartedServices ~ Gender +
 
 services_aic <- lm(formula = AgeStartedServices ~ HLworse + IsPremature + 
                        IdentificationOfHLMonths + Monolingual_English, data = full_elssp)
+
+
+difference_aic <- 
 ```
 We created two linear regression models, one for age at diagnosis and one for age at intervention. For each model, we started with the set of predictors that would have been present prior to or during diagnosis / intervention. We then paired down using stepwise regression by AIC (MASS package), using the process described above in Part II of Results. For age at diagnosis, we included the set of child-specific factors that would be relevant *before* diagnosis of hearing loss (e.g., we excluded amplification type because a child would not receive a hearing aid or cochlear implant prior to being diagnosed with hearing loss.) We began with: gender, degree, developmental delay, health issues, prematurity, laterality, language background, and etiology.
 
@@ -511,6 +514,7 @@ options(repr.plot.width=6, repr.plot.height=4)
 #caption:  
 ```
 # Discussion
+
 
 # Conclusion
 
