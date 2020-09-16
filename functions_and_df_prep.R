@@ -25,9 +25,11 @@ elssp <- read.csv("data/ELSSP_SubjectInfo_07242020.csv", stringsAsFactors=F, na.
                                            HLworse>70 ~ "severe_profound",
                                            TRUE ~  "moderate")), 
          SPM_cat = as.factor(case_when(is.na(ServicesReceivedPerMonth) ~ NA_character_, 
-                                       ServicesReceivedPerMonth < 4 ~ "0-3", 
-                                       ServicesReceivedPerMonth>10 ~ ">10", 
-                                       TRUE ~ "4-10"))) %>% 
+                                       ServicesReceivedPerMonth < 3 ~ "0-2", 
+                                       ServicesReceivedPerMonth>7 ~ ">7", 
+                                       TRUE ~ "3-6"))) %>% 
+  mutate(HLworse_cat = fct_relevel(HLworse_cat, "mild", "moderate", "severe_profound"),
+  SPM_cat = (fct_relevel(SPM_cat, "0-2", "3-6", ">7"))) %>%
   mutate_if(is.character, as.factor) 
 #add months-delay to dataframes
 elssp_datasets <- lapply(c('WG','WS'), function(x){
@@ -81,13 +83,19 @@ condition_tallies <- aggregate(n ~ condition, data=comorbid_long, FUN = sum) %>%
 elssp_cat <- elssp %>% 
   dplyr::select(Amplification, Communication, DevelopmentalConcerns, 
                 Etiology, Gender, HealthIssues, HLworse_cat, 
-                IsPremature, Laterality, Meets136, PrimaryLanguage, SPM_cat)
+                IsPremature, Laterality, Meets136, Monolingual_English, SPM_cat)
 
 combos <- combn(ncol(elssp_cat),2)
 
 chi_sq_all <- plyr::adply(combos, 2, function(x) {
   subset_elssp <- elssp_cat %>% 
-    filter(elssp_cat[x[1]] !='' & elssp_cat[x[2]] !='')
+    filter(elssp_cat[x[1]] !='' & elssp_cat[x[2]] !='') %>%
+   # {if (colnames(elssp_cat)[x[1]]=="Etiology") filter(., Etiology!='Mixed')}
+    
+    # filter(ifelse(colnames(elssp_cat)[x[1]] == 'Etiology'|colnames(elssp_cat[x[2]]), Etiology!='Mixed', )))
+   
+    
+     ifelse(colnames(elssp_cat)[x[1]] == 'Etiology'|colnames(elssp_cat[x[2]]), filter(Etiology!='Mixed'))
   
   test <- chisq.test(subset_elssp[, x[1]], subset_elssp[, x[2]])
 
@@ -155,6 +163,12 @@ corr_prep <- dummy_cols(elssp, select_columns = c("Gender", "Meets136",
 elssp_corr <- cor(corr_prep, use="pairwise.complete.obs")
 
 p_corr <- cor.mtest(corr_prep) 
+
+# corrplot(elssp_corr, method = 'color', p.mat = p_corr$p,
+#          type = "upper",
+#          order = "hclust", tl.cex=1,
+#          tl.col = "black", addCoef.col = "black",
+#          sig.level = 0.001, insig = "blank", diag = FALSE)
 
 dimnames(p_corr$p) <- dimnames(elssp_corr)
 
@@ -226,3 +240,13 @@ bp_facet <- function(x_col, plottitle) {
     theme(plot.title=element_text(size=24)) + 
     facet_wrap(CDIversion ~ .)
 }
+
+# 
+# add_vif <- function(model, num_predictors) {
+# vif_res <- vif(model)
+# vif_list <- list("NA", vif_res[1:num_predictors])
+#   
+# model %>% 
+#     tidy() %>%
+#     cbind(vif_list)
+# }

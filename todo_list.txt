@@ -1,6 +1,10 @@
 Need to fix for ELSSP:
 
 Green:
+- write out words and gestures / words and sentences each time
+- justification sentence for SPM bins
+
+
 
 Yellow:
 - Fix p=0.00
@@ -12,10 +16,26 @@ Yellow:
 - wordbook curves display twice?
 - In part III, I have the equations printed twice, once in equation formatting. Not sure what to use.
 - inconsistent spacing around =s
+- super scripted 2 for R2s
+- table with all betas
+- R2s are in proportions, fix .35%
+- statistical results of VIF test + cite Statistical Learning in R book
+- chi square mess + new graphs
+	- n of 5 for 80% of your cells, so if there are cases where that's not true you should either not run the test on that combo, or group things together that have low n (e.g. lang background: english/non-english, communication: spoken/not (combine TC & cued))
+	-1) a bar graph with HL worst on the x axis and  dodged bars by color for amp, and the counts of the number of kids on the y-axis
+	- 2) a bar graph with etiology on the x axis, and dodged bars for laterality, and within the bars stack color for each amplification
+that would get lots of info across more succinctly, and then drop all the bubble plots
+- check levels for SPM
+- remove redundancy between para above and methods about # items in CDI and how it was decided which kid got which. since CDI is your main instrument you want to describe it in methods and here just remind the reader that they had different #s of items 
+- there's some redundancy across your two model results in this section aren't you starting with the same full set of predictors for both? if so just list them once.  you don't have to say what was removed from the model, just say the final model for each. i would just put it in regular type instad of the equation format. also you both write your betas parenthetically but then for some of them reword them as months of delay or whatever. consolidate that redundancy. same thing as above for .XX% should be XX%, r^2 superscript formatting, etc. Do an edit for causal language, e.g. 1db increase in hearing loss doesn't *result* in x days earlier intervention -->
+- add tolerance and vis scores
 
 Red:
 - table #s
 - elaborate on growth curve. Made some progress. Need to talk to Stephan and find citation
 - citing packages
+- what to do with adopted participant
+- make an OSF page for else
+- growth curve for Spanish cdi
 
 Updated: 8/27/2020
