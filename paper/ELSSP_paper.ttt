@@ -35,7 +35,7 @@ CDI version & Average Age (SD) & Average Comprehension (SD) & Average Production
 \hline
 WG (n=74) & 20.05 (8.82) months & 105 (99.7) words & 32 (53.4) words & 18.92\%\\
 \hline
-WS (n=24) & 26.03 (7.78) months & NA & 149 (180.1) words & 4.17\%\\
+WS (n=23) & 25.74 (7.82) months & NA & 145 (183.4) words & 4.35\%\\
 \hline
 \end{tabular}}
 \end{table*}
@@ -165,21 +165,21 @@ Meets 1-3-6 & 36.84\%\\
 \hline
 Variable & Scale & Range\\
 \hline
-Age & Continuous & 4.2-36 months\\
+Age & Continuous & 4.2-36 months (mean (SD): 21 (9.1))\\
 \hline
-Age at Amplification & Continuous & 2-30 months\\
+Age at Amplification & Continuous & 2-30 months (mean (SD): 9 (6.7))\\
 \hline
-Age at Diagnosis & Continuous & 0-30 months\\
+Age at Diagnosis & Continuous & 0-30 months (mean (SD): 5 (7.2))\\
 \hline
-Age at Implantation & Continuous & 7-32 months\\
+Age at Implantation & Continuous & 7-32 months (mean (SD): 14 (7.2))\\
 \hline
-Age at Intervention & Continuous & 1-33 months\\
+Age at Intervention & Continuous & 1-33 months (mean (SD): 11 (8.5))\\
 \hline
 Amplification & Categorical & Hearing Aid / Cochlear Implant / None\\
 \hline
 Communication & Categorical & Spoken / Total Communication / Cued Speech\\
 \hline
-Degree Hearing Loss (worse ear) & Continuous & 17.75-100 dB HL\\
+Degree Hearing Loss (worse ear) & Continuous & 17.75-100 dB HL (mean (SD): 64 (24))\\
 \hline
 Developmental Delay & Categorical & Yes / No\\
 \hline
@@ -195,11 +195,131 @@ Meets 1-3-6 & Categorical & Yes / No\\
 \hline
 Prematurity & Categorical & Full-term / Premature\\
 \hline
-Services Received Per Month & Continuous & 0-43 services per month\\
+Services Received Per Month & Continuous & 0-43 services per month (mean (SD): 6 (6.4))\\
 \hline
 Type of Hearing Loss & Categorical & Sensorineural / Conductive / Mixed\\
 \hline
-CDI - Words Produced & Continuous & 0-635 words\\
+CDI - Words Produced & Continuous & 0-635 words (mean (SD): 61 (111.2))\\
 \hline
 \end{tabular}}
+\end{table*}
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[H]
+\centering
+\begin{tabular}{l|r|r|r|r}
+\hline
+term & estimate & std.error & statistic & p.value\\
+\hline
+(Intercept) & -9.6942330 & 7.2180893 & -1.343047 & 0.1838572\\
+\hline
+Gendermale & 6.0664252 & 2.8224384 & 2.149356 & 0.0352771\\
+\hline
+DevelopmentalConcernsyes & 12.1442161 & 4.3169802 & 2.813128 & 0.0064568\\
+\hline
+HealthIssuesyes & -6.7421398 & 3.2609887 & -2.067514 & 0.0426103\\
+\hline
+LateralityUnilateral & -8.8502622 & 3.6931136 & -2.396423 & 0.0193973\\
+\hline
+HLworse & 0.1731283 & 0.0710937 & 2.435211 & 0.0175929\\
+\hline
+AmplificationHA & 12.2372465 & 4.3229550 & 2.830760 & 0.0061483\\
+\hline
+Amplificationnone & 19.9404428 & 5.3052790 & 3.758604 & 0.0003644\\
+\hline
+\end{tabular}
+\end{table*}
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[H]
+\centering
+\begin{tabular}{l|r|r}
+\hline
+  & GVIF & Df\\
+\hline
+Gender & 1.170592 & 1\\
+\hline
+DevelopmentalConcerns & 1.488285 & 1\\
+\hline
+HealthIssues & 1.424512 & 1\\
+\hline
+Laterality & 1.160945 & 1\\
+\hline
+HLworse & 1.613671 & 1\\
+\hline
+Amplification & 2.263125 & 2\\
+\hline
+\end{tabular}
+\end{table*}
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[H]
+\centering
+\begin{tabular}{l|r|r|r|r}
+\hline
+term & estimate & std.error & statistic & p.value\\
+\hline
+(Intercept) & 9.384015 & 1.967599 & 4.769272 & 0.0000069\\
+\hline
+HealthIssuesyes & 3.703441 & 1.418520 & 2.610778 & 0.0105472\\
+\hline
+Monolingual\_Englishyes & -6.469065 & 1.957318 & -3.305066 & 0.0013545\\
+\hline
+LateralityUnilateral & -2.148902 & 1.575573 & -1.363886 & 0.1759312\\
+\hline
+\end{tabular}
+\end{table*}
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[H]
+\centering
+\begin{tabular}{l|r|r}
+\hline
+  & VIF & Df\\
+\hline
+HealthIssues & 1.002092 & 1\\
+\hline
+Monolingual\_English & 1.025896 & 1\\
+\hline
+Laterality & 1.027814 & 1\\
+\hline
+\end{tabular}
+\end{table*}
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[H]
+\centering
+\begin{tabular}{l|r|r|r|r}
+\hline
+term & estimate & std.error & statistic & p.value\\
+\hline
+(Intercept) & 14.6545372 & 2.8717392 & 5.1030181 & 0.0000022\\
+\hline
+HLworse & -0.0925203 & 0.0302741 & -3.0560849 & 0.0030365\\
+\hline
+IsPrematureyes & 3.7839323 & 1.9540853 & 1.9364212 & 0.0563036\\
+\hline
+IdentificationOfHLMonths & 0.6520471 & 0.1044276 & 6.2440093 & 0.0000000\\
+\hline
+Monolingual\_Englishyes & -1.3846263 & 2.1177275 & -0.6538265 & 0.5150755\\
+\hline
+\end{tabular}
+\end{table*}
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[H]
+\centering
+\begin{tabular}{l|r|r}
+\hline
+  & VIF & Df\\
+\hline
+HLworse & 1.030540 & 1\\
+\hline
+IsPremature & 1.064463 & 1\\
+\hline
+IdentificationOfHLMonths & 1.068221 & 1\\
+\hline
+Monolingual\_English & 1.101377 & 1\\
+\hline
+\end{tabular}
 \end{table*}

@@ -32,14 +32,16 @@ elssp <- read.csv("data/ELSSP_SubjectInfo_07242020.csv", stringsAsFactors=F, na.
   SPM_cat = (fct_relevel(SPM_cat, "0-2", "3-6", ">7"))) %>%
   mutate_if(is.character, as.factor) 
 #add months-delay to dataframes
-elssp_datasets <- lapply(c('WG','WS'), function(x){
-  prepare_elssp_df(x, constants, verbose=T)
-})
-#make dataframes easier to call
-full_elssp <- bind_rows(elssp_datasets[[1]]$elssp_df, elssp_datasets[[2]]$elssp_df) %>% 
-  mutate_if(is.character, as.factor) 
-#(full_elssp is different from elssp in that it has the growth curve values)
+elssp_eng <- filter(elssp, PrimaryLanguage=="English")
+elssp_span <- filter(elssp, PrimaryLanguage=="Spanish")
 
+prepare_elssp_df_eng("WG", constants_eng, verbose=T)
+prepare_elssp_df_eng("WS", constants_eng, verbose=T)
+prepare_elssp_df_span("WG", constants_span, verbose=T)
+prepare_elssp_df_span("WS", constants_span, verbose=T)
+
+elssp_curves <- rbind(WG_elssp_eng, WS_elssp_eng, WG_elssp_span, WS_elssp_span)
+#make dataframes easier to call
 comorbid <- read.csv("data/elssp_comorbidities.csv") %>% 
   mutate(anycomorbid = ifelse(VisionLoss==1|DevelopmentalConcerns==1|HealthIssues==1|IsPremature==1, 1,
                               0), 
@@ -83,19 +85,14 @@ condition_tallies <- aggregate(n ~ condition, data=comorbid_long, FUN = sum) %>%
 elssp_cat <- elssp %>% 
   dplyr::select(Amplification, Communication, DevelopmentalConcerns, 
                 Etiology, Gender, HealthIssues, HLworse_cat, 
-                IsPremature, Laterality, Meets136, Monolingual_English, SPM_cat)
+                IsPremature, Laterality, Meets136, Monolingual_English, SPM_cat) %>%
+  mutate(Etiology = na_if(Etiology, "Mixed"))
 
 combos <- combn(ncol(elssp_cat),2)
 
 chi_sq_all <- plyr::adply(combos, 2, function(x) {
   subset_elssp <- elssp_cat %>% 
-    filter(elssp_cat[x[1]] !='' & elssp_cat[x[2]] !='') %>%
-   # {if (colnames(elssp_cat)[x[1]]=="Etiology") filter(., Etiology!='Mixed')}
-    
-    # filter(ifelse(colnames(elssp_cat)[x[1]] == 'Etiology'|colnames(elssp_cat[x[2]]), Etiology!='Mixed', )))
-   
-    
-     ifelse(colnames(elssp_cat)[x[1]] == 'Etiology'|colnames(elssp_cat[x[2]]), filter(Etiology!='Mixed'))
+    filter(elssp_cat[x[1]] !='' & elssp_cat[x[2]] !='')
   
   test <- chisq.test(subset_elssp[, x[1]], subset_elssp[, x[2]])
 
@@ -186,7 +183,7 @@ lm_pvalue <- function (modelobject) {
 
 #this is the function that i use in the paper
 bp_simple <- function(x_col, plottitle) {
-  full_elssp %>% 
+  elssp_curves %>% 
     drop_na(x_col) %>%
   ggplot(aes_string(x = x_col, y="diff_age_from_expected")) +
     geom_boxplot(color = "mediumpurple1", fill = "mediumpurple1", alpha = 0.2, outlier.shape = NA) +
@@ -205,7 +202,7 @@ bp_simple <- function(x_col, plottitle) {
 #the first one separates WG/WS by creating separate boxes on the same graph
 #the second one (bp_facet) has separate facets for WG/WS
 bp_double <- function(x_col, plottitle) {
-  full_elssp_dropped <- full_elssp %>% 
+  full_elssp_dropped <- elssp_curves %>% 
     drop_na(x_col) 
   
     ggplot(data = full_elssp_dropped, aes_string(x = x_col, y="diff_age_from_expected")) +
@@ -225,7 +222,7 @@ bp_double <- function(x_col, plottitle) {
 }
 
 bp_facet <- function(x_col, plottitle) {
-  full_elssp %>% 
+  elssp_curves %>% 
     drop_na(x_col) %>%
     ggplot(aes_string(x = x_col, y="diff_age_from_expected")) +
     geom_boxplot(color = "mediumpurple1", fill = "mediumpurple1", alpha = 0.2, outlier.shape = NA) +

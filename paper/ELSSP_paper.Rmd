@@ -142,7 +142,7 @@ min_age <- min(elssp$Age)
 max_age <- max(elssp$Age)
 mean_age <- mean(elssp$Age)
 sd_age <- sd(elssp$Age)
-num_too_old_wg <- nrow(elssp_datasets[[1]]$elssp_df %>% filter(Age>18))
+num_too_old_wg <- nrow(elssp_curves %>% filter(CDIversion == 'WG' & Age>18))
 num_spanish_cdi <- nrow(elssp %>% filter(PrimaryLanguage == 'Spanish'))
 ```
 
@@ -155,8 +155,8 @@ While this collaboration is ongoing, we opted to pause for this analysis upon re
 ```{r CDIinfo, echo=FALSE}
 tribble(
   ~'CDI version', ~'Average Age (SD)',  ~'Average Comprehension (SD)', ~'Average Production (SD)', ~'% Developmental Delays',
-  glue('WG (n={nrow(elssp_datasets[[1]]$elssp_df)})'), glue('{round(mean(elssp_datasets[[1]]$elssp_df$Age), digits=2)} ({round(sd(elssp_datasets[[1]]$elssp_df$Age), digits=2)}) months'), glue('{round(mean(elssp_datasets[[1]]$elssp_df$ComprehensionCDI, na.rm = TRUE), digits=0)} ({round(sd(elssp_datasets[[1]]$elssp_df$ComprehensionCDI, na.rm = TRUE), digits=1)}) words'), glue('{round(mean(elssp_datasets[[1]]$elssp_df$ProductionCDI, na.rm = TRUE), digits=0)} ({round(sd(elssp_datasets[[1]]$elssp_df$ProductionCDI, na.rm = TRUE),digits=1)}) words'), glue('{round(((nrow(elssp_datasets[[1]]$elssp_df %>% filter(DevelopmentalConcerns=="yes")))/(nrow(elssp_datasets[[1]]$elssp_df)))*100, digits=2)}%'),
-  glue('WS (n={nrow(elssp_datasets[[2]]$elssp_df)})'), glue('{round(mean(elssp_datasets[[2]]$elssp_df$Age), digits=2)} ({round( sd(elssp_datasets[[2]]$elssp_df$Age), digits=2)}) months'), 'NA', glue('{round(mean(elssp_datasets[[2]]$elssp_df$ProductionCDI, na.rm = TRUE), digits=0)} ({round(sd(elssp_datasets[[2]]$elssp_df$ProductionCDI, na.rm = TRUE), digits=1)}) words'), glue('{round(((nrow(elssp_datasets[[2]]$elssp_df %>% filter(DevelopmentalConcerns=="yes")))/(nrow(elssp_datasets[[2]]$elssp_df)))*100, digits=2)}%')) %>%
+  glue('WG (n={nrow(elssp_curves %>% filter(CDIversion=="WG"))})'), glue('{round(mean((elssp_curves %>% filter(CDIversion=="WG"))$Age), digits=2)} ({round(sd((elssp_curves %>% filter(CDIversion=="WG"))$Age), digits=2)}) months'), glue('{round(mean((elssp_curves %>% filter(CDIversion=="WG"))$ComprehensionCDI, na.rm = TRUE), digits=0)} ({round(sd((elssp_curves %>% filter(CDIversion=="WG"))$ComprehensionCDI, na.rm = TRUE), digits=1)}) words'), glue('{round(mean((elssp_curves %>% filter(CDIversion=="WG"))$ProductionCDI, na.rm = TRUE), digits=0)} ({round(sd((elssp_curves %>% filter(CDIversion=="WG"))$ProductionCDI, na.rm = TRUE),digits=1)}) words'), glue('{round(((nrow((elssp_curves %>% filter(CDIversion=="WG")) %>% filter(DevelopmentalConcerns=="yes")))/(nrow((elssp_curves %>% filter(CDIversion=="WG")))))*100, digits=2)}%'),
+  glue('WS (n={nrow((elssp_curves %>% filter(CDIversion=="WS")))})'), glue('{round(mean((elssp_curves %>% filter(CDIversion=="WS"))$Age), digits=2)} ({round( sd((elssp_curves %>% filter(CDIversion=="WS"))$Age), digits=2)}) months'), 'NA', glue('{round(mean((elssp_curves %>% filter(CDIversion=="WS"))$ProductionCDI, na.rm = TRUE), digits=0)} ({round(sd((elssp_curves %>% filter(CDIversion=="WS"))$ProductionCDI, na.rm = TRUE), digits=1)}) words'), glue('{round(((nrow((elssp_curves %>% filter(CDIversion=="WS")) %>% filter(DevelopmentalConcerns=="yes")))/(nrow((elssp_curves %>% filter(CDIversion=="WS")))))*100, digits=2)}%')) %>%
 kable(caption = "CDI details") %>%
   kable_styling(latex_options = c("scale_down"))
 ```
@@ -316,16 +316,56 @@ We next turn to the relationship between each of these variables and children’
 
 The CDI is composed of two instruments, which differ in number of questions(the max score of 398 on Words and Gestures and 680 on Words and Sentences). For this reason, instead of using the raw number of words produced as our outcome variable, we use the difference (in months) between the child’s chronological age and their predicted age for their vocabulary -- we call this derived variable **vocabulary delay**. 
 
-To predict age from vocabulary score, we used the 50th percentile for productive vocabulary from Wordbank data from (8,300 typically-developing infants; @frank2017) to create a binary logistic growth curve. The growth curve modeled the 50th percentile language trajectories for Words and Gestures and Words and Sentences. For each child, we took the number of words they produced divided by the number of words on the instrument, to give us the proportion of words produced. We used the proportion of words in an inverse prediction from the binary logistic regression curves to generate a predicted age: predicted_age = (log(proportion / (1-proportion)) - b0)/ b1 (cite). We subtracted the predicted age from each child's chronological age to get the vocabulary delay variable.
-<!-- eb: you're gonna want to be clearer on what the penultimate sentence means. where does that formula come from? why put prop/(1-prop)? what's b0 and b1? why take the log? if you dn't articulate that, your reader surely won't follow what you're doing -->
+To predict age from vocabulary score, we used the 50th percentile for productive vocabulary from Wordbank data from (8,300 typically-developing infants; @frank2017) to create a binary logistic growth curve. The growth curve modeled the 50th percentile language trajectories for Words and Gestures and Words and Sentences. For each child, we took the number of words they produced divided by the number of words on the instrument, to give us the proportion of words produced. We used the proportion of words in an inverse prediction from the binary logistic regression curves to generate a predicted age; such for each possible CDI score, the growth curve provided the age that score would be achieved for the 50th percentile trajectory. We subtracted the predicted age from each child's chronological age to get the vocabulary delay variable.
+<!-- ec: I took out the equation b/c I don't think it was helping to make the growth curves clearer -->
 
 
 ```{r wg-ws-rainbow-plot}
-cowplot::plot_grid((plot_elssp_df(elssp_datasets[[1]])), (plot_elssp_df(elssp_datasets[[2]]))) +
+
+WG_eng_curves <- ggplot()  + 
+  geom_line(data=WG_elssp_eng_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
+  theme_classic() + 
+  ylab("CDI Score (WG English)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WG_elssp_eng, !is.na(ProductionCDI)), aes(x= Age, y= ProductionCDI))+
+  theme(legend.position = "none")
+
+WS_eng_curves <- ggplot()  + 
+  geom_line(data=WS_elssp_eng_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
+  theme_classic() + 
+  ylab("CDI Score (WS English)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WS_elssp_eng, !is.na(ProductionCDI)), aes(x= Age, y= ProductionCDI)) +
+  theme(legend.position = "none")
+
+WG_span_curves <- ggplot()  + 
+  geom_line(data=WG_elssp_span_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
+  theme_classic() + 
+  ylab("CDI Score (WG Spanish)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WG_elssp_span, !is.na(ProductionCDI)), aes(x= Age, y= ProductionCDI))+
+  theme(legend.position = "none")
+
+WS_span_curves <- ggplot()  + 
+  geom_line(data=WS_elssp_span_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
+  theme_classic() + 
+  ylab("CDI Score (WS Spanish)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WS_elssp_span, !is.na(ProductionCDI)), aes(x= Age, y= ProductionCDI)) +
+  theme(legend.position = "none")
+
+cowplot::plot_grid(WG_eng_curves, WS_eng_curves) +
   labs(caption = "Figures XXX - Colored lines show vocabulary percentiles from wordbank. black line shows growth curve from Wordbank 50th percentile data. Black triangles show vocabulary scores of individual DHH children.")
+cowplot::plot_grid(WG_span_curves, WS_span_curves) +
+  labs(caption = "Figures XXX - Colored lines show vocabulary percentiles from wordbank. black line shows growth curve from Wordbank 50th percentile data. Black triangles show vocabulary scores of individual DHH children.")
+
+
 #need to make text and dots bigger
 #caption doesn't show up, but idk why
-# eb: that plot_elssp_df function is way more complicated than you need it to be (as evidenced by your not being sure why the graph is printing multiple times:)). simplify the code. get help from char/shan/fed for this.
 ```
 
 To look at the relationship between our predictor variables and vocabulary delay, we conducted multiple linear regression, using vocabulary delay as the outcome variable. We exclude children from non-English-speaking families from this section of the analysis because our growth curves are based on the English language CDI.
@@ -334,10 +374,10 @@ To look at the relationship between our predictor variables and vocabulary delay
 Our full regression model included all variables except Language Background: Vocabulary Delay ~ Gender + Developmental Delay + Health Issues + Prematurity + Laterality + Degree + Amplification + Communication + Meets 1-3-6 + ServicesReceivedPerMonth. We performed stepwise model comparison using stepAIC (MASS) to pare down the model. This process selected only the predictors which incrementally improved model fit, measured by Akaike’s Information Criterion (AIC), which considers goodness of fit and model complexity (penalizing models with many predictors). Based on this iterative process, we removed Prematurity, Communication, Meets 1-3-6, and ServicesReceivedPerMonth from the model. 
 
 ```{r delay-AIC, include=F}
-full_model_delay <- lm(diff_age_from_expected ~ Gender + DevelopmentalConcerns + IsPremature + HealthIssues + Laterality + HLworse + Amplification + Communication + Meets136, data = (full_elssp %>% filter(PrimaryLanguage == 'English' & Meets136!='')))
+full_model_delay <- lm(diff_age_from_expected ~ Gender + DevelopmentalConcerns + IsPremature + HealthIssues + Laterality + HLworse + Amplification + Communication + Meets136, data = (elssp_curves %>% filter(PrimaryLanguage == 'English' & Meets136!='')))
 stepAIC(full_model_delay)
 AIC_model_delay <- lm(formula = diff_age_from_expected ~ Gender + DevelopmentalConcerns + HealthIssues + Laterality + HLworse + Amplification, 
-data = (full_elssp %>%  filter(PrimaryLanguage == "English")))
+data = (elssp_curves %>%  filter(PrimaryLanguage == "English")))
 
 vif(AIC_model_delay)
 ```
