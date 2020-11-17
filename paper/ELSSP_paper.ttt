@@ -33,9 +33,9 @@ Vohr et al., 2011 & 18-24 month olds with hearing loss & Did not study & Earlier
 \hline
 CDI version & Average Age (SD) & Average Comprehension (SD) & Average Production (SD) & \% Developmental Delays\\
 \hline
-WG (n=74) & 20.05 (8.82) months & 105 (99.7) words & 32 (53.4) words & 18.92\%\\
+WG (n=70) & 20.87 (8.32) months & 112 (99.1) words & 34 (54.3) words & 20\%\\
 \hline
-WS (n=23) & 25.74 (7.82) months & NA & 145 (183.4) words & 4.35\%\\
+WS (n=0) & NaN (NA) months & NA & NaN (NA) words & NaN\%\\
 \hline
 \end{tabular}}
 \end{table*}
@@ -211,21 +211,21 @@ CDI - Words Produced & Continuous & 0-635 words (mean (SD): 61 (111.2))\\
 \hline
 term & estimate & std.error & statistic & p.value\\
 \hline
-(Intercept) & -9.6942330 & 7.2180893 & -1.343047 & 0.1838572\\
+(Intercept) & 7.2353029 & 4.5720753 & 1.5824987 & 0.1199697\\
 \hline
-Gendermale & 6.0664252 & 2.8224384 & 2.149356 & 0.0352771\\
+Gendermale & -3.4817868 & 1.6630030 & -2.0936743 & 0.0414861\\
 \hline
-DevelopmentalConcernsyes & 12.1442161 & 4.3169802 & 2.813128 & 0.0064568\\
+DevelopmentalConcernsyes & 5.1257261 & 2.4092241 & 2.1275422 & 0.0384323\\
 \hline
-HealthIssuesyes & -6.7421398 & 3.2609887 & -2.067514 & 0.0426103\\
+HealthIssuesyes & -0.0196549 & 1.9251696 & -0.0102095 & 0.9918956\\
 \hline
-LateralityUnilateral & -8.8502622 & 3.6931136 & -2.396423 & 0.0193973\\
+LateralityUnilateral & -1.6451232 & 2.1944653 & -0.7496693 & 0.4570383\\
 \hline
-HLworse & 0.1731283 & 0.0710937 & 2.435211 & 0.0175929\\
+HLworse & 0.0111527 & 0.0451233 & 0.2471598 & 0.8058172\\
 \hline
-AmplificationHA & 12.2372465 & 4.3229550 & 2.830760 & 0.0061483\\
+AmplificationHA & -0.9029547 & 2.5853794 & -0.3492542 & 0.7283950\\
 \hline
-Amplificationnone & 19.9404428 & 5.3052790 & 3.758604 & 0.0003644\\
+Amplificationnone & 3.0571783 & 3.2642355 & 0.9365679 & 0.3535741\\
 \hline
 \end{tabular}
 \end{table*}
@@ -237,17 +237,17 @@ Amplificationnone & 19.9404428 & 5.3052790 & 3.758604 & 0.0003644\\
 \hline
   & GVIF & Df\\
 \hline
-Gender & 1.170592 & 1\\
+Gender & 1.193890 & 1\\
 \hline
-DevelopmentalConcerns & 1.488285 & 1\\
+DevelopmentalConcerns & 1.561446 & 1\\
 \hline
-HealthIssues & 1.424512 & 1\\
+HealthIssues & 1.517228 & 1\\
 \hline
-Laterality & 1.160945 & 1\\
+Laterality & 1.203310 & 1\\
 \hline
-HLworse & 1.613671 & 1\\
+HLworse & 1.919881 & 1\\
 \hline
-Amplification & 2.263125 & 2\\
+Amplification & 2.668414 & 2\\
 \hline
 \end{tabular}
 \end{table*}

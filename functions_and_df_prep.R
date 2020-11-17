@@ -40,7 +40,12 @@ prepare_elssp_df_eng("WS", constants_eng, verbose=T)
 prepare_elssp_df_span("WG", constants_span, verbose=T)
 prepare_elssp_df_span("WS", constants_span, verbose=T)
 
-elssp_curves <- rbind(WG_elssp_eng, WS_elssp_eng, WG_elssp_span, WS_elssp_span)
+elssp_curves <- rbind(WG_elssp_eng, WS_elssp_eng, WG_elssp_span, WS_elssp_span) %>% 
+  filter((Age>8 & CDIversion=='WG')|(Age>16 & CDIversion=='WG')) %>%
+  mutate(diff_age_from_expected = case_when( PrimaryLanguage == 'English' & ProductionCDI==0 ~ (Age - 9),
+                                             PrimaryLanguage == 'Spanish' & ProductionCDI==0 ~ (Age - 8),
+                                             TRUE ~ diff_age_from_expected))
+
 #make dataframes easier to call
 comorbid <- read.csv("data/elssp_comorbidities.csv") %>% 
   mutate(anycomorbid = ifelse(VisionLoss==1|DevelopmentalConcerns==1|HealthIssues==1|IsPremature==1, 1,

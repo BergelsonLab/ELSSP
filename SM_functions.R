@@ -126,6 +126,7 @@ prepare_elssp_df_eng = function(cdi_form, constants, verbose=F){
   rlist[['cdi_form']] = cdi_form
   assign(paste(cdi_form, "elssp_eng", sep = "_"), elssp_for_form, envir = .GlobalEnv)
   assign(paste(cdi_form, "elssp_eng_curves", sep = "_"), wordbank_norms_melted, envir = .GlobalEnv)
+  assign(paste(cdi_form, "elssp_eng_gcurve", sep = "_"), new_scores, envir = .GlobalEnv)
 }
 
 prepare_elssp_df_span = function(cdi_form, constants, verbose=F){
@@ -210,6 +211,7 @@ prepare_elssp_df_span = function(cdi_form, constants, verbose=F){
   rlist[['cdi_form']] = cdi_form
   assign(paste(cdi_form, "elssp_span", sep = "_"), elssp_for_form, envir = .GlobalEnv)
   assign(paste(cdi_form, "elssp_span_curves", sep = "_"), wordbank_norms_melted, envir = .GlobalEnv)
+  assign(paste(cdi_form, "elssp_span_gcurve", sep = "_"), new_scores, envir = .GlobalEnv)
 }
 
 
