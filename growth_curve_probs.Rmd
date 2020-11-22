@@ -1,0 +1,387 @@
+---
+title: "Growth Curve Issues"
+author: "Erin Campbell"
+date: "11/20/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(wordbankr)
+library(cowplot)
+library(readr)
+source('SM_functions.R')
+source('functions_and_df_prep.R')
+```
+
+```{r read-in-data, include=FALSE}
+nd_WG_Prod <- read_csv("data/vocabulary_norms_table_WG_Prod.csv")
+cs_WG_Prod <- read_csv("data/cross_sectional_CDI/vocabulary_norms_table_WG_Prod.csv")
+WG_cs_elssp_eng_curves <- read.csv("growth_curve_problem/WG_cs_elssp_eng_curves.csv")
+WG_nd_elssp_eng_curves <- read.csv("growth_curve_problem/WG_nd_elssp_eng_curves.csv")
+WG_cs_elssp_eng_gcurve <- read.csv("growth_curve_problem/WG_cs_elssp_eng_gcurve.csv")
+WG_nd_elssp_eng_gcurve <- read.csv("growth_curve_problem/WG_nd_elssp_eng_gcurve.csv")
+WG_cs_elssp_eng <- read.csv("growth_curve_problem/WG_cs_elssp_eng.csv")
+WG_nd_elssp_eng <- read.csv("growth_curve_problem/WG_nd_elssp_eng.csv")
+
+nd_WS_Prod <- read_csv("data/vocabulary_norms_table_WS_Prod.csv")
+cs_WS_Prod <- read_csv("data/cross_sectional_CDI/vocabulary_norms_table_WS_Prod.csv")
+WS_cs_elssp_eng_curves <- read.csv("growth_curve_problem/WS_cs_elssp_eng_curves.csv")
+WS_nd_elssp_eng_curves <- read.csv("growth_curve_problem/WS_nd_elssp_eng_curves.csv")
+WS_cs_elssp_eng_gcurve <- read.csv("growth_curve_problem/WS_cs_elssp_eng_gcurve.csv")
+WS_nd_elssp_eng_gcurve <- read.csv("growth_curve_problem/WS_nd_elssp_eng_gcurve.csv")
+WS_cs_elssp_eng <- read.csv("growth_curve_problem/WS_cs_elssp_eng.csv")
+WS_nd_elssp_eng <- read.csv("growth_curve_problem/WS_nd_elssp_eng.csv")
+
+nd_WG_Prod_span <- read_csv("data/vocabulary_norms_table_WG_Prod_mexspan.csv")
+cs_WG_Prod_span <- read_csv("data/cross_sectional_CDI/vocabulary_norms_table_WG_Prod_mexspan.csv")
+WG_cs_elssp_span_curves <- read.csv("growth_curve_problem/WG_cs_elssp_span_curves.csv")
+WG_nd_elssp_span_curves <- read.csv("growth_curve_problem/WG_nd_elssp_span_curves.csv")
+WG_cs_elssp_span_gcurve <- read.csv("growth_curve_problem/WG_cs_elssp_span_gcurve.csv")
+WG_nd_elssp_span_gcurve <- read.csv("growth_curve_problem/WG_nd_elssp_span_gcurve.csv")
+WG_cs_elssp_span <- read.csv("growth_curve_problem/WG_cs_elssp_span.csv")
+WG_nd_elssp_span <- read.csv("growth_curve_problem/WG_nd_elssp_span.csv")
+
+nd_WS_Prod_span <- read_csv("data/vocabulary_norms_table_WS_Prod_mexspan.csv")
+cs_WS_Prod_span <- read_csv("data/cross_sectional_CDI/vocabulary_norms_table_WS_Prod_mexspan.csv")
+WS_cs_elssp_span_curves <- read.csv("growth_curve_problem/WS_cs_elssp_span_curves.csv")
+WS_nd_elssp_span_curves <- read.csv("growth_curve_problem/WS_nd_elssp_span_curves.csv")
+WS_cs_elssp_span_gcurve <- read.csv("growth_curve_problem/WS_cs_elssp_span_gcurve.csv")
+WS_nd_elssp_span_gcurve <- read.csv("growth_curve_problem/WS_nd_elssp_span_gcurve.csv")
+WS_cs_elssp_span <- read.csv("growth_curve_problem/WS_cs_elssp_span.csv")
+WS_nd_elssp_span <- read.csv("growth_curve_problem/WS_nd_elssp_span.csv")
+
+elssp <- read.csv("data/ELSSP_SubjectInfo_07242020.csv", stringsAsFactors=F, na.strings=c(""," ","NA")) %>% 
+  filter(VisitNumber==1) %>%
+  mutate(SubjectNumber = substr(VIHI_ID, 1, 6), 
+         anycomorbid = ifelse(VisionLoss == "yes" |
+                                DevelopmentalConcerns == "yes" |
+                                HealthIssues == "yes" |
+                                IsPremature == "yes", "yes",
+                              "no"),
+         HLworse_cat = as.factor(case_when(is.na(HLworse) ~ NA_character_,
+                                           HLworse < 40 ~ "mild", 
+                                           HLworse>70 ~ "severe_profound",
+                                           TRUE ~  "moderate")), 
+         SPM_cat = as.factor(case_when(is.na(ServicesReceivedPerMonth) ~ NA_character_, 
+                                       ServicesReceivedPerMonth < 3 ~ "0-2", 
+                                       ServicesReceivedPerMonth>7 ~ ">7", 
+                                       TRUE ~ "3-6"))) %>% 
+  mutate(HLworse_cat = fct_relevel(HLworse_cat, "mild", "moderate", "severe_profound"),
+  SPM_cat = (fct_relevel(SPM_cat, "0-2", "3-6", ">7"))) %>%
+  mutate_if(is.character, as.factor) 
+
+pre_elssp_curves <- rbind(WG_elssp_eng, WS_elssp_eng, WG_elssp_span, WS_elssp_span)
+```
+# The Problem
+
+I have data from a bunch of children with hearing loss who took the CDI. The goal is to have a measure of how "on track" they are with vocabulary development.
+
+To do that, I would like to calculate something like percentile, which we can do for some kids based on norms from hearing children.
+
+However, a big chunk of the sample took the CDI was too old for the version of the CDI administered too them. This is often because the clinician knows that the child is not producing many words, so even if the child is not in the age range for the instrument, they might be in the word range for the instrument.
+
+```{r wg-rainbow-plot, include=FALSE}
+
+ggplot()  + 
+  geom_line(data=WG_cs_elssp_eng_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
+  theme_classic() + 
+  ylab("CDI Score (WG English)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WG_cs_elssp_eng, !is.na(ProductionCDI)), aes(x= Age, y= ProductionCDI))+
+  theme(legend.position = "none")
+
+```
+
+On this graph, the rainbow lines represent percentiles from hearing children for vocabulary development. Green line = 50th percentile. Each black dot represents a child with hearing loss in our sample. Many of the black dots are outside of the age range of the instrument. For these kids, percentiles are not available.
+
+Instead we generated a growth curve, intended to align with the 50th percentile data from Wordbank. Using this growth curve, we could extract a predicted age given a child's score. We could then subtract predicted age from chronological age to give us a "months delay" variable. For example, if we expected a child to be 18 months old given their vocabulary, and their chronological age was actually 24, then they would have a 6 month delay. Code for growth curve function below:
+
+```{r growth-curve-function, include=TRUE}
+#this function taken from SM_functions.R. Reproducing here for ease of sharing. If you want to make any edits to the function, only do so in SM_functions.R
+#big thank you to Stephan Meylan for writing this function
+#only showing English function here. Spanish function works in exactly the same way
+
+inv_logit <- function(x){
+  return(1 / (exp(-x) + 1))
+} 
+
+getScoreForAge = function(lm, age, lang, num_items){ #function that takes lm, child's age, and the number of possible words (from WG/WS)
+  # just predict
+  prop = inv_logit(predict.glm(lm, newdata = data.frame(age=age)))
+  return(prop*num_items)
+}
+
+
+
+getAgeForScore = function(lm, score, num_items){
+  proportion = (score + .000001) / num_items #added point .000001 to avoid getting inf delay when score is 0
+  # http://www.talkstats.com/threads/inverse-prediction-from-binary-logistic-regression.52121/
+  b0 = lm$coefficients[1]
+  b1 = lm$coefficients[2]
+  predicted_age = (log(proportion / (1-proportion)) - b0)/ b1
+  return(predicted_age)
+}
+
+constants_eng = list() #create a list called constants
+constants_eng[['WG']] = list() #add a WG section to the list
+constants_eng[['WG']]$lowest_num_id = 33 #sets the lowest_num_id to 33 (the first question on WG asking 'does your child know X?')
+constants_eng[['WG']]$highest_num_id = 430 #sets the highest_num_id to 430 (the last question on WG asking 'does your child know X?')
+constants_eng[['WG']]$num_items = constants_eng[['WG']]$highest_num_id - constants_eng[['WG']]$lowest_num_id + 1 #substracts lowest_  and highest_num_ids and adds 1, to get highest possible score on WG
+constants_eng[['WS']] = list() #add a WS section to the list
+constants_eng[['WS']]$lowest_num_id = 1 #sets the lowest_num_id to 1 (the first question on WS asking 'does your child know X?')
+constants_eng[['WS']]$highest_num_id = 680 #sets the highest_num_id to 680 (the last question on WS asking 'does your child know X?')
+constants_eng[['WS']]$num_items = constants_eng[['WS']]$highest_num_id - constants_eng[['WS']]$lowest_num_id + 1 #substracts lowest_  and highest_num_ids and adds 1, to get highest possible score on WS
+
+constants_span = list() #create same list for spanish
+constants_span[['WG']] = list() 
+constants_span[['WG']]$lowest_num_id = 1 
+constants_span[['WG']]$highest_num_id = 428 
+constants_span[['WG']]$num_items = 428
+constants_span[['WS']] = list() 
+constants_span[['WS']]$lowest_num_id = 1 
+constants_span[['WS']]$highest_num_id = 680 
+constants_span[['WS']]$num_items = 680
+
+
+prepare_elssp_df_eng = function(cdi_form, constants, verbose=F){
+  print(paste('Processing ',cdi_form,'...', sep=''))	#Prints "Processing WG..." or WS message
+  
+  num_items = constants_eng[[cdi_form]][['num_items']]	
+  print('Number of items:')
+  print(num_items) #Prints number of items possible given CDI version
+  
+  eng_data <- get_instrument_data(language = "English (American)", #from wordbankr, gets all administrations for CDI form
+                                  form = cdi_form, administrations = TRUE)	
+  eng_words = subset(eng_data, num_item_id < constants_eng[[cdi_form]][['highest_num_id']] & num_item_id > constants_eng[[cdi_form]][['lowest_num_id']]) #takes the subset of columns related to 'does your child know X word?'
+  
+  print('Computing counts...') #Prints "Computing counts" message
+  counts <- eng_words %>% #creates counts df
+    dplyr::filter(!is.na(.data$age)) %>% #filters entries without an age 
+    dplyr::mutate(produces = !is.na(.data$value) & .data$value == "produces",
+                  understands = !is.na(.data$value) &
+                    (.data$value == "understands" | .data$value == "produces")) %>%
+    dplyr::select(-.data$value) %>%
+    tidyr::gather("measure_name", "value", .data$produces, .data$understands) %>%
+    dplyr::filter(.data$measure_name == "produces") %>%
+    dplyr::group_by(.data$age, .data$data_id) %>%
+    dplyr::summarise(num_true = sum(.data$value),
+                     num_false = n() - .data$num_true)
+  print(counts)
+  
+  print('Fitting model...') #prints "Fitting model" message
+  model <- stats::glm(cbind(num_true, num_false) ~ age, counts,
+                      family = "binomial")
+  
+  if (verbose){ #if verbose argument is TRUE, prints a summary of the model
+    print(summary(model))
+  }
+  
+  
+  new_data = data.frame(age = (seq(2*30.5,48*30.5,by=1) / 30.5), cdi_form)
+  
+  print('Getting scores...')
+  
+  new_scores = cbind(new_data, data.frame(predict(model, new_data, type='response', se.fit=T)))
+  print(names(new_scores))
+  new_scores$scores = new_scores$fit * num_items
+  new_scores$se_high = new_scores$fit + new_scores$se.fit
+  new_scores$se_low = new_scores$fit - new_scores$se.fit
+  new_scores$se_high = new_scores$se_high * num_items
+  new_scores$se_low = new_scores$se_low * num_items
+  new_scores$predict_ages = new_scores$age
+  
+  print('Getting Wordbank norms...')
+  print(num_items)
+  wordbank_norms = read.csv(paste("data/vocabulary_norms_table_",cdi_form,"_Prod",".csv", sep=""),
+                            stringsAsFactors=F)	
+  
+  wordbank_norms_melted = melt(wordbank_norms, id.vars = c("language", "form", "measure", "age", "identity"))
+  
+  elssp_for_form <- subset(elssp_eng, CDIversion == cdi_form)
+  elssp_for_form$ProductionCDI_no = num_items - elssp_for_form$ProductionCDI 
+  elssp_for_form$expected_score_at_chron_age = sapply(elssp_for_form$Age,
+                                                      function(age){getScoreForAge(model, age, num_items=num_items)})
+  elssp_for_form$expected_age_for_score = sapply(elssp_for_form$ProductionCDI,
+                                                 function(score){getAgeForScore(model, score, num_items)})
+  
+  print('Computing differences...')	
+  elssp_for_form$diff_score_from_expected = -1 * (elssp_for_form$ProductionCDI - elssp_for_form$expected_score_at_chron_age)
+  # more negative, more baf
+  elssp_for_form$diff_age_from_expected = elssp_for_form$Age - elssp_for_form$expected_age_for_score
+  
+  if (verbose){
+    print(elssp_for_form[,c('SubjectNumber','Age', 
+                            'ProductionCDI', 'expected_score_at_chron_age', 
+                            'diff_age_from_expected','diff_score_from_expected')])
+  }
+  
+  print(head(elssp_for_form))
+  assign(paste(cdi_form, "elssp_eng", sep = "_"), elssp_for_form, envir = .GlobalEnv)
+  assign(paste(cdi_form, "elssp_eng_curves", sep = "_"), wordbank_norms_melted, envir = .GlobalEnv)
+  assign(paste(cdi_form, "elssp_eng_gcurve", sep = "_"), new_scores, envir = .GlobalEnv)
+}
+```
+
+
+```{r cs-rainbow-plot, echo=FALSE}
+ggplot()  + 
+  geom_line(data=WG_cs_elssp_eng_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
+  geom_line(data = WG_cs_elssp_eng_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  theme_classic() + 
+  ylab("CDI Score (WG English)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WG_cs_elssp_eng, !is.na(ProductionCDI)), aes(x= Age, y= ProductionCDI))+
+  theme(legend.position = "none")
+```
+
+Here, the black line represents the growth curve. The rainbow curves are percentiles from cross-sectional data on wordbank. As you can see, the black curve does not follow the 50th percentile (green). Originally, we had thought this to be a mismatch between the cross-sectional and normative data from Wordbank.
+
+```{r nd-rainbow-plot, echo=FALSE}
+ggplot()  + 
+  geom_line(data=WG_nd_elssp_eng_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
+  geom_line(data = WG_nd_elssp_eng_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  theme_classic() + 
+  ylab("CDI Score (WG English)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WG_nd_elssp_eng, !is.na(ProductionCDI)), aes(x= Age, y= ProductionCDI))+
+  theme(legend.position = "none")
+```
+
+But when plotted against the normative data, it's clear that the growth curve doesn't follow those trajectories either.
+
+We generated growth curves separately for Words&Gestures and Words&Sentences for both American English and Mexican Spanish samples. Here are all of these curves (cross-sectional on the left, normative sample on the right).
+
+```{r ind-curve-plots, echo=FALSE}
+
+cs_WG_eng_curves <- ggplot()  + 
+  geom_line(data=WG_cs_elssp_eng_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
+  geom_line(data = WG_cs_elssp_eng_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  theme_classic() + 
+  ylab("CDI Score (WG English)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WG_cs_elssp_eng, !is.na(ProductionCDI)), aes(x= Age, y= ProductionCDI))+
+  theme(legend.position = "none")
+nd_WG_eng_curves <- ggplot()  + 
+  geom_line(data=WG_nd_elssp_eng_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
+  geom_line(data = WG_nd_elssp_eng_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  theme_classic() + 
+  ylab("CDI Score (WG English)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WG_nd_elssp_eng, !is.na(ProductionCDI)), aes(x= Age, y= ProductionCDI))+
+  theme(legend.position = "none")
+
+cs_WS_eng_curves <- ggplot()  + 
+  geom_line(data=WS_cs_elssp_eng_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
+  geom_line(data = WS_cs_elssp_eng_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  theme_classic() + 
+  ylab("CDI Score (WS English)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WS_cs_elssp_eng, !is.na(ProductionCDI)), aes(x= Age, y= ProductionCDI)) +
+  theme(legend.position = "none")
+nd_WS_eng_curves <- ggplot()  + 
+  geom_line(data=WS_nd_elssp_eng_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
+  geom_line(data = WS_nd_elssp_eng_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  theme_classic() + 
+  ylab("CDI Score (WS English)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WS_nd_elssp_eng, !is.na(ProductionCDI)), aes(x= Age, y= ProductionCDI)) +
+  theme(legend.position = "none")
+
+cs_WG_span_curves <- ggplot()  + 
+  geom_line(data=WG_cs_elssp_span_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
+  geom_line(data = WG_cs_elssp_span_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  theme_classic() + 
+  ylab("CDI Score (WG Spanish)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WG_cs_elssp_span, !is.na(ProductionCDI)), aes(x= Age, y= ProductionCDI))+
+  theme(legend.position = "none")
+nd_WG_span_curves <- ggplot()  + 
+  geom_line(data=WG_nd_elssp_span_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
+  geom_line(data = WG_nd_elssp_span_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  theme_classic() + 
+  ylab("CDI Score (WG Spanish)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WG_nd_elssp_span, !is.na(ProductionCDI)), aes(x= Age, y= ProductionCDI))+
+  theme(legend.position = "none")
+
+cs_WS_span_curves <- ggplot()  + 
+  geom_line(data=WS_cs_elssp_span_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
+  geom_line(data = WS_cs_elssp_span_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  theme_classic() + 
+  ylab("CDI Score (WS Spanish)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WS_cs_elssp_span, !is.na(ProductionCDI)), aes(x= Age, y= ProductionCDI)) +
+  theme(legend.position = "none")
+nd_WS_span_curves <- ggplot()  + 
+  geom_line(data=WS_nd_elssp_span_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
+  geom_line(data = WS_nd_elssp_span_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  theme_classic() + 
+  ylab("CDI Score (WS Spanish)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WS_nd_elssp_span, !is.na(ProductionCDI)), aes(x= Age, y= ProductionCDI)) +
+  theme(legend.position = "none")
+
+```
+
+```{r put-em-together}
+cowplot::plot_grid(cs_WG_eng_curves, nd_WG_eng_curves) 
+cowplot::plot_grid(cs_WS_eng_curves, nd_WS_eng_curves) 
+cowplot::plot_grid(cs_WG_span_curves, nd_WG_span_curves) 
+cowplot::plot_grid(cs_WS_span_curves, nd_WS_span_curves)
+```
+
+What's especially obvious on the Spanish language curves is that the curve does not fit the low end of the data well. We know that babies tend to produce their first word around 12 months. Due to some (perhaps optimistic) parents on wordbank, the norms for typically developing kids suggest that they should produce their first words ~8-10 months. But on the growth curve, the x-intercept is way younger than that, suggesting that kids should produce their first word ~4 months, or even -26 months -- which we KNOW not to be true. 
+
+```{r nonsense-delays}
+pre_elssp_curves %>% 
+  dplyr::select(VIHI_ID, Age, ProductionCDI, CDIversion, diff_age_from_expected) %>% 
+  arrange(-diff_age_from_expected) %>%
+  head(10)
+```
+
+Look at the 8 month olds who are producing 0 words (as 8 month olds should) but are 35 months delayed!
+
+# Solutions?
+## Idea 1
+The growth curve itself takes data from wordbankr::get_instrument_data, which I believe pulls from a bunch of sources, not just the normative data. One possible next step would be to tinker around with wordbankr and see if we could generate the curves using only the Marchman norming data. Hopefully that curve would fit better?
+
+```{r wordbankr}
+wordbankr::get_sources(language = "English (American)")
+wordbankr::get_sources(language = "Spanish (Mexican)")
+```
+## Idea 2
+Another option would be to not use the curve for low producing kids. That would mean excluding all kids too young for the instrument (~6) and using some kind of piecewise function to calculate months-delay for kids producing few words. For example, using casewhens:
+
+```{r piecewise, include=TRUE}
+elssp_curves <- rbind(WG_elssp_eng, WS_elssp_eng, WG_elssp_span, WS_elssp_span) %>% 
+  filter((Age>8 & CDIversion=='WG')|(Age>16 & CDIversion=='WS')) %>%
+  mutate(diff_age_from_expected = case_when( PrimaryLanguage == 'English' & ProductionCDI==0 ~ (Age - 9), #English wordbank data has x-intercept ~9 months
+                                             PrimaryLanguage == 'Spanish' & ProductionCDI==0 ~ (Age - 8),
+                                             TRUE ~ diff_age_from_expected)) #Spanish wordbank data has x-intercept ~8 months
+```
+
+The above code fixes the issue when WordsProduced==0, but as you can see on the Words and Sentences graphs for English and Spanish, the growth curve doesn't fit well until 100+ words (which would be a lot of casewhens).
+
+```{r better-delays}
+elssp_curves %>% 
+  dplyr::select(VIHI_ID, Age, ProductionCDI, CDIversion, diff_age_from_expected) %>% 
+  arrange(-diff_age_from_expected) %>%
+  head(10)
+```
+## Idea 3
+
+One additional idea: we could use the 50th percentile line until the max age of the instrument, and only use the growth curve after that. (For Words and Gestures, use the 50th percentile line to calculate delay for children 8-18 months, and for children 18+ months, use the growth curve prediction). The problem there is that Wordbank only has whole-month vocabulary scores, so we don't have a score associated with say, 50th percentile 16.5-month-olds. So we'd still need some kind of function to generate between-month scores given the wordbank data.
+
