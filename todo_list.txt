@@ -4,11 +4,7 @@ Content:
 - growth curves :/
 - check for causal language
 - make OSF page
-- what to do with adopted participant
-- caption tables
-- table with all betas
-- make sure mixed HL and cued speech removed from chi-square
-- last paragraph of Part I discussion
+- caption figures/tables
 
 Frill:
 - change axis labels on tile plot
