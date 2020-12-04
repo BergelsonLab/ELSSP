@@ -2,7 +2,6 @@ Need to fix for ELSSP:
 
 Content:
 - growth curves :/
-- check for causal language
 - make OSF page
 - caption figures/tables
 

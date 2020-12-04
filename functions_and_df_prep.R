@@ -270,3 +270,7 @@ quantreg_output <- rbind((fit_vocab_quantiles(eng_ws, production, quantiles = "m
                          (fit_vocab_quantiles(eng_wg, production, quantiles = "median")), 
                          (fit_vocab_quantiles(span_ws, production, quantiles = "median")), 
                          (fit_vocab_quantiles(span_wg, production, quantiles = "median"))) %>% mutate(production=round(production, 3))
+
+quantreg_output[(which(grepl(DescTools::Closest((quantreg_output %>% filter(language=='English (American)' & form=='WG'))$production, elssp$ProductionCDI[1]), quantreg_output$production))),3]
+
+

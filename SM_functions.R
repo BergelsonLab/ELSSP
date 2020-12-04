@@ -2,6 +2,7 @@ library(tidyverse)
 source("https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R")
 library(wordbankr)
 library(reshape2)
+library(quantregGrowth)
 
 inv_logit <- function(x){
   return(1 / (exp(-x) + 1))
@@ -497,10 +498,3 @@ fit_vocab_quantiles <- function(vocab_data, measure, group = NULL,
   return(vocab_fits)
 
 }
-
-mm <- fit_vocab_quantiles(eng_ws, production)
-summary(mm)
-
-elssp %>% mutate(QR_predage = quantreg_output[(which(grepl(DescTools::Closest((quantreg_output %>% filter(language=='English (American)' & form=='WG'))$production, elssp$ProductionCDI), quantreg_output$production))),3])
-
-for
