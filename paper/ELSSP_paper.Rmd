@@ -257,10 +257,10 @@ tribble(
 'Health Issues', 'Categorical', 'Yes / No',
 'Language in Home', 'Categorical', 'English / Other',
 'Laterality', 'Categorical', 'Unilateral / Bilateral',
-'Meets 1-3-6', 'Categorical', 'Yes / No',
+'1-3-6', 'Categorical', 'Yes / No',
 'Prematurity', 'Categorical', 'Full-term / Premature',
-'Services Received Per Month', 'Continuous', glue('{min(elssp$ServicesReceivedPerMonth, na.rm=TRUE)}-{max(elssp$ServicesReceivedPerMonth, na.rm=TRUE)} services per month (mean (SD): {round(mean(elssp$ServicesReceivedPerMonth, na.rm=TRUE))} ({round(sd(elssp$ServicesReceivedPerMonth, na.rm=TRUE),1)}))'),
-'Type of Hearing Loss', 'Categorical', 'Sensorineural / Conductive / Mixed',
+'Services Per Month', 'Continuous', glue('{min(elssp$ServicesReceivedPerMonth, na.rm=TRUE)}-{max(elssp$ServicesReceivedPerMonth, na.rm=TRUE)} services per month (mean (SD): {round(mean(elssp$ServicesReceivedPerMonth, na.rm=TRUE))} ({round(sd(elssp$ServicesReceivedPerMonth, na.rm=TRUE),1)}))'),
+'Etiology', 'Categorical', 'Sensorineural / Conductive / Mixed',
 'CDI - Words Produced', 'Continuous', glue('{min(elssp$ProductionCDI, na.rm=TRUE)}-{max(elssp$ProductionCDI, na.rm=TRUE)} words (mean (SD): {round(mean(elssp$ProductionCDI, na.rm=TRUE))} ({round(sd(elssp$ProductionCDI, na.rm=TRUE),1)}))'),
 ) %>% kable(caption = "Variables table", digits=2) %>%
   kable_styling(latex_options = "scale_down") 
@@ -318,6 +318,7 @@ To predict age from vocabulary score, we used the 50th percentile for productive
 WG_eng_curves <- ggplot()  + 
   geom_line(data=WG_elssp_eng_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
   geom_line(data = WG_elssp_eng_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  geom_line(data = (quantreg_output%>%filter(form=='WG'&language=='English (American)')), aes(x=age, y=production), colour='black', linetype='dashed')+ 
   theme_classic() + 
   ylab("CDI Score (WG English)") + 
   xlab("Age in Months") + 
@@ -328,6 +329,7 @@ WG_eng_curves <- ggplot()  +
 WS_eng_curves <- ggplot()  + 
   geom_line(data=WS_elssp_eng_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
   geom_line(data = WS_elssp_eng_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  geom_line(data = (quantreg_output%>%filter(form=='WS'&language=='English (American)')), aes(x=age, y=production), colour='black', linetype='dashed')+ 
   theme_classic() + 
   ylab("CDI Score (WS English)") + 
   xlab("Age in Months") + 
@@ -338,6 +340,7 @@ WS_eng_curves <- ggplot()  +
 WG_span_curves <- ggplot()  + 
   geom_line(data=WG_elssp_span_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
   geom_line(data = WG_elssp_span_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  geom_line(data = (quantreg_output%>%filter(form=='WG'&language=='Spanish (Mexican)')), aes(x=age, y=production), colour='black', linetype='dashed')+ 
   theme_classic() + 
   ylab("CDI Score (WG Spanish)") + 
   xlab("Age in Months") + 
@@ -348,6 +351,7 @@ WG_span_curves <- ggplot()  +
 WS_span_curves <- ggplot()  + 
   geom_line(data=WS_elssp_span_curves, aes(x=age, y=value,  group=variable, color=variable), alpha= .5)  + 
   geom_line(data = WS_elssp_span_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  geom_line(data = (quantreg_output%>%filter(form=='WS'&language=='Spanish (Mexican)')), aes(x=age, y=production), colour='black', linetype='dashed') + 
   theme_classic() + 
   ylab("CDI Score (WS Spanish)") + 
   xlab("Age in Months") + 
@@ -364,7 +368,7 @@ cowplot::plot_grid(WG_span_curves, WS_span_curves) +
 
 To look at the relationship between our predictor variables and vocabulary delay, we conducted multiple linear regression, using vocabulary delay as the outcome variable. We excluded the Hindi-speaking child from this section of the analysis due to concerns about comparing her score to the American English CDI norms. 
 
-Our full regression model included all variables except Language Background: Vocabulary Delay ~ Gender + Developmental Delay + Health Issues + Prematurity + Laterality + Degree + Amplification + Communication + Meets 1-3-6 + ServicesReceivedPerMonth. We performed stepwise model comparison using stepAIC (MASS) to pare down the model. This process selected only the predictors which incrementally improved model fit, measured by Akaike’s Information Criterion (AIC), which considers goodness of fit and model complexity (penalizing models with many predictors). Based on this iterative process, we removed Prematurity, Communication, Meets 1-3-6, and ServicesReceivedPerMonth from the model. 
+Our full regression model included all variables except Language Background: Vocabulary Delay ~ Gender + Developmental Delay + Health Issues + Prematurity + Laterality + Degree + Amplification + Communication + Meets 1-3-6 + ServicesReceivedPerMonth. We performed stepwise model comparison using stepAIC (MASS) to pare down the model. This process selected only the predictors which incrementally improved model fit, measured by Akaike’s Information Criterion (AIC), which considers goodness of fit and model complexity (penalizing models with many predictors). Based on this iterative process, we removed Prematurity, Communication, 1-3-6, and Services per Month from the model. 
 
 ```{r delay-AIC, include=F}
 full_model_delay <- lm(diff_age_from_expected ~ Gender + DevelopmentalConcerns + IsPremature + HealthIssues + Laterality + HLworse + Amplification + Communication + Meets136 + PrimaryLanguage, data = (elssp_curves %>% filter(Meets136!=''&HLworse!=''&PrimaryLanguage!='Hindi')))
@@ -429,8 +433,12 @@ event_summary <- function(x) {
 }
 
 elssp %>% 
-  dplyr::select(VIHI_ID, IdentificationOfHLMonths, AgeStartedServices, AgeImplantation, AgeAmplification) %>%
-  pivot_longer(cols = IdentificationOfHLMonths:AgeAmplification, names_to = "event", values_to = "age") %>%
+  dplyr::select(VIHI_ID, IdentificationOfHLMonths, AgeStartedServices, AgeAmplification, AgeImplantation) %>%
+  rename('Age at Diagnosis'=IdentificationOfHLMonths,
+         'Age at Intervention' = AgeStartedServices,
+         'Age at Implantation'= AgeImplantation,
+         'Age at Amplification' = AgeAmplification) %>%
+  pivot_longer(cols = 'Age at Diagnosis':'Age at Implantation', names_to = "event", values_to = "age") %>%
   ggplot(aes(x = event, y = age, fill = event, color = event)) +
   geom_violin(alpha = .4) +
   geom_jitter() + 
@@ -541,15 +549,15 @@ In this study, we examined the demographic, audiological, and clinical character
 
 ## How are child-level variables intertwined?
 
-In our sample, we found significant overlap among demographic, audiological, and clinical variables. Prematurity, health issues, and developmental delay frequently co-occurred, such that there was a moderate relationship between each of these variables (cramer’s V = 0.38 - 0.52, p < .0007). Children with one of these conditions (prematurity, developmental delay, health issues) were more likely to have any other condition. This is not surprising. Many conditions that cause developmental delays have a high incidence of health issues (e.g., heart problems in Down Syndrome; vomiting and seizures with hydrocephalus), and it is well documented that there is a higher incidence of developmental delay in preterm infants [@pierrat2017; @aardnoudse-moens2009]. Children born premature, especially those born extremely premature, are at increased risk for a number of health issues at birth [@robertson2009; @costeloe2012; @york2002] and throughout the lifespan [@luu2016]. 
+In our sample, we found significant overlap among demographic, audiological, and clinical variables. Prematurity, health issues, and developmental delay frequently co-occurred, such that there was a moderate relationship between each of these variables (cramer’s V = 0.38 - 0.52, p < .0007). Children with one of these conditions (prematurity, developmental delay, health issues) were more likely to have any other condition. This is not surprising. Many conditions that cause developmental delays have a high incidence of health issues (e.g., heart problems in Down Syndrome; vomiting and seizures with hydrocephalus), and it is well documented that there is a higher incidence of developmental delay in preterm infants [@pierrat2017; @aarnoudse-moens2009]. Children born premature, especially those born extremely premature, are at increased risk for a number of health issues at birth [@robertson2009; @costeloe2012; @york2002] and throughout the lifespan [@luu2016]. 
 
-Each of these conditions may affect language and development in different ways. The literature points to increased risk of language delay for children with developmental delays [@chapman1997; @kristoffersen2008; @weismer2010] and children born premature [@choen2010], with differential effects based on the nature of the child's diagnosis [@cupples2018; @cupples2014]. Together, these risks may interact and multiply. In our sample, we also had a large range of health conditions (76 unique conditions in our sample of 100 children; see \@ref(tab:comorbid-info) and Appendix XXX for more detailed information about comorbidities), and it appears probable that those conditions would vary in whether and how they influence vocabulary growth. Unfortunately, we lack sufficient Ns to measure the unique effect of each condition in children with hearing loss. 
+Each of these conditions may affect language and development in different ways. The literature points to increased risk of language delay for children with developmental delays [@chapman1997; @kristoffersen2008; @weismer2010] and children born premature [@foster-cohen2010], with differential effects based on the nature of the child's diagnosis [@cupples2018; @cupples2014]. Together, these risks may interact and multiply. In our sample, we also had a large range of health conditions (76 unique conditions in our sample of 100 children; see \@ref(tab:comorbid-info) and Appendix XXX for more detailed information about comorbidities), and it appears probable that those conditions would vary in whether and how they influence vocabulary growth. Unfortunately, we lack sufficient Ns to measure the unique effect of each condition in children with hearing loss. 
 
 We found that children with developmental delays (e.g., Down syndrome) were much more likely to use a total communication approach than typically-developing DHH children. Assignment to “spoken language” and “total communication” groups was not randomly distributed, with use of total communication appearing to follow children already at greater risk for verbal delays. Additionally, in our sample, children with developmental delays were considerably more likely to receive >10 services per month, perhaps accounting for increased need (or increased perceived need). The services per month variable also includes occupational therapy, physical therapy, which typically-developing DHH children may be unlikely to receive. Likewise, children who used total communication were more likely to receive frequent services.
 
 We also found relationships among many of our audiological variables. In particular, etiology and laterality were related, such that conductive hearing loss was more likely unilateral, and sensorineural hearing loss was more likely bilateral. There were only seven cases of mixed hearing loss, and all were bilateral. One possible explanation is that certain underlying causes of conductive hearing loss (e.g., aural atresia, impacted cerumen, trauma to the tympanic membrane) may be more likely to affect one ear than two.
 
-Amplification devices were more common for children with less hearing (i.e., children with bilateral hearing loss and children with moderate to profound hearing loss). This may be due to the assumption that a hearing aid or cochlear implant will not benefit children with minimal hearing loss (Updike, 1994), although several studies have found benefits in speech perception and quality of life for amplification for unilateral hearing loss  [@hassepass2013;   @priwin2007; @briggs2011; @dwyer2014] and spoken language vocabulary and grammar for mild hearing loss [@walker2015].
+Amplification devices were more common for children with less hearing (i.e., children with bilateral hearing loss and children with moderate to profound hearing loss). This may be due to the assumption that a hearing aid or cochlear implant will not benefit children with minimal hearing loss (Updike, 1994), although several studies have found benefits in speech perception and quality of life for amplification for unilateral hearing loss  [@hassepass2013;   @priwin2007; @briggs2011] and spoken language vocabulary and grammar for mild hearing loss [@walker2015].
 
 These results are not necessarily surprising, given causal links among some of the variables (e.g., increased health issues in children born premature). Nevertheless, it should caution us to think critically about how we construct samples for controlled lab experiments. During study design: how likely is it to collect a desired sample of (e.g.) 32 typically-developing pediatric cochlear implant with bilateral, severe-to-profound hearing loss, given that such a subsample may only represent `r nrow(elssp %>% filter(Laterality=='Bilateral' & HLworse>70 & Amplification=='CI' & anycomorbid=='no'))`% of the DHH population? During interpretation of the results: how might the findings generalize the rest of the DHH population given the constraints of the study?
 
@@ -565,7 +573,7 @@ In the case of diagnosis, presence of health issues, primary language in the hom
 
 Children with health issues were diagnosed `r beta_output(diagnosis_aic, 2)` months later than infants without health issues. One possible explanation is that the health issues caused acquired hearing loss that wouldn’t be detected by the NBHS, thus delaying identification of hearing loss. Of the 76 unique health issues experienced by children in the sample, only 9 conditions might cause acquired hearing loss (i.e., meningitis, sepsis, jaundice, seizures, hydrocephalus, MRSA, anemia, frequent fevers, cytomegalovirus, affecting `r nrow(comorbid %>% filter(pos_acqHL == 1))` out of `r nrow(elssp %>% filter(HealthIssues=='yes'))` children with health issues in our sample. Another possible explanation is that the health issues required more pressing medical attention than the possible hearing loss, and that families and medical providers had to prioritize treatment for the health issue (e.g., surgery for congenital heart defect) over diagnostic audiology services.
 
-Infants from Spanish-speaking families were diagnosed `r abs(summary(services_aic)$coefficients[3,1])` months later than infants from English-speaking families. This may be due to cultural differences in attitudes towards deafness [@caballero2018; @steinberg1997, @steinberg2003; @rodriguez2018] or it may result from a lack of linguistically accessible and culturally appropriate audiology services. Only 5.6% of American audiologists identify as a bilingual service provider [@asha2019], and services from a monolingual provider may be insufficient. @caballero2017 found that Hispanic-American parents of DHH children want more concrete resources, comprehensive information, and emotional support from their audiologist. In a nationwide survey, the majority of audiologists reported using ad-hoc interpreters (e.g., client’s family) to overcome language barriers. Survey respondents reported that language barriers presented a major challenge in working with Spanish-speaking families, specifically in obtaining the child’s case history and providing recommendations for follow-up services [@abreu2011]. 
+Infants from Spanish-speaking families were diagnosed `r abs(summary(services_aic)$coefficients[3,1])` months later than infants from English-speaking families. This may be due to cultural differences in attitudes towards deafness [@caballero2018; @steinberg1997, @steinberg2003; @rodriguez2020] or it may result from a lack of linguistically accessible and culturally appropriate audiology services. Only 5.6% of American audiologists identify as a bilingual service provider [@asha2019], and services from a monolingual provider may be insufficient. @caballero2017 found that Hispanic-American parents of DHH children want more concrete resources, comprehensive information, and emotional support from their audiologist. In a nationwide survey, the majority of audiologists reported using ad-hoc interpreters (e.g., client’s family) to overcome language barriers. Survey respondents reported that language barriers presented a major challenge in working with Spanish-speaking families, specifically in obtaining the child’s case history and providing recommendations for follow-up services [@abreu2011]. 
 
 ### Intervention
 Our age at intervention model accounted for `r summary(services_aic)$r.squared`% of the variance with main effects of degree of hearing loss, prematurity, language background, and age at diagnosis. Prematurity and language background were not significant main effects in our model, but remained in the model because their inclusion improved model fit. 
@@ -584,7 +592,7 @@ Despite high rates of NBGS in North Carolina, and even relatively high rates of 
 3. Expansion of bilingual clinicians both in-person and teletherapy clinicians to provide therapy and service coordination to non-English-speaking families.
 4. Provision and encouragement of early intervention services for children with mild to moderate hearing loss.
 
-Additionally, the vast majority of children in our sample experienced vocabulary delays (relative to hearing peers), and studies of spoken vocabulary development in older DHH children suggest that they may not catch up [@lund2016]. This should set clinicians and educators on high alert, due to the demonstrated importance of vocabulary skills in literacy [@staehr2008; @hemphill2008; @biemiller2011] and in education more broadly [e.g., @young2000; @monroe2010; @taboada2012]. As early intervention predicts vocabulary outcomes in study after study [including this present study and e.g., @vohr2008; @watkin2007; @ching2013; @holzinger2011; @vohr2011], ensuring intervention by 6 months for all DHH children may be one way to address spoken vocabulary deficits. Prior to intervention or amplification, provision of accessible language input (i.e., sign language) may mitigate negative effects of auditory deprivation on language skills [@davidson2014; @hassanzadeh2012]. 
+Additionally, the vast majority of children in our sample experienced vocabulary delays (relative to hearing peers), and studies of spoken vocabulary development in older DHH children suggest that they may not catch up [@lund2016]. This should set clinicians and educators on high alert, due to the demonstrated importance of vocabulary skills in literacy [@staehr2008; @hemphill2008; @biemiller2003] and in education more broadly [e.g., @young2005; @monroe2002]. As early intervention predicts vocabulary outcomes in study after study [including this present study and e.g., @vohr2008; @watkin2007; @ching2013; @holzinger2011; @vohr2011], ensuring intervention by 6 months for all DHH children may be one way to address spoken vocabulary deficits. Prior to intervention or amplification, provision of accessible language input (i.e., sign language) may mitigate negative effects of auditory deprivation on language skills [@davidson2014; @hassanzadeh2012]. 
 
 # Limitations
 

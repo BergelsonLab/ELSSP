@@ -88,10 +88,18 @@ condition_tallies <- aggregate(n ~ condition, data=comorbid_long, FUN = sum) %>%
 
 
 elssp_cat <- elssp %>% 
-  dplyr::select(Amplification, Communication, DevelopmentalConcerns, 
-                Etiology, Gender, HealthIssues, HLworse_cat, 
-                IsPremature, Laterality, Meets136, Monolingual_English, SPM_cat) %>%
+  rename('Developmental Delay' = DevelopmentalConcerns,
+         'Health Issues' = HealthIssues,
+         'Language Background' = Monolingual_English,
+         Degree = HLworse_cat,
+         '1-3-6' = Meets136,
+         Prematurity = IsPremature, 
+         'Services per Month' = SPM_cat) %>%
+  dplyr::select('1-3-6', Amplification, Communication, Degree, 'Developmental Delay', 
+                Etiology, Gender, 'Health Issues', 
+               'Language Background', Laterality, Prematurity, 'Services per Month') %>%
   mutate(Etiology = na_if(Etiology, "Mixed"))
+
 
 combos <- combn(ncol(elssp_cat),2)
 
@@ -252,3 +260,13 @@ bp_facet <- function(x_col, plottitle) {
 #     tidy() %>%
 #     cbind(vif_list)
 # }
+
+
+eng_ws <- get_administration_data("English (American)", "WS")
+eng_wg <- get_administration_data("English (American)", "WG")
+span_ws <- get_administration_data("Spanish (Mexican)", "WS")
+span_wg <- get_administration_data("Spanish (Mexican)", "WG")
+quantreg_output <- rbind((fit_vocab_quantiles(eng_ws, production, quantiles = "median")),
+                         (fit_vocab_quantiles(eng_wg, production, quantiles = "median")), 
+                         (fit_vocab_quantiles(span_ws, production, quantiles = "median")), 
+                         (fit_vocab_quantiles(span_wg, production, quantiles = "median"))) %>% mutate(production=round(production, 3))
