@@ -1,16 +1,23 @@
 Need to fix for ELSSP:
 
-Content:
-- growth curves :/
-- make OSF page
-- caption figures/tables
+Updated: 12/7/2020
 
-Frill:
-- change axis labels on tile plot
+Green:
+- resize plots
+- find requirements for JSLHR
+- figures/tables display at end of document
+- bigger labels on graphs
+
+Yellow:
+- rewrite regression results
+- clarify Spanish CDI 
+- write abstract
+- caption figures/tables
 - table #s
 - citing packages
-- p value display
-- bigger labels on graphs
 - make sure that figure labels consistent with text throughout (e.g., HLworse)
 
-Updated: 11/22/2020
+
+Red:
+- pick growth curve
+- make OSF page

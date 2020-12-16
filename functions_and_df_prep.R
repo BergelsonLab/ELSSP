@@ -8,6 +8,7 @@ library('fastDummies') # for correlation table
 library('corrplot')
 library('gplots') # for balloon plots
 library(reshape2)
+library(extraoperators)
 
 source('SM_functions.R')
 
@@ -273,4 +274,28 @@ quantreg_output <- rbind((fit_vocab_quantiles(eng_ws, production, quantiles = "m
 
 quantreg_output[(which(grepl(DescTools::Closest((quantreg_output %>% filter(language=='English (American)' & form=='WG'))$production, elssp$ProductionCDI[1]), quantreg_output$production))),3]
 
+qreg_ageforscore <- function(SubNum){
+  rownum <- which(grepl(SubNum, elssp$VIHI_ID))
+  age <- elssp$Age[rownum]
+  lang <- ifelse(elssp$PrimaryLanguage[rownum] == 'English', 'English (American)',
+                     ifelse(elssp$PrimaryLanguage[rownum] == 'Spanish', 'Spanish (Mexican)', 'NA'))
+  score <- elssp$ProductionCDI[rownum]
+  CDIform <- elssp$CDIversion[rownum]
+  
+  filtered_output <- quantreg_output %>% 
+    filter(language==lang & form==CDIform)
+  value <- ifelse(CDIform=='WG'& (age <= 8 | age >= 16), 'NA',
+                  ifelse(CDIform=='WS'& (age <= 16 | age >= 30), 'NA',
+                          filtered_output[(which(grepl(paste0("^", DescTools::Closest(filtered_output$production, score), "$"), filtered_output$production))),"age"]))
+return(value["Value"])
+}
 
+elssp$qreg_age2 <- sapply(elssp$VIHI_ID, qreg_ageforscore)
+
+qreg_ageforscore('HI_515_258')
+
+elssp_test <- elssp %>% mutate(qreg_age = qreg_ageforscore(VIHI_ID))
+summary(as.factor(elssp_test$qreg_age2))
+View(elssp_test$qreg_age2)
+
+rel_elssp <- elssp %>% filter((CDIversion== unique(vocab_fits$form)) & (ProductionCDI >= min(vocab_fits$production)) & (ProductionCDI <= max(vocab_fits$production)))
