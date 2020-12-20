@@ -579,9 +579,9 @@ Amplification devices were more common for children with less hearing (i.e., chi
 
 These results are not necessarily surprising, given causal links among some of the variables (e.g., increased health issues in children born premature). Nevertheless, it should caution us to think critically about how we construct samples for controlled lab experiments. During study design: how likely is it to collect a desired sample of (e.g.) 32 typically-developing pediatric cochlear implant with bilateral, severe-to-profound hearing loss, given that such a subsample may only represent `r nrow(elssp %>% filter(Laterality=='Bilateral' & HLworse>70 & Amplification=='CI' & anycomorbid=='no'))`% of the DHH population? During interpretation of the results: how might the findings generalize to the rest of the DHH population given the constraints of the study?
 
-## Part 2 Discussion
+## Predicting vocabulary outcomes
 
-*Write 1 paragraph introducing vocabulary delays in DHH children*
+`r ((nrow(elssp_curves %>% filter(diff_age_from_expected > 0))) / (nrow(elssp_curves %>% filter(diff_age_from_expected != '')))) * 100`% of DHH children in our sample fell below the 50th percentile for spoken vocabulary. Of the `r ((nrow(elssp_curves %>% filter(diff_age_from_expected =< 0))) / (nrow(elssp_curves %>% filter(diff_age_from_expected != '')))) * 100`% who were at or above the 50th percentile, `r nrow(elssp_curves %>% filter(diff_age_from_expected < 0 & Age > 9))`/`r nrow(elssp_curves %>% filter(diff_age_from_expected < 0))` were 8-to-9-month olds who were not yet producing any words (as expected for 8-to-9-month-olds). To have such a strong of majority DHH children below the 50th percentile for vocabulary development indicates that this group is not yet well-equipped to acquire spoken language. This disadvantage can have lasting consequences in the lives of DHH children [@kyle2010; @qi2012; @karchmer2003]. In our analysis, we found that age, amplification, and laterality of hearing loss were significant predictors in vocabulary outcomes.
 
 We found a significant main effect of age. This could be explained in part by constraints on the variable. A 9-month-old cannot be 12 months delayed, but a 24-month-old can. However, if DHH children were learning words at the same rate (albeit delayed) as hearing children, we would expect delay to remain constant across time. Instead, we see that the spoken vocabulary delay widens with age, indicating that the rate of spoken vocabulary acquisition is slower for DHH children. The result is a population increasingly behind on spoken language milestones, and because none of the children use sign language, on language development more broadly. 
 
@@ -591,13 +591,13 @@ In our sample, children without amplification were XXX months more delayed than 
 
 In our model, children with bilateral hearing loss had an XXX months greater delay than children with unilateral hearing loss. While few studies directly assess language development differences between unilateral and bilateral hearing loss, we know that both bilateral and unilateral hearing loss have detrimental effects on spoken language development [XXX]. Our model results suggest that children with bilateral hearing loss are at a quantifiable disadvantage over children with unilateral hearing loss. This falls in line with research that finds better spoken language outcomes for individuals with more residual hearing [XXX]. However even children with unilateral hearing loss, who have one ear with normal hearing, experience notable delays both in the literature [@vila2015; @lieu2013; @lieu2004; @lieu2012; @kiese-himmel2002] and in our sample (Mean delay unilateral = `r mean((elssp_curves%>% filter(Laterality=='Unilateral'))$diff_age_from_expected)`). 
 
-## Discussion Part 3
+## Predicting early diagnosis and intervention
 
 Our findings from North Carolina parallel AAP’s national findings: approximately 70% of children in our sample were diagnosed by 3 months, and only about 40% began services by 6 months. Only 36% of children met the EHDI guidelines, despite ample evidence suggesting early diagnosis and intervention improve language outcomes [@yoshinaga-itano2018; @yoshinaga-itano1998; @white1987; @robinshaw1995; @apuzzo1995; @kennedy2006; @vohr2008; @watkin2007; @ching2013; @holzinger2011; @vohr2011]. 
 
 In support of this policy, Ching and colleagues [@ching2013] find a pronounced effect of early diagnosis. In this study, which was conducted in Australia, researchers compared groups of children in regions that had implemented universal newborn hearing screenings to children in regions that had not yet implemented UNHS. Children were otherwise similar in diagnostic, demographic, and intervention characteristics. The UNHS group had higher global language scores. By contrast, in our sample, by dint of accepting all children receiving early intervention services in one state, we were able to document naturally occurring variance in who received on-time diagnosis and intervention. We found that some of the variance in age at diagnosis and intervention could be explained by children’s demographic and audiological characteristics.
 
-### Age at Diagnosis 
+### Diagnosis 
 
 In the case of diagnosis, presence of health issues, primary language in the home, and laterality of hearing loss accounted for `r summary(diagnosis_aic)$r.squared`% of variance in age at diagnosis. Having diagnosed health issues and non-English language background predicted later diagnosis; laterality was not significant. 
 
