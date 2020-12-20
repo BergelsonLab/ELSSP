@@ -209,43 +209,15 @@ CDI - Words Produced & Continuous & 0-635 words (mean (SD): 61 (111.2))\\
 \hline
 term & estimate & std.error & statistic & p.value\\
 \hline
-(Intercept) & 11.2204259 & 4.5115440 & 2.4870479 & 0.0156794\\
+(Intercept) & -4.1011902 & 1.5880766 & -2.5824889 & 0.0115637\\
 \hline
-Gendermale & -1.7295191 & 1.6938599 & -1.0210520 & 0.3113292\\
+LateralityUnilateral & -2.6914102 & 1.1359432 & -2.3693176 & 0.0201422\\
 \hline
-DevelopmentalConcernsyes & 3.8533353 & 2.5093951 & 1.5355634 & 0.1299024\\
+AmplificationHA & -0.3407579 & 1.2490380 & -0.2728163 & 0.7856720\\
 \hline
-HealthIssuesyes & -0.6351238 & 1.9511776 & -0.3255079 & 0.7459291\\
+Amplificationnone & 3.4923095 & 1.4891773 & 2.3451266 & 0.0214079\\
 \hline
-LateralityUnilateral & -2.8281946 & 2.1828671 & -1.2956329 & 0.2000644\\
-\hline
-HLworse & -0.0244715 & 0.0450938 & -0.5426814 & 0.5893594\\
-\hline
-AmplificationHA & -3.1663742 & 2.7076463 & -1.1694194 & 0.2468594\\
-\hline
-Amplificationnone & 1.8324207 & 3.2322144 & 0.5669242 & 0.5728806\\
-\hline
-\end{tabular}
-\end{table*}
-\begin{table*}[hbt]
-\ifnextchar[{\eatarg}{}
-[H]
-\centering
-\begin{tabular}{l|r|r}
-\hline
-  & GVIF & Df\\
-\hline
-Gender & 1.185960 & 1\\
-\hline
-DevelopmentalConcerns & 1.513090 & 1\\
-\hline
-HealthIssues & 1.463388 & 1\\
-\hline
-Laterality & 1.144936 & 1\\
-\hline
-HLworse & 1.843961 & 1\\
-\hline
-Amplification & 2.561074 & 2\\
+Age & 0.5522518 & 0.0559563 & 9.8693442 & 0.0000000\\
 \hline
 \end{tabular}
 \end{table*}
