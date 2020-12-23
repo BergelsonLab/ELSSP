@@ -448,7 +448,9 @@ Our full regression model included all variables:
 
 Vocabulary Delay \textasciitilde{} Gender + Developmental Delay + Health Issues + Prematurity + Laterality + Degree + Amplification + Communication + Meets 1-3-6 + ServicesReceivedPerMonth + LanguageBackground.
 
-This model accounted for XXX\% of the variance in vocabulary delay and included significant main effects of language background (XXX) and developmental delay (XXX). We next performed stepwise model comparison using stepAIC (MASS) to pare down the model. This process selected only the predictors which incrementally improved model fit, measured by Akaike's Information Criterion (AIC), which considers goodness of fit and model complexity (penalizing models with many predictors). Based on this iterative process, we removed several predictors from the model.
+\includegraphics{ELSSP_paper_files/figure-latex/full-model-betas-1.pdf}
+
+This model accounted for significant variance in vocabulary delay (adjusted-R\textsuperscript{2} = 0.58, \emph{p} = 0.00; see figure XXX). We next performed stepwise model comparison using stepAIC (MASS) to pare down the model. This process selected only the predictors which incrementally improved model fit, measured by Akaike's Information Criterion (AIC), which considers goodness of fit and model complexity (penalizing models with many predictors). Based on this iterative process, we removed several predictors from the model.
 
 Thus, our final model was: Vocabulary Delay \textasciitilde{} Age + Laterality + Amplification. This model accounted for significant variance in children's vocabulary delay (adjusted-R\textsuperscript{2} = 0.58, \emph{p} = 0.00). We found significant main effects for Age ((ß = 0.55, p = 1.2e-15)), Amplification (Hearing Aid: (ß = -0.34, p = 0.79); No amplification: (ß = 3.49, p = 0.021)), and Laterality ((ß = -2.69, p = 0.02)), such that older age, no amplification, and bilateral hearing loss predicted greater delays. Although we showed in Part I that relationships exist among several of these variables (e.g., laterality and amplification), the vif (variance inflation factor) for our model revealed low levels of collinearity among our predictors (all VIF \textless{} 3; see table \ref{tab:delay-betas}; James, Witten, Hastie, and Tibshirani (2013)).
 
@@ -482,7 +484,9 @@ Overall, 37\% of our sample met 1-3-6 guidelines for early diagnosis and interve
 
 \includegraphics{ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf}
 
-Although
+\includegraphics{ELSSP_paper_files/figure-latex/delay-violins-1.pdf}
+
+Although 1-3-6 was not a significant main effect in our model of vocabulary delay, an independent samples t test shows that children who did not meet 1-3-6 guidelines had significantly larger vocabulary delays than children who met 1-3-6 guidelines (\emph{t}(68.78)=2.62, \emph{p}=0.01; see Figure XXX).
 
 To better understand implementation of 1-3-6 guidelines, we zoomed in on diagnosis and intervention. We conducted two linear regressions, one for age at diagnosis and one for age at intervention. For each model, we started with the set of predictors that would have been present prior to or during diagnosis or intervention, respectively. We then pared down each model using stepwise regression by AIC (MASS package), using the process described above in Part II of Results.
 
