@@ -1,0 +1,35 @@
+---
+title: "Appendix Plots"
+author: "Erin Campbell"
+date: "12/29/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r read-in-data, echo = F, results = 'hide', message = F, comment = F, fig.show='hide'}
+source('SM_functions.R')
+source('functions_and_df_prep.R')
+```
+
+```{r graphs-for-eb}
+ggplot((elssp %>% filter(Amplification != 'NA' & HLworse_cat != 'NA'))) +
+  geom_bar(aes(x = HLworse_cat, fill = Amplification), position="dodge") +
+  theme_classic() +
+  xlab("Degree (worse ear)") +
+  scale_fill_discrete(name="Amplification",
+                       labels=c("Cochlear Implant","Hearing Aid","No Amplifcation")) + scale_x_discrete(labels=c("severe_profound" = "severe - profound"))
+
+labels <- c(Conductive = "Conductive", Mixed = "Mixed", SNHL="Sensorineural")
+ggplot((elssp %>% filter(Etiology != 'NA' & Laterality != 'NA' & Amplification != 'NA'))) +
+  geom_bar(aes(x = Laterality, fill = Amplification), position="stack") +
+  theme_classic() +
+  facet_wrap(. ~ Etiology, labeller=labeller(Etiology = labels))  +
+  scale_fill_discrete(name="Amplification",
+                       labels=c("Cochlear Implant","Hearing Aid","No Amplifcation"))
+```
+
+```{r balloons}
+```

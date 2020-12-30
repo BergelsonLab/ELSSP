@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  29 DEC 2020 11:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  30 DEC 2020 09:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -812,35 +812,43 @@ e 439.
 Underfull \vbox (badness 1496) has occurred while \output is active []
 
 [18 <./ELSSP_paper_files/figure-latex/spanish-curves-2.pdf>]
-<ELSSP_paper_files/figure-latex/full-delay-betas-1.pdf, id=252, 410.53375pt x 4
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[19]
+<ELSSP_paper_files/figure-latex/full-delay-betas-1.pdf, id=258, 410.53375pt x 4
 08.52625pt>
 File: ELSSP_paper_files/figure-latex/full-delay-betas-1.pdf Graphic file (type 
 pdf)
 <use ELSSP_paper_files/figure-latex/full-delay-betas-1.pdf>
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/full-delay-betas-1.pdf 
- used on input line 451.
+ used on input line 449.
 (pdftex.def)             Requested size: 410.53275pt x 408.52525pt.
-[19]
 
 LaTeX Warning: Reference `fig:full-delay-betas' on page 20 undefined on input l
-ine 453.
+ine 451.
 
 
 LaTeX Warning: Reference `tab:delay-betas' on page 20 undefined on input line 4
-55.
+53.
+
+
+Underfull \vbox (badness 1852) has occurred while \output is active []
 
 [20 <./ELSSP_paper_files/figure-latex/full-delay-betas-1.pdf>]
-<ELSSP_paper_files/figure-latex/delay-betas-1.pdf, id=270, 409.53pt x 408.52625
-pt>
+<ELSSP_paper_files/figure-latex/delay-betas-1.pdf, id=270, 410.53375pt x 408.52
+625pt>
 File: ELSSP_paper_files/figure-latex/delay-betas-1.pdf Graphic file (type pdf)
 <use ELSSP_paper_files/figure-latex/delay-betas-1.pdf>
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/delay-betas-1.pdf  used
- on input line 457.
-(pdftex.def)             Requested size: 409.55399pt x 408.55019pt.
+ on input line 455.
+(pdftex.def)             Requested size: 410.53275pt x 408.52525pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 [21 <./ELSSP_paper_files/figure-latex/delay-betas-1.pdf>]
 
 LaTeX Warning: Reference `fig:meets136-timeline' on page 22 undefined on input 
-line 483.
+line 481.
 
 <ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf, id=284, 410.53375pt x 
 424.58624pt>
@@ -848,7 +856,7 @@ File: ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf Graphic file (type
  pdf)
 <use ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf>
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf
-  used on input line 485.
+  used on input line 483.
 (pdftex.def)             Requested size: 410.53275pt x 424.5852pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -860,7 +868,7 @@ File: ELSSP_paper_files/figure-latex/delay-violins-1.pdf Graphic file (type pdf
 )
 <use ELSSP_paper_files/figure-latex/delay-violins-1.pdf>
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/delay-violins-1.pdf  us
-ed on input line 487.
+ed on input line 485.
 (pdftex.def)             Requested size: 417.57806pt x 424.60463pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -868,7 +876,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [23 <./ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf>]
 
 LaTeX Warning: Reference `fig:delay-violins' on page 24 undefined on input line
- 489.
+ 487.
 
 
 Underfull \vbox (badness 1490) has occurred while \output is active []
@@ -880,7 +888,7 @@ File: ELSSP_paper_files/figure-latex/diagnosis-betas-1.pdf Graphic file (type p
 df)
 <use ELSSP_paper_files/figure-latex/diagnosis-betas-1.pdf>
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/diagnosis-betas-1.pdf  
-used on input line 497.
+used on input line 495.
 (pdftex.def)             Requested size: 409.55399pt x 408.55019pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -892,7 +900,7 @@ File: ELSSP_paper_files/figure-latex/intervention-betas-1.pdf Graphic file (typ
 e pdf)
 <use ELSSP_paper_files/figure-latex/intervention-betas-1.pdf>
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/intervention-betas-1.pd
-f  used on input line 533.
+f  used on input line 531.
 (pdftex.def)             Requested size: 409.55399pt x 408.55019pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -903,13 +911,13 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [27 <./ELSSP_paper_files/figure-latex/intervention-betas-1.pdf>] [28] [29] [30]
 
 LaTeX Warning: Reference `fig:relationships-plot' on page 31 undefined on input
- line 602.
+ line 600.
 
 
 Underfull \vbox (badness 4752) has occurred while \output is active []
 
 [31] [32]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 4752) has occurred while \output is active []
 
 [33]
 Underfull \vbox (badness 4752) has occurred while \output is active []
@@ -926,14 +934,14 @@ les [61] (./ELSSP_paper.ttt [62
 
 
 ] [63])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1163.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1161.
 [64
 
 ] [65] [66] [67]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1163.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1161.
 (./ELSSP_paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1163.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1163.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1161.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1161.
 
 Package rerunfilecheck Info: File `ELSSP_paper.out' has not changed.
 (rerunfilecheck)             Checksum: 9C2D7B747466E02E6BBFAF4B177C8A84;4030.
@@ -942,11 +950,11 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 16495 strings out of 480608
- 249029 string characters out of 5903631
+ 16497 strings out of 480608
+ 249053 string characters out of 5903631
  562387 words of memory out of 5000000
  31650 multiletter control sequences out of 15000+600000
- 609938 words of font info for 134 fonts, out of 8000000 for 9000
+ 610067 words of font info for 135 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  49i,12n,51p,2250b,484s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/
@@ -961,7 +969,7 @@ al/texlive/2020/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2
 st/fonts/type1/public/lm/lmri12.pfb></usr/local/texlive/2020/texmf-dist/fonts/t
 ype1/public/lm/lmss8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public
 /lm/lmsy10.pfb>
-Output written on ELSSP_paper.pdf (67 pages, 473535 bytes).
+Output written on ELSSP_paper.pdf (67 pages, 474672 bytes).
 PDF statistics:
  945 PDF objects out of 1000 (max. 8388607)
  828 compressed objects within 9 object streams
