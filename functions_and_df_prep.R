@@ -151,14 +151,14 @@ chisq_output <- function(Var1, Var2) {
   chisq_output = paste("($X^2$ (", round(test$parameter,2),
                     ", N = ", sum((test$observed)),
                     ") = ", round(test$statistic, 2),
-                    ", p = ", format.pval(test$p.value, digits = 2),
+                    ", p ", printp(test$p.value, digits = 4, add_equals = TRUE),
                     ")", sep='')
   chisq_output
 }
 
 beta_output <- function(model, predictornum) {
   beta_output = paste("(ß = ", round(summary(model)$coefficients[predictornum,1], 2),
-                       ", p = ",format.pval(summary(model)$coefficients[predictornum,4], digits=2),
+                       ", p ",printp(summary(model)$coefficients[predictornum,4], digits=2, add_equals=TRUE),
                        ")", sep='')
   beta_output
 }
@@ -192,65 +192,10 @@ lm_pvalue <- function (modelobject) {
   f <- summary(modelobject)$fstatistic
   p <- pf(f[1],f[2],f[3],lower.tail=F)
   attributes(p) <- NULL
-  return(p)
+  return(printp(p, add_equals = TRUE))
 }
 
-#this is the function that i use in the paper
-bp_simple <- function(x_col, plottitle) {
-  elssp_curves %>% 
-    drop_na(x_col) %>%
-  ggplot(aes_string(x = x_col, y="diff_age_from_expected")) +
-    geom_boxplot(color = "mediumpurple1", fill = "mediumpurple1", alpha = 0.2, outlier.shape = NA) +
-    geom_jitter(width = 0.2, color = "mediumpurple1", fill = "mediumpurple1", alpha = .8,
-                aes(shape = CDIversion)) +
-    xlab("") +
-    ylab("") +
-    ggtitle(plottitle) +
-    coord_flip() +
-    theme_classic() +
-    theme(legend.position = "none") +
-    theme(plot.title=element_text(size=16))
-}
 
-#these are two plotting functions that i don't use in the paper. 
-#the first one separates WG/WS by creating separate boxes on the same graph
-#the second one (bp_facet) has separate facets for WG/WS
-bp_double <- function(x_col, plottitle) {
-  full_elssp_dropped <- elssp_curves %>% 
-    drop_na(x_col) 
-  
-    ggplot(data = full_elssp_dropped, aes_string(x = x_col, y="diff_age_from_expected")) +
-    geom_boxplot(data = (full_elssp_dropped %>% filter(CDIversion=='WG')),color = "mediumpurple1", fill = "mediumpurple1", alpha = 0.2, outlier.shape = NA) +
-    geom_jitter(data = (full_elssp_dropped %>% filter(CDIversion=='WG')),width = 0.2, color = "mediumpurple1", fill = "mediumpurple1", alpha = .8,
-                aes(shape = CDIversion)) +
-    geom_boxplot(data = (full_elssp_dropped %>% filter(CDIversion=='WS')),color = "lightskyblue", fill = "lightskyblue", alpha = 0.2, outlier.shape = NA) +
-    geom_jitter(data = (full_elssp_dropped %>% filter(CDIversion=='WS')),width = 0.2, color = "lightskyblue", fill = "lightskyblue", alpha = .8,
-                aes(shape = CDIversion)) +
-    xlab("") +
-    ylab("") +
-    ggtitle(plottitle) +
-    coord_flip() +
-    theme_classic() +
-    theme(legend.position = "none") +
-    theme(plot.title=element_text(size=24))
-}
-
-bp_facet <- function(x_col, plottitle) {
-  elssp_curves %>% 
-    drop_na(x_col) %>%
-    ggplot(aes_string(x = x_col, y="diff_age_from_expected")) +
-    geom_boxplot(color = "mediumpurple1", fill = "mediumpurple1", alpha = 0.2, outlier.shape = NA) +
-    geom_jitter(width = 0.2, color = "mediumpurple1", fill = "mediumpurple1", alpha = .8,
-                aes(shape = CDIversion)) +
-    xlab("") +
-    ylab("") +
-    ggtitle(plottitle) +
-    coord_flip() +
-    theme_classic() +
-    theme(legend.position = "none") +
-    theme(plot.title=element_text(size=24)) + 
-    facet_wrap(CDIversion ~ .)
-}
 
 # 
 # add_vif <- function(model, num_predictors) {
