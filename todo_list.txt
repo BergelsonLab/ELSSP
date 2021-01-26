@@ -1,20 +1,22 @@
 Need to fix for ELSSP:
 
-Updated: 12/30/2020
+Updated: 1/26/2021
 
 Green:
 - resize plots
-- figures/tables display at end of document
 - bigger labels on graphs
 - move any extra graphs to extra graphs rmd
 
+
 Yellow:
 - write abstract
-- caption figures/tables
-- table #s not rendering properly
+- caption figures/tables better
 - citing packages
 - make sure that figure labels consistent with text throughout (e.g., HLworse)
-- p values
+- clean GH repo for public
+- subscript formatting doesn't work
+- Ns for wordbook norms seem high
+- citations don't render in footnote?
 
 
 Red:
