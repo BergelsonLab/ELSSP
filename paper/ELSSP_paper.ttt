@@ -191,7 +191,7 @@ Laterality & Categorical & Unilateral / Bilateral\\
 \hline
 1-3-6 & Categorical & Yes / No\\
 \hline
-Prematurity & Categorical & Full-term / Premature\\
+Premature Birth & Categorical & Full-term / Premature\\
 \hline
 Services Per Month & Continuous & 0-43 services per month (mean (SD): 6 (6.4))\\
 \hline

@@ -56,8 +56,9 @@ knitr::opts_chunk$set(fig.width=4, fig.height=4, fig.pos="p", comment=F, message
 ```
 
 ```{r read-in-data, echo = F, results = 'hide', message = F, comment = F, fig.show='hide'}
-source('SM_functions.R')
-source('functions_and_df_prep.R')
+getwd()
+source('./../SM_functions.R')
+source('./../functions_and_df_prep.R')
 ```
 
 # Introduction
