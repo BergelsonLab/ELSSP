@@ -95,7 +95,7 @@ prepare_elssp_df_eng = function(cdi_form, constants, verbose=F){
   
   print('Getting Wordbank norms...')
   print(num_items)
-  wordbank_norms = read.csv(paste("./../data/vocabulary_norms_table_",cdi_form,"_Prod",".csv", sep=""),
+  wordbank_norms = read.csv(paste("data/vocabulary_norms_table_",cdi_form,"_Prod",".csv", sep=""),
                             stringsAsFactors=F)	
   
   wordbank_norms_melted = melt(wordbank_norms, id.vars = c("language", "form", "measure", "age", "identity"))
@@ -179,7 +179,7 @@ prepare_elssp_df_span = function(cdi_form, constants, verbose=F){
   
   print('Getting Wordbank norms...')
   print(num_items)
-  wordbank_norms = read.csv(paste("./../data/vocabulary_norms_table_",cdi_form,"_Prod", "_mexspan",".csv", sep=""),
+  wordbank_norms = read.csv(paste("data/vocabulary_norms_table_",cdi_form,"_Prod", "_mexspan",".csv", sep=""),
                             stringsAsFactors=F)	
   
   wordbank_norms_melted = melt(wordbank_norms, id.vars = c("language", "form", "measure", "age", "identity"))

@@ -10,10 +10,10 @@ library('gplots') # for balloon plots
 library(reshape2)
 library(extraoperators)
 
-source('./../SM_functions.R')
+source('SM_functions.R')
 
 #read in data
-elssp <- read.csv("./../data/ELSSP_SubjectInfo_07242020.csv", stringsAsFactors=F, na.strings=c(""," ","NA")) %>% 
+elssp <- read.csv("data/ELSSP_SubjectInfo_07242020.csv", stringsAsFactors=F, na.strings=c(""," ","NA")) %>% 
   filter(VisitNumber==1) %>%
   mutate(SubjectNumber = substr(VIHI_ID, 1, 6), 
          anycomorbid = ifelse(VisionLoss == "yes" |
@@ -48,7 +48,7 @@ elssp_curves <- rbind(WG_elssp_eng, WS_elssp_eng, WG_elssp_span, WS_elssp_span) 
                                              TRUE ~ diff_age_from_expected))
 
 #make dataframes easier to call
-comorbid <- read.csv("./../data/elssp_comorbidities.csv") %>% 
+comorbid <- read.csv("data/elssp_comorbidities.csv") %>% 
   mutate(anycomorbid = ifelse(VisionLoss==1|DevelopmentalConcerns==1|HealthIssues==1|IsPremature==1, 1,
                               0), 
          extremelypremature = ifelse(WeeksGestation > 33, 0, 1),
