@@ -1,40 +1,49 @@
-\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 %
-\documentclass[english,man]{apa6}
+\documentclass[
+  english,
+  man]{apa6}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provides euro and other symbols
-\else % if luatex or xelatex
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
   \usepackage{unicode-math}
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-% use upquote if available, for straight quotes in verbatim environments
+% Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage[]{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
-\usepackage{hyperref}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-            pdftitle={Characterizing North Carolina's Deaf/Hard-of-Hearing Infants and Toddlers: Predictors of Vocabulary, Diagnosis, and Intervention},
-            pdfauthor={Erin Campbell1 \& Elika Bergelson1},
-            pdfkeywords={keywords},
-            pdfborder={0 0 0},
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
+  pdftitle={Characterizing North Carolina's Deaf/Hard-of-Hearing Infants and Toddlers: Predictors of Vocabulary, Diagnosis, and Intervention},
+  pdfauthor={Erin Campbell1 \& Elika Bergelson1},
+  pdflang={en-EN},
+  pdfkeywords={keywords},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -44,16 +53,23 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{0}
-
-% set default figure placement to htbp
+% Set default figure placement to htbp
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
-
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
 % Manuscript styling
 \usepackage{upgreek}
 \captionsetup{font=singlespacing,justification=justified}
@@ -107,12 +123,12 @@
 
 \linenumbers
 \usepackage{csquotes}
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
-  \usepackage[shorthands=off,main=english]{babel}
-\else
-  % load polyglossia as late as possible as it *could* call bidi if RTL lang (e.g. Hebrew or Arabic)
+\ifxetex
+  % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
   \usepackage{polyglossia}
   \setmainlanguage[]{english}
+\else
+  \usepackage[shorthands=off,main=english]{babel}
 \fi
 
 \title{Characterizing North Carolina's Deaf/Hard-of-Hearing Infants and Toddlers: Predictors of Vocabulary, Diagnosis, and Intervention}
@@ -128,9 +144,9 @@
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-In the United States, 1-2 children are born with hearing loss, per 1,000 births (CDC, 2018). This translates to 114,000 Deaf or Hard of Hearing (DHH) children born in the U.S. per year (Martin, Hamilton, Osterman, \& Driscoll, 2019). Of these 114,000, \textasciitilde{}90\% will be born to hearing parents (Mitchell \& Karchmer, 2004), in a home where spoken language is likely the dominant communication method. Depending on the type and degree of hearing loss and whether the child uses amplification, spoken linguistic input will be partially or totally inaccessible. Some of these children will develop spoken language proficiency within the range of their hearing peers (Geers, Mitchell, Warner-Czyz, Wang, \& Eisenberg, 2017; Verhaert, Willems, Van Kerschaver, \& Desloovere, 2008), but many will face persistent spoken language deficits (Eisenberg, 2007; Luckner \& Cooke, 2010; Moeller, Tomblin, Yoshinaga-Itano, Connor, \& Jerger, 2007; Sarchet et al., 2014), which may later affect reading ability (Kyle \& Harris, 2010) and academic achievement (Karchmer \& Mitchell, 2003; Qi \& Mitchell, 2012).
+In the United States, 1-2 children are born with hearing loss, per 1,000 births (CDC, 2018). This translates to 114,000 Deaf or Hard of Hearing (DHH) children born in the U.S. per year (Martin, Hamilton, Osterman, \& Driscoll, 2019). Of these 114,000, \textasciitilde90\% will be born to hearing parents (Mitchell \& Karchmer, 2004), in a home where spoken language is likely the dominant communication method. Depending on the type and degree of hearing loss and whether the child uses amplification, spoken linguistic input will be partially or totally inaccessible. Some of these children will develop spoken language proficiency within the range of their hearing peers (Geers, Mitchell, Warner-Czyz, Wang, \& Eisenberg, 2017; Verhaert, Willems, Van Kerschaver, \& Desloovere, 2008), but many will face persistent spoken language deficits (Eisenberg, 2007; Luckner \& Cooke, 2010; Moeller, Tomblin, Yoshinaga-Itano, Connor, \& Jerger, 2007; Sarchet et al., 2014), which may later affect reading ability (Kyle \& Harris, 2010) and academic achievement (Karchmer \& Mitchell, 2003; Qi \& Mitchell, 2012).
 
-Despite many excellent studies examining language development in DHH children, there is still a gap in the literature describing and analyzing spoken language development across the full range of children receiving services for hearing loss, with many studies focusing in on specific subgroups (e.g.~children under age X with Y level of hearing loss and Z amplification approach, e.g. Vohr et al., 2008; Yoshinaga-Itano, Sedey, Wiggin, \& Mason, 2018). In what follows, we first summarize the previous literature on predictors of spoken language outcomes in DHH children. We then provide a brief overview of a common vocabulary measure used in the current study, the MacArthur-Bates Communicative Development Inventory (CDI). Finally, we turn to an empirical analysis of early vocabulary in a wide range of young children receiving state services in North Carolina. We have two broad goals in what follows. First, we aim to provide a comprehensive description of a heterogeneous group of young children who receive state services for hearing loss. Second, we aim to connect the intervention approaches and child characteristics of this sample with children's spoken vocabulary\footnote{Despite exciting, increasing, and converging evidence for benefits of early sign language exposure (e.g., Clark et al., 2016, Davidson et al., 2014; Hrastinski \& Wilbur, 2016; Magnuson, 2000; Schick et al., 2007; Spencer, 1993), the majority of DHH children will not be raised in a sign language environment. This is particularly true for North Carolina, which does not have a large community of sign language users, relative to states like Maryland or areas like Washington D.C. or Rochester, NY. For this reason, and because no child in our sample used a legitimate signed language, we focus on spoken language development.}, with the broader goal of considering the success of early diagnosis and intervention initiatives.
+Despite many excellent studies examining language development in DHH children, there is still a gap in the literature describing and analyzing spoken language development across the full range of children receiving services for hearing loss, with many studies focusing in on specific subgroups (e.g.~children under age X with Y level of hearing loss and Z amplification approach, e.g.~Vohr et al., 2008; Yoshinaga-Itano, Sedey, Wiggin, \& Mason, 2018). In what follows, we first summarize the previous literature on predictors of spoken language outcomes in DHH children. We then provide a brief overview of a common vocabulary measure used in the current study, the MacArthur-Bates Communicative Development Inventory (CDI). Finally, we turn to an empirical analysis of early vocabulary in a wide range of young children receiving state services in North Carolina. We have two broad goals in what follows. First, we aim to provide a comprehensive description of a heterogeneous group of young children who receive state services for hearing loss. Second, we aim to connect the intervention approaches and child characteristics of this sample with children's spoken vocabulary\footnote{Despite exciting, increasing, and converging evidence for benefits of early sign language exposure (e.g., Clark et al., 2016, Davidson et al., 2014; Hrastinski \& Wilbur, 2016; Magnuson, 2000; Schick et al., 2007; Spencer, 1993), the majority of DHH children will not be raised in a sign language environment. This is particularly true for North Carolina, which does not have a large community of sign language users, relative to states like Maryland or areas like Washington D.C. or Rochester, NY. For this reason, and because no families in our sample used a full-fledged signed language, we focus on spoken language development.}, with the broader goal of considering the success of early diagnosis and intervention initiatives.
 
 \hypertarget{predictors-of-language-outcomes}{%
 \subsection{Predictors of Language Outcomes}\label{predictors-of-language-outcomes}}
@@ -169,7 +185,7 @@ For both hearing aids and cochlear implants, earlier fit leads to better spoken 
 \hypertarget{communication}{%
 \subsubsection{Communication}\label{communication}}
 
-Total Communication refers to communication that combines speech, gesture, and elements of sign, sometimes simultaneously. Total communication, while it often includes elements of sign, such as individual signs, is not a sign language, such as American Sign Language (Mueller, 2013; Scott \& Henner, 2020). Clinicians currently employ total communication as an alternative or augmentative communication method for children with a wide range of disabilities (Branson \& Demchak, 2009; Gibbs \& Carswell, 1991; Mirenda, 2003).
+Total Communication refers to communication that combines speech, gesture, and elements of sign, sometimes simultaneously. Total communication, while often including elements of sign such as individual signs, is not a full-fledged sign language like American Sign Language (Mueller, 2013; Scott \& Henner, 2020). Clinicians currently employ total communication as an alternative or augmentative communication method for children with a wide range of disabilities (Branson \& Demchak, 2009; Gibbs \& Carswell, 1991; Mirenda, 2003).
 
 Compared to total communication, DHH children using an exclusively oral approach have better speech intelligibility (Dillon, Burkholder, Cleary, \& Pisoni, 2004; Geers et al., 2017; Geers, Spehar, \& Sedey, 2002; Hodges, Dolan Ash, Balkany, Schloffman, \& Butts, 1999) and auditory perception (Geers et al., 2017; O'Donoghue, Nikolopoulos, \& Archbold, 2000). That said, there is some debate as to whether an oral approach facilitates higher spoken language performance, or whether children who demonstrate aptitude for spoken language are steered towards the oral approach rather than total communication (Hall, Levin, \& Anderson, 2017).
 
@@ -177,19 +193,18 @@ Compared to total communication, DHH children using an exclusively oral approach
 \subsubsection{1-3-6 Guidelines}\label{guidelines}}
 
 Early identification (Apuzzo \& Yoshinaga-Itano, 1995; Kennedy et al., 2006; Robinshaw, 1995; White \& White, 1987; Yoshinaga-Itano, Sedey, Coulter, \& Mehl, 1998; Yoshinaga-Itano et al., 2018) and timely enrollment in early intervention programs (Ching, Dillon, Leigh, \& Cupples, 2018; Ching et al., 2013; Holzinger, Fellinger, \& Beitel, 2011; Vohr et al., 2008, 2011; Watkin et al., 2007) are associated with better language proficiency. Indeed, DHH children who receive prompt diagnosis and early access to services have been found to meet age-appropriate developmental outcomes, including language (Stika et al., 2015).
-
 In line with these findings, the American Academy of Pediatricians (AAP) has set an initiative for Early Hearing Detection and Intervention (EHDI). Their EHDI guidelines recommend that DHH children are screened by 1 month old, diagnosed by 3 months old, and enter early intervention services by 6 months old. We refer to this guideline as 1-3-6. Meeting this standard appears to improve spoken language outcomes for children with HL (Yoshinaga-Itano et al., 2017, 2018) and the benefits appear consistent across a range of demographic characteristics.
 
-At a federal level in the U.S., the Early Hearing Detection and Intervention Act of 2010 (Capps, 2009) was passed to develop state-wide systems for screening, evaluation, diagnosis, and \enquote{appropriate education, audiological, medical interventions for children identified with hearing loss,} but policies for early diagnosis and intervention vary by state. As of 2011, 36 states (including North Carolina, (``15A NCAC 21F .1201 - .1204,'' 2000){]} mandate universal newborn hearing screening (UNHS; National Conference of State Legislatures, 2011). All states have some form of early intervention programs that children with hearing loss can access (NAD, n.d.), but these also vary state-by-state. For instance, half of the states in the US do not consider mild hearing loss an eligibility criterion for early intervention (Holstrum, Gaffney, Gravel, Oyler, \& Ross, 2008).
+At a federal level in the U.S., the Early Hearing Detection and Intervention Act of 2010 (Capps, 2009) was passed to develop state-wide systems for screening, evaluation, diagnosis, and \enquote{appropriate education, audiological, medical interventions for children identified with hearing loss,} but policies for early diagnosis and intervention vary by state. As of 2011, 36 states (including North Carolina, (``15A NCAC 21F .1201 - .1204,'' 2000){]} mandate universal newborn hearing screening (UNHS; National Conference of State Legislatures, 2011). All states have some form of early intervention programs that children with hearing loss can access (NAD, n.d.), but the specifics vary state-by-state. For instance, half of the states in the US do not consider mild hearing loss an eligibility criterion for early intervention (Holstrum, Gaffney, Gravel, Oyler, \& Ross, 2008).
 
-In evaluating the success of this initiative, the AAP (EHDI, n.d.) finds that about 70\% of US children who fail their newborn hearing screening test are diagnosed with hearing loss before 3 months old, and that 67\% of those diagnosed (46\% of those that fail newborn hearing screening) begin early intervention services by 6 months old. These findings suggest that there may be breaks in the chain from screening to diagnosis and from diagnosis to intervention, and the effect may be further delays in language development for children not meeting these guidelines.
+In evaluating the success of this initiative, the AAP (EHDI, n.d.) finds that about 70\% of US children who fail their newborn hearing screening test are diagnosed with hearing loss before 3 months old, and that 67\% of those diagnosed (46\% of those that fail newborn hearing screening) begin early intervention services by 6 months old. These findings suggest that there are breaks in the chain from screening to diagnosis and from diagnosis to intervention, with potential ramifications for the language development of children not meeting these guidelines. We return to this in the discussion.
 
 \hypertarget{quantifying-vocabulary-growth-in-dhh-children}{%
 \subsection{Quantifying vocabulary growth in DHH children}\label{quantifying-vocabulary-growth-in-dhh-children}}
 
-The MacArthur Bates Communicative Development Inventory (CDI, Fenson et al., 1994) is a parent-report instrument that gathers information about children's vocabulary development. The Words and Gestures version of the form is normed for 8--18-month-olds. On Words and Gestures, parents indicate whether their child understands and/or produces each of the 398 vocabulary items, and answer questions about young children's early communicative milestones. The Words and Sentences version of the form is normed for 16-30-month-olds. On Words and Sentences, parents indicate whether their child produces each of the 680 vocabulary items, and answer some questions about grammatical development. The CDI has been normed on a large set of participants across many languages (Anderson \& Reilly, 2002; Frank et al., 2017; Jackson-Maldonado et al., 2003).
+In what follows, we analyze data from the MacArthur Bates Communicative Development Inventory (CDI, Fenson et al., 1994). This parent-report instrument gathers information about children's vocabulary development, and is commonly used in both research and applied settings. The Words and Gestures version of the form is normed for 8--18-month-olds. On Words and Gestures, parents indicate whether their child understands and/or produces each of the 398 vocabulary items, and answer questions about young children's early communicative milestones. The Words and Sentences version of the form is normed for 16-30-month-olds. On Words and Sentences, parents indicate whether their child produces each of the 680 vocabulary items, and answer some questions about grammatical development. The CDI has been normed on a large set of participants across many languages (Anderson \& Reilly, 2002; Frank et al., 2017; Jackson-Maldonado et al., 2003).
 
-The CDI has also been validated for DHH children with cochlear implants (Thal, Desjardin, \& Eisenberg, 2007). More specifically, in this validation, researchers asked parents to complete the CDI, administered the Reynell Developmental Language Scales, and collected a spontaneous speech sample. All comparisons between the CDI and the other measures yielded significant correlations ranging from 0.58 to 0.93. Critically, the children in this study were above the normed age range for the CDI, and thus this validation helps to confirm that the CDI is a valid measurement tool for older DHH children. In further work, Castellanos, Pisoni, Kronenberger, and Beer (2016) finds that in children with CIs, number of words produced on the CDI predicts language, executive function, and academic skills up to 16 years later. Building on this work, several studies have used the CDI to measure vocabulary development in DHH children (Yoshinaga-Itano et al. (2017); Yoshinaga-Itano et al. (2018); de Diego-Lázaro et al. (2018); Vohr et al. (2008); Vohr et al. (2011); summarized in Table \ref{tab:CDIsummary}).
+The CDI has also been validated for DHH children with cochlear implants (Thal, Desjardin, \& Eisenberg, 2007). More specifically, in this validation, researchers asked parents to complete the CDI, administered the Reynell Developmental Language Scales, and collected a spontaneous speech sample. All comparisons between the CDI and the other measures yielded significant correlations ranging from 0.58 to 0.93. Critically, the children in this study were above the normed age range for the CDI, and thus this validation helps to confirm that the CDI is a valid measurement tool for older DHH children. In further work, Castellanos, Pisoni, Kronenberger, and Beer (2016) find that in children with CIs, number of words produced on the CDI predicts language, executive function, and academic skills up to 16 years later. Building on this work, several studies have used the CDI to measure vocabulary development in DHH children (Yoshinaga-Itano et al. (2017); Yoshinaga-Itano et al. (2018); de Diego-Lázaro et al. (2018); Vohr et al. (2008); Vohr et al. (2011); summarized in Table \ref{tab:CDIsummary}). We build on this literature in our analyses below.
 
 \begin{table}
 
@@ -217,7 +232,7 @@ Vohr et al., 2011 & 18-24 month olds with hearing loss & Did not study & Earlier
 
 This study aims to 1) characterize the demographic, audiological, and intervention variability in the population of DHH children receiving state services for hearing loss; 2) identify predictors of vocabulary delays; and 3) evaluate the success of early identification and intervention efforts at a state level. We include three subgroups of DHH children traditionally excluded from studies of language development: children with additional disabilities, children with unilateral hearing loss, and children from bilingual or non-English-speaking households (e.g., Yoshinaga-Itano et al., 2018; Nicholas \& Geers, 2006).
 
-For the first goal, we had reason to expect that many of these variables would be related, due to known causal relations (e.g., cochlear implants recommended for severe hearing loss, but not mild hearing loss). We sought to provide descriptive documentation about the distrubution of demographic, audiological, and intervention characteristics in a diverse sample of DHH children receiving state services. For the second, we hypothesized that male gender, more severe degree of hearing loss, bilateral hearing loss, no amplification use, premature birth, and presence of additional disabilities would predict larger spoken vocabulary delay. We did not have strong predictions regarding the effects of communication method or presence of other health issues (e.g., congenital heart malformation) on vocabulary. For the third goal, we hypothesized that children with less residual hearing (i.e., bilateral, more severe) and no co-occurring conditions would be earlier diagnosed and earlier to begin language services, and that earlier diagnosis would predict earlier intervention.
+For the first goal, we had reason to expect that many of these variables would be related, due to known causal relations (e.g., cochlear implants recommended for severe hearing loss, but not mild hearing loss). We sought to provide descriptive documentation about the distrubution of demographic, audiological, and intervention characteristics in a diverse sample of DHH children receiving state services. For the second, we hypothesized that male gender, more severe degree of hearing loss, bilateral hearing loss, no amplification use, premature birth, and presence of additional disabilities would predict larger spoken vocabulary delay than female gender, less severe degree of hearing loss, unilateral hearing loss, amplification use, full term birth, and lack of additional disabilities, respectively. We did not have strong predictions regarding the effects of communication method or presence of other health issues (e.g., congenital heart malformation) on vocabulary. For the third goal, based on the prior literatal summarized above, we hypothesized that children with less residual hearing (i.e., bilateral, more severe) and no co-occurring conditions would be earlier diagnosed and earlier to begin language services, and that earlier diagnosis would predict earlier intervention.
 
 \hypertarget{methods}{%
 \section{Methods}\label{methods}}
@@ -319,7 +334,7 @@ Unilateral & none & 2.50 & 73.90 & 8.50 & NaN\\
 \end{tabular}}
 \end{table}
 
-Degree of hearing loss was most often reported with a written description (e.g., \enquote{mild sloping to moderate} or \enquote{profound high frequency loss}). We created 3 variables: hearing loss in the better ear, hearing loss in the worse ear, and average hearing loss (average of better and worse ear). For the analyses in this paper, we primarily use hearing loss in the worse ear to avoid any redundancies with laterality. Using the ASHA hearing loss guidelines, each of these was coded with the decibels of hearing loss (dB HL) corresponding with the median dB HL for the level of hearing loss (e.g., moderate hearing loss was coded as 48 dB HL), and sloping hearing loss was coded as the average of the levels (e.g.~mild to moderate was coded as 40.5 dB HL). Participants were also coded for unilateral or bilateral hearing loss; presence or absence of Auditory Neuropathy Spectrum Disorder; and etiology of hearing loss (sensorineural, conductive, or mixed). Amplification was recorded as the device the child used at the time of assessment: either hearing aid, cochlear implant, or none. See Table \ref{tab:amp-info} for audiological characteristics of the sample.
+Degree of hearing loss was most often reported with a written description (e.g., \enquote{mild sloping to moderate} or \enquote{profound high frequency loss}). We created 3 variables: hearing loss in the better ear, hearing loss in the worse ear, and average hearing loss (average of better and worse ear). For the analyses below, we primarily use hearing loss in the worse ear to avoid any redundancies with laterality. Using the ASHA hearing loss guidelines, each of these hearing loss measures was coded with the decibels of hearing loss (dB HL) corresponding with the median dB HL for the level of hearing loss (e.g., moderate hearing loss was coded as 48 dB HL), and sloping hearing loss was coded as the average of the levels (e.g.~mild to moderate was coded as 40.5 dB HL). Participants were also coded for unilateral or bilateral hearing loss; presence or absence of Auditory Neuropathy Spectrum Disorder; and etiology of hearing loss (sensorineural, conductive, or mixed). Amplification was recorded as the device the child used at the time of assessment: either hearing aid, cochlear implant, or none. See Table \ref{tab:amp-info} for audiological characteristics of the sample.
 
 \begin{table}[!h]
 
@@ -338,7 +353,7 @@ total communication & 15 & 0 & 3 & 18\\
 \end{tabular}
 \end{table}
 
-Communication method was recorded as spoken language, total communication, or cued speech. One participant had a parent fluent in sign language, but the reported communication method in the home was total communication. No child in our sample used American Sign Language or another signed language. The forms also listed the primary language spoken at home, which we binned into English-speaking and non-English-speaking. 85\% of families spoke English, and 14\% spoke Spanish. For one child, who was adopted from a non-English-speaking country after her second birthday, we recorded the language background as non-English-speaking, although the child's adoptive parents are English-speaking, because the child had lived most of her life in a non-English-speaking environment. Language and communication information is summarized in Table \ref{tab:comm-info}.
+Communication method was recorded as spoken language, total communication, or cued speech. One participant had a parent fluent in sign language, but the reported communication method in the home was total communication. No child in our sample used American Sign Language or another signed language. The forms also listed the primary language spoken at home, which we binned into English-speaking and non-English-speaking. 85\% of families spoke English, and 14\% spoke Spanish. For one child, who was adopted from a non-English-speaking country after their second birthday, we recorded the language background as non-English-speaking, although the child's adoptive parents are English-speaking, because the child had lived most of her life in a non-English-speaking environment. Language and communication information is summarized in Table \ref{tab:comm-info}.
 
 \begin{table}[!h]
 
@@ -414,12 +429,12 @@ CDI - Words Produced & Continuous & 0-635 words (mean (SD): 61 (111.2))\\
 \hypertarget{results}{%
 \section{Results}\label{results}}
 
-In the first section, we explore relationships among child demographic, audiological, and clinical variables. In the second, we examine the influence of these factors on vocabulary development. In the third section, we describe the implementation of the EHDI 1-3-6 guidelines and predictors of early diagnosis and intervention. All analyses were conducted in R. All code is available on Github.
+We split the results into three parts. In the first, we explore relationships among child demographic, audiological, and clinical variables. In the second, we use these variables to predict vocabulary development. Finally, in the third, we describe the implementation of the EHDI 1-3-6 guidelines and predictors of early diagnosis and intervention in this sample. All analyses were conducted in R. All code is available on Github.
 
 \hypertarget{part-i-interactions-among-variables}{%
 \subsection{Part I: Interactions Among Variables}\label{part-i-interactions-among-variables}}
 
-Before we test how these variables may be related to vocabulary, we describe their relationships to each other. As would be expected, many health, audiological, and clinical characteristics are not distributed randomly across this sample of children. To quantify this statistically, we used Bonferroni-corrected chi-square tests between each of our variables (gender (male/female), laterality (bi-/uni-lateral hearing loss), health issues (yes/no), developmental delays (yes/no), premature birth (yes/no), language background (English/non-English), 1-3-6 (yes/no), degree of hearing loss (mild, moderate, severe/profound as defined above), etiology (sensorineural/conductive), services received per month (binned into 0-2, 3-6, and \textgreater{}7 - to create maximally evenly sized bins), communication (spoken/total communication) and amplification (hearing aids/cochlear implants/none)). Because the chi-square statistic assumes n \textgreater{} 5 is \emph{expected} in the majority of the cells for each test (preferably \(\geq\) 80\% McHugh, 2013), we excluded mixed hearing loss (n=8) and cued speech (n=1) from this section of the analysis. Strictly speaking, some of these variables are not expected to be randomly distributed relative to each other (e.g., premature birth and health issues; degree and amplification), but quantifying the differences via chi-square using a conservative significance threshold lets us highlight the strongest relationships within this dataset.
+Before we test how these variables may be related to vocabulary, we describe their relationships to each other. As would be expected, many health, audiological, and clinical characteristics are not distributed randomly across this sample of children. To quantify this statistically, we used Bonferroni-corrected chi-square tests between each of our variables (gender (male/female), laterality (bi-/uni-lateral hearing loss), health issues (yes/no), developmental delays (yes/no), premature birth (yes/no), language background (English/non-English), 1-3-6 (yes/no), degree of hearing loss (mild, moderate, severe/profound as defined above), etiology (sensorineural/conductive), services received per month (binned into 0-2, 3-6, and \textgreater7 - to create maximally evenly sized bins), communication (spoken/total communication) and amplification (hearing aids/cochlear implants/none)). Because the chi-square statistic assumes n \textgreater{} 5 is \emph{expected} in the majority of the cells for each test (preferably \(\geq\) 80\% McHugh, 2013), we excluded mixed hearing loss (n=8) and cued speech (n=1) from this section of the analysis. Strictly speaking, some of these variables are not expected to be randomly distributed relative to each other (e.g., premature birth and health issues; degree and amplification), but quantifying the differences via chi-square using a conservative significance threshold lets us highlight the strongest relationships within this dataset.
 
 Given that we ran 66 Chi-square tests, Bonferroni-corrected alpha for this set of analyses was p \textless{} 0.0007. Of these 66 combinations of variables, p \textless{} .05 for 26, and 9 survived Bonferroni correction. We are only discussing the latter below, but the full set of results can be found in Figure \ref{fig:relationships-plot}.
 
@@ -450,9 +465,9 @@ We also confirmed expected relationships among many of the audiological characte
 
 We next turn to the relationship between each of these variables and children's productive vocabulary, as measured by the CDI. Figures \ref{fig:english-curves} \& \ref{fig:spanish-curves} show the vocabulary scores of children in our samples relative to norms for hearing children for English and Spanish respectively. Descriptively, we found widespread vocabulary delays on both Words and Gestures and Words and Sentences, with the majority of DHH children testing around or below the 25th percentile for hearing children (based on WordBank norms; Frank et al., 2017).
 
-As noted above, the CDI is composed of two instruments, which differ in number of questions (i.e.~the maximum vocabulary score is 398 on Words and Gestures and 680 on Words and Sentences; 428 and 680 respectively for Spanish language CDI). To take this into account, rather than using the raw number of words produced as our outcome variable, we use the difference (in months) between the child's chronological age and their predicted age, based on their vocabulary from the WordBank norms (Frank et al., 2017). We call this derived variable \emph{vocabulary delay}.
+As noted above, the CDI is composed of two instruments, which differ in number of questions (i.e.~the maximum vocabulary score is 398 on Words and Gestures and 680 on Words and Sentences; 428 and 680 respectively for Spanish language CDI). To take this into account, rather than using the raw number of words produced as our outcome variable, we use WordBank norms to establish the difference (in months) between the child's chronological age and their predicted age based on their vocabulary, derived from the WordBank norms (Frank et al., 2017). We call this derived variable \emph{vocabulary delay}.
 
-More specifically, to compute a child's predicted age from their vocabulary score, we used the 50th percentile for productive vocabulary from Wordbank data typically-developing infants \footnote{n(WG-English)=526932, n(WG-Spanish)=399000, n(WS-English)=1164417, n(WS-Spanish)=815724} (Frank et al., 2017) to create binary logistic growth curves separately for the Words and Gestures and Words and Sentences versions of the CDI for American English and Mexican Spanish. For each child, we took the number of words they produced divided by the number of words on the instrument, to give us the proportion of words produced. We used this proportion in an inverse prediction from the binary logistic regression curves to generate a predicted age. That is, for each possible CDI score, the growth curve provided the age that the score would be achieved for the 50th percentile trajectory. Finally, we subtracted the predicted age from each child's chronological age to calculate their vocabulary delay. Due to long tails on the growth curve, \emph{for children producing 0 words}, we took the x-intercept from Wordbank (8 months for English, and 9 months for Spanish), and subtracted that value from the child's chronological age to get their vocabulary delay.
+More specifically, to compute a child's predicted age from their vocabulary score, we used the 50th percentile for productive vocabulary from Wordbank data typically-developing infants \footnote{n(WG-English)=526932, n(WG-Spanish)=399000, n(WS-English)=1164417, n(WS-Spanish)=815724} (Frank et al., 2017) to create binary logistic growth curves separately for the Words and Gestures and Words and Sentences versions of the CDI for American English and Mexican Spanish. For each child, we took the number of words they produced divided by the number of words on the instrument, to give us the proportion of words produced. We used this proportion in an inverse prediction from the binary logistic regression curves to generate a predicted age. That is, for each possible CDI score, the growth curve provided the age that the score would be achieved for the 50th percentile trajectory. Finally, we subtracted the predicted age from each child's chronological age to calculate their vocabulary delay. However, for children producing 0 words, this approach was not appropriate due to the long tails on the growth curves. Thus, for this subset of children, we took the x-intercept from Wordbank (8 months for English, and 9 months for Spanish), and subtracted that value from the child's chronological age to get their vocabulary delay.
 
 To look at the relationship between our predictor variables and CDI scores, we next conducted multiple linear regression, using vocabulary delay as our outcome variable. \footnote{We excluded the adopted child from this section of the analysis due to concerns about comparing her score to the American English CDI norms.}
 
@@ -464,7 +479,7 @@ Our full regression model included all variables: Vocabulary Delay \textasciitil
 \caption{\label{fig:full-delay-betas}Coefficients for the full model.}
 \end{figure}
 
-This model accounted for significant variance in vocabulary delay (adjusted-R\textsuperscript{2} = 0.59, \emph{p} \textless{} .001; see Figure \ref{fig:full-delay-betas}). We next performed stepwise model comparison using stepAIC (MASS) to pare down the model. This process selected only the predictors which incrementally improved model fit, measured by Akaike's Information Criterion (AIC), which considers goodness of fit and model complexity (penalizing models with many predictors). Based on this iterative process, we removed several predictors from the model.
+This model accounted for significant variance in vocabulary delay (adjusted-R\textsuperscript{2} = 0.59, \emph{p} \textless{} .001; see Figure \ref{fig:full-delay-betas}). We next performed stepwise model comparison using stepAIC (MASS) to pare down the model. This process selected only the predictors which incrementally improved model fit, measured by Akaike's Information Criterion (AIC), which considers goodness of fit and model complexity (penalizing models with many predictors).
 
 \includegraphics{ELSSP_paper_files/figure-latex/delay-betas-1.pdf}
 
@@ -487,14 +502,14 @@ Age & 0.5522518 & 0.0559563 & 9.8693442 & 0.0000000\\
 \end{tabular}
 \end{table}
 
-Thus, our final model was: Vocabulary Delay \textasciitilde{} Age + Laterality + Amplification. This model accounted for significant variance in children's vocabulary delay (adjusted-R\textsuperscript{2} = 0.58, \emph{p} = \textless{} .001). We found significant main effects for Age (ß = 0.55, p \textless{} .01), Amplification (Hearing Aid: (ß = -0.34, p = .79); No amplification: (ß = 3.49, p = .02)), and Laterality (ß = -2.69, p = .02), such that older age, no amplification, and bilateral hearing loss predicted greater delays. Although we showed in Part I that relationships exist among several of these variables (e.g., laterality and amplification), the VIF (variance inflation factor) for our model revealed low levels of collinearity among our predictors (all VIF \textless{} 1.5; see Table \ref{tab:delay-betas}; James, Witten, Hastie, \& Tibshirani, 2013).
+Based on this iterative process, we removed several predictors from the model, leaving the following final model: Vocabulary Delay \textasciitilde{} Age + Laterality + Amplification. This model accounted for significant variance in children's vocabulary delay to a nearly identical degree as the full model (adjusted-R\textsuperscript{2} = 0.58, \emph{p} = \textless{} .001). We found significant main effects for Age (ß = 0.55, p \textless{} .01), Amplification (Hearing Aid: (ß = -0.34, p = .79); No amplification: (ß = 3.49, p = .02)), and Laterality (ß = -2.69, p = .02), such that older age, no amplification, and bilateral hearing loss predicted greater vocabulary delays. Given our results in Part I revealing relationships exist among several of these variables (e.g., laterality and amplification), we tested for collinearity concerns by computing the model's VIF (variance inflation factor). This revealed low levels of collinearity among predictors in our final model (all VIF \textless{} 1.5; see Table \ref{tab:delay-betas}; James, Witten, Hastie, \& Tibshirani, 2013). In sum, the analyses in this section revealed that over half of the variance in DHH's children's vocabulary scores was explained by their age, whether their receive amplification, and whether their hearing loss was unilateral or bilateral.
 
-\hypertarget{part-iii-meets136-success}{%
-\subsection{Part III: Meets136 success}\label{part-iii-meets136-success}}
+\hypertarget{part-iii-success-in-meeting-1-3-6-guidelines}{%
+\subsection{Part III: Success in Meeting 1-3-6 Guidelines}\label{part-iii-success-in-meeting-1-3-6-guidelines}}
 
-Perhaps of greatest importance to clinicians and policymakers is the implementation and effect of existing policies. Although whether a child met 1-3-6 guidelines was not significant in our final model predicting vocabulary delay, its demonstrated importance for language outcomes (e.g., Yoshinaga-Itano et al., 2018) merit further discussion. To this end, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. In this section, we provide a brief description of the implementation of 1-3-6 in our sample, examine its effect on vocabulary delay, and describe the results of exploratory linear regression models for age at diagnosis and age at intervention.
+Perhaps of greatest importance to clinicians and policymakers is the implementation and effect of existing policies. Although whether a child met 1-3-6 guidelines was not included in our final model predicting vocabulary delay through our model selection process, its demonstrated importance for language outcomes (e.g., Yoshinaga-Itano et al., 2018) merits further discussion. To this end, we looked at the ages at which children received diagnosis and intervention, and how this mapped onto the 1-3-6 guidelines. In this section, we provide a brief description of the implementation of 1-3-6 in our sample, examine its effect on vocabulary delay, and describe the results of exploratory linear regression models for age at diagnosis and age at intervention.
 
-Overall, 37\% of our sample met 1-3-6 guidelines for early diagnosis and intervention (see Table \ref{tab:CDIinfo}). Among the children for which screening information was available (n=68), 100\% were screened at birth or during NICU stay. 69\% of children received diagnosis by 3 months of age, and 39\% began early intervention by 6 months of age. Among children with comorbidities, 21.05\% met 1-3-6 guidelines, compared to 47.37\% of children without comorbidities. Figure \ref{fig:meets136-timeline} shows the age at first diagnosis, intervention, amplification, and implantation for each child in our sample.
+Overall, 37\% of our sample met 1-3-6 guidelines for early diagnosis and intervention (see Table \ref{tab:CDIinfo}). Among the children for whom screening information was available (n=68), 100\% were screened at birth or during NICU stay. 69\% of children received diagnosis by 3 months of age, and 39\% began early intervention by 6 months of age. Among children with comorbidities, 21.05\% met 1-3-6 guidelines, compared to 47.37\% of children without comorbidities. Figure \ref{fig:meets136-timeline} shows the age at first diagnosis, intervention, amplification, and implantation for each child in our sample.
 
 \begin{figure}
 \centering
@@ -508,9 +523,9 @@ Overall, 37\% of our sample met 1-3-6 guidelines for early diagnosis and interve
 \caption{\label{fig:delay-violins}Months delay for children who meet / don't meet 1-3-6 guidelines.}
 \end{figure}
 
-Although 1-3-6 was not a significant main effect in our model of vocabulary delay, an independent samples t-test shows that children who did not meet 1-3-6 guidelines had significantly larger vocabulary delays than children who met 1-3-6 guidelines (\emph{t}(68.78)=2.62, \emph{p}=0.01; see Figure \ref{fig:delay-violins}).
+We first tested the link between 1-3-6 and vocabulary directly in an exploratory analysis. An independent samples t-test showed that children who did not meet 1-3-6 guidelines had significantly larger vocabulary delays than children who met 1-3-6 guidelines (\emph{t}(68.78)=2.62, \emph{p}=0.01; see Figure \ref{fig:delay-violins}).
 
-To better understand implementation of 1-3-6 guidelines, we zoomed in on diagnosis and intervention. We conducted two linear regressions, one for age at diagnosis and one for age at intervention. For each model, we started with the set of predictors that would have been present prior to or during diagnosis or intervention, respectively. We then pared down each model using stepwise regression by AIC (MASS package), using the process described above in Part II of Results.
+To better understand implementation of 1-3-6 guidelines, we next zoomed in on diagnosis and intervention. We conducted two linear regressions, one for age at diagnosis and one for age at intervention, considering only the predictors that would have been available or relevant at each of these stages (as detailed below). Model selection followed the same stepwise AIC-based process as Part II.
 
 For age at diagnosis, we included the set of child-specific factors that would be relevant \emph{before} diagnosis of hearing loss (e.g., we excluded amplification type because a child would not receive a hearing aid or cochlear implant prior to being diagnosed with hearing loss.) We began with: gender, degree, developmental delay, health issues, prematurity, laterality, language background, and etiology.
 
@@ -550,7 +565,7 @@ Laterality & 1.027814 & 1\\
 \end{tabular}
 \end{table}
 
-We repeated this model selection process for age at intervention. In addition to the variables used to fit the intervention model, we included age at diagnosis. The best fit model was: Age at Intervention \textasciitilde{} Premature Birth + Degree + Age at Diagnosis + Language Background (R\textsuperscript{2}=0.43 , p \textless{} .001), with significant main effects of degree and age at diagnosis. Less severe hearing loss (ß = -0.09, p \textless{} .01) and later diagnosis (ß = 0.65, p \textless{} .01), and coming from a non-English-speaking household (ß = -1.38, p = .52) predicted later intervention. Prematurity and language background were not significant, but their inclusion improved model fit.
+We repeated this model selection process for age at intervention. In addition to the variables used to fit the intervention model, we included age at diagnosis. The best fit model was: Age at Intervention \textasciitilde{} Premature Birth + Degree + Age at Diagnosis + Language Background (R\textsuperscript{2}=0.43 , p \textless{} .001), with significant main effects of degree and age at diagnosis. Less severe hearing loss (ß = -0.09, p \textless{} .01) and later diagnosis (ß = 0.65, p \textless{} .01), and coming from a non-English-speaking household (ß = -1.38, p = .52) predicted later intervention. Prematurity and language background were not significant predictors on their own, but their inclusion improved model fit.
 
 \includegraphics{ELSSP_paper_files/figure-latex/intervention-betas-1.pdf}
 
@@ -604,7 +619,7 @@ Each of these conditions may affect language and development in different ways. 
 
 We found that children with developmental delays (e.g., Down syndrome) were much more likely to use a total communication approach than typically-developing DHH children. Assignment to \enquote{spoken language} and \enquote{total communication} groups was not randomly distributed, with use of total communication appearing to follow children already at greater risk for verbal delays. Such a pattern is in line with clinical use of manual communication approaches for young children with disabilities (e.g., Branson \& Demchak, 2009). This should temper the interpretation of correlational studies finding links between total communication and language delays (e.g., Geers et al., 2017).
 
-Additionally, in our sample, children with developmental delays were considerably more likely to receive \textgreater{}10 services per month, perhaps in response to increased need (or increased perceived need). The services per month variable also includes occupational therapy, physical therapy, which typically-developing DHH children may be unlikely to receive. Likewise, children who used total communication were more likely to receive frequent services.
+Additionally, in our sample, children with developmental delays were considerably more likely to receive \textgreater10 services per month, perhaps in response to increased need (or increased perceived need). The services per month variable also includes occupational therapy, physical therapy, which typically-developing DHH children may be unlikely to receive. Likewise, children who used total communication were more likely to receive frequent services.
 
 We also found relationships among many of our audiological variables. In particular, etiology and laterality were related, such that conductive hearing loss was more likely unilateral, and sensorineural hearing loss was more likely bilateral. There were only seven cases of mixed hearing loss, and all were bilateral. One possible explanation is that certain underlying causes of conductive hearing loss (e.g., aural atresia, impacted cerumen, trauma to the tympanic membrane) may be more likely to affect one ear than two.
 
@@ -621,7 +636,7 @@ We had hypothesized that male gender, more severe degree of hearing loss, bilate
 
 An alternative explanation is that the age effect is related to age at intervention. We analyzed the first evaluation available from each participant, which was often (but not always) their first evaluation with the early intervention program. Perhaps children who were older at first evaluation were more likely to have a wider delay. Exploring the longitudinal administrations would help us clarify whether age effect reflects an artifact of our sampling or an increasing delay with age.
 
-In our sample, children without amplification were 2.15 months more delayed than children with a cochlear implant. Vocabulary delay was not significantly different between children with hearing aids and children with cochlear implants. This increased delay for children without amplification could reflect both increased spoken language audibility and/or a difference in demographic characteristics of amplification candidates / non-candidates. Of the typically-developing children in our sample, 20.99\% received cochlear implants, 55.56\% of children received hearing aids, and 23.46\% received no amplification. Meanwhile, for children with developmental concerns, 0\% received cochlear implants, 52.94\% received hearing aids, and 47.06\% received no amplification (p\textless{}.05, but does not survive Bonferroni correction; see Figure \ref{fig:relationships-plot}).
+In our sample, children without amplification were 2.15 months more delayed than children with a cochlear implant. Vocabulary delay was not significantly different between children with hearing aids and children with cochlear implants. This increased delay for children without amplification could reflect both increased spoken language audibility and/or a difference in demographic characteristics of amplification candidates / non-candidates. Of the typically-developing children in our sample, 20.99\% received cochlear implants, 55.56\% of children received hearing aids, and 23.46\% received no amplification. Meanwhile, for children with developmental concerns, 0\% received cochlear implants, 52.94\% received hearing aids, and 47.06\% received no amplification (p\textless.05, but does not survive Bonferroni correction; see Figure \ref{fig:relationships-plot}).
 
 In our model, children with bilateral hearing loss had an 3.70 months greater delay than children with unilateral hearing loss. While few studies directly assess language development differences between unilateral and bilateral hearing loss, we know that both bilateral and unilateral hearing loss have detrimental effects on spoken language development (Kiese-Himmel, 2002; Lieu, 2004, 2013; Lieu et al., 2012; Vila \& Lieu, 2015). Our model results suggest that children with bilateral hearing loss are at a quantifiable disadvantage over children with unilateral hearing loss. This falls in line with research that finds better spoken language outcomes for individuals with more residual hearing (Anne et al., 2017; Lieu, 2013; Tomblin et al., 2015; Vohr et al., 2008). However even children with unilateral hearing loss, who have one ear with normal hearing, experience notable delays both in the literature (Kiese-Himmel, 2002; Lieu, 2004, 2013; Lieu et al., 2012; Vila \& Lieu, 2015) and in our sample (Mean delay\_\{unilateral\} = 7.18).
 
@@ -639,7 +654,7 @@ In the case of diagnosis, presence of health issues, primary language in the hom
 
 Children with health issues were diagnosed 3.70 months later than infants without health issues. One possible explanation is that the health issues caused acquired hearing loss that wouldn't be detected by the NBHS, thus delaying identification of hearing loss. Of the 76 unique health issues experienced by children in the sample, only 9 conditions might cause acquired hearing loss (i.e., meningitis, sepsis, jaundice, seizures, hydrocephalus, MRSA, anemia, frequent fevers, cytomegalovirus), affecting 16 out of 36 children with health issues in our sample. Another possible explanation is that the health issues required more pressing medical attention than the possible hearing loss, and that families and medical providers had to prioritize treatment for the health issue (e.g., surgery for congenital heart defect) over diagnostic audiology services.
 
-Infants from Spanish-speaking families were diagnosed 3.78 months later than infants from English-speaking families. This may be due to cultural differences in attitudes towards deafness (Caballero, Muñoz, Schultz, Graham, \& Meibos, 2018; Rodriguez \& Allen, 2020; Steinberg, Dávila, Collazo, Loew, \& Fischgrund, 1997, @steinberg2003) or it may result from a lack of linguistically accessible and culturally appropriate audiology services. Only 5.6\% of American audiologists identify as a bilingual service provider (ASHA, 2019), and services from a monolingual provider may be insufficient. Caballero et al. (2017) found that Hispanic-American parents of DHH children want more concrete resources, comprehensive information, and emotional support from their audiologist. In a nationwide survey, the majority of audiologists reported using ad-hoc interpreters (e.g., client's family) to overcome language barriers. Survey respondents reported that language barriers presented a major challenge in working with Spanish-speaking families, specifically in obtaining the child's case history and providing recommendations for follow-up services (Abreu, Adriatico, \& DePierro, 2011).
+Infants from Spanish-speaking families were diagnosed 3.78 months later than infants from English-speaking families. This may be due to cultural differences in attitudes towards deafness (Caballero, Muñoz, Schultz, Graham, \& Meibos, 2018; Rodriguez \& Allen, 2020; Steinberg, Dávila, Collazo, Loew, \& Fischgrund, 1997, p. @steinberg2003) or it may result from a lack of linguistically accessible and culturally appropriate audiology services. Only 5.6\% of American audiologists identify as a bilingual service provider (ASHA, 2019), and services from a monolingual provider may be insufficient. Caballero et al. (2017) found that Hispanic-American parents of DHH children want more concrete resources, comprehensive information, and emotional support from their audiologist. In a nationwide survey, the majority of audiologists reported using ad-hoc interpreters (e.g., client's family) to overcome language barriers. Survey respondents reported that language barriers presented a major challenge in working with Spanish-speaking families, specifically in obtaining the child's case history and providing recommendations for follow-up services (Abreu, Adriatico, \& DePierro, 2011).
 
 \hypertarget{intervention}{%
 \subsubsection{Intervention}\label{intervention}}
@@ -729,13 +744,13 @@ Barre, N., Morgan, A., Doyle, L. W., \& Anderson, P. J. (2011). Language abiliti
 Biemiller, A. (2003). Vocabulary: Needed If More Children Are to Read Well. \emph{Reading Psychology}, \emph{24}(3-4), 323--335. \url{https://doi.org/10.1080/02702710390227297}
 
 \leavevmode\hypertarget{ref-birman2012}{}%
-Birman, C. S., Elliott, E. J., \& Gibson, W. P. (2012). Pediatric cochlear implants: Additional disabilities prevalence, risk factors, and effect on language outcomes. \emph{Otology and Neurotology}, \emph{33}(8), 1347--1352. \url{https://doi.org/10.1097/MAO.0b013e31826939cc}
+Birman, C. S., Elliott, E. J., \& Gibson, W. P. R. (2012). Pediatric cochlear implants: Additional disabilities prevalence, risk factors, and effect on language outcomes. \emph{Otology and Neurotology}, \emph{33}(8), 1347--1352. \url{https://doi.org/10.1097/MAO.0b013e31826939cc}
 
 \leavevmode\hypertarget{ref-blackorby2006}{}%
 Blackorby, J., \& Knokey, A.-M. (2006). A National Profile of Students with Hearing Impairments in Elementary and Middle School: A Special Topic Report from the Special Education Elementary Longitudinal Study, 30.
 
 \leavevmode\hypertarget{ref-blair1985}{}%
-Blair, J. C., Peterson, M., \& Viehweg, S. (1985). The Effects of Mild Sensorineural Hearing Loss on Academic Performance of Young School-Age Children. \emph{Volta Review}, \emph{87}(2), 87--93.
+Blair, J. C., Peterson, M. E., \& Viehweg, S. H. (1985). The Effects of Mild Sensorineural Hearing Loss on Academic Performance of Young School-Age Children. \emph{Volta Review}, \emph{87}(2), 87--93.
 
 \leavevmode\hypertarget{ref-bornstein2004}{}%
 Bornstein, M. H., Hahn, C.-S., \& Haynes, O. M. (2004). Specific and general language performance across early childhood: Stability and gender considerations. \emph{First Language}, \emph{24}(3), 267--304. \url{https://doi.org/10.1177/0142723704045681}
@@ -768,19 +783,19 @@ Castellanos, I., Pisoni, D. B., Kronenberger, W. G., \& Beer, J. (2016). Early e
 CDC. (2018). 2016 Hearing Screening Summary. \emph{Centers for Disease Control and Prevention}. https://www.cdc.gov/ncbddd/hearingloss/2016-data/01-data-summary.html.
 
 \leavevmode\hypertarget{ref-chapman1997}{}%
-Chapman, R. S. (1997). Language development in children and adolescents with Down syndrome. \emph{Mental Retardation and Developmental Disabilities Research Reviews}, \emph{3}(4), 307--312. \href{https://doi.org/10.1002/(SICI)1098-2779(1997)3:4\%3C307::AID-MRDD5\%3E3.0.CO;2-K}{https://doi.org/10.1002/(SICI)1098-2779(1997)3:4\textless{}307::AID-MRDD5\textgreater{}3.0.CO;2-K}
+Chapman, R. S. (1997). Language development in children and adolescents with Down syndrome. \emph{Mental Retardation and Developmental Disabilities Research Reviews}, \emph{3}(4), 307--312. \url{https://doi.org/10.1002/(SICI)1098-2779(1997)3:4\%3C307::AID-MRDD5\%3E3.0.CO;2-K}
+
+\leavevmode\hypertarget{ref-ching2010}{}%
+Ching, T. Y. C., Crowe, K., Martin, V., Day, J., Mahler, N., Youn, S., \ldots{} Orsini, J. (2010). Language development and everyday functioning of children with hearing loss assessed at 3 years of age. In \emph{International Journal of Speech-Language Pathology} (Vol. 12, pp. 124--131). \url{https://doi.org/10.3109/17549500903577022}
 
 \leavevmode\hypertarget{ref-ching2018}{}%
 Ching, T. Y. C., Dillon, H., Leigh, G., \& Cupples, L. (2018). Learning from the Longitudinal Outcomes of Children with Hearing Impairment (LOCHI) study: Summary of 5-year findings and implications. \emph{International Journal of Audiology}, \emph{57}(sup2), S105--S111. \url{https://doi.org/10.1080/14992027.2017.1385865}
 
-\leavevmode\hypertarget{ref-ching2010}{}%
-Ching, T. Y., Crowe, K., Martin, V., Day, J., Mahler, N., Youn, S., \ldots{} Orsini, J. (2010). Language development and everyday functioning of children with hearing loss assessed at 3 years of age. In \emph{International Journal of Speech-Language Pathology} (Vol. 12, pp. 124--131). \url{https://doi.org/10.3109/17549500903577022}
-
 \leavevmode\hypertarget{ref-ching2013}{}%
-Ching, T. Y., Dillon, H., Marnane, V., Hou, S., Day, J., Seeto, M., \ldots{} Yeh, A. (2013). Outcomes of early- and late-identified children at 3 years of age: Findings from a prospective population-based study. \emph{Ear and Hearing}, \emph{34}(5), 535--552. \url{https://doi.org/10.1097/AUD.0b013e3182857718}
+Ching, T. Y. C., Dillon, H., Marnane, V., Hou, S., Day, J., Seeto, M., \ldots{} Yeh, A. (2013). Outcomes of early- and late-identified children at 3 years of age: Findings from a prospective population-based study. \emph{Ear and Hearing}, \emph{34}(5), 535--552. \url{https://doi.org/10.1097/AUD.0b013e3182857718}
 
 \leavevmode\hypertarget{ref-ching2007}{}%
-Ching, T. Y., Van Wanrooy, E., \& Dillon, H. (2007). \emph{Binaural-Bimodal Fitting or Bilateral Implantation for Managing Severe to Profound Deafness: A Review}. \emph{Trends in Amplification} (Vol. 11). \url{https://doi.org/10.1177/1084713807304357}
+Ching, T. Y. C., Van Wanrooy, E., \& Dillon, H. (2007). \emph{Binaural-Bimodal Fitting or Bilateral Implantation for Managing Severe to Profound Deafness: A Review}. \emph{Trends in Amplification} (Vol. 11). \url{https://doi.org/10.1177/1084713807304357}
 
 \leavevmode\hypertarget{ref-clark1981}{}%
 Clark, J. G. (1981). Uses and abuses of hearing loss classification. \emph{ASHA: A Journal of the American Speech-Language-Hearing Association}, \emph{23}(7), 493--500.
@@ -816,7 +831,7 @@ Delage, H., \& Tuller, L. (2007). Language development and mild-to-moderate hear
 Desselle, D. D. (1994). Self-esteem, family climate, and communication patterns in relation to deafness. \emph{American Annals of the Deaf}, \emph{139}(3), 322--328. \url{https://doi.org/10.1353/aad.2012.0295}
 
 \leavevmode\hypertarget{ref-dettman2007}{}%
-Dettman, S. J., Pinder, D., Briggs, R. J., Dowell, R. C., \& Leigh, J. R. (2007). Communication development in children who receive the cochlear implant younger than 12 months: Risks versus benefits. \emph{Ear and Hearing}, \emph{28}(SUPPL.2). \url{https://doi.org/10.1097/AUD.0b013e31803153f8}
+Dettman, S. J., Pinder, D., Briggs, R. J. S., Dowell, R. C., \& Leigh, J. R. (2007). Communication development in children who receive the cochlear implant younger than 12 months: Risks versus benefits. \emph{Ear and Hearing}, \emph{28}(SUPPL.2). \url{https://doi.org/10.1097/AUD.0b013e31803153f8}
 
 \leavevmode\hypertarget{ref-dillon2004}{}%
 Dillon, C. M., Burkholder, R. A., Cleary, M., \& Pisoni, D. B. (2004). Nonword repetition by children with cochlear implants: Accuracy ratings from normal-hearing listeners. \emph{Journal of Speech, Language, and Hearing Research}, \emph{47}(5), 1103--1116. \url{https://doi.org/10.1044/1092-4388(2004/082)}
@@ -957,7 +972,7 @@ Macoby, E. E. (1966). \emph{The development of sex differences.}
 Magnuson, M. (2000). Infants with Congenital Deafness: On the Importance of Early Sign Language Acquisition. \emph{American Annals of the Deaf}, \emph{145}(1), 6--14. \url{https://doi.org/10.1353/aad.2012.0256}
 
 \leavevmode\hypertarget{ref-martin2019}{}%
-Martin, J. A., Hamilton, B. E., Osterman, M. J., \& Driscoll, A. K. (2019). National Vital Statistics Reports Volume 68, Number 13, November 30, 2019, Births: Final Data for 2018. \emph{National Center for Health Statistics}, \emph{68}(13), 1--47.
+Martin, J. A., Hamilton, B. E., Osterman, M. J. K., \& Driscoll, A. K. (2019). National Vital Statistics Reports Volume 68, Number 13, November 30, 2019, Births: Final Data for 2018. \emph{National Center for Health Statistics}, \emph{68}(13), 1--47.
 
 \leavevmode\hypertarget{ref-mchugh2013}{}%
 McHugh, M. L. (2013). The Chi-square test of independence. \emph{Biochemia Medica}, \emph{23}(2), 143--149. \url{https://doi.org/10.11613/BM.2013.018}
@@ -1044,7 +1059,7 @@ Rajput, K., Brown, T., \& Bamiou, D. E. (2003). Aetiology of hearing loss and ot
 Rechia, I. C., Oliveira, L. D., Crestani, A. H., Biaggio, E. P. V., \& de Souza, A. P. R. (2016). Effects of prematurity on language acquisition and auditory maturation: A systematic review. \emph{CODAS}, \emph{28}(6). \url{https://doi.org/10.1590/2317-1782/20162015218}
 
 \leavevmode\hypertarget{ref-robertson2009}{}%
-Robertson, C. M., Howarth, T. M., Bork, D. L., \& Dinu, I. A. (2009). Permanent bilateral sensory and neural hearing loss of children after neonatal intensive care because of extreme prematurity: A thirty-year study. \emph{Pediatrics}, \emph{123}(5). \url{https://doi.org/10.1542/peds.2008-2531}
+Robertson, C. M. T., Howarth, T. M., Bork, D. L. R., \& Dinu, I. A. (2009). Permanent bilateral sensory and neural hearing loss of children after neonatal intensive care because of extreme prematurity: A thirty-year study. \emph{Pediatrics}, \emph{123}(5). \url{https://doi.org/10.1542/peds.2008-2531}
 
 \leavevmode\hypertarget{ref-robinshaw1995}{}%
 Robinshaw, H. M. (1995). Early intervention for hearing impairment: Differences in the timing of communicative and linguistic development. \emph{British Journal of Audiology}, \emph{29}(6), 315--334. \url{https://doi.org/10.3109/03005369509076750}
@@ -1071,7 +1086,7 @@ Schick, B., De Villiers, P., De Villiers, J., \& Hoffmeister, R. (2007). Languag
 Schildroth, A. N., \& Hotto, S. A. (1996). Annual Survey: Changes in Student and Program Characteristics, 1984-85 and 1994-95. \emph{American Annals of the Deaf}, \emph{141}(2), 67--71. \url{https://doi.org/10.1353/aad.2012.1017}
 
 \leavevmode\hypertarget{ref-schmidt2003}{}%
-Schmidt, B., Asztalos, E. V., Roberts, R. S., Robertson, C. M., Sauve, R. S., \& Whitfield, M. F. (2003). Impact of Bronchopulmonary Dysplasia, Brain Injury, and Severe Retinopathy on the Outcome of Extremely Low-Birth-Weight Infants at 18 Months: Results from the Trial of Indomethacin Prophylaxis in Preterms. \emph{Journal of the American Medical Association}, \emph{289}(9), 1124--1129. \url{https://doi.org/10.1001/jama.289.9.1124}
+Schmidt, B., Asztalos, E. V., Roberts, R. S., Robertson, C. M. T., Sauve, R. S., \& Whitfield, M. F. (2003). Impact of Bronchopulmonary Dysplasia, Brain Injury, and Severe Retinopathy on the Outcome of Extremely Low-Birth-Weight Infants at 18 Months: Results from the Trial of Indomethacin Prophylaxis in Preterms. \emph{Journal of the American Medical Association}, \emph{289}(9), 1124--1129. \url{https://doi.org/10.1001/jama.289.9.1124}
 
 \leavevmode\hypertarget{ref-scott2020}{}%
 Scott, J. A., \& Henner, J. (2020). Second verse, same as the first: On the use of signing systems in modern interventions for deaf and hard of hearing children in the USA. \emph{Deafness \& Education International}, \emph{0}(0), 1--19. \url{https://doi.org/10.1080/14643154.2020.1792071}
@@ -1119,10 +1134,10 @@ Tomblin, J. B., Harrison, M., Ambrose, S. E., Walker, E. A., Oleson, J. J., \& M
 Updike, C. D. (1994). Comparison of FM Auditory Trainers, CROS Aids, and Personal Amplification in Unilaterally Hearing Impaired Children. \emph{Journal of the American Academy of Audiology}, \emph{5}(3), 6.
 
 \leavevmode\hypertarget{ref-vannierop2016}{}%
-Van Nierop, J. W., Snabel, R. R., Langereis, M., Pennings, R. J., Admiraal, R. J., Mylanus, E. A., \& Kunst, H. P. (2016). Paediatric Cochlear Implantation in Patients with Waardenburg Syndrome. \emph{Audiology and Neurotology}, \emph{21}(3), 187--194. \url{https://doi.org/10.1159/000444120}
+Van Nierop, J. W. I., Snabel, R. R., Langereis, M., Pennings, R. J. E., Admiraal, R. J. C., Mylanus, E. A. M., \& Kunst, H. P. M. (2016). Paediatric Cochlear Implantation in Patients with Waardenburg Syndrome. \emph{Audiology and Neurotology}, \emph{21}(3), 187--194. \url{https://doi.org/10.1159/000444120}
 
 \leavevmode\hypertarget{ref-vannoort-vanderspek2012}{}%
-Van Noort-van Der Spek, I. L., Franken, M. C. J., \& Weisglas-Kuperus, N. (2012). Language functions in preterm-born children: A systematic review and meta-analysis. \emph{Pediatrics}, \emph{129}(4), 745--754. \url{https://doi.org/10.1542/peds.2011-1728}
+Van Noort-van Der Spek, I. L., Franken, M. C. J. P., \& Weisglas-Kuperus, N. (2012). Language functions in preterm-born children: A systematic review and meta-analysis. \emph{Pediatrics}, \emph{129}(4), 745--754. \url{https://doi.org/10.1542/peds.2011-1728}
 
 \leavevmode\hypertarget{ref-verhaert2008}{}%
 Verhaert, N., Willems, M., Van Kerschaver, E., \& Desloovere, C. (2008). Impact of early hearing screening and treatment on language development and education level: Evaluation of 6 years of universal newborn hearing screening (ALGO) in Flanders, Belgium. \emph{International Journal of Pediatric Otorhinolaryngology}, \emph{72}(5), 599--608. \url{https://doi.org/10.1016/j.ijporl.2008.01.012}
@@ -1131,7 +1146,7 @@ Verhaert, N., Willems, M., Van Kerschaver, E., \& Desloovere, C. (2008). Impact 
 Vesseur, A., Langereis, M., Free, R., Snik, A., van Ravenswaaij-Arts, C., \& Mylanus, E. (2016). Influence of hearing loss and cognitive abilities on language development in CHARGE Syndrome. \emph{American Journal of Medical Genetics, Part A}, \emph{170}(8), 2022--2030. \url{https://doi.org/10.1002/ajmg.a.37692}
 
 \leavevmode\hypertarget{ref-vila2015}{}%
-Vila, P. M., \& Lieu, J. E. (2015). \emph{Asymmetric and unilateral hearing loss in children}. \emph{Cell and Tissue Research} (Vol. 361). Springer Verlag. \url{https://doi.org/10.1007/s00441-015-2208-6}
+Vila, P. M., \& Lieu, J. E. C. (2015). \emph{Asymmetric and unilateral hearing loss in children}. \emph{Cell and Tissue Research} (Vol. 361). Springer Verlag. \url{https://doi.org/10.1007/s00441-015-2208-6}
 
 \leavevmode\hypertarget{ref-vohr2014}{}%
 Vohr, B. (2014). \emph{Speech and language outcomes of very preterm infants}. \emph{Seminars in Fetal and Neonatal Medicine} (Vol. 19). W.B. Saunders Ltd. \url{https://doi.org/10.1016/j.siny.2013.10.007}
