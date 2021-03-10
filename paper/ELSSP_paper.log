@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.5)  9 MAR 2021 16:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.5)  9 MAR 2021 23:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -749,7 +749,7 @@ Underfull \vbox (badness 4752) has occurred while \output is active []
 \openout4 = `ELSSP_paper.fff'.
 
 (ELSSP_paper.fff) [14] [15]
-<ELSSP_paper_files/figure-latex/delay-betas-1.pdf, id=216, 265.99374pt x 263.98
+<ELSSP_paper_files/figure-latex/delay-betas-1.pdf, id=212, 265.99374pt x 263.98
 625pt>
 File: ELSSP_paper_files/figure-latex/delay-betas-1.pdf Graphic file (type pdf)
 <use ELSSP_paper_files/figure-latex/delay-betas-1.pdf>
@@ -768,7 +768,7 @@ LaTeX Warning: Reference `tab:delay-betas' on page 17 undefined on input line 5
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [17 <./ELSSP_paper_files/figure-latex/delay-betas-1.pdf>] [18]
-<ELSSP_paper_files/figure-latex/diagnosis-betas-1.pdf, id=245, 264.99pt x 263.9
+<ELSSP_paper_files/figure-latex/diagnosis-betas-1.pdf, id=241, 264.99pt x 263.9
 8625pt>
 File: ELSSP_paper_files/figure-latex/diagnosis-betas-1.pdf Graphic file (type p
 df)
@@ -777,7 +777,7 @@ Package pdftex.def Info: ELSSP_paper_files/figure-latex/diagnosis-betas-1.pdf
 used on input line 534.
 (pdftex.def)             Requested size: 265.00551pt x 264.0017pt.
 [19 <./ELSSP_paper_files/figure-latex/diagnosis-betas-1.pdf>]
-<ELSSP_paper_files/figure-latex/intervention-betas-1.pdf, id=258, 264.99pt x 26
+<ELSSP_paper_files/figure-latex/intervention-betas-1.pdf, id=254, 264.99pt x 26
 3.98625pt>
 File: ELSSP_paper_files/figure-latex/intervention-betas-1.pdf Graphic file (typ
 e pdf)
@@ -790,12 +790,9 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [20 <./ELSSP_paper_files/figure-latex/intervention-betas-1.pdf>] [21] [22] [23]
 
-Underfull \vbox (badness 4752) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[24] [25]
-Underfull \vbox (badness 4752) has occurred while \output is active []
-
-[26]
+[24] [25] [26]
 Underfull \vbox (badness 4752) has occurred while \output is active []
 
 [27] [28]
@@ -812,7 +809,7 @@ les [54] (./ELSSP_paper.ttt [55
 ] [56]) [57
 
 ] [58] [59] [60] (./ELSSP_paper.fff
-<ELSSP_paper_files/figure-latex/relationships-plot-1.pdf, id=763, 849.1725pt x 
+<ELSSP_paper_files/figure-latex/relationships-plot-1.pdf, id=758, 849.1725pt x 
 675.52374pt>
 File: ELSSP_paper_files/figure-latex/relationships-plot-1.pdf Graphic file (typ
 e pdf)
@@ -820,7 +817,7 @@ e pdf)
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/relationships-plot-1.pd
 f  used on input line 5.
 (pdftex.def)             Requested size: 469.7544pt x 373.69351pt.
-<ELSSP_paper_files/figure-latex/english-curves-1.pdf, id=764, 283.0575pt x 280.
+<ELSSP_paper_files/figure-latex/english-curves-1.pdf, id=759, 283.0575pt x 280.
 04625pt>
 File: ELSSP_paper_files/figure-latex/english-curves-1.pdf Graphic file (type pd
 f)
@@ -828,7 +825,7 @@ f)
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/english-curves-1.pdf  u
 sed on input line 12.
 (pdftex.def)             Requested size: 283.06975pt x 280.05836pt.
-<ELSSP_paper_files/figure-latex/spanish-curves-1.pdf, id=765, 283.0575pt x 280.
+<ELSSP_paper_files/figure-latex/spanish-curves-1.pdf, id=760, 283.0575pt x 280.
 04625pt>
 File: ELSSP_paper_files/figure-latex/spanish-curves-1.pdf Graphic file (type pd
 f)
@@ -836,7 +833,7 @@ f)
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/spanish-curves-1.pdf  u
 sed on input line 19.
 (pdftex.def)             Requested size: 283.06975pt x 280.05836pt.
-<ELSSP_paper_files/figure-latex/full-delay-betas-1.pdf, id=766, 265.99374pt x 2
+<ELSSP_paper_files/figure-latex/full-delay-betas-1.pdf, id=761, 265.99374pt x 2
 63.98625pt>
 File: ELSSP_paper_files/figure-latex/full-delay-betas-1.pdf Graphic file (type 
 pdf)
@@ -844,7 +841,7 @@ pdf)
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/full-delay-betas-1.pdf 
  used on input line 26.
 (pdftex.def)             Requested size: 266.00931pt x 264.0017pt.
-<ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf, id=767, 265.99374pt x 
+<ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf, id=762, 265.99374pt x 
 280.04625pt>
 File: ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf Graphic file (type
  pdf)
@@ -852,7 +849,7 @@ File: ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf Graphic file (type
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf
   used on input line 33.
 (pdftex.def)             Requested size: 266.00525pt x 280.05836pt.
-<ELSSP_paper_files/figure-latex/delay-violins-1.pdf, id=768, 273.02pt x 280.046
+<ELSSP_paper_files/figure-latex/delay-violins-1.pdf, id=763, 273.02pt x 280.046
 25pt>
 File: ELSSP_paper_files/figure-latex/delay-violins-1.pdf Graphic file (type pdf
 )
@@ -868,19 +865,19 @@ ex/spanish-curves-1.pdf> <./ELSSP_paper_files/figure-latex/full-delay-betas-1.p
 df>] [64 <./ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf> <./ELSSP_pa
 per_files/figure-latex/delay-violins-1.pdf>] (./ELSSP_paper.aux)
 Package rerunfilecheck Info: File `ELSSP_paper.out' has not changed.
-(rerunfilecheck)             Checksum: A445AC734AB0160460642712143A1303;4134.
+(rerunfilecheck)             Checksum: FE5FB28F1252FB9AB1941CF428C6C7DD;4217.
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 16899 strings out of 481364
- 257778 string characters out of 5918417
+ 16895 strings out of 481364
+ 257802 string characters out of 5918417
  623746 words of memory out of 5000000
- 32982 multiletter control sequences out of 15000+600000
+ 32980 multiletter control sequences out of 15000+600000
  481425 words of font info for 140 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 80i,13n,85p,2250b,491s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 80i,13n,85p,2250b,485s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/Users/eb255/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/Users
 /eb255/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/Users/eb25
 5/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/Users/eb255/Lib
@@ -894,10 +891,10 @@ blic/lm/lmr8.pfb></Users/eb255/Library/TinyTeX/texmf-dist/fonts/type1/public/lm
 /lmri12.pfb></Users/eb255/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmss
 8.pfb></Users/eb255/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb
 >
-Output written on ELSSP_paper.pdf (64 pages, 453405 bytes).
+Output written on ELSSP_paper.pdf (64 pages, 453868 bytes).
 PDF statistics:
- 945 PDF objects out of 1000 (max. 8388607)
- 834 compressed objects within 9 object streams
- 308 named destinations out of 1000 (max. 500000)
- 10486 words of extra memory for PDF output out of 12000 (max. 10000000)
+ 939 PDF objects out of 1000 (max. 8388607)
+ 828 compressed objects within 9 object streams
+ 306 named destinations out of 1000 (max. 500000)
+ 10478 words of extra memory for PDF output out of 12000 (max. 10000000)
 
