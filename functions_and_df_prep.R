@@ -45,7 +45,8 @@ elssp_curves <- rbind(WG_elssp_eng, WS_elssp_eng, WG_elssp_span, WS_elssp_span) 
   filter((Age>8 & CDIversion=='WG')|(Age>16 & CDIversion=='WS')) %>%
   mutate(diff_age_from_expected = case_when( PrimaryLanguage == 'English' & ProductionCDI==0 ~ (Age - 9),
                                              PrimaryLanguage == 'Spanish' & ProductionCDI==0 ~ (Age - 8),
-                                             TRUE ~ diff_age_from_expected))
+                                             TRUE ~ diff_age_from_expected)) %>%
+  mutate(Amplification=fct_relevel(Amplification, "none"))
 
 #make dataframes easier to call
 comorbid <- read.csv("data/elssp_comorbidities.csv") %>% 

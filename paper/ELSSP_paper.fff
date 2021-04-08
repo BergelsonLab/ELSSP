@@ -23,13 +23,6 @@
 \ifnextchar[{\eatarg}{}
 
 \centering
-\includegraphics{ELSSP_paper_files/figure-latex/full-delay-betas-1.pdf}
-\caption{\label{fig:full-delay-betas}Coefficients for the full model.}
-\end{figure*}
-\begin{figure*}[hbt]
-\ifnextchar[{\eatarg}{}
-
-\centering
 \includegraphics{ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf}
 \caption{\label{fig:meets136-timeline}Timeline for diagnosis/intervention/etc.}
 \end{figure*}

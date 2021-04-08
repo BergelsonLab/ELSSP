@@ -209,15 +209,31 @@ CDI - Words Produced & Continuous & 0-635 words (mean (SD): 61 (111.2))\\
 \hline
 term & estimate & std.error & statistic & p.value\\
 \hline
-(Intercept) & -4.1011902 & 1.5880766 & -2.5824889 & 0.0115637\\
+(Intercept) & -0.6088807 & 1.7157582 & -0.3548756 & 0.7235829\\
 \hline
 LateralityUnilateral & -2.6914102 & 1.1359432 & -2.3693176 & 0.0201422\\
 \hline
-AmplificationHA & -0.3407579 & 1.2490380 & -0.2728163 & 0.7856720\\
+AmplificationCI & -3.4923095 & 1.4891773 & -2.3451266 & 0.0214079\\
 \hline
-Amplificationnone & 3.4923095 & 1.4891773 & 2.3451266 & 0.0214079\\
+AmplificationHA & -3.8330674 & 1.1337633 & -3.3808356 & 0.0011037\\
 \hline
 Age & 0.5522518 & 0.0559563 & 9.8693442 & 0.0000000\\
+\hline
+\end{tabular}
+\end{table*}
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[H]
+\centering
+\begin{tabular}{l|r|r}
+\hline
+  & GVIF & Df\\
+\hline
+Laterality & 1.178944 & 1\\
+\hline
+Amplification & 1.201790 & 2\\
+\hline
+Age & 1.020748 & 1\\
 \hline
 \end{tabular}
 \end{table*}
