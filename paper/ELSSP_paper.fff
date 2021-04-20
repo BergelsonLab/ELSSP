@@ -10,7 +10,7 @@
 
 \centering
 \includegraphics{ELSSP_paper_files/figure-latex/english-curves-1.pdf}
-\caption{\label{fig:english-curves}Growth curve from Wordbank American English 50th percentile data. Black triangles show vocabulary scores of individual DHH children.}
+\caption{\label{fig:english-curves}Growth curve from Wordbank American English 50th percentile data. Dots show vocabulary scores of individual DHH children.}
 \end{figure*}
 \begin{figure*}[hbt]
 \ifnextchar[{\eatarg}{}

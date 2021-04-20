@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  7 APR 2021 20:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  20 APR 2021 09:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -784,13 +784,11 @@ e pdf)
 Package pdftex.def Info: ELSSP_paper_files/figure-latex/intervention-betas-1.pd
 f  used on input line 567.
 (pdftex.def)             Requested size: 265.00551pt x 264.0017pt.
-[20 <./ELSSP_paper_files/figure-latex/intervention-betas-1.pdf>]
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[21]
-Underfull \vbox (badness 4954) has occurred while \output is active []
-
-[22] [23] [24] [25]
+[20 <./ELSSP_paper_files/figure-latex/intervention-betas-1.pdf>] [21] [22] [23]
+[24] [25]
 Underfull \vbox (badness 2384) has occurred while \output is active []
 
 [26] [27]
@@ -869,7 +867,7 @@ LaTeX Warning: There were undefined references.
 Here is how much of TeX's memory you used:
  16492 strings out of 480608
  248653 string characters out of 5903631
- 564063 words of memory out of 5000000
+ 564052 words of memory out of 5000000
  31641 multiletter control sequences out of 15000+600000
  610204 words of font info for 136 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -886,7 +884,7 @@ al/texlive/2020/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2
 st/fonts/type1/public/lm/lmri12.pfb></usr/local/texlive/2020/texmf-dist/fonts/t
 ype1/public/lm/lmss8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public
 /lm/lmsy10.pfb>
-Output written on ELSSP_paper.pdf (63 pages, 443453 bytes).
+Output written on ELSSP_paper.pdf (63 pages, 443605 bytes).
 PDF statistics:
  921 PDF objects out of 1000 (max. 8388607)
  814 compressed objects within 9 object streams
