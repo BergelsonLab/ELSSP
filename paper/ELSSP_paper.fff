@@ -3,33 +3,54 @@
 
 \centering
 \includegraphics{ELSSP_paper_files/figure-latex/relationships-plot-1.pdf}
-\caption{\label{fig:relationships-plot}Results of chi-square tests between variables. For tests that survived Bonferroni correction, effect size (Cramer's V) is given.}
+\caption{\label{fig:relationships-plot}Results of chi-square tests between variables. X- and y-axes show the variables compared. Color of the square represents significance of the corresponding chi-square test. For tests that survived Bonferroni correction (p\textless{}.0007), effect size (Cramer's V) is given.}
 \end{figure*}
 \begin{figure*}[hbt]
 \ifnextchar[{\eatarg}{}
 
 \centering
 \includegraphics{ELSSP_paper_files/figure-latex/english-curves-1.pdf}
-\caption{\label{fig:english-curves}Growth curve from Wordbank American English 50th percentile data. Dots show vocabulary scores of individual DHH children.}
+\caption{\label{fig:english-curves}Lines show the growth curves created from Wordbank American English 50th percentile data. Left panel shows Words \& Gestures; right panel shows Words \& Sentences. Dots represent vocabulary scores of individual DHH children in the sample.}
 \end{figure*}
 \begin{figure*}[hbt]
 \ifnextchar[{\eatarg}{}
 
 \centering
 \includegraphics{ELSSP_paper_files/figure-latex/spanish-curves-1.pdf}
-\caption{\label{fig:spanish-curves}Growth curve from Wordbank Spanish (Mexican) 50th percentile data. Black triangles show vocabulary scores of individual DHH children.}
+\caption{\label{fig:spanish-curves}Lines show the growth curves created from Wordbank Mexican Spanish 50th percentile data. Left panel shows Words \& Gestures; right panel shows Words \& Sentences. Dots represent vocabulary scores of individual DHH children in the sample.}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\centering
+\includegraphics{ELSSP_paper_files/figure-latex/delay-beta-plot-1.pdf}
+\caption{\label{fig:delay-beta-plot}Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC: Vocabulary Delay \textasciitilde{} Age + Laterality + Amplification.}
 \end{figure*}
 \begin{figure*}[hbt]
 \ifnextchar[{\eatarg}{}
 
 \centering
 \includegraphics{ELSSP_paper_files/figure-latex/meets136-timeline-1.pdf}
-\caption{\label{fig:meets136-timeline}Timeline for diagnosis/intervention/etc.}
+\caption{\label{fig:meets136-timeline}Violin plots for age at diagnosis, intervention, amplification, and cochlear implantation. Each dot represents the age that one child received the clinical service. Blacks dot and whiskers show means and standard deviations.}
 \end{figure*}
 \begin{figure*}[hbt]
 \ifnextchar[{\eatarg}{}
 
 \centering
 \includegraphics{ELSSP_paper_files/figure-latex/delay-violins-1.pdf}
-\caption{\label{fig:delay-violins}Months delay for children who meet / don't meet 1-3-6 guidelines.}
+\caption{\label{fig:delay-violins}Violin plots showing vocabulary delay for children who meet 1-3-6 guidelines for diagnosis/intervention (top violin) and children who do not (bottom violin). Each dot represents one child in the sample. Blacks dot and whiskers show means and standard error.}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\centering
+\includegraphics{ELSSP_paper_files/figure-latex/diagnosis-beta-plot-1.pdf}
+\caption{\label{fig:diagnosis-beta-plot}Unstandardized beta weights (months) for the model of age at diagnosis selected by AIC: Vocabulary Delay \textasciitilde{} Health Issues + Language Background + Laterality.}
+\end{figure*}
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\centering
+\includegraphics{ELSSP_paper_files/figure-latex/intervention-beta-plot-1.pdf}
+\caption{\label{fig:intervention-beta-plot}Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC: Vocabulary Delay \textasciitilde{} Degree + Prematurity + Language Background + Age at Diagnosis.}
 \end{figure*}

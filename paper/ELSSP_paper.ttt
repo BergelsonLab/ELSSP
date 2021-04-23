@@ -2,7 +2,7 @@
 \ifnextchar[{\eatarg}{}
 
 
-\caption{\label{tab:CDIsummary}Summary of findings of CDI studies in DHH children}
+\caption{\label{tab:CDIsummary}Summary of findings of CDI studies in DHH children.}
 \centering
 \resizebox{\linewidth}{!}{
 \begin{tabular}[t]{l|l|l|l|l|l|l|l|l}
@@ -24,23 +24,23 @@ Vohr et al., 2011 & 18-24 month olds with hearing loss & Did not study & Earlier
 \ifnextchar[{\eatarg}{}
 
 
-\caption{\label{tab:CDIinfo}CDI details}
+\caption{\label{tab:CDIinfo}CDI details: For each version, average age, comprehension score, production score of participants in our sample (with standard deviations in parentheses). Final column shows the percentage of children administered the version who were diagnosed with developmental delays.}
 \centering
 \resizebox{\linewidth}{!}{
 \begin{tabular}[t]{l|l|l|l|l}
 \hline
 CDI version & Average Age (SD) & Average Comprehension (SD) & Average Production (SD) & \% Developmental Delays\\
 \hline
-WG (n=74) & 20.05 (8.82) months & 105 (99.7) words & 32 (53.4) words & 18.92\%\\
+WG (n=74) & 20.05 (8.82) months & 105 (99.7) words & 32 (53.4) words & 18.9\%\\
 \hline
-WS (n=24) & 26.03 (7.78) months & NA & 149 (180.1) words & 4.17\%\\
+WS (n=24) & 26.03 (7.78) months & NA & 149 (180.1) words & 4.2\%\\
 \hline
 \end{tabular}}
 \end{table*}
 \efloatseparator
  
 \begin{longtable}[t]{l|l|r}
-\caption{\label{tab:comorbid-info}Additional Diagnoses (n=39)}\\
+\caption{\label{tab:comorbid-info}Additional Diagnoses (n=39): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses.}\\
 \hline
 Condition & Specific Condition & n\\
 \hline
@@ -93,7 +93,7 @@ Vision Loss &  & 5\\
 \ifnextchar[{\eatarg}{}
 [!h]
 
-\caption{\label{tab:amp-info}Audiological Characteristics of the Sample}
+\caption{\label{tab:amp-info}Audiological Characteristics of the Sample: First two columns describe laterality and amplification type (cochlear implant, hearing aid, or none). Next two columns show mean decibels of hearing loss in better/worse ear for the subset of the population given that combination of laterality and amplification. Last two columns describe age (in months) at amplification or cochlear implantation (if applicable) for the laterality-amplification subset.}
 \centering
 \resizebox{\linewidth}{!}{
 \begin{tabular}[t]{l|l|r|r|r|r}
@@ -116,7 +116,7 @@ Unilateral & none & 2.50 & 73.90 & 8.50 & NaN\\
 \ifnextchar[{\eatarg}{}
 [!h]
 
-\caption{\label{tab:comm-info}Language and communication characteristics of the sample}
+\caption{\label{tab:comm-info}Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method.}
 \centering
 \begin{tabular}[t]{l|r|r|r|r}
 \hline
@@ -134,7 +134,7 @@ total communication & 15 & 0 & 3 & 18\\
 \ifnextchar[{\eatarg}{}
 [!h]
 
-\caption{\label{tab:meets136-info}Meets 1-3-6 table}
+\caption{\label{tab:meets136-info}Meets 1-3-6 Information: Percent of the sample meeting diagnosis and/or intervention guidelines, and average age diagnosis/intervention was provided.}
 \centering
 \begin{tabular}[t]{l|l}
 \hline
@@ -156,7 +156,7 @@ Meets 1-3-6 & 36.84\%\\
 \ifnextchar[{\eatarg}{}
 
 
-\caption{\label{tab:variables-list}Variables table}
+\caption{\label{tab:variables-list}Detailed information about the variables studied. For categorical variables, levels are described. For continuous variables, range, mean, and standard deviation are provided.}
 \centering
 \resizebox{\linewidth}{!}{
 \begin{tabular}[t]{l|l|l}
@@ -203,45 +203,51 @@ CDI - Words Produced & Continuous & 0-635 words (mean (SD): 61 (111.2))\\
 \end{table*}
 \begin{table*}[hbt]
 \ifnextchar[{\eatarg}{}
-[H]
+
+
+\caption{\label{tab:delay-betas}Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC: Vocabulary Delay ~ Age + Laterality + Amplification.}
 \centering
-\begin{tabular}{l|r|r|r|r}
+\begin{tabular}[t]{l|r|r|r|r}
 \hline
 term & estimate & std.error & statistic & p.value\\
 \hline
-(Intercept) & -0.6088807 & 1.7157582 & -0.3548756 & 0.7235829\\
+(Intercept) & -0.5358566 & 1.7146748 & -0.3125121 & 0.7554545\\
 \hline
-LateralityUnilateral & -2.6914102 & 1.1359432 & -2.3693176 & 0.0201422\\
+LateralityUnilateral & -2.6985772 & 1.1372498 & -2.3728974 & 0.0200189\\
 \hline
-AmplificationCI & -3.4923095 & 1.4891773 & -2.3451266 & 0.0214079\\
+AmplificationCI & -3.5034202 & 1.4859023 & -2.3577730 & 0.0207969\\
 \hline
-AmplificationHA & -3.8330674 & 1.1337633 & -3.3808356 & 0.0011037\\
+AmplificationHA & -3.8355930 & 1.1347744 & -3.3800490 & 0.0011172\\
 \hline
-Age & 0.5522518 & 0.0559563 & 9.8693442 & 0.0000000\\
+Age & 0.5493529 & 0.0558699 & 9.8327171 & 0.0000000\\
 \hline
 \end{tabular}
 \end{table*}
 \begin{table*}[hbt]
 \ifnextchar[{\eatarg}{}
-[H]
+
+
+\caption{\label{tab:delay-vif}Generalized Variance Inflation Factor (GVIF) for the model of vocabulary delay selected by AIC: Vocabulary Delay ~ Age + Laterality + Amplification.}
 \centering
-\begin{tabular}{l|r|r}
+\begin{tabular}[t]{l|r|r}
 \hline
   & GVIF & Df\\
 \hline
-Laterality & 1.178944 & 1\\
+Laterality & 1.178895 & 1\\
 \hline
-Amplification & 1.201790 & 2\\
+Amplification & 1.200583 & 2\\
 \hline
-Age & 1.020748 & 1\\
+Age & 1.019896 & 1\\
 \hline
 \end{tabular}
 \end{table*}
 \begin{table*}[hbt]
 \ifnextchar[{\eatarg}{}
-[H]
+
+
+\caption{\label{tab:diagnosis-betas}Unstandardized beta coefficients (months) for the model of age at diagnosis selected by AIC: Vocabulary Delay ~ Health Issues + Language Background + Laterality.}
 \centering
-\begin{tabular}{l|r|r|r|r}
+\begin{tabular}[t]{l|r|r|r|r}
 \hline
 term & estimate & std.error & statistic & p.value\\
 \hline
@@ -257,9 +263,11 @@ LateralityUnilateral & -2.148902 & 1.575573 & -1.363886 & 0.1759312\\
 \end{table*}
 \begin{table*}[hbt]
 \ifnextchar[{\eatarg}{}
-[H]
+
+
+\caption{\label{tab:diagosis-vif}Variance Inflation Factor for diagnosis model: Vocabulary Delay ~ Health Issues + Language Background + Laterality.}
 \centering
-\begin{tabular}{l|r|r}
+\begin{tabular}[t]{l|r|r}
 \hline
   & VIF & Df\\
 \hline
@@ -273,9 +281,11 @@ Laterality & 1.027814 & 1\\
 \end{table*}
 \begin{table*}[hbt]
 \ifnextchar[{\eatarg}{}
-[H]
+
+
+\caption{\label{tab:intervention-betas}Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC: Vocabulary Delay ~ Degree + Prematurity + Language Background + Age at Diagnosis.}
 \centering
-\begin{tabular}{l|r|r|r|r}
+\begin{tabular}[t]{l|r|r|r|r}
 \hline
 term & estimate & std.error & statistic & p.value\\
 \hline
@@ -293,9 +303,11 @@ Monolingual\_Englishyes & -1.3846263 & 2.1177275 & -0.6538265 & 0.5150755\\
 \end{table*}
 \begin{table*}[hbt]
 \ifnextchar[{\eatarg}{}
-[H]
+
+
+\caption{\label{tab:intervention-vif}Variance Inflation Factor for the intervention model: Vocabulary Delay ~ Degree + Prematurity + Language Background + Age at Diagnosis.}
 \centering
-\begin{tabular}{l|r|r}
+\begin{tabular}[t]{l|r|r}
 \hline
   & VIF & Df\\
 \hline
