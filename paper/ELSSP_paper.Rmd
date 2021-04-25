@@ -478,7 +478,8 @@ To look at the relationship between our predictor variables and CDI scores, we n
 Our full regression model included all variables: Vocabulary Delay ~ Gender + Developmental Delay + Health Issues + Premature Birth + Laterality + Degree + Amplification + Communication + Meets 1-3-6 + Services Received Per Month + Language Background. 
 
 ```{r full-delay-betas}
-#eb2ec: all of your tables with model results have way too many sig digits and the variable names need to be interpretable to readers 
+#eb2ec: all of your tables with model results have way too many sig digits and the variable names need to be interpretable to readers
+
 
 #eb2ec: i actually don't think you need the full model table at all
 
