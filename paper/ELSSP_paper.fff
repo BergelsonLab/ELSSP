@@ -3,7 +3,7 @@
 
 \centering
 \includegraphics{ELSSP_paper_files/figure-latex/relationships-plot-1.pdf}
-\caption{\label{fig:relationships-plot}Results of chi-square tests between variables. X- and y-axes show the variables compared. Color of the square represents significance of the corresponding chi-square test. For tests that survived Bonferroni correction (p\textless{}.0007), effect size (Cramer's V) is given.}
+\caption{\label{fig:relationships-plot}Results of chi-square tests between variables. X- and y-axes show the variables compared. Color of the square represents significance of the corresponding chi-square test. For tests that survived Bonferroni correction (p\textless.0007), effect size (Cramer's V) is given.}
 \end{figure*}
 \begin{figure*}[hbt]
 \ifnextchar[{\eatarg}{}
@@ -31,5 +31,5 @@
 
 \centering
 \includegraphics{ELSSP_paper_files/figure-latex/beta-plots-1.pdf}
-\caption{\label{fig:beta-plots}Unstandardized beta weights (months) for the models of (A) vocabulary delay, (B) age at diagnosis, (C) age, selected by AIC.}
+\caption{\label{fig:beta-plots}Unstandardized coefficients (measured in months) with 95\% confidence intervals for the models selected by AIC for: (A) vocabulary delay, (B) age at diagnosis, (C) age at intervention.}
 \end{figure*}
