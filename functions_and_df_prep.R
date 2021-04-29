@@ -1,15 +1,10 @@
 library('wordbankr')
-library('reshape2')
 library('dotwhisker')
 library('MASS')
-library('tidyverse')
 library('rcompanion') # for cramerV
-library('fastDummies') # for correlation table
 library('corrplot')
 library('gplots') # for balloon plots
-library(reshape2)
-library(extraoperators)
-
+library('extraoperators')
 source('SM_functions.R')
 
 #read in data
@@ -60,22 +55,22 @@ comorbid <- read.csv("data/elssp_comorbidities.csv") %>%
                                  pulmonaryarterystenosis, 1, 0),
          lung_issues = ifelse(asthma==1|bronchopulmonarydysplasia==1|chroniclungdisease|tracheotomy==1|
                                 trachoesophagealfistula==1|esophagealatresia==1, 1, 0),
-  feeding_issues = ifelse(Gtube==1|reflux==1|dysphagia==1|feedingproblems_nos|esophagealatresia==1, 1, 0),
-  illness = ifelse(chroniclungdisease==1|MRSA==1|meningitis==1|frequentfevers==1|Sepsis==1|jaundice==1|
-                     pneumonia==1|cytomegalovirus==1, 1, 0),
-  preg_birth_comp = ifelse(preeclampsia==1|gestationaldiabetes==1|otherpregnancycomplications==1|jaundice==1|
-                             respiratorydistress==1|fetaldistress==1|meconiumaspiration==1|intrauterinegrowthretardation==1, 1, 0),
-  mus_skel = ifelse(hypertonia==1|torticollis==1|oralmotorweakness==1|missingribs==1|vertebraldefects==1|
-                      bonefracture==1|limbabnormalities==1|PDAscoliosis==1|CHARGEorVATER==1|VACTERL==1|
-                      treachercollins==1|sagittalsyntosis==1, 1, 0),
-  cleft = ifelse(cleftlip==1|cleftpalate==1,1,0),
-  health_issues_other = ifelse(esotropia==1|iriscoloboma==1|dysplastickidney==1|CHARGEorVATER==1|apnea==1|
-                                 hydronephrosis==1|seizures==1|laryngomalacia==1|tonguetie==1|midlinedefect==1|hypoglycemia==1|
-                                 anemia==1|mitochondrialdisorder==1|skinbreakdown==1|VACTERL==1|analatresia==1|
-                                 renalabnormalities==1|enlargedadenoids==1|liptie==1|sacraldimple==1|enlargedliver==1|
-                                 petachialrash==1|thrombocytopenia==1, 1, 0),
-  pos_acqHL = ifelse(anemia==1|MRSA==1|meningitis==1|frequentfevers==1|Sepsis==1|jaundice==1|pneumonia==1|seizures==1|
-                       hydrocephalus==1|cytomegalovirus==1, 1, 0))
+         feeding_issues = ifelse(Gtube==1|reflux==1|dysphagia==1|feedingproblems_nos|esophagealatresia==1, 1, 0),
+         illness = ifelse(chroniclungdisease==1|MRSA==1|meningitis==1|frequentfevers==1|Sepsis==1|jaundice==1|
+                            pneumonia==1|cytomegalovirus==1, 1, 0),
+         preg_birth_comp = ifelse(preeclampsia==1|gestationaldiabetes==1|otherpregnancycomplications==1|jaundice==1|
+                                    respiratorydistress==1|fetaldistress==1|meconiumaspiration==1|intrauterinegrowthretardation==1, 1, 0),
+         mus_skel = ifelse(hypertonia==1|torticollis==1|oralmotorweakness==1|missingribs==1|vertebraldefects==1|
+                             bonefracture==1|limbabnormalities==1|PDAscoliosis==1|CHARGEorVATER==1|VACTERL==1|
+                             treachercollins==1|sagittalsyntosis==1, 1, 0),
+         cleft = ifelse(cleftlip==1|cleftpalate==1,1,0),
+         health_issues_other = ifelse(esotropia==1|iriscoloboma==1|dysplastickidney==1|CHARGEorVATER==1|apnea==1|
+                                        hydronephrosis==1|seizures==1|laryngomalacia==1|tonguetie==1|midlinedefect==1|hypoglycemia==1|
+                                        anemia==1|mitochondrialdisorder==1|skinbreakdown==1|VACTERL==1|analatresia==1|
+                                        renalabnormalities==1|enlargedadenoids==1|liptie==1|sacraldimple==1|enlargedliver==1|
+                                        petachialrash==1|thrombocytopenia==1, 1, 0),
+         pos_acqHL = ifelse(anemia==1|MRSA==1|meningitis==1|frequentfevers==1|Sepsis==1|jaundice==1|pneumonia==1|seizures==1|
+                              hydrocephalus==1|cytomegalovirus==1, 1, 0))
 
 comorbid_long <- comorbid %>% pivot_longer(cols = c(ANSD, IsPremature:pos_acqHL, -WeeksGestation), 
                                            names_to = "condition", 
@@ -119,32 +114,10 @@ chi_sq_all <- plyr::adply(combos, 2, function(x) {
                     "eff.size" = cramerV(subset_elssp[, x[1]], subset_elssp[, x[2]])) %>% 
     mutate(sig = case_when(p.value>.05 ~ "not significant", 
                             p.value>0.0007575758 ~ "p<.05", 
-                           TRUE ~ "survives bonferroni correction"))
+                           TRUE ~ "survives Bonferroni correction"))
   return(out)
 
 })
-
-nz_balloons <- function(Var1, Var2){ #balloon plots without NA cells
-  nz_elssp <- elssp %>% filter(elssp[[Var1]]!='' & elssp[[Var2]]!='')
-  bp <- balloonplot(table(nz_elssp[[Var1]], nz_elssp[[Var2]]),
-                    xlab = Var1,
-                    ylab = Var2,
-                    main = glue("{Var1} by {Var2}"))
-}
-
-gg_balloons <- function(Var1, Var2){ #balloon plots without NA cells
-  nz_elssp <- elssp %>% filter(elssp[[Var1]]!='' & elssp[[Var2]]!='')
-  nz_table <- melt(table(nz_elssp[[Var1]], nz_elssp[[Var2]])) 
-  balloons <- ggplot(nz_table, aes(x = Var1, y = Var2)) +
-    geom_point(aes(size=value), alpha=0.3)+
-    scale_size_area(max_size = 30) +
-    geom_text(aes(label = value)) + 
-    theme(panel.background=element_blank(), 
-          panel.border = element_rect(fill=NA, size=1),
-          legend.position = "none") +
-    labs(x={Var1}, y={Var2}) 
-  print(balloons)
-}
 
 chisq_output <- function(Var1, Var2) {
   subset_elssp <- elssp %>% filter(elssp[[Var1]]!='' & elssp[[Var2]]!='')
@@ -164,26 +137,6 @@ beta_output <- function(model, predictornum) {
   beta_output
 }
 
-corr_prep <- dummy_cols(elssp, select_columns = c("Gender", "Meets136",
-                                                  "Laterality", "Communication", 
-                                                  "PrimaryLanguage", "DevelopmentalConcerns", 
-                                                  "HealthIssues", "IsPremature")) %>%
-  dplyr::select(ServicesReceivedPerMonth, HLworse, Gender_male,
-                PrimaryLanguage_English, Communication_spoken, DevelopmentalConcerns_yes, 
-                IsPremature_yes, HealthIssues_yes, Meets136_yes) 
-
-elssp_corr <- cor(corr_prep, use="pairwise.complete.obs")
-
-p_corr <- cor.mtest(corr_prep) 
-
-# corrplot(elssp_corr, method = 'color', p.mat = p_corr$p,
-#          type = "upper",
-#          order = "hclust", tl.cex=1,
-#          tl.col = "black", addCoef.col = "black",
-#          sig.level = 0.001, insig = "blank", diag = FALSE)
-
-dimnames(p_corr$p) <- dimnames(elssp_corr)
-
 n_condition <- function(condition){
   as.numeric(condition_tallies[paste(enexpr(condition)),"n"])
 }
@@ -195,53 +148,3 @@ lm_pvalue <- function (modelobject) {
   attributes(p) <- NULL
   return(printp(p, add_equals = TRUE))
 }
-
-
-
-# 
-# add_vif <- function(model, num_predictors) {
-# vif_res <- vif(model)
-# vif_list <- list("NA", vif_res[1:num_predictors])
-#   
-# model %>% 
-#     tidy() %>%
-#     cbind(vif_list)
-# }
-
-
-# eng_ws <- get_administration_data("English (American)", "WS")
-# eng_wg <- get_administration_data("English (American)", "WG")
-# span_ws <- get_administration_data("Spanish (Mexican)", "WS")
-# span_wg <- get_administration_data("Spanish (Mexican)", "WG")
-# quantreg_output <- rbind((fit_vocab_quantiles(eng_ws, production, quantiles = "median")),
-#                          (fit_vocab_quantiles(eng_wg, production, quantiles = "median")), 
-#                          (fit_vocab_quantiles(span_ws, production, quantiles = "median")), 
-#                          (fit_vocab_quantiles(span_wg, production, quantiles = "median"))) %>% mutate(production=round(production, 3))
-# 
-# quantreg_output[(which(grepl(DescTools::Closest((quantreg_output %>% filter(language=='English (American)' & form=='WG'))$production, elssp$ProductionCDI[1]), quantreg_output$production))),3]
-# 
-# qreg_ageforscore <- function(SubNum){
-#   rownum <- which(grepl(SubNum, elssp$VIHI_ID))
-#   age <- elssp$Age[rownum]
-#   lang <- ifelse(elssp$PrimaryLanguage[rownum] == 'English', 'English (American)',
-#                      ifelse(elssp$PrimaryLanguage[rownum] == 'Spanish', 'Spanish (Mexican)', 'NA'))
-#   score <- elssp$ProductionCDI[rownum]
-#   CDIform <- elssp$CDIversion[rownum]
-#   
-#   filtered_output <- quantreg_output %>% 
-#     filter(language==lang & form==CDIform)
-#   value <- ifelse(CDIform=='WG'& (age <= 8 | age >= 16), 'NA',
-#                   ifelse(CDIform=='WS'& (age <= 16 | age >= 30), 'NA',
-#                           filtered_output[(which(grepl(paste0("^", DescTools::Closest(filtered_output$production, score), "$"), filtered_output$production))),"age"]))
-# return(value["Value"])
-# }
-# 
-# elssp$qreg_age2 <- sapply(elssp$VIHI_ID, qreg_ageforscore)
-# 
-# elssp_test <- elssp %>% mutate(qreg_age = qreg_ageforscore(VIHI_ID))
-# summary(as.factor(elssp_test$qreg_age2))
-# View(elssp_test$qreg_age2)
-# 
-# rel_elssp <- elssp %>% filter((CDIversion== unique(vocab_fits$form)) & (ProductionCDI >= min(vocab_fits$production)) & (ProductionCDI <= max(vocab_fits$production)))
-
-

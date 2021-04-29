@@ -1,11 +1,9 @@
 Need to fix for ELSSP:
 
-Updated: 4/28/2021
+Updated: 4/29/2021
 Manuscript:
-- write abstract
 - citing packages
 - make OSF page
-- read through and make new to-do list
 - add acknowledgments section
 
 JSLHR formatting: 
@@ -19,15 +17,13 @@ JSLHR formatting:
 submitted to include a statement that the study obtained ethics approval including the name of the ethics committee(s) or institutional review board(s), the number/ID of the approval(s), and
 a statement that participants gave informed consent before taking part.
 - pay for open access?
-- create title page
 - figures/tables at the end
 
 Code cleaning:
-- Comment code in Red
+- Comment code
 - Get rid of extra code in functions_and_data_prep.R
-- Get rid of extra code in SM_functions.R
 - Create new README
 - Get rid of extra columns in elssp.csv
 - Get rid of extra columns in comorbidities csv
 - Get rid of extra files in repo
-- Make previous versions private
+- Make previous versions private on GH
