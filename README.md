@@ -2,12 +2,11 @@ This repo contains the scripts, data, and figures for the 2021 manuscript: Chara
 
 
 In the main folder: 
-- ELSSP.Rproj:
+- ELSSP.Rproj: project file
 - functions_and_df_prep.R
-- todo_list.txt:
-- data: a folder containing
-- paper:
+- data: a folder containing de-identified data from the 100 children in sample, plus wordbank vocabulary norms for typically-developing children
+- paper: contains manuscript, figures, tables, and supplemental materials
 
 
-Last updated: 4/29/2021
+Last updated: 4/30/2021
 Maintained by: Erin Campbell (erin.e.campbell@duke.edu)
