@@ -1,6 +1,6 @@
 ---
 title             : "Characterizing North Carolina's Deaf/Hard-of-Hearing Infants and Toddlers: Predictors of Vocabulary, Diagnosis, and Intervention"
-shorttitle        : "ELSSP"
+shorttitle        : "DHH Vocabulary, Diagnosis, and Intervention"
 
 
 author: 
@@ -51,6 +51,7 @@ library(magick)
 library(cowplot)
 library(dotwhisker)
 library(car)
+library(openxlsx)
 knitr::opts_chunk$set(fig.width=4, fig.height=4, fig.pos="p", comment=F, message=F, hide = T, warning = F, echo = F)
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 ```
@@ -58,8 +59,6 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 ```{r read-in-data, echo = F, results = 'hide', message = F, comment = F, fig.show='hide'}
 source("functions_and_df_prep.R")
 ```
-
-<!-- # eb2ec: i changed floatsintext to yes in the header so it puts the figs/tables where they are in script, i find it much easier to see, but also i think we have WAY too many tables. for every table ask yourself: do i actually need this information? if not, put it in supplementals or at the end (and you'll see some notes below on which tables i think we just nix altogether) -->
 
 # Abstract
 
@@ -129,7 +128,6 @@ For the first goal, we expected that many of these variables would be related, d
 # Methods
 ``` {r demo-data}
 num_subs <- nrow(elssp)
-num_repeat_subs <- nrow(elssp %>% filter(as.numeric(VisitTotal) > 1)) 
 num_girls <- nrow(elssp %>% filter(Gender == 'female'))
 num_boys <- nrow(elssp %>% filter(Gender == 'male'))
 min_age <- round(min(elssp$Age),1)
@@ -140,9 +138,9 @@ num_too_old_wg <- nrow(elssp_curves %>% filter(CDIversion == 'WG' & Age>18))
 num_spanish_cdi <- nrow(elssp %>% filter(PrimaryLanguage == 'Spanish'))
 ```
 
-Clinical evaluations were obtained through an ongoing collaboration with the North Carolina Early Language Sensory Support Program (ELSSP), an early intervention program serving children with sensory impairments from birth to 36 months. ELSSP passed along deidentified evaluations to our team after obtaining consent to do so from each family. No eligibility criteria beyond hearing loss and receiving an ELSSP evaluation were imposed, given our goal of characterizing the full range of DHH children with hearing loss in North Carolina.
+Clinical evaluations were obtained through an ongoing collaboration with the North Carolina Early Language Sensory Support Program (ELSSP), an early intervention program serving children with sensory impairments from birth to 36 months. ELSSP passed along deidentified evaluations to our team after obtaining consent to do so from each family\footnote{Because the data we received were already deidentified, this study was exempt from Duke University Institutional Review Board.}. No eligibility criteria beyond hearing loss and receiving an ELSSP evaluation were imposed, given our goal of characterizing the full range of DHH children with hearing loss in North Carolina.
 
-The clinical evaluations included demographic and audiological information, CDI vocabulary scores, and the results of any clinical assessments administered (e.g., PPVT), detailed further below. For some children (n = `r num_repeat_subs`), multiple evaluations were available from different timepoints. In these cases, only the first evaluation was considered for this study, due to concerns regarding within-subjects variance for statistical analysis.
+The clinical evaluations included demographic and audiological information, CDI vocabulary scores, and the results of any clinical assessments administered (e.g., PPVT), detailed further below. For some children, multiple evaluations were available from different timepoints. In these cases, only the first evaluation was considered for this study, due to concerns regarding within-subjects variance for statistical analysis.
 ```{r CDIinfo, echo=FALSE}
 
 n_WG <- nrow(elssp %>% filter(CDIversion=="WG"))
@@ -177,77 +175,23 @@ tribble(
   'NA',
   glue('{prod_WS} ({prod_WS_sd}) words'),
   glue('{perc_DD_WS}%')) %>%
-  kable(caption = "For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score, and production score of participants in our sample, along with the percent diagnosed with developmental delays.") %>%
-  kable_styling(latex_options = c("scale_down"))
+  write.xlsx("paper/tables/Table1.xlsx")
+#caption: For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score, and production score of participants in our sample, along with the percent diagnosed with developmental delays.") 
 ```
 
-While this collaboration is ongoing, we opted to pause for this analysis upon receiving data from 100 children. Thus, the reported sample below consists of `r num_subs` children (`r num_boys` male / `r num_girls` female) ages `r min_age`--`r max_age` months (M=`r mean_age`, SD=`r sd_age`). Race and socioeconomic information were not available. Families were administered either the Words and Gestures or Words and Sentences version of the CDI based on clinician judgment. Children who were too old for Words and Gestures, but who were not producing many words at the time of assessment, were often given Words and Gestures (n = `r num_too_old_wg`). Families for whom Spanish was the primary language (n = `r num_spanish_cdi`) completed the Spanish language version of the CDI [@jackson-maldonado2003]. See Table \@ref(tab:CDIinfo) for additional CDI information for our sample. 
-
-```{r comorbid-info}
-perc_prem_NICU <- (nrow(comorbid%>%filter(NICU==1&IsPremature==1))/(nrow(elssp %>% filter(IsPremature==1))))*100
-comorbid_table <- tribble(
-  ~Condition, ~'Specific Condition',  ~n,
-  "Premature", "", n_condition(IsPremature),
-  "", "Extremely Premature", n_condition(extremelypremature),
-  "", "NICU stay", n_condition(NICU),
-  "Health Issues", "", n_condition(HealthIssues),
-  "", "Heart", n_condition(heart_issues),
-  "", "Lung", n_condition(lung_issues),
-  "", "Illness", n_condition(illness),
-  "", "Feeding Issues", n_condition(feeding_issues),
-  "", "Pregnancy/Birth Complications", n_condition(preg_birth_comp),
-  "", "Musculoskeletal", n_condition(mus_skel),
-  "", "Cleft Lip/Palate", n_condition(cleft),
-  "", "Other", n_condition(health_issues_other),
-  "Developmental Concerns", "",  n_condition(DevelopmentalConcerns),
-  "", "Down Syndrome", n_condition(downsyndrome),
-  "", "Chromosomal Issues", n_condition(otherchromissues),
-  "", "Neural Tube Defects", sum(n_condition(encephalocelecyst), n_condition(occipitalencephalocele)),
-  "", "Other", sum(n_condition(agenesiscorpuscallosum), n_condition(oculomotorapraxia), n_condition(ventricular_issues), n_condition(corticalvisualimpairment), n_condition(hydrocephalus), n_condition(overalldevconcerns), n_condition(corneliadelange)),
-  "Vision Loss", "",  n_condition(VisionLoss),
-  "", "Retinopathy of Prematurity",  n_condition(RetinopathyOfPrematurity),
-  "", "Nearsightedness",  n_condition(myopia),
-  "", "Farsightedness",  n_condition(hyperopia),
-  "", "Cortical Visual Impairment",  n_condition(corticalvisualimpairment)
-)
-kable(comorbid_table, longtable=T,
-      caption = glue::glue("Additional Diagnoses (n = {n_condition(anycomorbid)}): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses.")) %>%
-  kable_styling(latex_options = "hold_position") 
-```
-With regard to comorbid diagnoses, children in this sample were coded as yes/no for cognitive development concerns (e.g., Down syndrome, global developmental delays; Cornelia de Lange syndrome), yes/no for premature birth (i.e., more than 3 weeks premature), yes/no for health issues (e.g., heart defects, kidney malformations, VACTERL association), and yes/no for vision loss (not corrected to normal by surgery or glasses); see Table \@ref(tab:comorbid-info). 
-
-```{r amp-info}
-elssp %>% 
-  filter(Amplification != '', Laterality != '') %>%
-  dplyr::select(VIHI_ID, AgeImplantation, AgeAmplification, HLbetter, HLworse, Laterality, Amplification) %>%
-  group_by(Laterality, Amplification) %>%
-  dplyr::summarise(mean_HLbetter = round(mean(HLbetter, na.rm = TRUE), 2),
-                   mean_HLworse = round(mean(HLworse, na.rm = TRUE), 2),
-                   mean_age_amplification = round(mean(AgeAmplification, na.rm = TRUE), 2),
-                   mean_age_implantation = round(mean(AgeImplantation, na.rm = TRUE), 2)) %>% 
-  kable(caption = glue::glue("Audiological Characteristics of the Sample: First two columns describe laterality and amplification type (cochlear implant (CI), hearing aid (HA), or none). Mean decibels of hearing loss (HL) in better ear, worse ear, and the mean age (in months) of amplification, and cochlear implantation (when applicable) for each laterality and amplification combination.")) %>%
-  kable_styling(latex_options = c("hold_position", "scale_down")) 
-```
-Degree of hearing loss was most often reported with a written description (e.g., “mild sloping to moderate” or “profound high frequency loss”). We created 3 variables: hearing loss in the better ear, hearing loss in the worse ear, and average hearing loss (average of better and worse ear). For the analyses below, we primarily use hearing loss in the worse ear to avoid any redundancies with laterality. Using the ASHA hearing loss guidelines, each of these hearing loss measures was coded with the decibels of hearing loss (dB HL) corresponding with the median dB HL for the level of hearing loss (e.g., moderate hearing loss was coded as 48 dB HL), and sloping hearing loss was coded as the average of the levels (e.g. mild to moderate was coded as 40.5 dB HL). Participants were also coded for unilateral or bilateral hearing loss; presence or absence of Auditory Neuropathy Spectrum Disorder; and etiology of hearing loss (sensorineural, conductive, or mixed). Amplification was recorded as the device the child used at the time of assessment: either hearing aid, cochlear implant, or none. See Table \@ref(tab:amp-info) for audiological characteristics of the sample. 
-```{r comm-info}
-kable((language_stats <- elssp %>% 
-  filter(PrimaryLanguage != '', Communication != '') %>%
-  dplyr::select(VIHI_ID, Communication, PrimaryLanguage) %>%
-  group_by(Communication, PrimaryLanguage) %>%
-  dplyr::count(name = 'Tally') %>%
-  pivot_wider(names_from = PrimaryLanguage, values_from = Tally) %>%
-  replace_na(list(English=0, Hindi=0, Spanish=0)) %>%
-  mutate(Total = English + Hindi + Spanish)),
-      caption = "Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method.") %>%
-  kable_styling(latex_options = "hold_position")
-```
+While this collaboration is ongoing, we opted to pause for this analysis upon receiving data from 100 children. Thus, the reported sample below consists of `r num_subs` children (`r num_boys` male / `r num_girls` female) ages `r min_age`--`r max_age` months (M=`r mean_age`, SD=`r sd_age`). Race and socioeconomic information were not available. Families were administered either the Words and Gestures or Words and Sentences version of the CDI based on clinician judgment. Children who were too old for Words and Gestures, but who were not producing many words at the time of assessment, were often given Words and Gestures (n = `r num_too_old_wg`). Families for whom Spanish was the primary language (n = `r num_spanish_cdi`) completed the Spanish language version of the CDI [@jackson-maldonado2003]. See Table 1 for additional CDI information for our sample. 
 
 
-Communication method was recorded as spoken language, total communication, or cued speech. One participant had a parent fluent in sign language, but the reported communication method in the home was total communication. No child in our sample used American Sign Language or another signed language. The forms also listed the primary language spoken at home, which we binned into English-speaking and non-English-speaking. `r nrow(elssp%>%filter(PrimaryLanguage=="English"))` out of the `r nrow(elssp)` had a primary language of English, while `r nrow(elssp%>%filter(PrimaryLanguage=="Spanish"))`had Spanish. The remaining child was adopted from a non-English-speaking country after age 2 and had heard mostly non-English by the time of assessment; this child was coded as non-English-speaking. Language and communication information is summarized in Table \@ref(tab:comm-info).
+With regard to comorbid diagnoses, children in this sample were coded as yes/no for cognitive development concerns (e.g., Down syndrome, global developmental delays; Cornelia de Lange syndrome), yes/no for premature birth (i.e., more than 3 weeks premature), yes/no for health issues (e.g., heart defects, kidney malformations, VACTERL association), and yes/no for vision loss (not corrected to normal by surgery or glasses); see Supplemental Materials, Table S1). 
+
+
+Degree of hearing loss was most often reported with a written description (e.g., “mild sloping to moderate” or “profound high frequency loss”). We created 3 variables: hearing loss in the better ear, hearing loss in the worse ear, and average hearing loss (average of better and worse ear). For the analyses below, we primarily use hearing loss in the worse ear to avoid any redundancies with laterality. Using the ASHA hearing loss guidelines, each of these hearing loss measures was coded with the decibels of hearing loss (dB HL) corresponding with the median dB HL for the level of hearing loss (e.g., moderate hearing loss was coded as 48 dB HL), and sloping hearing loss was coded as the average of the levels (e.g. mild to moderate was coded as 40.5 dB HL). Participants were also coded for unilateral or bilateral hearing loss; presence or absence of Auditory Neuropathy Spectrum Disorder; and etiology of hearing loss (sensorineural, conductive, or mixed). Amplification was recorded as the device the child used at the time of assessment: either hearing aid, cochlear implant, or none. See Supplemental Materials, Table S2 for audiological characteristics of the sample. 
+
+Communication method was recorded as spoken language, total communication, or cued speech. One participant had a parent fluent in sign language, but the reported communication method in the home was total communication. No child in our sample used American Sign Language or another signed language. The forms also listed the primary language spoken at home, which we binned into English-speaking and non-English-speaking. `r nrow(elssp%>%filter(PrimaryLanguage=="English"))` out of the `r nrow(elssp)` had a primary language of English, while `r nrow(elssp%>%filter(PrimaryLanguage=="Spanish"))`had Spanish. The remaining child was adopted from a non-English-speaking country after age 2 and had heard mostly non-English by the time of assessment; this child was coded as non-English-speaking. Language and communication information is summarized in Supplemental Materials, Table S3.
 
 Age at screening was measured as the child’s age in months at their first hearing screening. Age at screening was available for `r nrow(elssp %>% filter(NBHS=='Y'))` participants. All participants with a screening age available were screened at birth or while in the NICU. We presume that the vast majority of participants without age at screening received their screening as newborns, as North Carolina boasts a 98% newborn hearing screening rate [@ncdhhs2013]. Age at diagnosis was taken as the age in months when children received their first hearing loss diagnosis. All children were enrolled in birth-to-three early intervention services through ELSSP, and the date of enrollment was listed on the clinician evaluation. For determining whether participants met the 1-3-6 guidelines, given the very high rates of early screening reported in our sample and by the state, we imputed missing data by assuming that children met the "screening by 1 month" criterion if they met the "diagnoses by 3 months". Finally, we also calculated the number of hours of early intervention services received per month (including service coordination, speech therapy, and occupational therapy, among others) based on the clinician report.
 
-A summary of all the variables we examined is available in Table \@ref(tab:variables-list).
+A summary of all the variables we examined is available in Table 2.
 
 ```{r variables-list}
 #age
@@ -360,16 +304,14 @@ tribble(
   glue(
     '{min_vocab}-{max_vocab} words (mean (SD): {mean_vocab} ({sd_vocab}))'
   ),
-) %>% kable(caption = "Detailed information about the variables studied. For categorical variables, levels are described. For continuous variables, range, mean, and standard deviation are provided.") %>%
-  kable_styling(latex_options = "scale_down") 
+) %>% write.xlsx("paper/tables/Table2.xlsx")
+  
+# Caption: "Detailed information about the variables studied. For categorical variables, levels are described. For continuous variables, range, mean, and standard deviation are provided."
 
 ```
 
 # Results
 We split the results into three parts. In the first, we explore relationships among child demographic, audiological, and clinical variables. In the second, we use these variables to predict vocabulary development. Finally, in the third, we describe the implementation of the EHDI 1-3-6 guidelines and predictors of early diagnosis and intervention in this sample. All analyses were conducted in R. All code is available on Github. 
-<!-- eb2ec: time to make clean up your github repo and make an OSF page for this project, and link it to the relevant repo with the add-on! get help from fed/char if you need it! (there are various ways to do this but i prefer  osf to be the archival home since github isn't archival) 
-ec: working on osf and cleaning github repo next!//
-eb2ec: all necessary code/data needs to be clean & on osf at time of submission with link in ms. get help from lab mates if needed! -->
 
 ## Relationships Among Demographic, Audiological, and Clinical Variables
 
@@ -379,7 +321,7 @@ Before we test how these variables may be related to vocabulary, we describe the
 
 Given that we ran `r nrow(chi_sq_all)` Chi-square tests, Bonferroni-corrected alpha for this set of analyses was p < 0.0007. Of these `r nrow(chi_sq_all)` combinations of variables, p < .05 for `r nrow(chi_sq_all %>% filter(p.value<.05))`, and `r nrow(chi_sq_all %>% filter(p.value<.000757))` survived Bonferroni correction. We are only discussing the latter below, but the full set of results can be found in Figure \@ref(fig:relationships-plot).
 
-```{r relationships-plot, fig.width=12, fig.height=9.5, fig.cap="Results of chi-square tests between variables. X- and y-axes show the variables compared. Color of the square represents significance of the corresponding chi-square test. For tests that survived Bonferroni correction (p<.0007), effect size (Cramer's V) is given."}
+```{r relationships-plot, fig.width=12, fig.height=9.5, fig.cap="Results of chi-square tests between variables. X- and y-axes show the variables compared. Color of the square represents significance of the corresponding chi-square test. For tests that survived Bonferroni correction (p<.0007), effect size (Cramer's V) is given.", include=F}
 ggplot(chi_sq_all, aes(y=Var2, x=Var1)) +
   geom_tile(aes(fill = sig)) + theme_classic() +
   theme(axis.text.x = element_text(angle = 315, hjust=0.1), 
@@ -389,6 +331,8 @@ ggplot(chi_sq_all, aes(y=Var2, x=Var1)) +
   geom_text(aes(label=ifelse(sig=='survives Bonferroni correction', round(eff.size,2), '')), 
             size=5) +
   xlab(NULL) + ylab(NULL) 
+  ggsave(filename = "Figure1.tiff", path="paper/figures", device = "tiff", width = 12, height = 8)
+# Caption: Results of chi-square tests between variables. X- and y-axes show the variables compared. Color of the square represents significance of the corresponding chi-square test. For tests that survived Bonferroni correction (p<.0007), effect size (Cramer's V) is given.
 ```
 
 As expected, we found that health issues, developmental delays, and premature birth were highly interrelated in our sample, such that children born premature were more likely to also experience health issues `r chisq_output("IsPremature","HealthIssues")` and developmental delays `r chisq_output("IsPremature","DevelopmentalConcerns")`, and children with developmental delays were more likely to also experience health issues `r chisq_output("DevelopmentalConcerns","HealthIssues")`. Children with developmental delays received more services per month than typically-developing children `r chisq_output("DevelopmentalConcerns", "SPM_cat")` and were more likely to use total communication `r chisq_output("DevelopmentalConcerns","Communication")`. Likewise, children who used total communication received more services per month than children using spoken language `r chisq_output("Communication", "SPM_cat")`.
@@ -438,8 +382,9 @@ WS_span_curves <- ggplot()  +
   theme(legend.position = "none")
 ```
 
-```{r growth-curves, fig.cap="Lines show the growth curves created from Wordbank 50th percentile data. Left panels show Words & Gestures; right panels show Words & Sentences. Top row is American English data; bottom row is Mexican Spanish data. Dots represent vocabulary scores of individual DHH children in the sample."}
-cowplot::plot_grid(WG_eng_curves, WS_eng_curves, WG_span_curves, WS_span_curves) 
+```{r growth-curves, fig.cap="Lines show the growth curves created from Wordbank 50th percentile data. Left panels show Words & Gestures; right panels show Words & Sentences. Top row is American English data; bottom row is Mexican Spanish data. Dots represent vocabulary scores of individual DHH children in the sample.", include=F}
+cowplot::plot_grid(WG_eng_curves, WS_eng_curves, WG_span_curves, WS_span_curves) %>%
+  ggsave(filename = "Figure2.tiff", path="paper/figures", device = "tiff", width = 8, height = 8)
 ```
 
 We next turn to the relationship between each of these variables and children’s productive vocabulary, as measured by the CDI. Figure \@ref(fig:growth-curves) shows the vocabulary scores of children in our samples relative to norms for hearing children for each CDI form. Descriptively, we found widespread vocabulary delays on both Words and Gestures and Words and Sentences, with the majority of DHH children testing around or below the 25th percentile for hearing children [based on WordBank norms; @frank2017]. 
@@ -515,8 +460,8 @@ AIC_model_delay %>%
     mutate(term=replace(term, term=="LateralityUnilateral", "Laterality (Unilateral)"),
            term=replace(term, term=="AmplificationCI", "Amplification (Cochlear Implant)"),
            term=replace(term, term=="AmplificationHA", "Amplification (Hearing Aid)")) %>%
-  kable(caption = "Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC.", digits = 2) %>%
-  kable_styling()
+  write.xlsx("paper/tables/Table3.xlsx")
+#Caption:  "Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC."
 ```
 
 ```{r delay-vif}
@@ -538,8 +483,8 @@ Perhaps of greatest importance to clinicians and policymakers is the implementat
 
 Overall, `r round(perc_136)`% of our sample met 1-3-6 guidelines for early diagnosis and intervention. Among the children for whom screening information was available (n = `r nrow(elssp %>% filter(NBHS=='Y'))`), 100% were screened at birth or during NICU stay. `r round((nrow(elssp%>%filter(meets13=="yes"))/(nrow(elssp %>% filter(meets13=="yes"|meets13=="no"))))*100)`% of children received diagnosis by 3 months of age, and `r round((nrow(elssp%>%filter(meets6=="yes"))/(nrow(elssp %>% filter(meets6=="yes"|meets6=="no"))))*100)`% began early intervention by 6 months of age. Among children with comorbidities, `r perc_136_DA`% met 1-3-6 guidelines, compared to `r perc_136_TD`% of children without comorbidities. Figure \@ref(fig:meets136-timeline) shows the age at first diagnosis, intervention, amplification, and implantation for each child in our sample.
 
-```{r meets136-timeline, fig.cap="Age at diagnosis, intervention, amplification, and cochlear implantation across participants. Each dot represents the age that one child received the clinical service; violin width reflects data distribution. Blacks dot and whiskers show means and standard errors. Not all children received amplification (hearing aids) or implantation (cochlear implants)", fig.dim = c(8, 4)}
-# ec2eb: standard error looks really tiny. (aesthetically) should we switch to SD or is this fine?
+```{r meets136-timeline, fig.cap="Age at diagnosis, intervention, amplification, and cochlear implantation across participants. Each dot represents the age that one child received the clinical service; violin width reflects data distribution. Blacks dot and whiskers show means and standard errors. Not all children received amplification (hearing aids) or implantation (cochlear implants).", fig.dim = c(8, 4), include=F}
+
 gg_SE <- function(x) {
    m <- mean(x)
    ymin <- m-se(x)
@@ -562,10 +507,11 @@ elssp %>%
   theme(legend.position = "none") +
   labs(x = '', y ='Age (months)') +
 stat_summary(fun.data=gg_SE, color = "black", geom="pointrange") 
+  ggsave(filename = "Figure3.tiff", path="paper/figures", device = "tiff", width = 8, height = 4)
 ```
 
 
-```{r delay-violins, fig.cap="Estimated vocabulary delay for children who meet 1-3-6 guidelines for diagnosis/intervention (top) and children who do not (bottom). Each dot represents one child in the sample; violin width reflect data distribution. Blacks dot and whiskers show means and standard error.", fig.dim = c(8, 4)}
+```{r delay-violins, fig.cap="Estimated vocabulary delay for children who meet 1-3-6 guidelines for diagnosis/intervention (top) and children who do not (bottom). Each dot represents one child in the sample; violin width reflect data distribution. Blacks dot and whiskers show means and standard error.", fig.dim = c(8, 4), include=F}
 t_136 <- t.test(elssp_curves$diff_age_from_expected ~ elssp_curves$Meets136)
 
 
@@ -578,6 +524,7 @@ ggplot(data=(elssp_curves %>% filter(Meets136!='')), aes(x=Meets136, y=diff_age_
   xlab("1-3-6") +
   ylab("Vocabulary Delay (months)") + 
   coord_flip()
+  ggsave(filename = "Figure4.tiff", path="paper/figures", device = "tiff", width = 8, height = 4)
 
 ```
 
@@ -646,8 +593,8 @@ diagnosis_aic %>%
     mutate(term=replace(term, term=="LateralityUnilateral", "Laterality (Unilateral)"),
            term=replace(term, term=="Monolingual_Englishyes", "Language Background (English)"),
            term=replace(term, term=="HealthIssuesyes", "Health Issues (yes)")) %>%
-  kable(caption = "Unstandardized beta coefficients (months) for the model of age at diagnosis selected by AIC.", digits=2) %>%
-  kable_styling()
+  write.xlsx("paper/tables/Table4.xlsx")
+# Caption: Unstandardized beta coefficients (months) for the model of age at diagnosis selected by AIC.
 ```
 
 The best fit model was: Age at Diagnosis ~ Health Issues + Language Background + Laterality, with significant main effects of Health Issues and Language Background (see Table \@ref(tab:diagnosis-betas) & Figure \@ref(fig:beta-plots).B). This model accounted for `r (summary(diagnosis_aic)$r.squared)*100`% of the variance in age at diagnosis (p `r lm_pvalue(diagnosis_aic)`). Average age at diagnosis was `r mean(elssp$IdentificationOfHLMonths, na.rm=TRUE)`(`r sd(elssp$IdentificationOfHLMonths, na.rm=TRUE)`) months. Relative to English-speaking families, children from Spanish-speaking families were diagnosed `r abs(summary(diagnosis_aic)$coefficients[3,1])` months later (p `r printp(summary(diagnosis_aic)$coefficients[3,4], add_equals=TRUE)`). Children with health issues were diagnosed `r summary(diagnosis_aic)$coefficients[2,1]` months later than children without health issues (p `r printp(summary(diagnosis_aic)$coefficients[2,4], digits=2, add_equals=TRUE)`).
@@ -675,16 +622,17 @@ services_aic %>%
            term=replace(term, term=="IsPrematureyes", "Premature (yes)"),
            term=replace(term, term=="IdentificationOfHLMonths", "Age at Diagnosis"),
            term=replace(term, term=="Monolingual_Englishyes", "Language Background (English)")) %>%
-  kable(caption = "Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC.", digits = 2) %>% 
-  kable_styling()
+  write.xlsx("paper/tables/Table5.xlsx")
+#Caption: Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC.
 ```
 
 We repeated this model selection process for age at intervention. In addition to the variables used to fit the intervention model, we included age at diagnosis. The best fit model was: Age at Intervention ~ Premature Birth + Degree + Age at Diagnosis + Language Background (R^2^=`r summary(services_aic)$r.squared` , p `r lm_pvalue(services_aic)`; See Table \@ref(tab:intervention-betas) & Figure \@ref(fig:beta-plots).C), with significant main effects of degree and age at diagnosis. Prematurity `r beta_output(services_aic, 3)` and language background `r beta_output(services_aic, 5)` were not significant predictors on their own, but their inclusion improved model fit. Average age at intervention was `r mean(elssp$AgeStartedServices, na.rm=TRUE)`(`r sd(elssp$AgeStartedServices, na.rm=TRUE)`) months. More severe hearing loss predicted earlier intervention, such that for every additional 10 dB HL, predicted age at intervention was `r round(abs((summary(services_aic)$coefficients[2,1])*10))` month earlier (p `r printp(summary(services_aic)$coefficients[2,4], digits=2, add_equals=TRUE)`). With regard to age at diagnosis, for every month diagnosis was delayed, intervention was delayed by `r round((summary(services_aic)$coefficients[4,1])*4.348,1)` weeks (p `r printp(summary(services_aic)$coefficients[4,4], digits=2, add_equals=TRUE)`). Taken together these analyses reveal that beyond aspects of the child's hearing status, other variables too contribute to delays in both diagnoses and intervention. We return to this point in the discussion.
 
 
-```{r beta-plots, fig.cap="Unstandardized coefficients (measured in months) with 95% confidence intervals for the models selected by AIC for: (A) vocabulary delay, (B) age at diagnosis, (C) age at intervention.", fig.dim=c(8,4)}
+```{r beta-plots, fig.cap="Unstandardized coefficients (measured in months) with 95% confidence intervals for the models selected by AIC for: (A) vocabulary delay, (B) age at diagnosis, (C) age at intervention.", fig.dim=c(8,4), include=F}
 
-plot_grid(vocab_beta_plot, diagnosis_beta_plot, intervention_beta_plot, labels="AUTO", rows = 3)
+plot_grid(vocab_beta_plot, diagnosis_beta_plot, intervention_beta_plot, labels="AUTO", rows = 3) %>%
+  ggsave(filename = "Figure5.tiff", path="paper/figures", device = "tiff", width = 8, height = 4)
 ```
 
 
@@ -759,15 +707,73 @@ In recommending sign language, we endorse the rationale set forth by @hall2019. 
 # Limitations and Opportunities for Future Work
 This study represents an important first step in quantifying variability in demographic characteristics, language outcomes, and 1-3-6 attainment. At the same time, it is exploratory, has limited geographic scope, and analyzed data from a (deliberately) high-variability sample. We see these limitations as opportunities for future investigation into the complex factors influencing DHH children’s outcomes.
 
-Given our exploratory analyses, there were many possible analytic routes. That said, our results largely converge with or replicate key aspects of past studies [e.g., @ching2013] and received wisdom among clinicians. In the interest of transparency, these data and all code generating our results are available on our OSF page (XXX) and we encourage those interested to explore further analyses. 
-<!-- eb2ec: commenting to highlight link spot here -->
+Given our exploratory analyses, there were many possible analytic routes. That said, our results largely converge with or replicate key aspects of past studies [e.g., @ching2013] and received wisdom among clinicians. In the interest of transparency, these data and all code generating our results are available on our OSF page (https://osf.io/kfcs3/) and we encourage those interested to explore further analyses. 
 
 This sample is composed only of children in North Carolina, and certain factors vary by country and by state [e.g., diagnosis and early intervention practices; @nad]. However, based on other demographic research [@blackorby2006; @gallaudetresearchinstitute2014], our sample largely resembles the national DHH population in terms of degree of hearing loss, percentage of children with additional disabilities, cochlear implant and hearing aid use, language background, and gender. We would exercise caution in applying these results to regions where sign language access for DHH children is more common (e.g. Washington D.C.) A similar naturalistic study in those regions could help illuminate the effects of different clinical and demographic factors in a signing population.
 
 Finally, the considerable variability in the sample did not allow us to easily isolate effects of different factors. However, as discussed above, this reflects real-world variability that is often does not make sense to isolate. Instead, this limitation would be best addressed by larger sample sizes. As researchers continue to study influences on vocabulary in DHH children, a meta-analytic approach too may be able to better estimate effects and effect sizes within the varied outcomes of this heterogeneous population.
 
 # Conclusion
-The present study explored demographic and audiological characteristics,  vocabulary outcomes, and  clinical milestones within a diverse sample of 100 DHH children enrolled in early intervention services. We found that overall, this sample showed spoken language vocabulary delays relative to hearing peers on average and room for improvement in rates of early diagnosis and intervention. Critically, we also found that the variables predicting these delays in both vocabulary and early support services reflected *both* dimensions that are immutable, and those that clinicians and caretakers can potentially alter. This in turn highlights potential paths forward in ensuring that regardless of hearing status, we are able to provide language access and early childhood support to help children attain their potential. 
+The present study explored demographic and audiological characteristics, vocabulary outcomes, and  clinical milestones within a diverse sample of 100 DHH children enrolled in early intervention services. We found that overall, this sample showed spoken language vocabulary delays relative to hearing peers on average and room for improvement in rates of early diagnosis and intervention. Critically, we also found that the variables predicting these delays in both vocabulary and early support services reflected *both* dimensions that are immutable, and those that clinicians and caretakers can potentially alter. This in turn highlights potential paths forward in ensuring that regardless of hearing status, we are able to provide language access and early childhood support to help children attain their potential. 
+
+# Acknowledgement
+This work was supported by the National Science Foundation CAREER grant (BCS-1844710) to EB and Graduate Research Fellowship (2019274952) to EC. Thank you to Stephan Meylan for lending growth curve knowledge. 
+
+```{r supplemental-materials}
+perc_prem_NICU <- (nrow(comorbid%>%filter(NICU==1&IsPremature==1))/(nrow(elssp %>% filter(IsPremature==1))))*100
+
+comorbid_table <- tribble(
+  ~Condition, ~'Specific Condition',  ~n,
+  "Premature", "", n_condition(IsPremature),
+  "", "Extremely Premature", n_condition(extremelypremature),
+  "", "NICU stay", n_condition(NICU),
+  "Health Issues", "", n_condition(HealthIssues),
+  "", "Heart", n_condition(heart_issues),
+  "", "Lung", n_condition(lung_issues),
+  "", "Illness", n_condition(illness),
+  "", "Feeding Issues", n_condition(feeding_issues),
+  "", "Pregnancy/Birth Complications", n_condition(preg_birth_comp),
+  "", "Musculoskeletal", n_condition(mus_skel),
+  "", "Cleft Lip/Palate", n_condition(cleft),
+  "", "Other", n_condition(health_issues_other),
+  "Developmental Concerns", "",  n_condition(DevelopmentalConcerns),
+  "", "Down Syndrome", n_condition(downsyndrome),
+  "", "Chromosomal Issues", n_condition(otherchromissues),
+  "", "Neural Tube Defects", sum(n_condition(encephalocelecyst), n_condition(occipitalencephalocele)),
+  "", "Other", sum(n_condition(agenesiscorpuscallosum), n_condition(oculomotorapraxia), n_condition(ventricular_issues), n_condition(corticalvisualimpairment), n_condition(hydrocephalus), n_condition(overalldevconcerns), n_condition(corneliadelange)),
+  "Vision Loss", "",  n_condition(VisionLoss),
+  "", "Retinopathy of Prematurity",  n_condition(RetinopathyOfPrematurity),
+  "", "Nearsightedness",  n_condition(myopia),
+  "", "Farsightedness",  n_condition(hyperopia),
+  "", "Cortical Visual Impairment",  n_condition(corticalvisualimpairment)) %>% 
+  write.csv("paper/supplemental_materials/comorbidity_info.csv")
+# Caption: Additional Diagnoses (n = {n_condition(anycomorbid)}): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses."
+
+elssp %>% 
+  filter(Amplification != '', Laterality != '') %>%
+  dplyr::select(VIHI_ID, AgeImplantation, AgeAmplification, HLbetter, HLworse, Laterality, Amplification) %>%
+  group_by(Laterality, Amplification) %>%
+  dplyr::summarise('Mean Degree (better ear; dB HL)' = round(mean(HLbetter, na.rm = TRUE), 2),
+                   'Mean Degree (worse ear; dB HL)' = round(mean(HLworse, na.rm = TRUE), 2),
+                   'Mean Age of Amplification (months)' = round(mean(AgeAmplification, na.rm = TRUE), 2),
+                   'Mean Age of Implantation (months)' = round(mean(AgeImplantation, na.rm = TRUE), 2)) %>%
+  write.csv("paper/supplemental_materials/audiological_info.csv")
+# Caption:  Audiological Characteristics of the Sample: First two columns describe laterality and amplification type (cochlear implant (CI), hearing aid (HA), or none). Mean decibels of hearing loss (HL) in better ear, worse ear, and the mean age (in months) of amplification, and cochlear implantation (when applicable) for each laterality and amplification combination.
+ 
+elssp %>% 
+  filter(PrimaryLanguage != '', Communication != '') %>%
+  dplyr::select(VIHI_ID, Communication, PrimaryLanguage) %>%
+  group_by(Communication, PrimaryLanguage) %>%
+  dplyr::count(name = 'Tally') %>%
+  pivot_wider(names_from = PrimaryLanguage, values_from = Tally) %>%
+  replace_na(list(English=0, Hindi=0, Spanish=0)) %>%
+  mutate(Total = English + Hindi + Spanish) %>%
+  write.csv("paper/supplemental_materials/language_info.csv")
+# Caption: Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method.
+```
+
+
+
 
 \newpage
 
@@ -779,3 +785,32 @@ The present study explored demographic and audiological characteristics,  vocabu
 
 <div id="refs" custom-style="Bibliography"></div>
 \endgroup
+
+\newpage
+
+# Captions
+Figure 1: Results of chi-square tests between variables. X- and y-axes show the variables compared. Color of the square represents significance of the corresponding chi-square test. For tests that survived Bonferroni correction (p<.0007), effect size (Cramer's V) is given.
+
+Figure 2: Lines show the growth curves created from Wordbank 50th percentile data. Left panels show Words & Gestures; right panels show Words & Sentences. Top row is American English data; bottom row is Mexican Spanish data. Dots represent vocabulary scores of individual DHH children in the sample.
+
+Figure 3: Age at diagnosis, intervention, amplification, and cochlear implantation across participants. Each dot represents the age that one child received the clinical service; violin width reflects data distribution. Blacks dot and whiskers show means and standard errors. Not all children received amplification (hearing aids) or implantation (cochlear implants).
+
+Figure 4: Estimated vocabulary delay for children who meet 1-3-6 guidelines for diagnosis/intervention (top) and children who do not (bottom). Each dot represents one child in the sample; violin width reflect data distribution. Blacks dot and whiskers show means and standard error.
+
+Figure 5: Unstandardized coefficients (measured in months) with 95% confidence intervals for the models selected by AIC for: (A) vocabulary delay, (B) age at diagnosis, (C) age at intervention.
+
+Table 1: For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score, and production score of participants in our sample, along with the percent diagnosed with developmental delays.") 
+
+Table 2: Detailed information about the variables studied. For categorical variables, levels are described. For continuous variables, range, mean, and standard deviation are provided.
+
+Table 3: Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC.
+
+Table 4: Unstandardized beta coefficients (months) for the model of age at diagnosis selected by AIC.
+
+Table 5: Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC.
+
+Supplemental Materials S1: Additional Diagnoses (n = {n_condition(anycomorbid)}): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses.
+
+Supplemental Materials S2: Audiological Characteristics of the Sample: First two columns describe laterality and amplification type (cochlear implant (CI), hearing aid (HA), or none). Mean decibels of hearing loss (HL) in better ear, worse ear, and the mean age (in months) of amplification, and cochlear implantation (when applicable) for each laterality and amplification combination.
+
+Supplemental Materials S3: Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method.

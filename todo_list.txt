@@ -4,26 +4,4 @@ Updated: 4/29/2021
 Manuscript:
 - citing packages
 - make OSF page
-- add acknowledgments section
 
-JSLHR formatting: 
-- suggested max 40 pages or letter with explanation of why it's longer
-- manuscript in .docx
-- figures in jpeg, tiff, or png
-- tables converted to .xlsx
-- create supplemental materials and provide 1 sentence description for each file supplied
-- choose and complete reporting guidelines checklist
-- ASHA requires every research article
-submitted to include a statement that the study obtained ethics approval including the name of the ethics committee(s) or institutional review board(s), the number/ID of the approval(s), and
-a statement that participants gave informed consent before taking part.
-- pay for open access?
-- figures/tables at the end
-
-Code cleaning:
-- Comment code
-- Get rid of extra code in functions_and_data_prep.R
-- Create new README
-- Get rid of extra columns in elssp.csv
-- Get rid of extra columns in comorbidities csv
-- Get rid of extra files in repo
-- Make previous versions private on GH
