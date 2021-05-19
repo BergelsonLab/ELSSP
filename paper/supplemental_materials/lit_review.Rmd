@@ -1,0 +1,65 @@
+---
+title: "Supplemental Materials (literature review)"
+author: "Erin Campbell"
+date: "5/17/2021"
+bibliography      : ["../ELSSP.bib"]
+
+documentclass     : "apa6"
+classoption       : "man"
+output            : papaja::apa6_docx
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+```
+
+### Gender
+For hearing children, the literature points to a female gender advantage in early language acquisition. Girls speak their first word earlier [@macoby1966], have a larger [@fenson1994; @frank2017] and faster-growing vocabulary [@huttenlocher1991], and stronger grammatical and phonological skills [@lange2016; @ozcaliskan2010]. This finding appears to be consistent across studies [@wallentin2009], various spoken languages [@frank2019], and gesture [@ozcaliskan2010]. 
+
+The DHH literature presents a more mixed (though rather understudied) picture. On one hand, DHH girls,  like hearing girls, have been found to have a larger spoken vocabulary than DHH boys [@kiese-himmel2002a; @ching2013]. However, in contrast to their hearing peers, DHH children do not seem to show a gender-based difference for some aspects of syntactic development [@pahlavannezhad2014].
+
+### Comorbidities
+Additional co-morbid disabilities occur frequently in the DHH population, perhaps as much as three times more than in the hearing population [@pollack1997]. Incidence estimates for co-occurring disabilities in DHH children range from 25-51% [@bruce2015; @guardino2008; @luckner2001; @schildroth1996; @holden-pitt1998], with approximately 8% of DHH children living with 2 or more co-occurring disabilities [@schildroth1996]. 
+
+Some of these conditions, particularly those which carry risk of developmental delay (e.g., Down syndrome), result in language delays independent of hearing loss [@chapman1997; @kristoffersen2008; @weismer2010]. These effects vary by the nature of the specific disability [@cupples2018; @cupples2014], with cognitive ability more predictive of language outcomes than presence or absence of additional disability [@meinzen-derr2011; @sarant2008]. Disability and hearing loss likely each contribute to a given child’s spoken language development, with differential effects of each [@vesseur2016]. In some cases, additional disabilities appear to interact with hearing loss to intensify developmental delays [@pierson2007].
+
+Furthermore, incidence of hearing loss is higher among children born premature (defined as < 37 weeks gestational age). Compared to an incidence of 0.2% in full-term infants, incidence of hearing loss in extremely premature infants (defined as < 33 weeks gestational age) ranges 2--11%, with increased prematurity associated with increased rates of hearing loss [@wroblewska-seniuk2017]. 
+
+Independently of hearing status, prematurity is linked to increased risk of language delay and disorder [@rechia2016; @vannoort-vanderspek2012; @carter2017; @vohr2014; @cusson2003; @barre2011]. Unfortunately, research on language development in premature DHH children is scant [@vohr2016], so it remains unclear how hearing loss and prematurity may interact within spoken language skills. One study of premature infants finds that auditory brainstem response during newborn hearing screening predicts language performance on the PLS-4 at age 3 [@amin2014], suggesting a link between prematurity, hearing loss, and language development in early childhood, though further research is needed in this domain. In extremely premature DHH children, incidence of additional disabilities may be as high as 73% [@robertson2009]. Indeed, pre-term infants with comorbidities have been found to be more likely to also have hearing loss than those without comorbidities [@schmidt2003], further complicating language development for this population.
+
+### Audiological Characteristics
+Hearing loss varies in severity, ranging from slight to profound [@clark1981]. More severe hearing loss (less access to spoken language) typically results in more difficulty with spoken language in infancy [@vohr2008], early childhood [@ching2010; @ching2013; @tomblin2015; @sarant2008] and school-age children [@wake2004]. Although profound hearing loss is associated with more pronounced spoken language difficulty, even mild to moderate hearing loss is associated with elevated risk of language disorders [@delage2007; @blair1985].
+
+Hearing loss also varies in whether it affects one ear or both. Bilateral hearing assists speech perception, sound localization, and loudness perception in quiet and noisy environments [@ching2007]. The literature on hearing aids and cochlear implants also points to benefits for bilateral auditory input [@sarant2014; @lovett2010; @smulders2016]. At school-age, 3--6% of children have unilateral hearing loss [@ross2010]. Although children with unilateral hearing loss have one “good ear,” even mild unilateral hearing loss has been tied to higher risk of language delays and educational challenges relative to hearing children [@vila2015; @lieu2013; @lieu2004; @lieu2012; @kiese-himmel2002]. Just as in the bilateral case, more severe hearing loss leads to greater deficits in spoken language and educational outcomes for children with unilateral hearing loss [@lieu2013;@anne2017]. 
+
+Many DHH children receive hearing aids (HAs) or cochlear implants (CIs) to boost access to the aural world. These devices have been associated with better speech perception and spoken language outcomes [@walker2015; @waltzman1997; @niparko2010]. In turn, aided audibility predicts lexical abilities in children with HAs [@stiles2012]. 
+
+For both hearing aids and cochlear implants, earlier fit leads to better spoken language skills, if the amplification is effective. For hearing aids, some studies find that children with milder hearing loss who receive hearing aids earlier have better early language achievement than children who are fit with hearing aids later [@tomblin2015], but this finding does not hold for children with severe-to-profound hearing loss [@kiese-himmel2002; @watkin2007] (for whom hearing aids are generally ineffective). Analogously, for children eligible for cochlear implants, those who receive cochlear implants earlier have better speech perception and spoken language outcomes than those implanted later [@miyamoto2008; @svirsky2004; @yoshinaga-itano2018], with best outcomes for children receiving implants before their first birthday [@dettman2007]. 
+
+### Communication
+Total Communication refers to communication that combines speech, gesture, and elements of sign, sometimes simultaneously.  Total communication, while often including elements of sign such as individual signs, is not a full-fledged sign language like American Sign Language [@scott2020; @mueller2013]. Clinicians currently employ total communication as an alternative or augmentative communication method for children with a wide range of disabilities [@branson2009; @gibbs1991; @mirenda2003].
+
+Compared to total communication, DHH children using an exclusively oral approach have better speech intelligibility [@geers2017; @dillon2004; @geers2002; @hodges1999] and auditory perception [@geers2017; @odonoghue2000]. That said, there is some debate as to whether an oral approach facilitates higher spoken language performance, or whether children who demonstrate aptitude for spoken language are steered towards the oral approach rather than total communication [@hall2017].
+
+### 1-3-6 Guidelines
+Early identification [@yoshinaga-itano2018; @yoshinaga-itano1998; @robinshaw1995; @kennedy2006] and timely enrollment in early intervention programs [@vohr2008; @watkin2007; @ching2013; @vohr2011; @ching2018] are associated with better language proficiency. Indeed, DHH children who receive prompt diagnosis and early access to services have been found to meet age-appropriate developmental outcomes, including language [@stika2015]. 
+In line with these findings, the American Academy of Pediatricians (AAP) has set an initiative for Early Hearing Detection and Intervention (EHDI). Their EHDI guidelines recommend that DHH children are screened by 1 month old, diagnosed by 3 months old, and enter early intervention services by 6 months old. We refer to this guideline as 1-3-6. Meeting this standard appears to improve spoken language outcomes for children with HL [@yoshinaga-itano2017; @yoshinaga-itano2018] and the benefits appear consistent across a range of demographic characteristics. 
+
+At a federal level in the U.S., the Early Hearing Detection and Intervention Act of 2010 [@capps2009] was passed to develop state-wide systems for screening, evaluation, diagnosis, and “appropriate education, audiological, medical interventions for children identified with hearing loss,” but policies for early diagnosis and intervention vary by state.  As of 2011, 36 states [including North Carolina; @2000] mandate universal newborn hearing screening [UNHS; @nationalconferenceofstatelegislatures2011]. All states have some form of  early intervention programs that children with hearing loss can access [@nad], but the specifics vary state-by-state. For instance, half of the states in the US do not consider mild hearing loss an eligibility criterion for early intervention [@holstrum2008].
+
+In evaluating the success of this initiative, the AAP [@ehdi] finds that about 70% of US children who fail their newborn hearing screening test are diagnosed with hearing loss before 3 months old, and that 67% of those diagnosed (46% of those that fail newborn hearing screening) begin early intervention services by 6 months old. These findings suggest that there are breaks in the chain from screening to diagnosis and from diagnosis to intervention, with potential ramifications for the language development of children not meeting these guidelines. We return to this in the discussion.
+
+\newpage
+
+# References
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id="refs" custom-style="Bibliography"></div>
+\endgroup
+
+\newpage
