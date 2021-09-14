@@ -106,7 +106,7 @@ prepare_elssp_df_eng = function(cdi_form, constants, verbose=F){
   
   elssp_for_form <- subset(elssp_eng, CDIversion == cdi_form)
   elssp_for_form$ProductionCDI_no = num_items - elssp_for_form$ProductionCDI 
-  elssp_for_form$expected_score_at_chron_age = sapply(elssp_for_form$Age,
+  elssp_for_form$expected_score_at_chron_age = sapply(elssp_for_form$Age_in_months,
                                                       function(age){getScoreForAge(model, age, num_items=num_items)})
   elssp_for_form$expected_age_for_score = sapply(elssp_for_form$ProductionCDI,
                                                  function(score){getAgeForScore(model, score, num_items)})
@@ -114,10 +114,10 @@ prepare_elssp_df_eng = function(cdi_form, constants, verbose=F){
   print('Computing differences...')	
   elssp_for_form$diff_score_from_expected = -1 * (elssp_for_form$ProductionCDI - elssp_for_form$expected_score_at_chron_age)
   # more negative, more baf
-  elssp_for_form$diff_age_from_expected = elssp_for_form$Age - elssp_for_form$expected_age_for_score
+  elssp_for_form$diff_age_from_expected = elssp_for_form$Age_in_months - elssp_for_form$expected_age_for_score
   
   if (verbose){
-    print(elssp_for_form[,c('SubjectNumber','Age', 
+    print(elssp_for_form[,c('SubjectNumber','Age_in_months', 
                             'ProductionCDI', 'expected_score_at_chron_age', 
                             'diff_age_from_expected','diff_score_from_expected')])
   }
@@ -191,7 +191,7 @@ prepare_elssp_df_span = function(cdi_form, constants, verbose=F){
   
   elssp_for_form <- subset(elssp_span, CDIversion == cdi_form)
   elssp_for_form$ProductionCDI_no = num_items - elssp_for_form$ProductionCDI 
-  elssp_for_form$expected_score_at_chron_age = sapply(elssp_for_form$Age,
+  elssp_for_form$expected_score_at_chron_age = sapply(elssp_for_form$Age_in_months,
                                                       function(age){getScoreForAge(model, age, num_items=num_items)})
   elssp_for_form$expected_age_for_score = sapply(elssp_for_form$ProductionCDI,
                                                  function(score){getAgeForScore(model, score, num_items=num_items)})
@@ -199,10 +199,10 @@ prepare_elssp_df_span = function(cdi_form, constants, verbose=F){
   print('Computing differences...')	
   elssp_for_form$diff_score_from_expected = -1 * (elssp_for_form$ProductionCDI - elssp_for_form$expected_score_at_chron_age)
   # more negative, more baf
-  elssp_for_form$diff_age_from_expected = elssp_for_form$Age - elssp_for_form$expected_age_for_score
+  elssp_for_form$diff_age_from_expected = elssp_for_form$Age_in_months - elssp_for_form$expected_age_for_score
   
   if (verbose){
-    print(elssp_for_form[,c('SubjectNumber','Age', 
+    print(elssp_for_form[,c('SubjectNumber','Age_in_months', 
                             'ProductionCDI', 'expected_score_at_chron_age', 
                             'diff_age_from_expected','diff_score_from_expected')])
   }
@@ -224,6 +224,7 @@ prepare_elssp_df_span = function(cdi_form, constants, verbose=F){
 
 #read in data
 elssp <- read.csv("data/ELSSP_SubjectInformation.csv", stringsAsFactors=F, na.strings=c(""," ","NA")) %>% 
+  select(-Age) %>%
   filter(VisitNumber==1) %>%
   mutate(SubjectNumber = substr(VIHI_ID, 1, 6), 
          anycomorbid = ifelse(VisionLoss == "yes" |
@@ -231,6 +232,7 @@ elssp <- read.csv("data/ELSSP_SubjectInformation.csv", stringsAsFactors=F, na.st
                                 HealthIssues == "yes" |
                                 IsPremature == "yes", "yes",
                               "no"),
+                             Age_in_days = as.numeric(substring(VIHI_ID, 8)),
          HLworse_cat = as.factor(case_when(is.na(HLworse) ~ NA_character_,
                                            HLworse < 40 ~ "mild", 
                                            HLworse>70 ~ "severe_profound",
@@ -240,7 +242,8 @@ elssp <- read.csv("data/ELSSP_SubjectInformation.csv", stringsAsFactors=F, na.st
                                        ServicesReceivedPerMonth>7 ~ ">7", 
                                        TRUE ~ "3-6"))) %>% 
   mutate(HLworse_cat = fct_relevel(HLworse_cat, "mild", "moderate", "severe_profound"),
-  SPM_cat = (fct_relevel(SPM_cat, "0-2", "3-6", ">7"))) %>%
+  SPM_cat = (fct_relevel(SPM_cat, "0-2", "3-6", ">7")),
+  Age_in_months = Age_in_days*0.0328767) %>%
   mutate_if(is.character, as.factor) 
 #add months-delay to dataframes
 elssp_eng <- filter(elssp, PrimaryLanguage=="English")
@@ -252,9 +255,9 @@ prepare_elssp_df_span("WG", constants_span, verbose=T)
 prepare_elssp_df_span("WS", constants_span, verbose=T)
 
 elssp_curves <- rbind(WG_elssp_eng, WS_elssp_eng, WG_elssp_span, WS_elssp_span) %>% 
-  filter((Age>=8 & CDIversion=='WG')|(Age>=16 & CDIversion=='WS')) %>%
-  mutate(diff_age_from_expected = case_when( PrimaryLanguage == 'English' & ProductionCDI==0 ~ (Age - 9),
-                                             PrimaryLanguage == 'Spanish' & ProductionCDI==0 ~ (Age - 8),
+  filter((Age_in_months>=8 & CDIversion=='WG')|(Age_in_months>=16 & CDIversion=='WS')) %>%
+  mutate(diff_age_from_expected = case_when( PrimaryLanguage == 'English' & ProductionCDI==0 ~ (Age_in_months - 9),
+                                             PrimaryLanguage == 'Spanish' & ProductionCDI==0 ~ (Age_in_months - 8),
                                              TRUE ~ diff_age_from_expected)) %>%
   mutate(Amplification=fct_relevel(Amplification, "none"))
 
