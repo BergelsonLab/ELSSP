@@ -224,7 +224,6 @@ prepare_elssp_df_span = function(cdi_form, constants, verbose=F){
 
 #read in data
 elssp <- read.csv("data/ELSSP_SubjectInformation.csv", stringsAsFactors=F, na.strings=c(""," ","NA")) %>% 
-  select(-Age) %>%
   filter(VisitNumber==1) %>%
   mutate(SubjectNumber = substr(VIHI_ID, 1, 6), 
          anycomorbid = ifelse(VisionLoss == "yes" |
