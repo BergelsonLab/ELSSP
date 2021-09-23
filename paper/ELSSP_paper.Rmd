@@ -739,9 +739,9 @@ elssp %>%
 
 **Figure 5**: Unstandardized coefficients (measured in months) with 95% confidence intervals for the models selected by AIC for: (A) vocabulary delay, (B) age at diagnosis, (C) age at intervention.
 
-**Table 1**: <!-- ec2eb: added sign score column for comment 10  -->For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score (spoken + signed), and production score (spoken + signed) of participants in our sample, along with the percent diagnosed with developmental delays. 
+**Table 1**: <!-- ec2eb: added sign score column for comment 10  -->For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score (spoken + signed), and production score (spoken + signed, where relevant) of participants in our sample, along with the percent diagnosed with developmental delays. 
 
-**Table 2**: Detailed information about the variables studied. For categorical variables, levels are described. For continuous variables, range, mean, and standard deviation are provided.
+**Table 2**: Detailed information about the variables studied. For categorical variables, levels are described and Ns provided. For continuous variables, range, mean, and standard deviation are provided.
 
 **Supplemental Materials S1**: A summary of previous research on predictors of vocabulary in DHH children. + equals bigger vocab, - equals smaller vocab.
 
