@@ -1,5 +1,5 @@
 ---
-title: "S7: Tables with Captions"
+title: "S7: Figures and Tables with Captions"
 author:
 - "Erin Campbell & Elika Bergelson"
 output:
@@ -41,6 +41,8 @@ knitr::write_bib(.packages(), file = 'packages.bib')
 source("functions_and_df_prep.R")
 ```
 
+To facilitate review, in addition to uploading the elements separately in accordance to JSLHR guidelines, we have combined all tables and figures from the main manuscript and supplemental materials in a single pdf alongside their titles and captions
+
 ```{r CDIinfo, echo=FALSE}
 
 n_WG <- nrow(elssp %>% filter(CDIversion=="WG"))
@@ -75,8 +77,8 @@ tribble(
   'NA',
   glue('{prod_WS_spoken} ({prod_WS_spoken_sd}) words'),
   glue('{perc_DD_WS}%')) %>%
-  kable(caption = "For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score, and production score of participants in our sample, along with the percent diagnosed with developmental delays.") %>%
-  kable_styling(latex_options = c("scale_down"))
+  kable(caption = "CDI Ages, vocabulary scores and rate of developmental delay. For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score, and production score of participants in our sample, along with the percent diagnosed with developmental delays.") %>%
+  kable_styling(latex_options = c("scale_down"), font_size = 8)
 #caption: For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score, and production score of participants in our sample, along with the percent diagnosed with developmental delays.") 
 ```
 
@@ -175,7 +177,7 @@ tribble(
   ),
 ) %>%
   kable(caption = "Detailed information about the variables studied. For categorical variables, levels are described. For continuous variables, range, mean, and standard deviation are provided.") %>%
-  kable_styling(latex_options = c("scale_down"))
+  kable_styling(latex_options = c("scale_down"), full_width=FALSE, font_size = 8)
 
 # Caption: "Detailed information about the variables studied. For categorical variables, levels are described. For continuous variables, range, mean, and standard deviation are provided."
 
@@ -228,7 +230,7 @@ comorbid_table <- tribble(
   "", "Farsightedness",  n_condition(hyperopia),
   "", "Cortical Visual Impairment",  n_condition(corticalvisualimpairment)) %>%
   kable(caption = "Additional Diagnoses (n = {n_condition(anycomorbid)}): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses.") %>%
-  kable_styling(latex_options = c("scale_down"))
+  kable_styling(latex_options = c("scale_down"), font_size = 8)
   
   
 # Caption: Additional Diagnoses (n = {n_condition(anycomorbid)}): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses."
@@ -242,7 +244,7 @@ elssp %>%
                    'Mean Age of Amplification (months)' = round(mean(AgeAmplification, na.rm = TRUE), 2),
                    'Mean Age of Implantation (months)' = round(mean(AgeImplantation, na.rm = TRUE), 2)) %>%
   kable(caption = "Audiological Characteristics of the Sample: First two columns describe laterality and amplification type (cochlear implant (CI), hearing aid (HA), or none). Mean decibels of hearing loss (HL) in better ear, worse ear, and the mean age (in months) of amplification, and cochlear implantation (when applicable) for each laterality and amplification combination.") %>%
-  kable_styling(latex_options = c("scale_down"))
+  kable_styling(latex_options = c("scale_down"), font_size = 8)
 # Caption:  Audiological Characteristics of the Sample: First two columns describe laterality and amplification type (cochlear implant (CI), hearing aid (HA), or none). Mean decibels of hearing loss (HL) in better ear, worse ear, and the mean age (in months) of amplification, and cochlear implantation (when applicable) for each laterality and amplification combination.
 
 elssp %>%
@@ -254,7 +256,7 @@ elssp %>%
   replace_na(list(English=0, Hindi=0, Spanish=0)) %>%
   mutate(Total = English + Hindi + Spanish) %>%
   kable(caption = "Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method.") %>%
-  kable_styling(latex_options = c("scale_down"))
+  kable_styling(latex_options = c("scale_down"), font_size = 8)
 # Caption: Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method.
 ```
 
@@ -271,7 +273,7 @@ AIC_model_delay %>%
          statistic=round(statistic,2),
          p.value=printp(p.value)) %>%
   kable(caption = "Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC.") %>%
-  kable_styling(latex_options = c("scale_down"))
+  kable_styling(latex_options = c("scale_down"), font_size = 8)
   
 
 #Caption:  "Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC."
@@ -289,7 +291,7 @@ diagnosis_aic %>%
          statistic=round(statistic,2),
          p.value=printp(p.value)) %>%
   kable(caption = "Unstandardized beta weights (months) for the model of diagnosis selected by AIC.") %>%
-  kable_styling(latex_options = c("scale_down"))
+  kable_styling(latex_options = c("scale_down"), font_size = 8)
 # Caption: Unstandardized beta coefficients (months) for the model of age at diagnosis selected by AIC.
 ```
 
@@ -306,7 +308,7 @@ services_aic %>%
          statistic=round(statistic,2),
          p.value=printp(p.value)) %>%
   kable(caption = "Unstandardized beta weights (months) for the model of age at intervention selected by AIC.") %>%
-  kable_styling(latex_options = c("scale_down"))
+  kable_styling(latex_options = c("scale_down"), font_size = 8)
 #Caption: Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC.
 ```
 

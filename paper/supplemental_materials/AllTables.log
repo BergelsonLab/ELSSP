@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  23 SEP 2021 20:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  24 SEP 2021 11:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -645,71 +645,71 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 
 {/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 107.
+(Font)              <8> on input line 110.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 107.
+(Font)              <6> on input line 110.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 107.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 264.
+(Font)              <5> on input line 110.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 273.
 [2pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
 as been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.264 \end{document}
+l.273 \end{document}
                     pdfTeX warning (ext4): destination with the same identifier
  (name{table.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.264 \end{document}
-                    pdfTeX warning (ext4): destination with the same identifier
- (name{table.1}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.264 \end{document}
-                    pdfTeX warning (ext4): destination with the same identifier
- (name{table.1}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.264 \end{document}
+l.273 \end{document}
                     ] [3pdfTeX warning (ext4): destination with the same identi
-fier (name{table.2}) has been already used, duplicate ignored
+fier (name{table.1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.264 \end{document}
+l.273 \end{document}
+                    pdfTeX warning (ext4): destination with the same identifier
+ (name{table.1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.273 \end{document}
                     pdfTeX warning (ext4): destination with the same identifier
  (name{table.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.264 \end{document}
+l.273 \end{document}
+                    pdfTeX warning (ext4): destination with the same identifier
+ (name{table.2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.273 \end{document}
                     pdfTeX warning (ext4): destination with the same identifier
  (name{table.3}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.264 \end{document}
+l.273 \end{document}
                     pdfTeX warning (ext4): destination with the same identifier
  (name{table.4}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.264 \end{document}
-                    pdfTeX warning (ext4): destination with the same identifier
- (name{table.5}) has been already used, duplicate ignored
+l.273 \end{document}
+                    ] [4pdfTeX warning (ext4): destination with the same identi
+fier (name{table.5}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.264 \end{document}
+l.273 \end{document}
                     ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 264.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 273.
 (./AllTables.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 264.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 264.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 273.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 273.
 Package rerunfilecheck Info: File `AllTables.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -717,20 +717,21 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 14134 strings out of 480608
- 206319 string characters out of 5903631
- 515616 words of memory out of 5000000
- 29716 multiletter control sequences out of 15000+600000
- 567397 words of font info for 75 fonts, out of 8000000 for 9000
+ 14143 strings out of 480608
+ 206378 string characters out of 5903631
+ 516755 words of memory out of 5000000
+ 29718 multiletter control sequences out of 15000+600000
+ 570379 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 34i,10n,42p,817b,331s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,10n,42p,817b,335s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/local/
 texlive/2020/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/202
-0/texmf-dist/fonts/type1/public/lm/lmr17.pfb>
-Output written on AllTables.pdf (3 pages, 63761 bytes).
+0/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/2020/texmf-dis
+t/fonts/type1/public/lm/lmr8.pfb>
+Output written on AllTables.pdf (4 pages, 96940 bytes).
 PDF statistics:
- 37 PDF objects out of 1000 (max. 8388607)
- 29 compressed objects within 1 object stream
- 9 named destinations out of 1000 (max. 500000)
- 10241 words of extra memory for PDF output out of 12000 (max. 10000000)
+ 45 PDF objects out of 1000 (max. 8388607)
+ 35 compressed objects within 1 object stream
+ 10 named destinations out of 1000 (max. 500000)
+ 8193 words of extra memory for PDF output out of 10000 (max. 10000000)
 
