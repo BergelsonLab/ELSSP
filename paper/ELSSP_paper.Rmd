@@ -255,7 +255,7 @@ tribble(
 ```
 
 # Results
-The results are organized mirroring the goals outlined above. First, we explore relationships among child demographic, audiological, and clinical variables. Second, we use these variables to predict vocabulary development. Finally, we describe the implementation of the EHDI 1-3-6 guidelines and predictors of early diagnosis and intervention in this sample. All analyses were conducted in R and all code to generate this manuscript in Rstudio is available via OSF (https://osf.io/kfcs3/)
+The results are organized mirroring the goals outlined above. First, we explore relationships among child demographic, audiological, and clinical variables. Second, we use these variables to predict vocabulary development. Finally, we describe the implementation of the EHDI 1-3-6 guidelines and predictors of early diagnosis and intervention in this sample. All analyses were conducted in R and all code to generate this manuscript in Rstudio is available via OSF (https://osf.io/kfcs3/).
 <!-- eb2ec: add ref's to R and Rstudio -->
 
 ## Relationships Among Demographic, Audiological, and Clinical Variables
@@ -435,7 +435,7 @@ Perhaps of greatest importance to clinicians and policymakers is the implementat
 
 Overall, `r round(perc_136)`% of our sample met 1-3-6 guidelines for early diagnosis and intervention. Breaking this down further, among the children for whom screening information was available (n = `r nrow(elssp %>% filter(NBHS=='Y'))`), 100% were screened at birth or during NICU stay.  <!-- ec2eb: reworded following sentence for comment 32  -->In our sample, `r round((nrow(elssp%>%filter(meets13=="yes"))/(nrow(elssp %>% filter(meets13=="yes"|meets13=="no"))))*100)`% of children received diagnosis by 3 months of age, and `r round((nrow(elssp%>%filter(meets6=="yes"))/(nrow(elssp %>% filter(meets6=="yes"|meets6=="no"))))*100)`% began early intervention by 6 months of age (see Figure 3). 
 
-```{r meets136-timeline, fig.cap="Age at diagnosis, intervention, amplification, and cochlear implantation across participants. Each dot represents the age that one child received the clinical service; violin width reflects data distribution. Blacks dot and whiskers show means and standard errors. Not all children received amplification (hearing aids) or implantation (cochlear implants).", fig.dim = c(8, 4), include=F}
+```{r meets136-timeline, fig.cap="Age at diagnosis, intervention, amplification, and cochlear implantation across participants. Each dot represents the age that one child received the clinical service; violin width reflects data distribution. Black dots and whiskers show means and standard errors. Not all children received amplification (hearing aids) or implantation (cochlear implants).", fig.dim = c(8, 4), include=F}
 
 gg_SE <- function(x) {
    m <- mean(x)
@@ -464,7 +464,7 @@ stat_summary(fun.data=gg_SE, color = "black", geom="pointrange")  +
 ```
 
 
-```{r delay-violins, fig.cap="Estimated vocabulary delay for children who meet 1-3-6 guidelines for diagnosis/intervention (top) and children who do not (bottom). Each dot represents one child in the sample; violin width reflect data distribution. Blacks dot and whiskers show means and standard error.", fig.dim = c(8, 4), include=F}
+```{r delay-violins, fig.cap="Estimated vocabulary delay for children who meet 1-3-6 guidelines for diagnosis/intervention (top) and children who do not (bottom). Each dot represents one child in the sample; violin width reflect data distribution. Black dots and whiskers show means and standard error.", fig.dim = c(8, 4), include=F}
 t_136 <- t.test(elssp_curves$diff_age_from_expected ~ elssp_curves$Meets136)
 
 
@@ -608,7 +608,7 @@ In our sample, `r perc_below_50`% of DHH children fell below the 50th percentile
 In contrast to our predictions, the best model predicting vocabulary delay had just a few variables: age, amplification, and laterality. Notably, we see that the spoken vocabulary delay widens with age, indicating that the *rate* of spoken vocabulary acquisition is slower for DHH children. Given that none of the children here use sign language (which can ensure earlier language access), this vocabulary delay is likely to have knock-on effects for language development more broadly, alongside implications for public policy.
 
 ## Predicting early diagnosis and intervention
- <!-- ec2eb: reworded following sentence for comment 36  -->Our exploration of the implementation of 1-3-6 guidelines revealed that only `r round((nrow(elssp%>%filter(Meets136=="yes"))/(nrow(elssp %>% filter(Meets136=="yes"|Meets136=="no"))))*100,2)`% of children met the EHDI guidance for diagnosis by 3 months and intervention by 6 months. Our results were consistent with prior work[e.g., @yoshinaga-itano1998; @ching2013], finding that children who met the guidelines were `r mean((elssp_curves %>% filter(Meets136=='no'))$diff_age_from_expected) - mean((elssp_curves %>% filter(Meets136=='yes'))$diff_age_from_expected)` months *less* delayed in spoken vocabulary than children who were late to receive diagnosis and/or services. By dint of accepting all children receiving early intervention services in one state, our dataset let us delve deeper into *who* received on-time diagnosis and intervention. 
+ <!-- ec2eb: reworded following sentence for comment 36  -->Our exploration of the implementation of 1-3-6 guidelines revealed that only `r round((nrow(elssp%>%filter(Meets136=="yes"))/(nrow(elssp %>% filter(Meets136=="yes"|Meets136=="no"))))*100,2)`% of children met the EHDI guidance for diagnosis by 3 months and intervention by 6 months. Our results were consistent with prior work [e.g., @yoshinaga-itano1998; @ching2013], finding that children who met the guidelines were `r mean((elssp_curves %>% filter(Meets136=='no'))$diff_age_from_expected) - mean((elssp_curves %>% filter(Meets136=='yes'))$diff_age_from_expected)` months *less* delayed in spoken vocabulary than children who were late to receive diagnosis and/or services. By dint of accepting all children receiving early intervention services in one state, our dataset let us delve deeper into *who* received on-time diagnosis and intervention. 
  
 ### Diagnosis 
 
@@ -727,9 +727,9 @@ elssp %>%
 
 **Figure 2**: Lines show the growth curves created from Wordbank 50th percentile data. Left panels show Words & Gestures; right panels show Words & Sentences. Top row is American English data; bottom row is Mexican Spanish data. Dots represent vocabulary scores of individual DHH children in the sample.
 
-**Figure 3**: Age at diagnosis, intervention, amplification, and cochlear implantation across participants. Each dot represents the age that one child received the clinical service; violin width reflects data distribution. Blacks dot and whiskers show means and standard errors. Not all children received amplification (hearing aids) or implantation (cochlear implants).
+**Figure 3**: Age at diagnosis, intervention, amplification, and cochlear implantation across participants. Each dot represents the age that one child received the clinical service; violin width reflects data distribution. Black dots and whiskers show means and standard errors. Not all children received amplification (hearing aids) or implantation (cochlear implants).
 
-**Figure 4**: Estimated vocabulary delay for children who meet 1-3-6 guidelines for diagnosis/intervention (top) and children who do not (bottom). Each dot represents one child in the sample; violin width reflect data distribution. Blacks dot and whiskers show means and standard error.
+**Figure 4**: Estimated vocabulary delay for children who meet 1-3-6 guidelines for diagnosis/intervention (top) and children who do not (bottom). Each dot represents one child in the sample; violin width reflect data distribution. Black dots and whiskers show means and standard error.
 
 **Figure 5**: Unstandardized coefficients (measured in months) with 95% confidence intervals for the models selected by AIC for: (A) vocabulary delay, (B) age at diagnosis, (C) age at intervention.
 
@@ -758,4 +758,4 @@ elssp %>%
 [^5]:  <!-- ec2eb: fixed typo in footnote for comment 31  -->Children who were too young for the CDI version they were administered (n = 9) were excluded from this analysis, as was the adopted child due to concerns about comparing their score to the American English CDI norms.
 [^6]: <!-- ec2eb: added following sentence for comment 53  -->`r nrow(elssp %>% filter(is.na(HLworse) & is.na(Meets136)))` participants had missing values for both 1-3-6 and Degree. For transparency, we note that the model fitted with only complete cases of Degree did include a non-significant main effect of Developmental Delay. However, ANOVA revealed that including a Developmental Delay term did not significantly improve model fit when including the `r nrow(elssp %>% filter(is.na(HLworse)|is.na(Meets136)))` participants without Degree information.
 [^8]: In our sample,  `r nrow(comorbid %>% filter(pos_acqHL == 1))` of the  `r nrow(elssp %>% filter(HealthIssues=='yes'))` children with health issues had conditions that might cause acquired hearing loss (i.e., meningitis, sepsis, jaundice, seizures, hydrocephalus, MRSA, anemia, frequent fevers, cytomegalovirus). 
-[^9]: Because the chi-square statistic assumes n>5 is *expected* in the majority of the cells for each test [preferably $\geq$80% @mchugh2013], we excluded mixed hearing loss (n = `r nrow(elssp %>% filter(Etiology=='Mixed'))`) and cued speech (n = `r nrow(elssp %>% filter(Communication=='cued speech'))`) from this analysis. 
+[^9]: Because the chi-square statistic assumes n>5 is *expected* in the majority of the cells for each test [preferably ≥80% @mchugh2013], we excluded mixed hearing loss (n = `r nrow(elssp %>% filter(Etiology=='Mixed'))`) and cued speech (n = `r nrow(elssp %>% filter(Communication=='cued speech'))`) from this analysis. 
