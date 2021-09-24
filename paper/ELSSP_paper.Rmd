@@ -37,7 +37,7 @@ documentclass     : "apa6"
 classoption       : "man"
 output            : papaja::apa6_docx
 nocite            : |
-  @clark2016, @magnuson2000, @spencer2003, @R-car, @R-tidyverse
+  @clark2016, @magnuson2000, @spencer2003, @R-car, @R-tidyverse, @hrastinski2016, @davidson2014, @R-base, @rstudioteam2020
 ---
 
 
@@ -76,9 +76,9 @@ source("functions_and_df_prep.R")
 
 \pagebreak
 # Introduction
-In the United States, 1-2 children are born with hearing loss, per 1,000 births [@cdc2018], of which ~90% will be born to hearing parents [@mitchell2004], in a home where spoken language is likely the dominant communication method. Depending on the type and degree of hearing loss, whether the child uses amplification, and whether there is any access to sign language, linguistic input may be partially or totally inaccessible. While some of these children will develop spoken language proficiency within the range of their hearing peers [@verhaert2008; @geers2017], many will face persistent spoken language deficits [@eisenberg2007; @moeller2007; @luckner2010], which may later affect reading ability and academic achievement [@qi2012; @karchmer2003].[^1]  <!-- ec2eb: moved this footnote for comment 27. not sure if this is the best spot yet//eb2ec: i moved it up here  --> 
+In the United States, 1-2 children are born with hearing loss, per 1,000 births [@cdc2018], of which ~90% will be born to hearing parents [@mitchell2004], in a home where spoken language is likely the dominant communication method. Depending on the type and degree of hearing loss, whether the child uses amplification, and whether there is any access to sign language, linguistic input may be partially or totally inaccessible. While some of these children will develop spoken language proficiency within the range of their hearing peers [@verhaert2008; @geers2017], many will face persistent spoken language deficits [@eisenberg2007; @moeller2007; @luckner2010], which may later affect reading ability and academic achievement[^1]  [@qi2012; @karchmer2003].  <!-- ec2eb: moved this footnote for comment 27. not sure if this is the best spot yet//eb2ec: i moved it up here  --> 
 
- <!-- ec2eb: reworded following sentence for comment 25  -->Though the literature points towards spoken language delays and deficits for Deaf or Hard-of-Hearing (DHH) children, this is a highly variable population with highly variable language outcomes [@pisoni2018]<!--eb2ec: i cut: which can be difficult to predict-->. For instance, previous research indicates that gender [@kiese-himmel2002a; @ching2013], additional disability [@ching2013; @yoshinaga-itano2017; @verhaert2008], degree and configuration of hearing loss [@ching2013; @dediego-lazaro2018; @vohr2011; @yoshinaga-itano2017], amplification [@walker2015], communication [@geers2017], and early diagnosis/intervention [@yoshinaga-itano2017; @yoshinaga-itano2018] influence language outcomes in DHH children. Although many of these variables reflect immutable characteristics of the child, such as comorbid diagnoses or configuration of hearing loss, some represent opportunities for clinicians and policy makers to intervene and potentially improve language outcomes for DHH children. 
+ <!-- ec2eb: reworded following sentence for comment 25  -->Though the literature points towards spoken language delays and deficits for Deaf or Hard-of-Hearing (DHH) children, this is a highly variable population with highly variable language outcomes [@pisoni2018]. For instance, previous research indicates that gender [@kiese-himmel2002a; @ching2013], additional disability [@ching2013; @yoshinaga-itano2017; @verhaert2008], degree and configuration of hearing loss [@ching2013; @dediego-lazaro2018; @vohr2011; @yoshinaga-itano2017], amplification [@walker2015], communication [@geers2017], and early diagnosis/intervention [@yoshinaga-itano2017; @yoshinaga-itano2018] influence language outcomes in DHH children. Although many of these variables reflect immutable characteristics of the child, such as comorbid diagnoses or configuration of hearing loss, some represent opportunities for clinicians and policy makers to intervene and potentially improve language outcomes for DHH children. 
 
 More specifically, early identification [@yoshinaga-itano2018; @yoshinaga-itano1998; @white1987; @robinshaw1995; @apuzzo1995; @kennedy2006] and timely enrollment in early intervention programs [@vohr2008; @watkin2007; @ching2013; @holzinger2011; @vohr2011] are associated with better language proficiency. Indeed, DHH children who receive prompt diagnosis and early access to services have been found to meet age-appropriate developmental outcomes, including language [@stika2015]. <!-- ec2eb: summarizing 1-3-6 for comment 5, comment 54  -->In line with these findings, the American Academy of Pediatricians (AAP) has set an initiative for Early Hearing Detection and Intervention (EHDI). These EHDI guidelines recommend that DHH children are screened by 1 month old, diagnosed by 3 months, and enter early intervention services by 6 months. We refer to this guideline as 1-3-6. Meeting this standard appears to improve spoken language outcomes for children with hearing loss and the benefits appear consistent across a range of demographic characteristics [@yoshinaga-itano2017; @yoshinaga-itano2018], so it remains an important research goal to to identify children at risk of receiving clinical support late, in order to help all children achieve prompt diagnosis and intervention.
 
@@ -90,7 +90,7 @@ More specifically, early identification [@yoshinaga-itano2018; @yoshinaga-itano1
 <!-- eb2ec: made some edits in this section, let's quote the second para below as examples of our clarifying the rationale/contribution etc in the letter -->
 We present an empirical analysis of early vocabulary in a wide range of young DHH children receiving state services in North Carolina. This study aims to 1) characterize the demographic, audiological, and intervention variability in the population of DHH children receiving state services for hearing loss; 2) identify predictors of vocabulary delays; and 3) evaluate the success of early identification and intervention efforts at a state level. We include three subgroups of DHH children traditionally excluded from studies of language development: children with additional disabilities, children with unilateral hearing loss, and children from bilingual or non-English-speaking households [e.g., @yoshinaga-itano2018]. 
 
-For the first goal, we expected that many of these variables would be linked, due to known causal relations (e.g., cochlear implants recommended for severe hearing loss, but not mild hearing loss). This study contributes to the literature by quantifying the distribution and co-occurrence of demographic, audiological, and intervention characteristics in our broad sample, which includes many children often excluded from research. For the second goal, we hypothesized that male (vs. female) gender, more severe degree of hearing loss, bilateral (vs. unilateral) hearing loss, no amplification (vs. hearing aids and/or cochlear implants), premature birth, meeting 1-3-6 guidelines, and presence of additional disabilities would predict larger spoken vocabulary delay. <!--We did not have strong predictions regarding the effects of communication method or presence of other health issues (e.g., congenital heart malformation) on vocabulary.--> This study builds on prior work by taking a new modeling approach for quantifying vocabulary delay across these variables. For the third goal, we hypothesized that children with less residual hearing (i.e., bilateral, more severe) and no co-occurring conditions would be earlier diagnosed and earlier to begin language services, and that in turn earlier diagnosis would predict earlier intervention. This study helps assess compliance with EHDI guidelines, and considers pathways for improvement.
+For the first goal, we expected that many of these variables would be linked, due to known causal relations (e.g., cochlear implants recommended for severe hearing loss, but not mild hearing loss). This study contributes to the literature by quantifying the distribution and co-occurrence of demographic, audiological, and intervention characteristics in our broad sample, which includes many children often excluded from research. For the second goal, we hypothesized that male (vs. female) gender, more severe degree of hearing loss, bilateral (vs. unilateral) hearing loss, no amplification (vs. hearing aids and/or cochlear implants), premature birth, meeting 1-3-6 guidelines, and presence of additional disabilities would predict larger spoken vocabulary delay. This study builds on prior work by taking a new modeling approach for quantifying vocabulary delay across these variables. For the third goal, we hypothesized that children with less residual hearing (i.e., bilateral, more severe) and no co-occurring conditions would be earlier diagnosed and earlier to begin language services, and that in turn earlier diagnosis would predict earlier intervention. This study helps assess compliance with EHDI guidelines, and considers pathways for improvement.
 
 # Methods
 ``` {r demo-data}
@@ -105,7 +105,7 @@ num_too_old_wg <- nrow(elssp_curves %>% filter(CDIversion == 'WG' & Age_in_month
 num_spanish_cdi <- nrow(elssp %>% filter(PrimaryLanguage == 'Spanish'))
 ```
 
-Clinical evaluations were obtained through an ongoing collaboration with the North Carolina Early Language Sensory Support Program (ELSSP), an early intervention program serving children with sensory impairments from birth to 36 months.  <!-- ec2eb: reworded following sentence for comment 28  -->ELSSP sent deidentified evaluations to our team after obtaining consent to do so from each family[^2]. <!-- ec2eb: reworded following sentence for comment 52  -->While this collaboration is ongoing, we opted to pause for this analysis upon receiving data from 100 children (collected between 2013 and 2020, before the COVID-19 epidemic reached North Carolina in Spring 2020). <!-- ec2eb: reworded following sentence for comment 29  -->Given our goal of characterizing the full range of DHH children with hearing loss in North Carolina, no eligibility criteria beyond hearing loss and receiving an ELSSP evaluation were imposed.
+Clinical evaluations were obtained through an ongoing collaboration with the North Carolina Early Language Sensory Support Program (ELSSP), an early intervention program serving children with sensory impairments from birth to 36 months.  <!-- ec2eb: reworded following sentence for comment 28  -->ELSSP sent deidentified evaluations to our team after obtaining consent to do so from each family[^2]. <!-- ec2eb: reworded following sentence for comment 52  -->While this collaboration is ongoing, we opted to pause for this analysis upon receiving data from 100 children (collected between 2014 and 2020, before the COVID-19 epidemic reached North Carolina in Spring 2020). <!-- ec2eb: reworded following sentence for comment 29  -->Given our goal of characterizing the full range of DHH children with hearing loss in North Carolina, no eligibility criteria beyond hearing loss and receiving an ELSSP evaluation were imposed.
 
 The clinical evaluations included demographic and audiological information and MacArthur Bates Communicative Development Inventory vocabulary scores [CDI, @fenson1994]. For some children, evaluations from multiple timepoints or other instruments were available (e.g. PPVT). We limit the scope of the present study to only the CDI (as this was available for all children), and only the first evaluation (due to concerns regarding within-subjects variance for statistical analysis.)
 
@@ -152,7 +152,7 @@ tribble(
 #ec2eb: added signs to table for comment 18
 ```
 
-For this analysis, `r num_subs` children (`r num_boys` male / `r num_girls` female) ages `r min_age`--`r max_age` months (M=`r mean_age`, SD=`r sd_age`) contributed data. Race and socioeconomic information were not available. Families were administered either the Words and Gestures or Words and Sentences version of the CDI based on clinician judgment of linguistic ability. Children who were too old for Words and Gestures, but who were not producing many words at the time of assessment, were often given Words and Gestures (n = `r num_too_old_wg`).  <!-- ec2eb: reworded following sentence for comment 30  -->Families whose primary language was Spanish (n = `r num_spanish_cdi`) completed the Spanish language version of the CDI [@jackson-maldonado2003]. See Table 1 for additional CDI information for our sample. A summary of all the variables we examined is available in Table 2, and more detailed information can be found in the Supplemental Materials, Tables S2-S4.
+For this analysis, `r num_subs` children (`r num_boys` male / `r num_girls` female) ages `r min_age`--`r max_age` months (M=`r mean_age`, SD=`r sd_age`) contributed data. Race and socioeconomic information were not available. Families were administered either the Words and Gestures or Words and Sentences version of the CDI based on clinician judgment of linguistic ability. Children who were too old for Words and Gestures, but who were not producing many words at the time of assessment, were often given Words and Gestures (n = `r num_too_old_wg`).  <!-- ec2eb: reworded following sentence for comment 30  -->Families whose primary language was Spanish (n = `r num_spanish_cdi`) completed the Spanish language version of the CDI [@jackson-maldonado2003]. Both spoken words and signs counted as word productions. See Table 1 for additional CDI information for our sample. A summary of all the variables we examined is available in Table 2, and more detailed information can be found in the Supplemental Materials, Tables S1-S3.
 
 ```{r variables-list}
 #age
@@ -257,6 +257,7 @@ tribble(
 # Results
 The results are organized mirroring the goals outlined above. First, we explore relationships among child demographic, audiological, and clinical variables. Second, we use these variables to predict vocabulary development. Finally, we describe the implementation of the EHDI 1-3-6 guidelines and predictors of early diagnosis and intervention in this sample. All analyses were conducted in R and all code to generate this manuscript in Rstudio is available via OSF (https://osf.io/kfcs3/)
 <!-- eb2ec: add ref's to R and Rstudio -->
+
 ## Relationships Among Demographic, Audiological, and Clinical Variables
  <!-- ec2eb: need to shorten child-level variables section for comment 23 (already shortened some)  -->
 Before testing how these variables relate to vocabulary and clinical milestones, we describe their relationships to each other. To quantify this statistically, we used Bonferroni-corrected chi-square tests between each of our variables[^9]. Strictly speaking, some variables are not expected to be randomly distributed relative to each other (e.g., premature birth and health issues; degree and amplification), but quantifying the differences via chi-square using a conservative significance threshold lets us highlight the strongest relationships within this dataset.
@@ -272,7 +273,8 @@ ggplot(chi_sq_all, aes(y=Var2, x=Var1)) +
   scale_fill_brewer(palette = "RdPu", direction=-1) +
   geom_text(aes(label=ifelse(sig=='survives Bonferroni correction', round(eff.size,2), '')), 
             size=5) +
-  xlab(NULL) + ylab(NULL) 
+  xlab(NULL) + ylab(NULL) +
+  ggtitle("Co-Occurrence of Child-Level Variables (Chi-Square)")
   ggsave(filename = "Figure1.tiff", path="paper/figures", device = "tiff", width = 12, height = 8)
 # Caption: Results of chi-square tests between variables. X- and y-axes show the variables compared. Color of the square represents significance of the corresponding chi-square test. For tests that survived Bonferroni correction (p<.0007), effect size (Cramer's V) is given.
 ```
@@ -322,11 +324,16 @@ WS_span_curves <- ggplot()  +
   coord_cartesian(xlim=c(0,40)) + 
   geom_point(data = subset(WS_elssp_span, !is.na(ProductionCDI)), aes(x= Age_in_months, y= ProductionCDI), shape=1, alpha= .5) +
   theme(legend.position = "none")
+
+plot2_row <- cowplot::plot_grid(WG_eng_curves, WS_eng_curves, WG_span_curves, WS_span_curves)
+plot2_title <- ggdraw() + 
+  draw_label("Vocabulary Growth Curves by Instrument", fontface = 'bold', x = 0,  hjust = 0) + 
+  theme(plot.background = element_rect(fill="white", color = "white"), plot.margin = margin(0, 0, 0, 7))
 ```
 
 ```{r growth-curves, fig.cap="Lines show the growth curves created from WordBank 50th percentile data. Left panels show Words & Gestures; right panels show Words & Sentences. Top row is American English data; bottom row is Mexican Spanish data. Dots represent vocabulary scores of individual DHH children in the sample.", include=F}
-cowplot::plot_grid(WG_eng_curves, WS_eng_curves, WG_span_curves, WS_span_curves) %>%
-  ggsave(filename = "Figure2.tiff", path="paper/figures", device = "tiff", width = 8, height = 8)
+cowplot::plot_grid(plot2_title, plot2_row, ncol=1, rel_heights = c(.1,1))  %>%
+  ggsave(filename = "Figure2.tiff", path="paper/figures", device = "tiff", width = 8, height = 8.8)
 ```
 
 We next turn to the relationship between these variables and children’s productive vocabulary, as measured by the CDI. Figure 2 shows the vocabulary scores of children in our samples relative to norms for hearing children for each CDI form. Descriptively, we found widespread vocabulary delays, with the majority of DHH children testing around or below the 25th percentile for hearing children [based on WordBank norms; @frank2017]. 
@@ -352,7 +359,7 @@ span_ws_wb <-
                       administrations = TRUE) 	%>% filter(norming == TRUE)
 ```
 
-More specifically, to compute a child's predicted age from their vocabulary score, we used the 50th percentile for productive vocabulary from WordBank data for typically-developing infants [@frank2017] to create binary logistic growth curves separately for the "Words and Gestures" (WG) and "Words and Sentences" (WS) versions of the CDI for  American English and Mexican Spanish[^4]. For each child, we took the number of words they produced (spoken and/or signed, though the latter was only provided for children using Total Communication (n = XX) as all others were reported to exclusively use spoken language).  <!-- ec2eb: clarified that vocab delay includes sign for comment 10//eb i amended the parenthetical, plz populate its numbers with code  -->. We then divided this production score by the number of words on the instrument, to give us the proportion of words produced. We used this proportion in an inverse prediction from the binary logistic regression curves to generate a predicted age. That is, for each possible CDI score, the growth curve provided the age that the score would be achieved for the 50th percentile trajectory. Finally, we subtracted the predicted age from each child's chronological age to calculate their vocabulary delay. However, for children producing 0 words, this approach was not appropriate due to the long tails on the growth curves. Thus, for this subset of children, we took the x-intercept from Wordbank (8 months for English, and 9 months for Spanish), and subtracted that value from the child's chronological age to get their vocabulary delay. 
+More specifically, to compute a child's predicted age from their vocabulary score, we used the 50th percentile for productive vocabulary from WordBank data for typically-developing infants [@frank2017] to create binary logistic growth curves separately for the "Words and Gestures" (WG) and "Words and Sentences" (WS) versions of the CDI for  American English and Mexican Spanish[^4]. For each child, we took the number of words they produced (spoken and/or signed, though the latter was only provided for children using Total Communication (n = `r nrow(elssp %>% filter(Communication=="total communication"))`) as all others were reported to exclusively use spoken language). <!-- ec2eb: clarified that vocab delay includes sign for comment 10//eb i amended the parenthetical, plz populate its numbers with code  --> We then divided this production score by the number of words on the instrument, to give us the proportion of words produced. We used this proportion in an inverse prediction from the binary logistic regression curves to generate a predicted age. That is, for each possible CDI score, the growth curve provided the age that the score would be achieved for the 50th percentile trajectory. Finally, we subtracted the predicted age from each child's chronological age to calculate their vocabulary delay. However, for children producing 0 words, this approach was not appropriate due to the long tails on the growth curves. Thus, for this subset of children, we took the x-intercept from Wordbank (8 months for English, and 9 months for Spanish), and subtracted that value from the child's chronological age to get their vocabulary delay. 
 
 To look at the relationship between our predictor variables and CDI scores, we next conducted multiple linear regression, using vocabulary delay as our outcome variable. [^5]
 
@@ -386,7 +393,8 @@ This model accounted for significant variance in vocabulary delay (adjusted-R^2^
 vocab_beta_plot <- dwplot(AIC_model_delay, by_2sd = FALSE) %>%
   relabel_predictors(LateralityUnilateral = "Laterality (Unilateral)",
 AmplificationHA= "Amplification (Hearing Aid)",
-AmplificationCI= "Amplification (Cochlear Implant)") + 
+AmplificationCI= "Amplification (Cochlear Implant)",
+Age_in_months = "Age") + 
   theme_classic(base_size = 13) + 
   geom_vline(xintercept = 0, linetype = 'dashed') + 
   theme(legend.position = "none")
@@ -395,10 +403,15 @@ AmplificationCI= "Amplification (Cochlear Implant)") +
 
 ```{r delay-betas}
 AIC_model_delay %>% 
-  tidy() %>% 
+  tidy()  %>%
     mutate(term=replace(term, term=="LateralityUnilateral", "Laterality (Unilateral)"),
            term=replace(term, term=="AmplificationCI", "Amplification (Cochlear Implant)"),
-           term=replace(term, term=="AmplificationHA", "Amplification (Hearing Aid)")) %>%
+           term=replace(term, term=="AmplificationHA", "Amplification (Hearing Aid)"),
+           term=replace(term, term=="Age_in_months", "Age (months)")) %>%
+  mutate(estimate=round(estimate, 2),
+         std.error=round(std.error,2),
+         statistic=round(statistic,2),
+         p.value=printp(p.value)) %>%
  write.csv("paper/supplemental_materials/delay_betas.csv")
 #Caption:  "Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC."
 ```
@@ -407,7 +420,7 @@ AIC_model_delay %>%
 max_vif <- max((vif(AIC_model_delay))[,1])
 ```
 
-Based on this iterative process, we arrived at the following final model: Vocabulary Delay ~ Age + Laterality + Amplification.  <!-- ec2eb: added following sentence for comment 19//eb it's a bit unwield i'm rewording  --> No other variables from the full model above significantly improved model fit, and are thus not discussed further. Our final model accounted for significant variance in children's vocabulary delay to a nearly identical degree as the full model (adjusted-R^2^ = `r summary(AIC_model_delay)$adj.r.squared`, *p* = `r lm_pvalue(AIC_model_delay)`, see Table S5 & Figure 5.A). We found significant main effects for Age, Laterality, and Amplification, such that older age, bilateral hearing loss, and no amplification predicted greater vocabulary delays. Compared to children with no amplification, children with cochlear implants had a `r abs(summary(AIC_model_delay)$coefficients[3,1])` months smaller spoken vocabulary delay (*p* `r printp(summary(AIC_model_delay)$coefficients[3,4], add_equals=TRUE)`), and similarly children with hearing aids had a `r abs(summary(AIC_model_delay)$coefficients[4,1])` months smaller delay (*p* `r printp(summary(AIC_model_delay)$coefficients[4,4], add_equals=TRUE)`). Children with unilateral hearing loss had a `r abs(summary(AIC_model_delay)$coefficients[2,1])` months smaller delay (*p* `r printp(summary(AIC_model_delay)$coefficients[2,4], add_equals=TRUE)`) than children with bilateral hearing loss. For Age,  the model predicted a `r abs(summary(AIC_model_delay)$coefficients[5,1])` months *larger* vocabulary delay (*p* `r printp(summary(AIC_model_delay)$coefficients[5,4], add_equals=TRUE)`) for each additional month of age.
+Based on this iterative process, we arrived at the following final model: Vocabulary Delay ~ Age + Laterality + Amplification.  <!-- ec2eb: added following sentence for comment 19//eb it's a bit unwield i'm rewording  --> No other variables from the full model above significantly improved model fit, and are thus not discussed further. Our final model accounted for significant variance in children's vocabulary delay to a nearly identical degree as the full model (adjusted-R^2^ = `r summary(AIC_model_delay)$adj.r.squared`, *p* = `r lm_pvalue(AIC_model_delay)`, see Table S4 & Figure 5.A). We found significant main effects for Age, Laterality, and Amplification, such that older age, bilateral hearing loss, and no amplification predicted greater vocabulary delays. Compared to children with no amplification, children with cochlear implants had a `r abs(summary(AIC_model_delay)$coefficients[3,1])` months smaller spoken vocabulary delay (*p* `r printp(summary(AIC_model_delay)$coefficients[3,4], add_equals=TRUE)`), and similarly children with hearing aids had a `r abs(summary(AIC_model_delay)$coefficients[4,1])` months smaller delay (*p* `r printp(summary(AIC_model_delay)$coefficients[4,4], add_equals=TRUE)`). Children with unilateral hearing loss had a `r abs(summary(AIC_model_delay)$coefficients[2,1])` months smaller delay (*p* `r printp(summary(AIC_model_delay)$coefficients[2,4], add_equals=TRUE)`) than children with bilateral hearing loss. For Age,  the model predicted a `r abs(summary(AIC_model_delay)$coefficients[5,1])` months *larger* vocabulary delay (*p* `r printp(summary(AIC_model_delay)$coefficients[5,4], add_equals=TRUE)`) for each additional month of age.
 
 Given our first set of results regarding relationships among several of these variables (e.g., laterality and amplification), we tested for collinearity by computing the model's VIF (variance inflation factor). This revealed low levels of collinearity among predictors in our final model [all VIF < `r max_vif`; @james2013]. In sum, the analyses in this section revealed that over half of the variance in DHH children's vocabulary scores was explained by their age, whether they receive amplification, and whether their hearing loss was unilateral or bilateral.
 
@@ -445,7 +458,8 @@ elssp %>%
   theme_classic(base_size = 16) +
   theme(legend.position = "none") +
   labs(x = '', y ='Age (months)') +
-stat_summary(fun.data=gg_SE, color = "black", geom="pointrange") 
+stat_summary(fun.data=gg_SE, color = "black", geom="pointrange")  +
+  ggtitle("Ages at Clinical Interventions")
   ggsave(filename = "Figure3.tiff", path="paper/figures", device = "tiff", width = 8, height = 4)
 ```
 
@@ -462,7 +476,8 @@ ggplot(data=(elssp_curves %>% filter(Meets136!='')), aes(x=Meets136, y=diff_age_
                  geom="pointrange", color="black") +
   xlab("1-3-6") +
   ylab("Vocabulary Delay (months)") + 
-  coord_flip()
+  coord_flip() +
+  ggtitle("Vocabulary Delay and 1-3-6")
   ggsave(filename = "Figure4.tiff", path="paper/figures", device = "tiff", width = 8, height = 4)
 
 ```
@@ -470,44 +485,12 @@ ggplot(data=(elssp_curves %>% filter(Meets136!='')), aes(x=Meets136, y=diff_age_
 We first tested the link between 1-3-6 and vocabulary directly. An independent samples t-test showed that children who did not meet 1-3-6 guidelines had significantly larger vocabulary delays than children who met 1-3-6 guidelines (*t*(`r t_136$parameter`) = `r t_136$statistic`, *p* = `r t_136$p.value`; see Figure 4). On average, the group that did not meet 1-3-6 guidelines was `r t_136$estimate[[1]]-t_136$estimate[[2]]` months more delayed with regard to vocabulary (relative to the same 50th percentile benchmark described above).
 
 ```{r lm-stats, include=F}
-
-stepAIC(lm(IdentificationOfHLMonths ~ Gender + 
-             Etiology +
-             HLworse + 
-             Laterality + 
-             IsPremature + 
-             HealthIssues + 
-             DevelopmentalConcerns + 
-             PrimaryLanguage + 
-             VisionLoss + 
-             ANSD, 
-           (data=elssp %>% 
-              filter(!is.na(HLworse) & Etiology!='' & PrimaryLanguage!='Hindi'))))
-#Health issues , primary language
 diagnosis_aic <- lm(formula = IdentificationOfHLMonths ~ HealthIssues + Monolingual_English + Laterality, data = elssp)
 
 
-stepAIC(lm(AgeStartedServices ~ Gender + 
-             Etiology +
-             HLworse + 
-             Laterality + 
-             HealthIssues + 
-             IsPremature + 
-             DevelopmentalConcerns + 
-             Monolingual_English + 
-             Communication + 
-             VisionLoss + 
-             ANSD + 
-             IdentificationOfHLMonths,
-           (data=elssp %>% filter(HLworse!="NA"& Etiology!='')))) 
 services_aic <- lm(formula = AgeStartedServices ~ HLworse + IsPremature + 
                      IdentificationOfHLMonths + Monolingual_English, data = elssp)
 
-
-
-difference_aic <- lm(formula = (AgeStartedServices - IdentificationOfHLMonths) ~ 
-    HLworse + IsPremature + Monolingual_English + IdentificationOfHLMonths, 
-    data = elssp)
 ```
 
  <!-- ec2eb: reworded following sentence for comment 33  -->To better understand implementation of 1-3-6 guidelines, we next turned our focus to factors influencing the timing of diagnosis and intervention. We conducted two linear regressions, one for predicting age at diagnosis and one for age at intervention. Model selection followed the same stepwise AIC-based process as described in the preceding section.
@@ -532,11 +515,15 @@ diagnosis_aic %>%
     mutate(term=replace(term, term=="LateralityUnilateral", "Laterality (Unilateral)"),
            term=replace(term, term=="Monolingual_Englishyes", "Language Background (English)"),
            term=replace(term, term=="HealthIssuesyes", "Health Issues (yes)")) %>%
+  mutate(estimate=round(estimate, 2),
+         std.error=round(std.error,2),
+         statistic=round(statistic,2),
+         p.value=printp(p.value)) %>%
   write.csv("paper/supplemental_materials/diagnosis_betas.csv")
 # Caption: Unstandardized beta coefficients (months) for the model of age at diagnosis selected by AIC.
 ```
 
-The best fitting model was: Age at Diagnosis ~ Health Issues + Language Background + Laterality, with significant main effects of Health Issues and Language Background (see Table S6 & Figure 5.B). This model accounted for `r (summary(diagnosis_aic)$r.squared)*100`% of the variance in age at diagnosis (*p* `r lm_pvalue(diagnosis_aic)`). Average age at diagnosis was `r mean(elssp$IdentificationOfHLMonths, na.rm=TRUE)`(`r sd(elssp$IdentificationOfHLMonths, na.rm=TRUE)`) months. Relative to English-speaking families, children from Spanish-speaking families were diagnosed `r abs(summary(diagnosis_aic)$coefficients[3,1])` months later (*p* `r printp(summary(diagnosis_aic)$coefficients[3,4], add_equals=TRUE)`). Children with health issues were diagnosed `r summary(diagnosis_aic)$coefficients[2,1]` months later than children without health issues (*p* `r printp(summary(diagnosis_aic)$coefficients[2,4], digits=2, add_equals=TRUE)`).
+The best fitting model was: Age at Diagnosis ~ Health Issues + Language Background + Laterality, with significant main effects of Health Issues and Language Background (see Table S5 & Figure 5.B). This model accounted for `r (summary(diagnosis_aic)$r.squared)*100`% of the variance in age at diagnosis (*p* `r lm_pvalue(diagnosis_aic)`). Average age at diagnosis was `r mean(elssp$IdentificationOfHLMonths, na.rm=TRUE)`(`r sd(elssp$IdentificationOfHLMonths, na.rm=TRUE)`) months. Relative to English-speaking families, children from Spanish-speaking families were diagnosed `r abs(summary(diagnosis_aic)$coefficients[3,1])` months later (*p* `r printp(summary(diagnosis_aic)$coefficients[3,4], add_equals=TRUE)`). Children with health issues were diagnosed `r summary(diagnosis_aic)$coefficients[2,1]` months later than children without health issues (*p* `r printp(summary(diagnosis_aic)$coefficients[2,4], digits=2, add_equals=TRUE)`).
 
 ```{r intervention-beta-plot}
 services_aic_df <- broom::tidy(services_aic) 
@@ -561,23 +548,31 @@ services_aic %>%
            term=replace(term, term=="IsPrematureyes", "Premature (yes)"),
            term=replace(term, term=="IdentificationOfHLMonths", "Age at Diagnosis"),
            term=replace(term, term=="Monolingual_Englishyes", "Language Background (English)")) %>%
+  mutate(estimate=round(estimate, 2),
+         std.error=round(std.error,2),
+         statistic=round(statistic,2),
+         p.value=printp(p.value)) %>%
   write.csv("paper/supplemental_materials/intervention_betas.csv")
 #Caption: Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC.
 ```
 
-We repeated this model selection process for age at intervention. In addition to the variables used to fit the intervention model, we included age at diagnosis. The best fit model was: Age at Intervention ~ Premature Birth + Degree + Age at Diagnosis + Language Background (R^2^=`r summary(services_aic)$r.squared` , *p* `r lm_pvalue(services_aic)`; See Table S7 & Figure 5.C), with significant main effects of degree and age at diagnosis. Prematurity `r beta_output(services_aic, 3)` and language background `r beta_output(services_aic, 5)` were not significant predictors on their own, but their inclusion improved model fit. Average age at intervention was `r mean(elssp$AgeStartedServices, na.rm=TRUE)`(`r sd(elssp$AgeStartedServices, na.rm=TRUE)`) months. More severe hearing loss predicted earlier intervention, such that for every additional 10 dB HL, predicted age at intervention was `r round(abs((summary(services_aic)$coefficients[2,1])*10))` month earlier (*p* `r printp(summary(services_aic)$coefficients[2,4], digits=2, add_equals=TRUE)`). With regard to age at diagnosis, for every month diagnosis was delayed, intervention was delayed by `r round((summary(services_aic)$coefficients[4,1])*4.348,1)` weeks (*p* `r printp(summary(services_aic)$coefficients[4,4], digits=2, add_equals=TRUE)`).  <!-- ec2eb: reworded following sentence for comment 39  -->Taken together, these analyses reveal that children's audiological characteristics, comorbid diagnoses, and language background contribute to delays in both diagnoses and intervention. We return to this point in the discussion.
+We repeated this model selection process for age at intervention. In addition to the variables used to fit the intervention model, we included age at diagnosis. The best fit model was: Age at Intervention ~ Premature Birth + Degree + Age at Diagnosis + Language Background (R^2^=`r summary(services_aic)$r.squared` , *p* `r lm_pvalue(services_aic)`; See Table S6 & Figure 5.C), with significant main effects of degree and age at diagnosis. Prematurity `r beta_output(services_aic, 3)` and language background `r beta_output(services_aic, 5)` were not significant predictors on their own, but their inclusion improved model fit. Average age at intervention was `r mean(elssp$AgeStartedServices, na.rm=TRUE)`(`r sd(elssp$AgeStartedServices, na.rm=TRUE)`) months. More severe hearing loss predicted earlier intervention, such that for every additional 10 dB HL, predicted age at intervention was `r round(abs((summary(services_aic)$coefficients[2,1])*10))` month earlier (*p* `r printp(summary(services_aic)$coefficients[2,4], digits=2, add_equals=TRUE)`). With regard to age at diagnosis, for every month diagnosis was delayed, intervention was delayed by `r round((summary(services_aic)$coefficients[4,1])*4.348,1)` weeks (*p* `r printp(summary(services_aic)$coefficients[4,4], digits=2, add_equals=TRUE)`).  <!-- ec2eb: reworded following sentence for comment 39  -->Taken together, these analyses reveal that children's audiological characteristics, comorbid diagnoses, and language background contribute to delays in both diagnoses and intervention. We return to this point in the discussion.
 
 
 ```{r beta-plots, fig.cap="Unstandardized coefficients (measured in months) with 95% confidence intervals for the models selected by AIC for: (A) vocabulary delay, (B) age at diagnosis, (C) age at intervention.", fig.dim=c(8,4), include=F}
+plot5_row <- plot_grid(vocab_beta_plot, diagnosis_beta_plot, intervention_beta_plot, labels="AUTO", rows = 3)
+plot5_title <- ggdraw() + 
+  draw_label("Beta Weights for Vocabulary, Diagnosis, and Intervention Models", fontface = 'bold', x = 0,  hjust = 0) + 
+  theme(plot.background = element_rect(fill="white", color = "white"), plot.margin = margin(0, 0, 0, 7))
 
-plot_grid(vocab_beta_plot, diagnosis_beta_plot, intervention_beta_plot, labels="AUTO", rows = 3) %>%
+cowplot::plot_grid(plot5_title, plot5_row, ncol=1, rel_heights = c(.1,1))  %>%
   ggsave(filename = "Figure5.tiff", path="paper/figures", device = "tiff", width = 8, height = 4)
 ```
 
 
 # Discussion
 
-In this study, we examined the demographic, audiological, and clinical characteristics of 100 young DHH children in North Carolina. We documented the distribution of these characteristics and explored the relationships between these variables, vocabulary, diagnosis, and intervention.  <!-- ec2eb: reworded following sentence for comment 34  --> In prior work with tightly controlled samples, the variables studied here have been shown to be relevant for language development, but their effects have rarely examined in the full heterogeneity they naturally occur within. We took this big-tent approach by including any children receiving services for hearing loss.
+In this study, we examined the demographic, audiological, and clinical characteristics of 100 young DHH children in North Carolina. We documented the distribution of these characteristics and explored the relationships between these variables, vocabulary, diagnosis, and intervention.  <!-- ec2eb: reworded following sentence for comment 34  --> In prior work with tightly controlled samples, the variables studied here have been shown to be relevant for language development, but their effects have rarely been examined in the full heterogeneity they naturally occur within. We took this big-tent approach by including any children receiving services for hearing loss.
 
 Returning to our original three questions, we asked first: how are child-level variables intertwined? We found significant structure across many of the variables, suggesting that in a real-world sample of children with hearing loss, many factors are intrinsically not dissociable. This was particularly true for many of the auditory characteristics and comorbid diagnoses. To our knowledge, this paper provides the first population-based documentation of this distribution. We next asked whether these characteristics can predict vocabulary outcomes for DHH children. We found that a model including only children’s age, laterality of hearing loss, and amplification type best accounted for the variability in vocabulary outcomes. Finally, we asked how successful the 1-3-6 guidelines were for early detection and intervention, both in terms of improving child outcomes and ensuring timely diagnosis and intervention. Here, we found that children who met 1-3-6 guidelines indeed had a smaller vocabulary delay than those who didn't. However, only `r round((nrow(elssp%>%filter(Meets136=="yes"))/(nrow(elssp %>% filter(Meets136=="yes"|Meets136=="no"))))*100)`% of children met these guidelines. Our results highlight family- and health-related variables that accounted for significant variability in when children received diagnosis and/or intervention.
 
@@ -590,10 +585,11 @@ perc_TD_TC <- (nrow(elssp %>% dplyr::filter(DevelopmentalConcerns=='no' & Commun
 perc_DD_TC <- (nrow(elssp %>% dplyr::filter(DevelopmentalConcerns=='yes' & Communication=='total communication')) )/ (nrow(elssp %>% dplyr::filter(DevelopmentalConcerns=='yes')))
 ```
 
-In our sample, we found significant overlap among demographic, audiological, and clinical variables. Prematurity, health issues, and developmental delay frequently co-occurred, such that children with one of these factors were more likely to have the others, consistent with prior research [@pierrat2017; @luu2016]. Given that the constellation of comorbid conditions is so varied (76 unique conditions in our sample of `r nrow(elssp)` children; see Table S1), an important direction for future research is whether cognitive and social abilities, as well as family’s treatment resources, are predictive of language outcomes across conditions.
+In our sample, we found significant overlap among demographic, audiological, and clinical variables. <!-- ec2eb: reworded following sentence: "To highlight a few of these findings,"-->To highlight a few of these findings, prematurity, health issues, and developmental delay frequently co-occurred, such that children with one of these factors were more likely to have the others, consistent with prior research [@pierrat2017; @luu2016]. Given that the constellation of comorbid conditions is so varied (76 unique conditions in our sample of `r nrow(elssp)` children; see Table S1), an important direction for future research is whether cognitive and social abilities, as well as family’s treatment resources, are predictive of language outcomes across conditions.
  
 We also found that children with developmental delays (e.g., Down syndrome) were much more likely to use a total communication approach than DHH children without developmental delays (i.e., total communication used by `r perc_DD_TC*100`% of DHH children with developmental delay vs. `r perc_TD_TC*100`% of those without). <!-- ec2eb: reworded following sentences for comment 46  -->That is, use of total communication was more likely for children already at greater risk for verbal delays. Quantifying this confound is an important contribution of this work, as it calls for tempering the interpretation of correlational studies finding links between total communication and language delays [e.g., @geers2017]. 
 <!-- eb2ec: i distinctly remember cutting this paragraph in the letter, but i guess that change didn't propogate? there's nothing wrong with it but we need to cut stuff and it's just not that critical -->
+<!-- ec2eb: sorry, yes, i rejected this change in the letter since it seemed weird to address all the other child-level variables findings except this one? maybe first para in this section just needs a "to highlight some of these findings" (added)-->
 <!-- Our audiological variables too were not randomly distributed relative to each other. <!-- ec2eb: reworded following sentence for comment 35  --> <!--To highlight one such result, amplification devices were more commonly used for children with more significant hearing loss. This may be due to the assumption that a hearing aid or cochlear implant will not benefit children with minimal hearing loss, although several studies have found benefits for amplification for mild or unilateral hearing loss  [@hassepass2013; @briggs2011; @walker2015]. -->
  
 The relationships we found among variables were more confirmatory than surprising, particularly those reflecting known causal links (e.g., increased health issues in children born premature). Nevertheless, they should caution us to think critically about how we construct samples for controlled lab experiments. <!-- ec2eb: edited following section for comment 61  -->If a researcher desires to collect a sample of (e.g.) typically-developing pediatric cochlear implant users with bilateral, severe-to-profound hearing loss, how representative would the results be, given that such a subsample may only represent roughly `r nrow(elssp %>% filter(Laterality=='Bilateral' & HLworse>70 & Amplification=='CI' & anycomorbid=='no'))`% of the DHH population, as it does here? Such considerations are important for properly representing and supporting DHH children and their families. This becomes doubly important in the context of interpreting language outcomes like vocabulary.
@@ -609,7 +605,7 @@ perc_young_ge_50 <- nrow(elssp_curves %>% filter(diff_age_from_expected < 0 & Ag
 ```
 In our sample, `r perc_below_50`% of DHH children fell below the 50th percentile for vocabulary, indicating that a large majority of this sample is behind a normative sample of their hearing peers in word learning. This disadvantage can have lasting consequences in the lives of DHH children [@qi2012; @karchmer2003], highlighting the importance of understanding what factors contribute to it.
 
-<!-- We predicted that male gender, more severe hearing loss, bilateral hearing loss, no amplification, premature birth, and presence of additional disabilities would be associated with larger spoken vocabulary delay.--> <!-- ec2eb: shortened following section for comment 62  -->In contrast to our predictions, the best model predicting vocabulary delay had just a few variables: age, amplification, and laterality. Notably, we see that the spoken vocabulary delay widens with age, indicating that the *rate* of spoken vocabulary acquisition is slower for DHH children. Given that none of the children here use sign language (which can ensure earlier language access), this vocabulary delay is likely to have knock-on effects for language development more broadly, alongside implications for public policy.
+In contrast to our predictions, the best model predicting vocabulary delay had just a few variables: age, amplification, and laterality. Notably, we see that the spoken vocabulary delay widens with age, indicating that the *rate* of spoken vocabulary acquisition is slower for DHH children. Given that none of the children here use sign language (which can ensure earlier language access), this vocabulary delay is likely to have knock-on effects for language development more broadly, alongside implications for public policy.
 
 ## Predicting early diagnosis and intervention
  <!-- ec2eb: reworded following sentence for comment 36  -->Our exploration of the implementation of 1-3-6 guidelines revealed that only `r round((nrow(elssp%>%filter(Meets136=="yes"))/(nrow(elssp %>% filter(Meets136=="yes"|Meets136=="no"))))*100,2)`% of children met the EHDI guidance for diagnosis by 3 months and intervention by 6 months. Our results were consistent with prior work[e.g., @yoshinaga-itano1998; @ching2013], finding that children who met the guidelines were `r mean((elssp_curves %>% filter(Meets136=='no'))$diff_age_from_expected) - mean((elssp_curves %>% filter(Meets136=='yes'))$diff_age_from_expected)` months *less* delayed in spoken vocabulary than children who were late to receive diagnosis and/or services. By dint of accepting all children receiving early intervention services in one state, our dataset let us delve deeper into *who* received on-time diagnosis and intervention. 
@@ -619,12 +615,10 @@ In our sample, `r perc_below_50`% of DHH children fell below the 50th percentile
 Having health issues or a non-English language background predicted later diagnosis. 
 Children with health issues were diagnosed `r summary(diagnosis_aic)$coefficients[2,1]` months later than infants without health issues. For a small fraction of cases, this may have been because health issues caused acquired hearing loss, delaying its identification[^8]. Of course, some situations may require families and medical providers to prioritize treatment for certain health issues (e.g., surgery for congenital heart defect) over diagnostic audiology services. That said, our results raise the possibility that clinician awareness of increased delays in language linked to the prevalence of health issues may facilitate improvements in timely diagnosis.
 
-Language background too predicted age at diagnosis, such that infants from Spanish-speaking families were diagnosed `r abs(summary(services_aic)$coefficients[3,1])` months later than infants from English-speaking families. This may be due to cultural differences in attitudes towards deafness [@caballero2018; @steinberg2003; @rodriguez2020] or a lack of linguistically accessible and culturally appropriate audiology services. Only 5.6% of American audiologists identify as bilingual service providers [@asha2019], and services from a monolingual provider may be insufficient, particulary in obtaining the child’s case history and providing recommendations for follow-up services [@abreu2011]. 
+Language background too predicted age at diagnosis, such that infants from Spanish-speaking families were diagnosed `r abs(summary(services_aic)$coefficients[3,1])` months later than infants from English-speaking families. This may be due to cultural differences in attitudes towards deafness [@caballero2018; @steinberg2003; @rodriguez2020] or a lack of linguistically accessible and culturally appropriate audiology services. Only 5.6% of American audiologists identify as bilingual service providers [@asha2019], and services from a monolingual provider may be insufficient, particularly in obtaining the child’s case history and providing recommendations for follow-up services [@abreu2011]. 
 
 ### Intervention
-As expected, more severe hearing loss predicted earlier intervention.
-<!-- , such that for every additional 10 dB HL, predicted age at intervention was `r abs((summary(services_aic)$coefficients[2,1])*10)` month earlier. -->
-This may be due to parents and clinicians adopting a wait-and-see approach to intervention for children with some residual hearing, despite associations between mild-to-moderate hearing loss, and language delays and academic challenges [@delage2007; @blair1985]. Early intervention may help offset these associations. 
+As expected, more severe hearing loss predicted earlier intervention. This may be due to parents and clinicians adopting a wait-and-see approach to intervention for children with some residual hearing, despite associations between mild-to-moderate hearing loss, and language delays and academic challenges [@delage2007; @blair1985]. Early intervention may help offset these associations. 
 
 Age at start of services was also associated with age at diagnosis: for each month diagnosis was delayed, intervention was delayed by `r round((summary(services_aic)$coefficients[4,1])*4.348,1)` weeks. @ching2013 found that age at intervention predicted better outcomes for DHH children, above and beyond age at diagnosis. Of course, these two variables are related, underscoring the importance of early diagnosis for putting children in the pipeline towards earlier intervention. 
 
@@ -647,7 +641,7 @@ Additionally, the vast majority of children in our sample experienced vocabulary
 # Limitations and Opportunities for Future Work
 This study represents an important first step in quantifying variability in demographic characteristics, language outcomes, and 1-3-6 attainment. At the same time, it is exploratory, has limited geographic scope, and analyzed data from a (deliberately) high-variability sample.
 
-Given our exploratory analyses, there were many possible analytic routes. We encourage interested readers to explore further analyses using the data and/or code provided on our OSF page (https://osf.io/kfcs3/.
+Given our exploratory analyses, there were many possible analytic routes. We encourage interested readers to explore further analyses using the data and/or code provided on our OSF page (https://osf.io/kfcs3/).
 <!-- eb2ec:  the public-facing part of that osf link is empty; i see it the repo if i'm logged in but it's not the current version (or even the reviewed version i don't think...please update.)-->
 <!-- ec2eb: touching on demographic trends for comment 4  -->This sample is composed only of children in North Carolina. <!-- ec2eb: reiterating modality choice in this para for comment 3  -->While certain factors vary by country and by state [e.g., diagnosis and early intervention practices; @nad], our sample largely resembles the national DHH population in terms of degree of hearing loss, percentage of children with additional disabilities, cochlear implant and hearing aid use, language background, and gender [@blackorby2006; @gallaudetresearchinstitute2014], though not in communication modality. A similar naturalistic study in regions where sign language access for DHH children is more common (e.g. Washington D.C.) would be a welcome addition to the present work, in illuminating the effects of different clinical and demographic factors in a signing population. One further limitation to our analyses and to assessing representativeness of the sample is that race and socioeconomic status information was not available.
 
@@ -739,23 +733,23 @@ elssp %>%
 
 **Figure 5**: Unstandardized coefficients (measured in months) with 95% confidence intervals for the models selected by AIC for: (A) vocabulary delay, (B) age at diagnosis, (C) age at intervention.
 
-**Table 1**: <!-- ec2eb: added sign score column for comment 10  -->For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score (spoken + signed), and production score (spoken + signed, where relevant) of participants in our sample, along with the percent diagnosed with developmental delays. 
+**Table 1**: <!-- ec2eb: added sign score column for comment 10  -->For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score (spoken + signed), and production score (spoken + signed, where relevant) of participants in our sample, along with the percent diagnosed with developmental delays. (N.B. signs were only reported for the 18 children using total communication as the rest reported solely spoken language as the communication modality).
 
 **Table 2**: Detailed information about the variables studied. For categorical variables, levels are described and Ns provided. For continuous variables, range, mean, and standard deviation are provided.
 
-**Supplemental Materials S1**: A summary of previous research on predictors of vocabulary in DHH children. + equals bigger vocab, - equals smaller vocab.
+**Supplemental Materials S1**: Additional Diagnoses (n = `r n_condition(anycomorbid)`): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses.
 
-**Supplemental Materials S2**: Additional Diagnoses (n = `r n_condition(anycomorbid)`): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses.
+**Supplemental Materials S2**: Audiological Characteristics of the Sample: First two columns describe laterality and amplification type (cochlear implant (CI), hearing aid (HA), or none). Mean decibels of hearing loss (HL) in better ear, worse ear, and the mean age (in months) of amplification, and cochlear implantation (when applicable) for each laterality and amplification combination.
 
-**Supplemental Materials S3**: Audiological Characteristics of the Sample: First two columns describe laterality and amplification type (cochlear implant (CI), hearing aid (HA), or none). Mean decibels of hearing loss (HL) in better ear, worse ear, and the mean age (in months) of amplification, and cochlear implantation (when applicable) for each laterality and amplification combination.
+**Supplemental Materials S3**: Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method.
 
-**Supplemental Materials S4**: Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method.
+**Supplemental Materials S4**: Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC.
 
-**Supplemental Materials S5**: Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC.
+**Supplemental Materials S5**: Unstandardized beta coefficients (months) for the model of age at diagnosis selected by AIC.
 
-**Supplemental Materials S6**: Unstandardized beta coefficients (months) for the model of age at diagnosis selected by AIC.
+**Supplemental Materials S6**: Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC.
 
-**Supplemental Materials S7**: Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC.
+**Supplemental Materials S7**: PDF containing all tables with their captions in situ (for reader/reviewer ease).
 
 [^1]: Despite growing, converging evidence for benefits of early sign language exposure (e.g., Clark et al., 2016, Davidson et al., 2014; Hrastinski & Wilbur, 2016; Magnuson, 2000; Schick et al., 2007; Spencer, 1993), the majority of U.S. DHH children (and particularly those in our North Carolina-based sample) are not raised in a sign language environment. Given this, we focus primarily on spoken language development.
 [^2]: Because the data we received were already deidentified, this study was exempt from Duke University Institutional Review Board.

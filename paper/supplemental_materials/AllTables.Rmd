@@ -1,0 +1,329 @@
+---
+title: "S7: Tables with Captions"
+author:
+- "Erin Campbell & Elika Bergelson"
+output:
+    bookdown::pdf_document2:
+      number_sections: no
+      toc: no
+      tables: true
+    base_format: rticles::ieee_article
+fontsize: 12pt
+header-includes: 
+  \usepackage{float} \floatplacement{figure}{H} 
+  \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{S\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
+---
+\newpage
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load-packages, cache = FALSE, include = FALSE, echo=FALSE}
+library(papaja) 
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(citr)
+library(broom)
+library(stargazer)
+library(glue)
+library(magick)
+library(cowplot)
+library(dotwhisker)
+library(car)
+library(openxlsx)
+knitr::opts_chunk$set(fig.width=4, fig.height=4, fig.pos="p", comment=F, message=F, hide = T, warning = F, echo = F)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+knitr::write_bib(.packages(), file = 'packages.bib')
+```
+
+```{r read-in-data, echo = F, results = 'hide', message = F, comment = F, fig.show='hide'}
+source("functions_and_df_prep.R")
+```
+
+```{r CDIinfo, echo=FALSE}
+
+n_WG <- nrow(elssp %>% filter(CDIversion=="WG"))
+n_WS <- nrow(elssp %>% filter(CDIversion=="WS"))
+age_WG <- round(mean((elssp %>% filter(CDIversion=="WG"))$Age_in_months), digits=1)
+age_WG_sd <- round(sd((elssp %>% filter(CDIversion=="WG"))$Age_in_months), digits=1)
+age_WS <- round(mean((elssp %>% filter(CDIversion=="WS"))$Age_in_months), digits=1)
+age_WS_sd <- round(sd((elssp %>% filter(CDIversion=="WS"))$Age_in_months), digits=1)
+comp_WG <- round(mean((elssp %>% filter(CDIversion=="WG"))$ComprehensionCDI, na.rm = TRUE))
+comp_WG_sd <- round(sd((elssp %>% filter(CDIversion=="WG"))$ComprehensionCDI, na.rm = TRUE))
+prod_WG_spoken <- round(mean((elssp %>% filter(CDIversion=="WG"))$ProductionCDI, na.rm = TRUE))
+prod_WG_spoken_sd <- round(sd((elssp %>% filter(CDIversion=="WG"))$ProductionCDI, na.rm = TRUE))
+prod_WS_spoken <- round(mean((elssp %>% filter(CDIversion=="WS"))$ProductionCDI, na.rm = TRUE))
+prod_WS_spoken_sd <- round(sd((elssp %>% filter(CDIversion=="WS"))$ProductionCDI, na.rm = TRUE))
+perc_DD_WG <- round(((nrow((elssp %>% filter(CDIversion=="WG")) %>% filter(DevelopmentalConcerns=="yes")))/(nrow((elssp %>% filter(CDIversion=="WG")))))*100, digits=1)
+perc_DD_WS <- round(((nrow((elssp %>% filter(CDIversion=="WS")) %>% filter(DevelopmentalConcerns=="yes")))/(nrow((elssp %>% filter(CDIversion=="WS")))))*100, digits=1)
+
+
+tribble(
+  ~ 'CDI version',
+  ~ 'Mean Age (SD)',
+  ~ 'Mean Comprehension (SD)',
+  ~ 'Mean Word Production (SD)',
+  ~ '% Developmental Delays',
+  glue('WG (n = {n_WG})'),
+  glue('{age_WG} ({age_WG_sd}) months'),
+  glue('{comp_WG} ({comp_WG_sd}) words'),
+  glue('{prod_WG_spoken} ({prod_WG_spoken_sd}) words'),
+  glue('{perc_DD_WG}%'),
+  glue('WS (n = {n_WS})'),
+  glue('{age_WS} ({age_WS_sd}) months'),
+  'NA',
+  glue('{prod_WS_spoken} ({prod_WS_spoken_sd}) words'),
+  glue('{perc_DD_WS}%')) %>%
+  kable(caption = "For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score, and production score of participants in our sample, along with the percent diagnosed with developmental delays.") %>%
+  kable_styling(latex_options = c("scale_down"))
+#caption: For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score, and production score of participants in our sample, along with the percent diagnosed with developmental delays.") 
+```
+
+
+```{r variables-list}
+#age
+min_age <- round(min(elssp$Age_in_months))
+max_age <- round(max(elssp$Age_in_months))
+mean_age <- round(mean(elssp$Age_in_months))
+sd_age <- round(sd(elssp$Age_in_months))
+#age amplification
+min_age_amp <- min(elssp$AgeAmplification, na.rm=TRUE)
+max_age_amp <- max(elssp$AgeAmplification, na.rm=TRUE)
+mean_age_amp <- round(mean(elssp$AgeAmplification, na.rm=TRUE))
+sd_age_amp <- round(sd(elssp$AgeAmplification, na.rm=TRUE))
+#age diagnosis
+min_age_diag <- min(elssp$IdentificationOfHLMonths, na.rm=TRUE)
+max_age_diag <- max(elssp$IdentificationOfHLMonths, na.rm=TRUE)
+mean_age_diag <- round(mean(elssp$IdentificationOfHLMonths, na.rm=TRUE))
+sd_age_diag <- round(sd(elssp$IdentificationOfHLMonths, na.rm=TRUE))
+#age implantation
+min_age_implant <- min(elssp$AgeImplantation, na.rm=TRUE)
+max_age_implant <- max(elssp$AgeImplantation, na.rm=TRUE)
+mean_age_implant <- round(mean(elssp$AgeImplantation, na.rm=TRUE))
+sd_age_implant <- round(sd(elssp$AgeImplantation, na.rm=TRUE))
+#age services
+min_age_services <- min(elssp$AgeStartedServices, na.rm=TRUE)
+max_age_services <- max(elssp$AgeStartedServices, na.rm=TRUE)
+mean_age_services <- round(mean(elssp$AgeStartedServices, na.rm=TRUE))
+sd_age_services <- round(sd(elssp$AgeStartedServices, na.rm=TRUE))
+#degree
+min_degree <- round(min(elssp$HLworse, na.rm=TRUE))
+max_degree <- max(elssp$HLworse, na.rm=TRUE)
+mean_degree <- round(mean(elssp$HLworse, na.rm=TRUE))
+sd_degree <- round(sd(elssp$HLworse, na.rm=TRUE))
+#services
+min_services <- min(elssp$ServicesReceivedPerMonth, na.rm=TRUE)
+max_services <- max(elssp$ServicesReceivedPerMonth, na.rm=TRUE)
+mean_services <- round(mean(elssp$ServicesReceivedPerMonth, na.rm=TRUE))
+sd_services <- round(sd(elssp$ServicesReceivedPerMonth, na.rm=TRUE))
+#vocab (production)
+min_vocab <- min(elssp$ProductionCDI, na.rm=TRUE)
+max_vocab <- max(elssp$ProductionCDI, na.rm=TRUE)
+mean_vocab <- round(mean(elssp$ProductionCDI, na.rm=TRUE))
+sd_vocab <- round(sd(elssp$ProductionCDI, na.rm=TRUE))
+
+
+tribble(
+  ~ Variable,
+  ~ Range,
+  'Age',
+  glue(
+    '{min_age}-{max_age} months (mean (SD): {mean_age} ({sd_age}))'
+  ),
+  'Age at Amplification',
+  glue('{min_age_amp}-{max_age_amp} months (mean (SD): {mean_age_amp} ({sd_age_amp}))'
+  ),
+  'Age at Diagnosis',
+  glue('{min_age_diag}-{max_age_diag} months (mean (SD): {mean_age_diag} ({sd_age_diag}))'),
+  'Age at Implantation',
+  glue('{min_age_implant}-{max_age_implant} months (mean (SD): {mean_age_implant} ({sd_age_implant}))'),
+  'Age at Intervention',
+  glue(
+    '{min_age_services}-{max_age_services} months (mean (SD): {mean_age_services} ({sd_age_services}))'),
+  'Amplification',
+  glue('Hearing Aid ({nrow(elssp %>% filter(Amplification=="HA"))}) / Cochlear Implant ({nrow(elssp %>% filter(Amplification=="CI"))}) / None ({nrow(elssp %>% filter(Amplification=="none"))})'),
+  'Communication',
+  glue('Spoken ({nrow(elssp %>% filter(Communication=="spoken"))}) / Total Communication ({nrow(elssp %>% filter(Communication=="total communication"))}) / Cued Speech ({nrow(elssp %>% filter(Communication=="cued speech"))})'),
+  'Degree Hearing Loss (worse ear)',
+  glue(
+    '{min_degree}-{max_degree} dB HL (mean (SD): {mean_degree} ({sd_degree}))'
+  ),
+  'Developmental Delay',
+  glue('Yes ({nrow(elssp %>% filter(DevelopmentalConcerns=="yes"))}) / No ({nrow(elssp %>% filter(DevelopmentalConcerns=="no"))})'),
+  'Gender',
+  glue('Female ({nrow(elssp %>% filter(Gender=="female"))}) / Male ({nrow(elssp %>% filter(Gender=="male"))})'),
+  'Health Issues',
+  glue('Yes ({nrow(elssp %>% filter(HealthIssues=="yes"))}) / No ({nrow(elssp %>% filter(HealthIssues=="no"))})'),
+  'Language in Home',
+  glue('English ({nrow(elssp %>% filter(Monolingual_English=="yes"))}) / Other ({nrow(elssp %>% filter(Monolingual_English=="no"))})'),
+  'Laterality',
+  glue('Unilateral ({nrow(elssp %>% filter(Laterality=="Unilateral"))}) / Bilateral ({nrow(elssp %>% filter(Laterality=="Bilateral"))})'),
+  '1-3-6',
+  glue('Yes ({nrow(elssp %>% filter(Meets136=="yes"))}) / No ({nrow(elssp %>% filter(Meets136=="no"))})'),
+  'Premature Birth',
+  glue('Full-term ({nrow(elssp %>% filter(IsPremature=="yes"))}) / Premature ({nrow(elssp %>% filter(IsPremature=="no"))})'),
+  'Services Per Month',
+  glue(
+    '{min_services}-{max_services} services per month (mean (SD): {mean_services} ({sd_services}))'
+  ),
+  'Etiology',
+  glue('Sensorineural ({nrow(elssp %>% filter(Etiology=="SNHL"))}) / Conductive ({nrow(elssp %>% filter(Etiology=="Conductive"))}) / Mixed ({nrow(elssp %>% filter(Etiology=="Mixed"))})'),
+  'CDI - Words Produced',
+  glue(
+    '{min_vocab}-{max_vocab} words (mean (SD): {mean_vocab} ({sd_vocab}))'
+  ),
+) %>%
+  kable(caption = "Detailed information about the variables studied. For categorical variables, levels are described. For continuous variables, range, mean, and standard deviation are provided.") %>%
+  kable_styling(latex_options = c("scale_down"))
+
+# Caption: "Detailed information about the variables studied. For categorical variables, levels are described. For continuous variables, range, mean, and standard deviation are provided."
+
+#ec2eb: removed variable "type" column for comment 13
+#ec2eb: added frequency info for categorical variables for comment 50, comment 51
+```
+
+\beginsupplement
+```{r lm-stats, include=F}
+diagnosis_aic <- lm(formula = IdentificationOfHLMonths ~ HealthIssues + Monolingual_English + Laterality, data = elssp)
+
+
+services_aic <- lm(formula = AgeStartedServices ~ HLworse + IsPremature + 
+                     IdentificationOfHLMonths + Monolingual_English, data = elssp)
+
+```
+
+```{r delay-AIC, include=F}
+AIC_model_delay <- lm(formula = diff_age_from_expected ~ Laterality + Amplification + Age_in_months, data = (elssp_curves %>% filter(PrimaryLanguage !=
+    "Hindi" & Meets136!='') %>% droplevels()))
+summary(AIC_model_delay)
+```
+
+
+```{r supplemental-materials}
+perc_prem_NICU <- (nrow(comorbid%>%filter(NICU==1&IsPremature==1))/(nrow(elssp %>% filter(IsPremature==1))))*100
+
+comorbid_table <- tribble(
+  ~Condition, ~'Specific Condition',  ~n,
+  "Premature", "", n_condition(IsPremature),
+  "", "Extremely Premature", n_condition(extremelypremature),
+  "", "NICU stay", n_condition(NICU),
+  "Health Issues", "", n_condition(HealthIssues),
+  "", "Heart", n_condition(heart_issues),
+  "", "Lung", n_condition(lung_issues),
+  "", "Illness", n_condition(illness),
+  "", "Feeding Issues", n_condition(feeding_issues),
+  "", "Pregnancy/Birth Complications", n_condition(preg_birth_comp),
+  "", "Musculoskeletal", n_condition(mus_skel),
+  "", "Cleft Lip/Palate", n_condition(cleft),
+  "", "Other", n_condition(health_issues_other),
+  "Developmental Concerns", "",  n_condition(DevelopmentalConcerns),
+  "", "Down Syndrome", n_condition(downsyndrome),
+  "", "Chromosomal Issues", n_condition(otherchromissues),
+  "", "Neural Tube Defects", sum(n_condition(encephalocelecyst), n_condition(occipitalencephalocele)),
+  "", "Other", sum(n_condition(agenesiscorpuscallosum), n_condition(oculomotorapraxia), n_condition(ventricular_issues), n_condition(corticalvisualimpairment), n_condition(hydrocephalus), n_condition(overalldevconcerns), n_condition(corneliadelange)),
+  "Vision Loss", "",  n_condition(VisionLoss),
+  "", "Retinopathy of Prematurity",  n_condition(RetinopathyOfPrematurity),
+  "", "Nearsightedness",  n_condition(myopia),
+  "", "Farsightedness",  n_condition(hyperopia),
+  "", "Cortical Visual Impairment",  n_condition(corticalvisualimpairment)) %>%
+  kable(caption = "Additional Diagnoses (n = {n_condition(anycomorbid)}): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses.") %>%
+  kable_styling(latex_options = c("scale_down"))
+  
+  
+# Caption: Additional Diagnoses (n = {n_condition(anycomorbid)}): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses."
+
+elssp %>%
+  filter(Amplification != '', Laterality != '') %>%
+  dplyr::select(VIHI_ID, AgeImplantation, AgeAmplification, HLbetter, HLworse, Laterality, Amplification) %>%
+  group_by(Laterality, Amplification) %>%
+  dplyr::summarise('Mean Degree (better ear; dB HL)' = round(mean(HLbetter, na.rm = TRUE), 2),
+                   'Mean Degree (worse ear; dB HL)' = round(mean(HLworse, na.rm = TRUE), 2),
+                   'Mean Age of Amplification (months)' = round(mean(AgeAmplification, na.rm = TRUE), 2),
+                   'Mean Age of Implantation (months)' = round(mean(AgeImplantation, na.rm = TRUE), 2)) %>%
+  kable(caption = "Audiological Characteristics of the Sample: First two columns describe laterality and amplification type (cochlear implant (CI), hearing aid (HA), or none). Mean decibels of hearing loss (HL) in better ear, worse ear, and the mean age (in months) of amplification, and cochlear implantation (when applicable) for each laterality and amplification combination.") %>%
+  kable_styling(latex_options = c("scale_down"))
+# Caption:  Audiological Characteristics of the Sample: First two columns describe laterality and amplification type (cochlear implant (CI), hearing aid (HA), or none). Mean decibels of hearing loss (HL) in better ear, worse ear, and the mean age (in months) of amplification, and cochlear implantation (when applicable) for each laterality and amplification combination.
+
+elssp %>%
+  filter(PrimaryLanguage != '', Communication != '') %>%
+  dplyr::select(VIHI_ID, Communication, PrimaryLanguage) %>%
+  group_by(Communication, PrimaryLanguage) %>%
+  dplyr::count(name = 'Tally') %>%
+  pivot_wider(names_from = PrimaryLanguage, values_from = Tally) %>%
+  replace_na(list(English=0, Hindi=0, Spanish=0)) %>%
+  mutate(Total = English + Hindi + Spanish) %>%
+  kable(caption = "Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method.") %>%
+  kable_styling(latex_options = c("scale_down"))
+# Caption: Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method.
+```
+
+
+```{r delay-betas}
+AIC_model_delay %>%
+  tidy()  %>%
+    mutate(term=replace(term, term=="LateralityUnilateral", "Laterality (Unilateral)"),
+           term=replace(term, term=="AmplificationCI", "Amplification (Cochlear Implant)"),
+           term=replace(term, term=="AmplificationHA", "Amplification (Hearing Aid)"),
+           term=replace(term, term=="Age_in_months", "Age (months)")) %>%
+  mutate(estimate=round(estimate, 2),
+         std.error=round(std.error,2),
+         statistic=round(statistic,2),
+         p.value=printp(p.value)) %>%
+  kable(caption = "Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC.") %>%
+  kable_styling(latex_options = c("scale_down"))
+  
+
+#Caption:  "Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC."
+```
+
+
+```{r diagnosis-betas}
+diagnosis_aic %>%
+  tidy() %>%
+    mutate(term=replace(term, term=="LateralityUnilateral", "Laterality (Unilateral)"),
+           term=replace(term, term=="Monolingual_Englishyes", "Language Background (English)"),
+           term=replace(term, term=="HealthIssuesyes", "Health Issues (yes)")) %>%
+  mutate(estimate=round(estimate, 2),
+         std.error=round(std.error,2),
+         statistic=round(statistic,2),
+         p.value=printp(p.value)) %>%
+  kable(caption = "Unstandardized beta weights (months) for the model of diagnosis selected by AIC.") %>%
+  kable_styling(latex_options = c("scale_down"))
+# Caption: Unstandardized beta coefficients (months) for the model of age at diagnosis selected by AIC.
+```
+
+```{r intervention-betas}
+
+services_aic %>%
+  tidy() %>%
+    mutate(term=replace(term, term=="HLworse", "Degree of Hearing Loss"),
+           term=replace(term, term=="IsPrematureyes", "Premature (yes)"),
+           term=replace(term, term=="IdentificationOfHLMonths", "Age at Diagnosis"),
+           term=replace(term, term=="Monolingual_Englishyes", "Language Background (English)")) %>%
+  mutate(estimate=round(estimate, 2),
+         std.error=round(std.error,2),
+         statistic=round(statistic,2),
+         p.value=printp(p.value)) %>%
+  kable(caption = "Unstandardized beta weights (months) for the model of age at intervention selected by AIC.") %>%
+  kable_styling(latex_options = c("scale_down"))
+#Caption: Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC.
+```
+
+<!-- **Table 1**: <!-- ec2eb: added sign score column for comment 10  -->
+<!-- **Table 2**: Detailed information about the variables studied. For categorical variables, levels are described and Ns provided. For continuous variables, range, mean, and standard deviation are provided. -->
+
+<!-- **Supplemental Materials S1**: Additional Diagnoses (n = `r n_condition(anycomorbid)`): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses. -->
+
+<!-- **Supplemental Materials S2**: Audiological Characteristics of the Sample: First two columns describe laterality and amplification type (cochlear implant (CI), hearing aid (HA), or none). Mean decibels of hearing loss (HL) in better ear, worse ear, and the mean age (in months) of amplification, and cochlear implantation (when applicable) for each laterality and amplification combination. -->
+
+<!-- **Supplemental Materials S3**: Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method. -->
+
+<!-- **Supplemental Materials S4**: Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC. -->
+
+<!-- **Supplemental Materials S5**: Unstandardized beta coefficients (months) for the model of age at diagnosis selected by AIC. -->
+
+<!-- **Supplemental Materials S6**: Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC. -->
+
+<!-- **Supplemental Materials S7**: PDF containing all tables with their captions in situ (for reader/reviewer ease). -->
+

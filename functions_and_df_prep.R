@@ -231,7 +231,6 @@ elssp <- read.csv("data/ELSSP_SubjectInformation.csv", stringsAsFactors=F, na.st
                                 HealthIssues == "yes" |
                                 IsPremature == "yes", "yes",
                               "no"),
-                             Age_in_days = as.numeric(substring(VIHI_ID, 8)),
          HLworse_cat = as.factor(case_when(is.na(HLworse) ~ NA_character_,
                                            HLworse < 40 ~ "mild", 
                                            HLworse>70 ~ "severe_profound",
@@ -241,8 +240,7 @@ elssp <- read.csv("data/ELSSP_SubjectInformation.csv", stringsAsFactors=F, na.st
                                        ServicesReceivedPerMonth>7 ~ ">7", 
                                        TRUE ~ "3-6"))) %>% 
   mutate(HLworse_cat = fct_relevel(HLworse_cat, "mild", "moderate", "severe_profound"),
-  SPM_cat = (fct_relevel(SPM_cat, "0-2", "3-6", ">7")),
-  Age_in_months = Age_in_days*0.0328767) %>%
+  SPM_cat = (fct_relevel(SPM_cat, "0-2", "3-6", ">7"))) %>%
   mutate_if(is.character, as.factor) 
 #add months-delay to dataframes
 elssp_eng <- filter(elssp, PrimaryLanguage=="English")
