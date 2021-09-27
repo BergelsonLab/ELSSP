@@ -13,6 +13,7 @@ header-includes:
   \usepackage{float} \floatplacement{figure}{H} 
   \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{S\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
 ---
+To facilitate review, in addition to uploading the elements separately in accordance to JSLHR guidelines, we have combined all tables and figures from the main manuscript and supplemental materials in a single pdf alongside their titles and captions.
 \newpage
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -41,7 +42,166 @@ knitr::write_bib(.packages(), file = 'packages.bib')
 source("functions_and_df_prep.R")
 ```
 
-To facilitate review, in addition to uploading the elements separately in accordance to JSLHR guidelines, we have combined all tables and figures from the main manuscript and supplemental materials in a single pdf alongside their titles and captions
+```{r relationships-plot, fig.width=12.5, fig.height=9.5, fig.cap="Co-Occurrence of Child-Level Variables (Chi-Square): Results of chi-square tests between variables. X- and y-axes show the variables compared. Color of the square represents significance of the corresponding chi-square test. For tests that survived Bonferroni correction (p<.0007), effect size (Cramer's V) is given."}
+ggplot(chi_sq_all, aes(y=Var2, x=Var1)) +
+  geom_tile(aes(fill = sig)) + theme_classic() +
+  theme(axis.text.x = element_text(angle = 315, hjust=0.1), 
+        axis.text = element_text(size=16),
+        legend.text = element_text(size=16)) +
+  scale_fill_brewer(palette = "RdPu", direction=-1) +
+  geom_text(aes(label=ifelse(sig=='survives Bonferroni correction', round(eff.size,2), '')), 
+            size=5) +
+  xlab(NULL) + ylab(NULL) +
+  ggtitle("Co-Occurrence of Child-Level Variables (Chi-Square)")
+```
+
+
+
+ 
+ 
+```{r vocab-curves-setup}
+
+WG_eng_curves <- ggplot()  + 
+  geom_line(data = WG_elssp_eng_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  theme_classic() + 
+  ylab("CDI Score (WG English)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WG_elssp_eng, !is.na(ProductionCDI)), aes(x= Age_in_months, y= ProductionCDI), shape=1, alpha= .5)+
+  theme(legend.position = "none")
+
+WS_eng_curves <- ggplot()  + 
+  geom_line(data = WS_elssp_eng_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  theme_classic() + 
+  ylab("CDI Score (WS English)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WS_elssp_eng, !is.na(ProductionCDI)), aes(x= Age_in_months, y= ProductionCDI), shape=1, alpha= .5) +
+  theme(legend.position = "none")
+
+WG_span_curves <- ggplot()  + 
+  geom_line(data = WG_elssp_span_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  theme_classic() + 
+  ylab("CDI Score (WG Spanish)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WG_elssp_span, !is.na(ProductionCDI)), aes(x= Age_in_months, y= ProductionCDI), shape=1, alpha= .5)+
+  theme(legend.position = "none")
+
+WS_span_curves <- ggplot()  + 
+  geom_line(data = WS_elssp_span_gcurve, aes(x=predict_ages, y=scores),colour='black', alpha= .5) + 
+  theme_classic() + 
+  ylab("CDI Score (WS Spanish)") + 
+  xlab("Age in Months") + 
+  coord_cartesian(xlim=c(0,40)) + 
+  geom_point(data = subset(WS_elssp_span, !is.na(ProductionCDI)), aes(x= Age_in_months, y= ProductionCDI), shape=1, alpha= .5) +
+  theme(legend.position = "none")
+
+plot2_row <- cowplot::plot_grid(WG_eng_curves, WS_eng_curves, WG_span_curves, WS_span_curves)
+plot2_title <- ggdraw() + 
+  draw_label("Vocabulary Growth Curves by Instrument", fontface = 'bold', x = 0,  hjust = 0) + 
+  theme(plot.background = element_rect(fill="white", color = "white"), plot.margin = margin(0, 0, 0, 7))
+```
+
+```{r growth-curves, fig.cap="Vocabulary Growth Curves by Instrument: Lines show the growth curves created from WordBank 50th percentile data. Left panels show Words & Gestures; right panels show Words & Sentences. Top row is American English data; bottom row is Mexican Spanish data. Dots represent vocabulary scores of individual DHH children in the sample.", fig.dim = c(6, 6)}
+cowplot::plot_grid(plot2_title, plot2_row, ncol=1, rel_heights = c(.1,1))  
+```
+
+```{r meets136-timeline, fig.cap="Ages at Clinical Interventions: Age at diagnosis, intervention, amplification, and cochlear implantation across participants. Each dot represents the age that one child received the clinical service; violin width reflects data distribution. Black dots and whiskers show means and standard errors. Not all children received amplification (hearing aids) or implantation (cochlear implants).", fig.dim = c(8, 4)}
+
+gg_SE <- function(x) {
+   m <- mean(x)
+   ymin <- m-se(x)
+   ymax <- m+se(x)
+   return(c(y=m,ymin=ymin,ymax=ymax))
+}
+
+elssp %>% 
+  dplyr::select(VIHI_ID, IdentificationOfHLMonths, AgeStartedServices, AgeAmplification, AgeImplantation) %>%
+  rename('Age at Diagnosis'=IdentificationOfHLMonths,
+         'Age at Intervention' = AgeStartedServices,
+         'Age at Implantation'= AgeImplantation,
+         'Age at Amplification' = AgeAmplification) %>%
+  pivot_longer(cols = 'Age at Diagnosis':'Age at Implantation', names_to = "event", values_to = "age") %>%
+  ggplot(aes(x = event, y = age, fill = event, color = event)) +
+  geom_violin(alpha = .4,) +
+  geom_jitter(width = .3) + 
+  coord_flip() +
+  theme_classic(base_size = 16) +
+  theme(legend.position = "none") +
+  labs(x = '', y ='Age (months)') +
+stat_summary(fun.data=gg_SE, color = "black", geom="pointrange")  +
+  ggtitle("Ages at Clinical Interventions")
+```
+
+```{r delay-violins, fig.cap="Vocabulary Delay and 1-3-6: Estimated vocabulary delay for children who meet 1-3-6 guidelines for diagnosis/intervention (top) and children who do not (bottom). Each dot represents one child in the sample; violin width reflect data distribution. Black dots and whiskers show means and standard error.", fig.dim = c(8, 4),}
+t_136 <- t.test(elssp_curves$diff_age_from_expected ~ elssp_curves$Meets136)
+
+
+ggplot(data=(elssp_curves %>% filter(Meets136!='')), aes(x=Meets136, y=diff_age_from_expected, fill=Meets136, color=Meets136)) +
+  geom_violin(alpha=.4)+
+  theme_classic(base_size = 16) +
+  geom_jitter(width=.15) +
+  stat_summary(fun.data=gg_SE, mult=1, 
+                 geom="pointrange", color="black") +
+  xlab("1-3-6") +
+  ylab("Vocabulary Delay (months)") + 
+  coord_flip() +
+  ggtitle("Vocabulary Delay and 1-3-6")
+
+```
+
+```{r diagnosis-beta-plot}
+diagnosis_aic <- lm(formula = IdentificationOfHLMonths ~ HealthIssues + Monolingual_English + Laterality, data = elssp)
+
+diagnosis_beta_plot <- dwplot(diagnosis_aic, by_2sd = FALSE) %>%
+  relabel_predictors(HealthIssuesyes = "Health Issues (yes)",
+Monolingual_Englishyes = "Language Background (English)",
+LateralityUnilateral = "Laterality (Unilateral)") + 
+  geom_vline(xintercept=0, linetype = 'dashed') + 
+  theme_classic(base_size = 13)+ 
+  theme(legend.position="none")
+#options(repr.plot.width=8)
+
+```
+
+```{r intervention-beta-plot}
+services_aic <- lm(formula = AgeStartedServices ~ HLworse + IsPremature + 
+                     IdentificationOfHLMonths + Monolingual_English, data = elssp)
+
+
+intervention_beta_plot <- dwplot(services_aic, by_2sd = FALSE)  %>%
+relabel_predictors(HLworse = "Degree of Hearing Loss",
+IsPrematureyes = "Premature (yes)",
+IdentificationOfHLMonths = "Age at Diagnosis",
+Monolingual_Englishyes = "Language Background (English)") +
+  geom_vline(xintercept=0, linetype = 'dashed') + 
+  theme_classic(base_size = 13) + 
+  theme(legend.position="none")
+#options(repr.plot.width=8, repr.plot.height=6) 
+
+```
+
+```{r beta-plots, fig.cap="Beta Weights for Vocabulary, Diagnosis, and Intervention Models: Unstandardized coefficients (measured in months) with 95% confidence intervals for the models selected by AIC for: (A) vocabulary delay, (B) age at diagnosis, (C) age at intervention.", fig.dim=c(8,4)}
+AIC_model_delay <- lm(formula = diff_age_from_expected ~ Laterality + Amplification + Age_in_months, data = (elssp_curves %>% filter(PrimaryLanguage != 
+    "Hindi" & Meets136!='') %>% droplevels()))
+
+vocab_beta_plot <- dwplot(AIC_model_delay, by_2sd = FALSE) %>%
+  relabel_predictors(LateralityUnilateral = "Laterality (Unilateral)",
+AmplificationHA= "Amplification (Hearing Aid)",
+AmplificationCI= "Amplification (Cochlear Implant)",
+Age_in_months = "Age") + 
+  theme_classic(base_size = 13) + 
+  geom_vline(xintercept = 0, linetype = 'dashed') + 
+  theme(legend.position = "none")
+
+plot5_row <- plot_grid(vocab_beta_plot, diagnosis_beta_plot, intervention_beta_plot, labels="AUTO", rows = 3)
+plot5_title <- ggdraw() + 
+  draw_label("Beta Weights for Vocabulary, Diagnosis, and Intervention Models", fontface = 'bold', x = 0,  hjust = 0) + 
+  theme(plot.background = element_rect(fill="white", color = "white"), plot.margin = margin(0, 0, 0, 7))
+
+cowplot::plot_grid(plot5_title, plot5_row, ncol=1, rel_heights = c(.1,1)) 
+```
 
 ```{r CDIinfo, echo=FALSE}
 
@@ -77,8 +237,9 @@ tribble(
   'NA',
   glue('{prod_WS_spoken} ({prod_WS_spoken_sd}) words'),
   glue('{perc_DD_WS}%')) %>%
-  kable(caption = "CDI Ages, vocabulary scores and rate of developmental delay. For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score, and production score of participants in our sample, along with the percent diagnosed with developmental delays.") %>%
-  kable_styling(latex_options = c("scale_down"), font_size = 8)
+  kable(caption = "CDI Ages, Vocabulary Scores and Rate of Developmental Delay: For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score, and production score of participants in our sample, along with the percent diagnosed with developmental delays.") %>%
+  kable_styling(latex_options = c("scale_down")) %>%
+  kable_styling(font_size = 3)
 #caption: For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score, and production score of participants in our sample, along with the percent diagnosed with developmental delays.") 
 ```
 
@@ -176,16 +337,16 @@ tribble(
     '{min_vocab}-{max_vocab} words (mean (SD): {mean_vocab} ({sd_vocab}))'
   ),
 ) %>%
-  kable(caption = "Detailed information about the variables studied. For categorical variables, levels are described. For continuous variables, range, mean, and standard deviation are provided.") %>%
-  kable_styling(latex_options = c("scale_down"), full_width=FALSE, font_size = 8)
+  kable(caption = "Variables List: Detailed information about the variables studied. For categorical variables, levels are described. For continuous variables, range, mean, and standard deviation are provided.") %>%
+  # kable_styling(latex_options = c("scale_down")) %>%
+  kable_styling(font_size = 6)
 
 # Caption: "Detailed information about the variables studied. For categorical variables, levels are described. For continuous variables, range, mean, and standard deviation are provided."
 
-#ec2eb: removed variable "type" column for comment 13
-#ec2eb: added frequency info for categorical variables for comment 50, comment 51
 ```
 
 \beginsupplement
+
 ```{r lm-stats, include=F}
 diagnosis_aic <- lm(formula = IdentificationOfHLMonths ~ HealthIssues + Monolingual_English + Laterality, data = elssp)
 
@@ -201,11 +362,10 @@ AIC_model_delay <- lm(formula = diff_age_from_expected ~ Laterality + Amplificat
 summary(AIC_model_delay)
 ```
 
-
-```{r supplemental-materials}
+```{r comorbid-table}
 perc_prem_NICU <- (nrow(comorbid%>%filter(NICU==1&IsPremature==1))/(nrow(elssp %>% filter(IsPremature==1))))*100
 
-comorbid_table <- tribble(
+tribble(
   ~Condition, ~'Specific Condition',  ~n,
   "Premature", "", n_condition(IsPremature),
   "", "Extremely Premature", n_condition(extremelypremature),
@@ -229,22 +389,22 @@ comorbid_table <- tribble(
   "", "Nearsightedness",  n_condition(myopia),
   "", "Farsightedness",  n_condition(hyperopia),
   "", "Cortical Visual Impairment",  n_condition(corticalvisualimpairment)) %>%
-  kable(caption = "Additional Diagnoses (n = {n_condition(anycomorbid)}): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses.") %>%
-  kable_styling(latex_options = c("scale_down"), font_size = 8)
-  
-  
-# Caption: Additional Diagnoses (n = {n_condition(anycomorbid)}): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses."
+  kable(caption = "Additional Diagnoses (n = 39): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses.") %>%
+  kable_styling(font_size = 6)
+```
 
+```{r supplemental-materials}
 elssp %>%
   filter(Amplification != '', Laterality != '') %>%
   dplyr::select(VIHI_ID, AgeImplantation, AgeAmplification, HLbetter, HLworse, Laterality, Amplification) %>%
   group_by(Laterality, Amplification) %>%
-  dplyr::summarise('Mean Degree (better ear; dB HL)' = round(mean(HLbetter, na.rm = TRUE), 2),
-                   'Mean Degree (worse ear; dB HL)' = round(mean(HLworse, na.rm = TRUE), 2),
-                   'Mean Age of Amplification (months)' = round(mean(AgeAmplification, na.rm = TRUE), 2),
-                   'Mean Age of Implantation (months)' = round(mean(AgeImplantation, na.rm = TRUE), 2)) %>%
+  dplyr::summarise('Degree \n(better ear; dB HL)' = round(mean(HLbetter, na.rm = TRUE), 2),
+                   'Degree \n(worse ear; dB HL)' = round(mean(HLworse, na.rm = TRUE), 2),
+                   'Age of Amplification (months)' = round(mean(AgeAmplification, na.rm = TRUE), 2),
+                   'Age of Implantation (months)' = round(mean(AgeImplantation, na.rm = TRUE), 2)) %>%
   kable(caption = "Audiological Characteristics of the Sample: First two columns describe laterality and amplification type (cochlear implant (CI), hearing aid (HA), or none). Mean decibels of hearing loss (HL) in better ear, worse ear, and the mean age (in months) of amplification, and cochlear implantation (when applicable) for each laterality and amplification combination.") %>%
-  kable_styling(latex_options = c("scale_down"), font_size = 8)
+  # kable_styling(latex_options = c("scale_down")) %>%
+  kable_styling(font_size = 6)
 # Caption:  Audiological Characteristics of the Sample: First two columns describe laterality and amplification type (cochlear implant (CI), hearing aid (HA), or none). Mean decibels of hearing loss (HL) in better ear, worse ear, and the mean age (in months) of amplification, and cochlear implantation (when applicable) for each laterality and amplification combination.
 
 elssp %>%
@@ -256,7 +416,8 @@ elssp %>%
   replace_na(list(English=0, Hindi=0, Spanish=0)) %>%
   mutate(Total = English + Hindi + Spanish) %>%
   kable(caption = "Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method.") %>%
-  kable_styling(latex_options = c("scale_down"), font_size = 8)
+  # kable_styling(latex_options = c("scale_down")) %>%
+  kable_styling(font_size = 6)
 # Caption: Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method.
 ```
 
@@ -273,7 +434,8 @@ AIC_model_delay %>%
          statistic=round(statistic,2),
          p.value=printp(p.value)) %>%
   kable(caption = "Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC.") %>%
-  kable_styling(latex_options = c("scale_down"), font_size = 8)
+  # kable_styling(latex_options = c("scale_down")) %>%
+  kable_styling(font_size = 6)
   
 
 #Caption:  "Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC."
@@ -291,7 +453,8 @@ diagnosis_aic %>%
          statistic=round(statistic,2),
          p.value=printp(p.value)) %>%
   kable(caption = "Unstandardized beta weights (months) for the model of diagnosis selected by AIC.") %>%
-  kable_styling(latex_options = c("scale_down"), font_size = 8)
+  # kable_styling(latex_options = c("scale_down")) %>%
+  kable_styling(font_size = 6)
 # Caption: Unstandardized beta coefficients (months) for the model of age at diagnosis selected by AIC.
 ```
 
@@ -307,25 +470,9 @@ services_aic %>%
          std.error=round(std.error,2),
          statistic=round(statistic,2),
          p.value=printp(p.value)) %>%
-  kable(caption = "Unstandardized beta weights (months) for the model of age at intervention selected by AIC.") %>%
-  kable_styling(latex_options = c("scale_down"), font_size = 8)
+  kable(caption = "Unstandardized beta weights (months) for the model of age at intervention selected by AIC.", escape=FALSE) %>%
+  # kable_styling(latex_options = c("scale_down")) %>%
+  kable_styling(font_size = 6)
 #Caption: Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC.
 ```
-
-<!-- **Table 1**: <!-- ec2eb: added sign score column for comment 10  -->
-<!-- **Table 2**: Detailed information about the variables studied. For categorical variables, levels are described and Ns provided. For continuous variables, range, mean, and standard deviation are provided. -->
-
-<!-- **Supplemental Materials S1**: Additional Diagnoses (n = `r n_condition(anycomorbid)`): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses. -->
-
-<!-- **Supplemental Materials S2**: Audiological Characteristics of the Sample: First two columns describe laterality and amplification type (cochlear implant (CI), hearing aid (HA), or none). Mean decibels of hearing loss (HL) in better ear, worse ear, and the mean age (in months) of amplification, and cochlear implantation (when applicable) for each laterality and amplification combination. -->
-
-<!-- **Supplemental Materials S3**: Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method. -->
-
-<!-- **Supplemental Materials S4**: Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC. -->
-
-<!-- **Supplemental Materials S5**: Unstandardized beta coefficients (months) for the model of age at diagnosis selected by AIC. -->
-
-<!-- **Supplemental Materials S6**: Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC. -->
-
-<!-- **Supplemental Materials S7**: PDF containing all tables with their captions in situ (for reader/reviewer ease). -->
 

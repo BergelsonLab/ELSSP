@@ -6,5 +6,16 @@ audiological_info.csv (S2): Audiological Characteristics of the Sample: First tw
 
 language_info.csv (S3): Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method.
 
-Last updated: 4/30/2021
+delay_betas.csv (S4): Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC.
+
+diagnosis_betas.csv (S5): Unstandardized beta coefficients (months) for the model of age at diagnosis selected by AIC.
+
+intervention_betas (S6): Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC.
+
+AllTables.pdf (S7): PDF containing all figures and tables with their captions in situ (for reader/reviewer ease).
+
+AllTables.Rmd: Rmd used to create S7
+AllTables.log: log file associated with S7
+
+Last updated: 9/24/2021
 Maintained by: Erin Campbell (erin.e.campbell@duke.edu)

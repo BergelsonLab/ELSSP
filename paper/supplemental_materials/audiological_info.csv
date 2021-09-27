@@ -1,4 +1,4 @@
-"","Laterality","Amplification","Mean Degree (better ear; dB HL)","Mean Degree (worse ear; dB HL)","Mean Age of Amplification (months)","Mean Age of Implantation (months)"
+"","Laterality","Amplification","Degree (better ear; dB HL)","Degree (worse ear; dB HL)","Age of Amplification (months)","Age of Implantation (months)"
 "1","Bilateral","CI",85.6,89.79,11.29,14.12
 "2","Bilateral","HA",47.51,56.28,8.18,NA
 "3","Bilateral","none",49.67,53.65,NA,NA

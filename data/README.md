@@ -9,7 +9,8 @@ This repo contains the data for Characterizing North Carolina's Deaf/Hard-of-Hea
 	- VIHI_ID: subject id with age identifier
 	- SubjectNumber: subject id without age identifier
 	- VisitNumber: whether this was the first evaluation for the child
-	- Age: in months
+	- Age_in_days: child age at evaluation in days
+	- Age_in_months: child age at evaluation in months
 	- Gender: male/female
 	- Meets136: whether child received diagnosis by 3 months and intervention by 6 months
 	- Meets13: whether child received diagnosis by 3 months
@@ -40,5 +41,5 @@ This repo contains the data for Characterizing North Carolina's Deaf/Hard-of-Hea
 	- LanguageBackground: language spoken most in home
 **vocabulary_norms_table_XXX.csv**: for Words & Gestures (WG) or Words & Sentences (WS) either for American English or Mexican Spanish. Downloaded from wordbank.stanford.edu
 
-Last updated: 4/30/2021
+Last updated: 9/24/2021
 Maintained by: Erin Campbell (erin.e.campbell@duke.edu)
