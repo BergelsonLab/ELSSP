@@ -76,7 +76,7 @@ source("functions_and_df_prep.R")
 
 \pagebreak
 # Introduction
-In the United States, 1-2 children are born with hearing loss, per 1,000 births [@cdc2018], of which ~90% will be born to hearing parents [@mitchell2004], in a home where spoken language is likely the dominant communication method. Depending on the type and degree of hearing loss, whether the child uses amplification, and whether there is any access to sign language, linguistic input may be partially or totally inaccessible. Despite growing, converging evidence for benefits of early sign language exposure (e.g., Clark et al., 2016, Davidson et al., 2014; Hrastinski & Wilbur, 2016; Magnuson, 2000; Schick et al., 2007; Spencer, 1993), the majority of U.S. DHH children (and particularly those in our North Carolina-based sample) are not raised in a sign language environment. While some of these children will develop spoken language proficiency within the range of their hearing peers [@verhaert2008; @geers2017], many will face persistent spoken language deficits [@eisenberg2007; @moeller2007; @luckner2010], which may later affect reading ability and academic achievement[^1] [@qi2012; @karchmer2003]. Given this, we focus primarily on spoken language development. 
+In the United States, 1-2 children are born with hearing loss, per 1,000 births [@cdc2018], of which ~90% will be born to hearing parents [@mitchell2004], in a home where spoken language is likely the dominant communication method. Depending on the type and degree of hearing loss, whether the child uses amplification, and whether there is any access to sign language, linguistic input may be partially or totally inaccessible. Despite growing, converging evidence for benefits of early sign language exposure (e.g., Clark et al., 2016, Davidson et al., 2014; Hrastinski & Wilbur, 2016; Magnuson, 2000; Schick et al., 2007; Spencer, 1993), the majority of U.S. DHH children (and particularly those in our North Carolina-based sample) are not raised in a sign language environment. While some of these children will develop spoken language proficiency within the range of their hearing peers [@verhaert2008; @geers2017], many will face persistent spoken language deficits [@eisenberg2007; @moeller2007; @luckner2010], which may later affect reading ability and academic achievement [@qi2012; @karchmer2003]. Given this, we focus primarily on spoken language development. 
 
 Though the literature points towards spoken language delays and deficits for Deaf or Hard-of-Hearing (DHH) children, this is a highly variable population with highly variable language outcomes [@pisoni2018]. For instance, previous research indicates that gender [@kiese-himmel2002a; @ching2013], additional disability [@ching2013; @yoshinaga-itano2017; @verhaert2008], degree and configuration of hearing loss [@ching2013; @dediego-lazaro2018; @vohr2011; @yoshinaga-itano2017], amplification [@walker2015], communication [@geers2017], and early diagnosis/intervention [@yoshinaga-itano2017; @yoshinaga-itano2018] influence language outcomes in DHH children. Although many of these variables reflect immutable characteristics of the child, such as comorbid diagnoses or configuration of hearing loss, some represent opportunities for clinicians and policy makers to intervene and potentially improve language outcomes for DHH children. 
 
@@ -102,7 +102,7 @@ num_too_old_wg <- nrow(elssp_curves %>% filter(CDIversion == 'WG' & Age_in_month
 num_spanish_cdi <- nrow(elssp %>% filter(PrimaryLanguage == 'Spanish'))
 ```
 
-Clinical evaluations were obtained through an ongoing collaboration with the North Carolina Early Language Sensory Support Program (ELSSP), an early intervention program serving children with sensory impairments from birth to 36 months. ELSSP sent deidentified evaluations to our team after obtaining consent to do so from each family[^2]. While this collaboration is ongoing, we opted to pause for this analysis upon receiving data from 100 children (collected between 2010 and 2020, before the COVID-19 epidemic reached North Carolina in Spring 2020). Given our goal of characterizing the full range of DHH children with hearing loss in North Carolina, no eligibility criteria beyond hearing loss and receiving an ELSSP evaluation were imposed.
+Clinical evaluations were obtained through an ongoing collaboration with the North Carolina Early Language Sensory Support Program (ELSSP), an early intervention program serving children with sensory impairments from birth to 36 months. ELSSP sent deidentified evaluations to our team after obtaining consent to do so from each family[^1]. While this collaboration is ongoing, we opted to pause for this analysis upon receiving data from 100 children (collected between 2010 and 2020, before the COVID-19 epidemic reached North Carolina in Spring 2020). Given our goal of characterizing the full range of DHH children with hearing loss in North Carolina, no eligibility criteria beyond hearing loss and receiving an ELSSP evaluation were imposed.
 
 The clinical evaluations included demographic and audiological information and MacArthur Bates Communicative Development Inventory vocabulary scores [CDI, @fenson1994]. For some children, evaluations from multiple timepoints or other instruments were available (e.g. PPVT). We limit the scope of the present study to only the CDI (as this was available for all children), and only the first evaluation (due to concerns regarding within-subjects variance for statistical analysis.)
 
@@ -110,47 +110,6 @@ The CDI is a parent-report instrument measuring children’s vocabulary. On the 
 
 ```{r CDIinfo, echo=FALSE}
 
-n_WG <- nrow(elssp %>% filter(CDIversion=="WG"))
-n_WS <- nrow(elssp %>% filter(CDIversion=="WS"))
-age_WG <- round(mean((elssp %>% filter(CDIversion=="WG"))$Age_in_months), digits=1)
-age_WG_sd <- round(sd((elssp %>% filter(CDIversion=="WG"))$Age_in_months), digits=1)
-age_WS <- round(mean((elssp %>% filter(CDIversion=="WS"))$Age_in_months), digits=1)
-age_WS_sd <- round(sd((elssp %>% filter(CDIversion=="WS"))$Age_in_months), digits=1)
-comp_WG <- round(mean((elssp %>% filter(CDIversion=="WG"))$ComprehensionCDI, na.rm = TRUE))
-comp_WG_sd <- round(sd((elssp %>% filter(CDIversion=="WG"))$ComprehensionCDI, na.rm = TRUE))
-prod_WG_spoken <- round(mean((elssp %>% filter(CDIversion=="WG"))$ProductionCDI, na.rm = TRUE))
-prod_WG_spoken_sd <- round(sd((elssp %>% filter(CDIversion=="WG"))$ProductionCDI, na.rm = TRUE))
-prod_WS_spoken <- round(mean((elssp %>% filter(CDIversion=="WS"))$ProductionCDI, na.rm = TRUE))
-prod_WS_spoken_sd <- round(sd((elssp %>% filter(CDIversion=="WS"))$ProductionCDI, na.rm = TRUE))
-perc_DD_WG <- round(((nrow((elssp %>% filter(CDIversion=="WG")) %>% filter(DevelopmentalConcerns=="yes")))/(nrow((elssp %>% filter(CDIversion=="WG")))))*100, digits=1)
-perc_DD_WS <- round(((nrow((elssp %>% filter(CDIversion=="WS")) %>% filter(DevelopmentalConcerns=="yes")))/(nrow((elssp %>% filter(CDIversion=="WS")))))*100, digits=1)
-
-
-tribble(
-  ~ 'CDI version',
-  ~ 'Mean Age (SD)',
-  ~ 'Mean Comprehension (SD)',
-  ~ 'Mean Word Production (SD)',
-  ~ '% Developmental Delays',
-  glue('WG (n = {n_WG})'),
-  glue('{age_WG} ({age_WG_sd}) months'),
-  glue('{comp_WG} ({comp_WG_sd}) words'),
-  glue('{prod_WG_spoken} ({prod_WG_spoken_sd}) words'),
-  glue('{perc_DD_WG}%'),
-  glue('WS (n = {n_WS})'),
-  glue('{age_WS} ({age_WS_sd}) months'),
-  'NA',
-  glue('{prod_WS_spoken} ({prod_WS_spoken_sd}) words'),
-
-  glue('{perc_DD_WS}%')) %>%
-  write.xlsx("paper/tables/Table1.xlsx")
-#caption: For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score, and production score of participants in our sample, along with the percent diagnosed with developmental delays.") 
-
-```
-
-For this analysis, `r num_subs` children (`r num_boys` male / `r num_girls` female) ages `r min_age`--`r max_age` months (M=`r mean_age`, SD=`r sd_age`) contributed data. Race and socioeconomic information were not available. Families were administered either the Words and Gestures or Words and Sentences version of the CDI based on clinician judgment of linguistic ability. Children who were too old for Words and Gestures, but who were not producing many words at the time of assessment, were often given Words and Gestures (n = `r num_too_old_wg`). Families whose primary language was Spanish (n = `r num_spanish_cdi`) completed the Spanish language version of the CDI [@jackson-maldonado2003]. Both spoken words and signs counted as word productions. See Table 1 for additional CDI information for our sample. A summary of all the variables we examined is available in Table 2, and more detailed information can be found in the Supplemental Materials, Tables S1-S3.
-
-```{r variables-list}
 #age
 min_age <- round(min(elssp$Age_in_months))
 max_age <- round(max(elssp$Age_in_months))
@@ -176,7 +135,7 @@ min_age_services <- min(elssp$AgeStartedServices, na.rm=TRUE)
 max_age_services <- max(elssp$AgeStartedServices, na.rm=TRUE)
 mean_age_services <- round(mean(elssp$AgeStartedServices, na.rm=TRUE))
 sd_age_services <- round(sd(elssp$AgeStartedServices, na.rm=TRUE))
-#degree 
+#degree
 min_degree <- round(min(elssp$HLworse, na.rm=TRUE))
 max_degree <- max(elssp$HLworse, na.rm=TRUE)
 mean_degree <- round(mean(elssp$HLworse, na.rm=TRUE))
@@ -186,13 +145,17 @@ min_services <- min(elssp$ServicesReceivedPerMonth, na.rm=TRUE)
 max_services <- max(elssp$ServicesReceivedPerMonth, na.rm=TRUE)
 mean_services <- round(mean(elssp$ServicesReceivedPerMonth, na.rm=TRUE))
 sd_services <- round(sd(elssp$ServicesReceivedPerMonth, na.rm=TRUE))
-#vocab (production)
-min_vocab <- min(elssp$ProductionCDI, na.rm=TRUE)
-max_vocab <- max(elssp$ProductionCDI, na.rm=TRUE)
-mean_vocab <- round(mean(elssp$ProductionCDI, na.rm=TRUE))
-sd_vocab <- round(sd(elssp$ProductionCDI, na.rm=TRUE))
+#WG vocab (production)
+min_WG_spoken <- min((elssp%>% filter(CDIversion=="WG"))$ProductionCDI, na.rm=TRUE)
+max_WG_spoken <- max((elssp%>% filter(CDIversion=="WG"))$ProductionCDI, na.rm=TRUE)
+prod_WG_spoken <- round(mean((elssp %>% filter(CDIversion=="WG"))$ProductionCDI, na.rm = TRUE))
+prod_WG_spoken_sd <- round(sd((elssp %>% filter(CDIversion=="WG"))$ProductionCDI, na.rm = TRUE))
+#WS vocab
+prod_WS_spoken <- round(mean((elssp %>% filter(CDIversion=="WS"))$ProductionCDI, na.rm = TRUE))
+prod_WS_spoken_sd <- round(sd((elssp %>% filter(CDIversion=="WS"))$ProductionCDI, na.rm = TRUE))
+min_WS_spoken <- min((elssp%>% filter(CDIversion=="WS"))$ProductionCDI, na.rm=TRUE)
+max_WS_spoken <- max((elssp%>% filter(CDIversion=="WS"))$ProductionCDI, na.rm=TRUE)
 
-  
 tribble(
   ~ Variable,
   ~ Range,
@@ -238,10 +201,14 @@ tribble(
   ),
   'Etiology',
   glue('Sensorineural ({nrow(elssp %>% filter(Etiology=="SNHL"))}) / Conductive ({nrow(elssp %>% filter(Etiology=="Conductive"))}) / Mixed ({nrow(elssp %>% filter(Etiology=="Mixed"))})'),
-  'CDI - Words Produced',
+  'Words and Gestures CDI - Words Produced',
   glue(
-    '{min_vocab}-{max_vocab} words (mean (SD): {mean_vocab} ({sd_vocab}))'
+    '{min_WG_spoken}-{max_WG_spoken} words (mean (SD): {prod_WG_spoken} ({prod_WG_spoken_sd}))'
   ),
+  'Words and Sentences CDI - Words Produced',
+  glue(
+    '{min_WS_spoken}-{max_WS_spoken} words (mean (SD): {prod_WS_spoken} ({prod_WS_spoken_sd}))'
+  )
 ) %>% write.xlsx("paper/tables/Table2.xlsx")
   
 # Caption: "Detailed information about the variables studied. For categorical variables, levels are described. For continuous variables, range, mean, and standard deviation are provided."
@@ -353,9 +320,9 @@ span_ws_wb <-
                       administrations = TRUE) 	%>% filter(norming == TRUE)
 ```
 
-More specifically, to compute a child's predicted age from their vocabulary score, we used the 50th percentile for productive vocabulary from WordBank data for typically-developing infants [@frank2017] to create binary logistic growth curves separately for the "Words and Gestures" (WG) and "Words and Sentences" (WS) versions of the CDI for American English and Mexican Spanish[^5]. For each child, we took the number of words they produced (spoken and/or signed, though the latter was only provided for children using Total Communication (n = `r nrow(elssp %>% filter(Communication=="total communication"))`) as all others were reported to exclusively use spoken language). We then divided this production score by the number of words on the instrument, to give us the proportion of words produced. We used this proportion in an inverse prediction from the binary logistic regression curves to generate a predicted age. That is, for each possible CDI score, the growth curve provided the age that the score would be achieved for the 50th percentile trajectory. Finally, we subtracted the predicted age from each child's chronological age to calculate their vocabulary delay. However, for children producing 0 words, this approach was not appropriate due to the long tails on the growth curves. Thus, for this subset of children, we took the x-intercept from Wordbank (8 months for English, and 9 months for Spanish), and subtracted that value from the child's chronological age to get their vocabulary delay. 
+More specifically, to compute a child's predicted age from their vocabulary score, we used the 50th percentile for productive vocabulary from WordBank data for typically-developing infants [@frank2017] to create binary logistic growth curves separately for the "Words and Gestures" (WG) and "Words and Sentences" (WS) versions of the CDI for American English and Mexican Spanish[^2]. For each child, we took the number of words they produced (spoken and/or signed, though the latter was only provided for children using Total Communication (n = `r nrow(elssp %>% filter(Communication=="total communication"))`) as all others were reported to exclusively use spoken language). We then divided this production score by the number of words on the instrument, to give us the proportion of words produced. We used this proportion in an inverse prediction from the binary logistic regression curves to generate a predicted age. That is, for each possible CDI score, the growth curve provided the age that the score would be achieved for the 50th percentile trajectory. Finally, we subtracted the predicted age from each child's chronological age to calculate their vocabulary delay. However, for children producing 0 words, this approach was not appropriate due to the long tails on the growth curves. Thus, for this subset of children, we took the x-intercept from Wordbank (8 months for English, and 9 months for Spanish), and subtracted that value from the child's chronological age to get their vocabulary delay. 
 
-To look at the relationship between our predictor variables and CDI scores, we next conducted multiple linear regression, using vocabulary delay as our outcome variable. Children who were too young for the CDI version they were administered (n = `r (nrow(elssp %>% filter(Version=='WG' & Age<8)) + nrow(elssp %>% filter(Version=='WS' & Age<16)))`) were excluded from this portion of the analysis, as was the adopted child due to concerns about comparing their score to the American English CDI norms.
+To look at the relationship between our predictor variables and CDI scores, we next conducted multiple linear regression, using vocabulary delay as our outcome variable. Children who were too young for the CDI version they were administered (n = `r (nrow(elssp %>% filter(CDIversion=='WG' & Age_in_months<8)) + nrow(elssp %>% filter(CDIversion=='WS' & Age_in_months<16)))`) were excluded from this portion of the analysis, as was the adopted child due to concerns about comparing their score to the American English CDI norms.
 
 Our full regression model included all variables: Vocabulary Delay ~ Gender + Developmental Delay + Health Issues + Premature Birth + Laterality + Degree + Amplification + Communication + Meets 1-3-6 + Services Received Per Month + Language Background. 
 
@@ -381,7 +348,7 @@ summary(AIC_model_delay)
 
 ```
 
-This model accounted for significant variance in vocabulary delay (adjusted-R^2^ = `r summary(full_model_delay)$adj.r.squared`, *p* `r lm_pvalue(full_model_delay)`). We next performed stepwise model comparison using stepAIC (MASS) to pare down the model. This process selects only the predictors which incrementally improved model fit, measured by Akaike’s Information Criterion (AIC). We started model selection with the full model, as described above. We then filtered out data from children for whom Meets 1-3-6 (n = `r nrow(elssp %>% filter(is.na(Meets136)))`) or Degree (n = `r nrow(elssp %>% filter(is.na(HLworse)))`) was unknown, as this stepwise AIC approach does not permit missing values across predictors. Since this initial filtered analysis found that Degree and 1-3-6 did not improve model fit, we manually removed the Degree and 1-3-6 terms from the model selection so that the `r nrow(elssp %>% filter(is.na(HLworse)|is.na(Meets136)))` participants with missing cases for these variables could be retained.[^7] 
+This model accounted for significant variance in vocabulary delay (adjusted-R^2^ = `r summary(full_model_delay)$adj.r.squared`, *p* `r lm_pvalue(full_model_delay)`). We next performed stepwise model comparison using stepAIC (MASS) to pare down the model. This process selects only the predictors which incrementally improved model fit, measured by Akaike’s Information Criterion (AIC). We started model selection with the full model, as described above. We then filtered out data from children for whom Meets 1-3-6 (n = `r nrow(elssp %>% filter(is.na(Meets136)))`) or Degree (n = `r nrow(elssp %>% filter(is.na(HLworse)))`) was unknown, as this stepwise AIC approach does not permit missing values across predictors. Since this initial filtered analysis found that Degree and 1-3-6 did not improve model fit, we manually removed the Degree and 1-3-6 terms from the model selection so that the `r nrow(elssp %>% filter(is.na(HLworse)|is.na(Meets136)))` participants with missing cases for these variables could be retained[^3].
 
 ```{r vocab-beta-plot}
 vocab_beta_plot <- dwplot(AIC_model_delay, by_2sd = FALSE) %>%
@@ -534,9 +501,9 @@ Monolingual_Englishyes = "Language Background (English)") +
 
 ```
 
-```{r intervention-betas}
+```{r intervention-betas, include=TRUE}
 
-services_aic %>% 
+intervention_betas_table <- services_aic %>%
   tidy() %>%
     mutate(term=replace(term, term=="HLworse", "Degree of Hearing Loss"),
            term=replace(term, term=="IsPrematureyes", "Premature (yes)"),
@@ -545,8 +512,13 @@ services_aic %>%
   mutate(estimate=round(estimate, 2),
          std.error=round(std.error,2),
          statistic=round(statistic,2),
-         p.value=printp(p.value)) %>%
-  write.csv("paper/supplemental_materials/intervention_betas.csv")
+         p.value=printp(p.value)) 
+
+
+ # apa("Unstandardized Beta Coefficients (Months) for the Model of Age at Intervention Selected by AIC.") 
+#   
+#   
+#   write.csv("paper/supplemental_materials/intervention_betas.csv")
 #Caption: Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC.
 ```
 
@@ -603,7 +575,7 @@ Our exploration of the implementation of 1-3-6 guidelines revealed that only `r 
 ### Diagnosis 
 
 Having health issues or a non-English language background predicted later diagnosis. 
-Children with health issues were diagnosed `r summary(diagnosis_aic)$coefficients[2,1]` months later than infants without health issues. For a small fraction of cases, this may have been because health issues caused acquired hearing loss, delaying its identification[^8]. Of course, some situations may require families and medical providers to prioritize treatment for certain health issues (e.g., surgery for congenital heart defect) over diagnostic audiology services. That said, our results raise the possibility that clinician awareness of increased delays in language linked to the prevalence of health issues may facilitate improvements in timely diagnosis.
+Children with health issues were diagnosed `r summary(diagnosis_aic)$coefficients[2,1]` months later than infants without health issues. For a small fraction of cases, this may have been because health issues caused acquired hearing loss, delaying its identification. Of course, some situations may require families and medical providers to prioritize treatment for certain health issues (e.g., surgery for congenital heart defect) over diagnostic audiology services. That said, our results raise the possibility that clinician awareness of increased delays in language linked to the prevalence of health issues may facilitate improvements in timely diagnosis.
 
 Language background too predicted age at diagnosis, such that infants from Spanish-speaking families were diagnosed `r abs(summary(services_aic)$coefficients[3,1])` months later than infants from English-speaking families. This may be due to cultural differences in attitudes towards deafness [@caballero2018; @steinberg2003; @rodriguez2020] or a lack of linguistically accessible and culturally appropriate audiology services. Only 5.6% of American audiologists identify as bilingual service providers [@asha2019], and services from a monolingual provider may be insufficient, particularly in obtaining the child’s case history and providing recommendations for follow-up services [@abreu2011]. 
 
@@ -742,6 +714,6 @@ elssp %>%
 
 **Supplemental Materials S7**: PDF containing all figures and tables with their captions in situ (for reader/reviewer ease).
 
-[^2]: Because the data we received were already deidentified, this study was exempt from Duke University Institutional Review Board.
-[^5]: Number of hearing children in normative sample for each growth curve: WG-English=`r length(unique(eng_wg_wb$data_id))`, WG-Spanish=`r length(unique(span_wg_wb$data_id))`; WS-English=`r length(unique(eng_ws_wb$data_id))`, WS-Spanish=`r length(unique(span_ws_wb$data_id))`
-[^7]: `r nrow(elssp %>% filter(is.na(HLworse) & is.na(Meets136)))` participants had missing values for both 1-3-6 and Degree. For transparency, we note that the model fitted with only complete cases of Degree did include a non-significant main effect of Developmental Delay. However, ANOVA revealed that including a Developmental Delay term did not significantly improve model fit when including the `r nrow(elssp %>% filter(is.na(HLworse)|is.na(Meets136)))` participants without Degree information.
+[^1]: Because the data we received were already deidentified, this study was exempt from Duke University Institutional Review Board.
+[^2]: Number of hearing children in normative sample for each growth curve: WG-English=`r length(unique(eng_wg_wb$data_id))`, WG-Spanish=`r length(unique(span_wg_wb$data_id))`; WS-English=`r length(unique(eng_ws_wb$data_id))`, WS-Spanish=`r length(unique(span_ws_wb$data_id))`
+[^3]: `r nrow(elssp %>% filter(is.na(HLworse) & is.na(Meets136)))` participants had missing values for both 1-3-6 and Degree. For transparency, we note that the model fitted with only complete cases of Degree did include a non-significant main effect of Developmental Delay. However, ANOVA revealed that including a Developmental Delay term did not significantly improve model fit when including the `r nrow(elssp %>% filter(is.na(HLworse)|is.na(Meets136)))` participants without Degree information.

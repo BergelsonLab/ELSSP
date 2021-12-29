@@ -33,6 +33,7 @@ library(cowplot)
 library(dotwhisker)
 library(car)
 library(openxlsx)
+library(flextable)
 knitr::opts_chunk$set(fig.width=4, fig.height=4, fig.pos="p", comment=F, message=F, hide = T, warning = F, echo = F)
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 knitr::write_bib(.packages(), file = 'packages.bib')
@@ -203,46 +204,6 @@ plot5_title <- ggdraw() +
 cowplot::plot_grid(plot5_title, plot5_row, ncol=1, rel_heights = c(.1,1)) 
 ```
 
-```{r CDIinfo, echo=FALSE}
-
-n_WG <- nrow(elssp %>% filter(CDIversion=="WG"))
-n_WS <- nrow(elssp %>% filter(CDIversion=="WS"))
-age_WG <- round(mean((elssp %>% filter(CDIversion=="WG"))$Age_in_months), digits=1)
-age_WG_sd <- round(sd((elssp %>% filter(CDIversion=="WG"))$Age_in_months), digits=1)
-age_WS <- round(mean((elssp %>% filter(CDIversion=="WS"))$Age_in_months), digits=1)
-age_WS_sd <- round(sd((elssp %>% filter(CDIversion=="WS"))$Age_in_months), digits=1)
-comp_WG <- round(mean((elssp %>% filter(CDIversion=="WG"))$ComprehensionCDI, na.rm = TRUE))
-comp_WG_sd <- round(sd((elssp %>% filter(CDIversion=="WG"))$ComprehensionCDI, na.rm = TRUE))
-prod_WG_spoken <- round(mean((elssp %>% filter(CDIversion=="WG"))$ProductionCDI, na.rm = TRUE))
-prod_WG_spoken_sd <- round(sd((elssp %>% filter(CDIversion=="WG"))$ProductionCDI, na.rm = TRUE))
-prod_WS_spoken <- round(mean((elssp %>% filter(CDIversion=="WS"))$ProductionCDI, na.rm = TRUE))
-prod_WS_spoken_sd <- round(sd((elssp %>% filter(CDIversion=="WS"))$ProductionCDI, na.rm = TRUE))
-perc_DD_WG <- round(((nrow((elssp %>% filter(CDIversion=="WG")) %>% filter(DevelopmentalConcerns=="yes")))/(nrow((elssp %>% filter(CDIversion=="WG")))))*100, digits=1)
-perc_DD_WS <- round(((nrow((elssp %>% filter(CDIversion=="WS")) %>% filter(DevelopmentalConcerns=="yes")))/(nrow((elssp %>% filter(CDIversion=="WS")))))*100, digits=1)
-
-
-tribble(
-  ~ 'CDI version',
-  ~ 'Mean Age (SD)',
-  ~ 'Mean Comprehension (SD)',
-  ~ 'Mean Word Production (SD)',
-  ~ '% Developmental Delays',
-  glue('WG (n = {n_WG})'),
-  glue('{age_WG} ({age_WG_sd}) months'),
-  glue('{comp_WG} ({comp_WG_sd}) words'),
-  glue('{prod_WG_spoken} ({prod_WG_spoken_sd}) words'),
-  glue('{perc_DD_WG}%'),
-  glue('WS (n = {n_WS})'),
-  glue('{age_WS} ({age_WS_sd}) months'),
-  'NA',
-  glue('{prod_WS_spoken} ({prod_WS_spoken_sd}) words'),
-  glue('{perc_DD_WS}%')) %>%
-  kable(caption = "CDI Ages, Vocabulary Scores and Rate of Developmental Delay: For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score, and production score of participants in our sample, along with the percent diagnosed with developmental delays.") %>%
-  kable_styling(latex_options = c("scale_down")) %>%
-  kable_styling(font_size = 3)
-#caption: For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score, and production score of participants in our sample, along with the percent diagnosed with developmental delays.") 
-```
-
 
 ```{r variables-list}
 #age
@@ -280,14 +241,18 @@ min_services <- min(elssp$ServicesReceivedPerMonth, na.rm=TRUE)
 max_services <- max(elssp$ServicesReceivedPerMonth, na.rm=TRUE)
 mean_services <- round(mean(elssp$ServicesReceivedPerMonth, na.rm=TRUE))
 sd_services <- round(sd(elssp$ServicesReceivedPerMonth, na.rm=TRUE))
-#vocab (production)
-min_vocab <- min(elssp$ProductionCDI, na.rm=TRUE)
-max_vocab <- max(elssp$ProductionCDI, na.rm=TRUE)
-mean_vocab <- round(mean(elssp$ProductionCDI, na.rm=TRUE))
-sd_vocab <- round(sd(elssp$ProductionCDI, na.rm=TRUE))
+#WG vocab (production)
+min_WG_spoken <- min((elssp%>% filter(CDIversion=="WG"))$ProductionCDI, na.rm=TRUE)
+max_WG_spoken <- max((elssp%>% filter(CDIversion=="WG"))$ProductionCDI, na.rm=TRUE)
+prod_WG_spoken <- round(mean((elssp %>% filter(CDIversion=="WG"))$ProductionCDI, na.rm = TRUE))
+prod_WG_spoken_sd <- round(sd((elssp %>% filter(CDIversion=="WG"))$ProductionCDI, na.rm = TRUE))
+#WS vocab
+prod_WS_spoken <- round(mean((elssp %>% filter(CDIversion=="WS"))$ProductionCDI, na.rm = TRUE))
+prod_WS_spoken_sd <- round(sd((elssp %>% filter(CDIversion=="WS"))$ProductionCDI, na.rm = TRUE))
+min_WS_spoken <- min((elssp%>% filter(CDIversion=="WS"))$ProductionCDI, na.rm=TRUE)
+max_WS_spoken <- max((elssp%>% filter(CDIversion=="WS"))$ProductionCDI, na.rm=TRUE)
 
-
-tribble(
+df(tribble(
   ~ Variable,
   ~ Range,
   'Age',
@@ -332,11 +297,19 @@ tribble(
   ),
   'Etiology',
   glue('Sensorineural ({nrow(elssp %>% filter(Etiology=="SNHL"))}) / Conductive ({nrow(elssp %>% filter(Etiology=="Conductive"))}) / Mixed ({nrow(elssp %>% filter(Etiology=="Mixed"))})'),
-  'CDI - Words Produced',
+  'Words and Gestures CDI - Words Produced',
   glue(
-    '{min_vocab}-{max_vocab} words (mean (SD): {mean_vocab} ({sd_vocab}))'
+    '{min_WG_spoken}-{max_WG_spoken} words (mean (SD): {prod_WG_spoken} ({prod_WG_spoken_sd}))'
   ),
-) %>%
+  'Words and Sentences CDI - Words Produced',
+  glue(
+    '{min_WS_spoken}-{max_WS_spoken} words (mean (SD): {prod_WS_spoken} ({prod_WS_spoken_sd}))'
+  )
+)) %>%
+  flextable()
+  
+  
+  
   kable(caption = "Variables List: Detailed information about the variables studied. For categorical variables, levels are described. For continuous variables, range, mean, and standard deviation are provided.") %>%
   # kable_styling(latex_options = c("scale_down")) %>%
   kable_styling(font_size = 6)
@@ -390,7 +363,7 @@ tribble(
   "", "Farsightedness",  n_condition(hyperopia),
   "", "Cortical Visual Impairment",  n_condition(corticalvisualimpairment)) %>%
   kable(caption = "Additional Diagnoses (n = 39): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses.") %>%
-  kable_styling(font_size = 6)
+  flextable()
 ```
 
 ```{r supplemental-materials}
@@ -417,7 +390,7 @@ elssp %>%
   mutate(Total = English + Hindi + Spanish) %>%
   kable(caption = "Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method.") %>%
   # kable_styling(latex_options = c("scale_down")) %>%
-  kable_styling(font_size = 6)
+  flextable()
 # Caption: Language and Communication Characteristics of the Sample: Ns of participants by language background and communication method.
 ```
 
@@ -435,7 +408,7 @@ AIC_model_delay %>%
          p.value=printp(p.value)) %>%
   kable(caption = "Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC.") %>%
   # kable_styling(latex_options = c("scale_down")) %>%
-  kable_styling(font_size = 6)
+  flextable()
   
 
 #Caption:  "Unstandardized beta weights (months of vocabulary delay) for the model of vocabulary delay selected by AIC."
@@ -454,7 +427,7 @@ diagnosis_aic %>%
          p.value=printp(p.value)) %>%
   kable(caption = "Unstandardized beta weights (months) for the model of diagnosis selected by AIC.") %>%
   # kable_styling(latex_options = c("scale_down")) %>%
-  kable_styling(font_size = 6)
+  flextable()
 # Caption: Unstandardized beta coefficients (months) for the model of age at diagnosis selected by AIC.
 ```
 
@@ -472,7 +445,7 @@ services_aic %>%
          p.value=printp(p.value)) %>%
   kable(caption = "Unstandardized beta weights (months) for the model of age at intervention selected by AIC.", escape=FALSE) %>%
   # kable_styling(latex_options = c("scale_down")) %>%
-  kable_styling(font_size = 6)
+  flextable()
 #Caption: Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC.
 ```
 
