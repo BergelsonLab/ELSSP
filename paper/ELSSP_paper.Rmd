@@ -225,21 +225,6 @@ Before testing how these variables relate to vocabulary and clinical milestones,
 
 Of the `r nrow(chi_sq_all)` combinations of variables, *p* < .05 for `r nrow(chi_sq_all %>% filter(p.value<.05))`, and `r nrow(chi_sq_all %>% filter(p.value<.000757))` survived Bonferroni correction (*p* < 0.0007). We limit discussion to the latter below, but depict the full set in Figure 1.
 
-```{r relationships-plot, fig.width=12, fig.height=9.5, fig.cap="Results of chi-square tests between variables. X- and y-axes show the variables compared. Color of the square represents significance of the corresponding chi-square test. For tests that survived Bonferroni correction (p<.0007), effect size (Cramer's V) is given.", include=F}
-ggplot(chi_sq_all, aes(y=Var2, x=Var1)) +
-  geom_tile(aes(fill = sig)) + theme_classic() +
-  theme(axis.text.x = element_text(angle = 315, hjust=0.1), 
-        axis.text = element_text(size=16),
-        legend.text = element_text(size=16)) +
-  scale_fill_brewer(palette = "RdPu", direction=-1) +
-  geom_text(aes(label=ifelse(sig=='survives Bonferroni correction', round(eff.size,2), '')), 
-            size=5) +
-  xlab(NULL) + ylab(NULL) +
-  ggtitle("Co-Occurrence of Child-Level Variables (Chi-Square)")
-  ggsave(filename = "Figure1.tiff", path="paper/figures", device = "tiff", width = 12, height = 8)
-# Caption: Results of chi-square tests between variables. X- and y-axes show the variables compared. Color of the square represents significance of the corresponding chi-square test. For tests that survived Bonferroni correction (p<.0007), effect size (Cramer's V) is given.
-```
-
 As expected, health issues, developmental delays, and premature birth were highly interrelated in our sample, such that children born premature were more likely to also experience health issues `r chisq_output("IsPremature","HealthIssues")` and developmental delays `r chisq_output("IsPremature","DevelopmentalConcerns")`, and children with developmental delays were more likely to also experience health issues `r chisq_output("DevelopmentalConcerns","HealthIssues")`. Children with developmental delays received more services per month than typically-developing children `r chisq_output("DevelopmentalConcerns", "SPM_cat")` and were more likely to use total communication `r chisq_output("DevelopmentalConcerns","Communication")`. Likewise, children who used total communication received more services per month than children using spoken language `r chisq_output("Communication", "SPM_cat")`.
 
 We also confirmed expected relationships among many of the audiological characteristics. There was a significant relationship between laterality and etiology `r chisq_output("Laterality","Etiology")`, such that children with conductive hearing loss were more likely to have unilateral hearing loss, and children with sensorineural hearing loss were more likely to have a bilateral loss. All children with mixed hearing loss (n = `r nrow(elssp %>% filter(Etiology=='Mixed'))`)), though excluded from statistical analysis due to low N, had bilateral hearing loss. The chi-square tests further showed that amplification was related to laterality `r chisq_output("Laterality","Amplification")` and degree of hearing loss `r chisq_output("HLworse_cat", "Amplification")`. Specifically, children with bilateral hearing loss were more likely than children with unilateral hearing loss to use a hearing aid or cochlear implant; no child with unilateral hearing loss used a cochlear implant, and many children with unilateral hearing loss used no amplification. Regarding degree of hearing loss, children with severe-to-profound hearing loss were more likely to use a cochlear implant than children with mild or moderate hearing loss.
@@ -292,10 +277,6 @@ plot2_title <- ggdraw() +
   theme(plot.background = element_rect(fill="white", color = "white"), plot.margin = margin(0, 0, 0, 7))
 ```
 
-```{r growth-curves, fig.cap="Lines show the growth curves created from WordBank 50th percentile data. Left panels show Words & Gestures; right panels show Words & Sentences. Top row is American English data; bottom row is Mexican Spanish data. Dots represent vocabulary scores of individual DHH children in the sample.", include=F}
-cowplot::plot_grid(plot2_title, plot2_row, ncol=1, rel_heights = c(.1,1))  %>%
-  ggsave(filename = "Figure2.tiff", path="paper/figures", device = "tiff", width = 8, height = 8.8)
-```
 
 We next turn to the relationship between these variables and children’s productive vocabulary, as measured by the CDI. Figure 2 shows the vocabulary scores of children in our sample relative to norms for hearing children for each CDI form. Descriptively, we found widespread vocabulary delays, with the majority of DHH children testing around or below the 25th percentile for hearing children [based on WordBank norms; @frank2017]. 
 
@@ -350,18 +331,6 @@ summary(AIC_model_delay)
 
 This model accounted for significant variance in vocabulary delay (adjusted-R^2^ = `r summary(full_model_delay)$adj.r.squared`, *p* `r lm_pvalue(full_model_delay)`). We next performed stepwise model comparison using stepAIC (MASS) to pare down the model. This process selects only the predictors which incrementally improved model fit, measured by Akaike’s Information Criterion (AIC). We started model selection with the full model, as described above. We then filtered out data from children for whom Meets 1-3-6 (n = `r nrow(elssp %>% filter(is.na(Meets136)))`) or Degree (n = `r nrow(elssp %>% filter(is.na(HLworse)))`) was unknown, as this stepwise AIC approach does not permit missing values across predictors. Since this initial filtered analysis found that Degree and 1-3-6 did not improve model fit, we manually removed the Degree and 1-3-6 terms from the model selection so that the `r nrow(elssp %>% filter(is.na(HLworse)|is.na(Meets136)))` participants with missing cases for these variables could be retained[^3].
 
-```{r vocab-beta-plot}
-vocab_beta_plot <- dwplot(AIC_model_delay, by_2sd = FALSE) %>%
-  relabel_predictors(LateralityUnilateral = "Laterality (Unilateral)",
-AmplificationHA= "Amplification (Hearing Aid)",
-AmplificationCI= "Amplification (Cochlear Implant)",
-Age_in_months = "Age") + 
-  theme_classic(base_size = 13) + 
-  geom_vline(xintercept = 0, linetype = 'dashed') + 
-  theme(legend.position = "none")
-
-```
-
 ```{r delay-betas}
 AIC_model_delay %>% 
   tidy()  %>%
@@ -390,58 +359,12 @@ Given our first set of results regarding relationships among several of these va
 perc_136 <- (nrow(elssp%>%filter(Meets136=='yes'))/(nrow(elssp%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 perc_136_TD <- (nrow(elssp%>%filter(anycomorbid=='no')%>%filter(Meets136=='yes'))/(nrow(elssp%>%filter(anycomorbid=='no')%>%filter(Meets136=='yes'|Meets136=='no'))))*100
 perc_136_DA <- (nrow(elssp%>%filter(anycomorbid=='yes')%>%filter(Meets136=='yes'))/(nrow(elssp%>%filter(anycomorbid=='yes')%>%filter(Meets136=='yes'|Meets136=='no'))))*100
+t_136 <- t.test(elssp_curves$diff_age_from_expected ~ elssp_curves$Meets136)
 ```
 
 Perhaps of greatest importance to clinicians and policymakers is the implementation and effect of existing policies. Although 1-3-6 status was not included in our final model predicting vocabulary delay through our model selection process, its demonstrated importance for language outcomes [e.g., @yoshinaga-itano2018] merits further discussion. To this end, we provide a brief description of the implementation of 1-3-6 in our sample, examine its effect on vocabulary delay, and describe the results of exploratory linear regression models for age at diagnosis and age at intervention. 
 
 Overall, `r round(perc_136)`% of our sample met 1-3-6 guidelines for early diagnosis and intervention. Breaking this down further, among the children for whom screening information was available (n = `r nrow(elssp %>% filter(NBHS=='Y'))`), 100% were screened at birth or during NICU stay. In our sample, `r round((nrow(elssp%>%filter(meets13=="yes"))/(nrow(elssp %>% filter(meets13=="yes"|meets13=="no"))))*100)`% of children received diagnosis by 3 months of age, and `r round((nrow(elssp%>%filter(meets6=="yes"))/(nrow(elssp %>% filter(meets6=="yes"|meets6=="no"))))*100)`% began early intervention by 6 months of age (see Figure 3). 
-
-```{r meets136-timeline, fig.cap="Age at diagnosis, intervention, amplification, and cochlear implantation across participants. Each dot represents the age that one child received the clinical service; violin width reflects data distribution. Black dots and whiskers show means and standard errors. Not all children received amplification (hearing aids) or implantation (cochlear implants).", fig.dim = c(8, 4), include=F}
-
-gg_SE <- function(x) {
-   m <- mean(x)
-   ymin <- m-se(x)
-   ymax <- m+se(x)
-   return(c(y=m,ymin=ymin,ymax=ymax))
-}
-
-elssp %>% 
-  dplyr::select(VIHI_ID, IdentificationOfHLMonths, AgeStartedServices, AgeAmplification, AgeImplantation) %>%
-  rename('Age at Diagnosis'=IdentificationOfHLMonths,
-         'Age at Intervention' = AgeStartedServices,
-         'Age at Implantation'= AgeImplantation,
-         'Age at Amplification' = AgeAmplification) %>%
-  pivot_longer(cols = 'Age at Diagnosis':'Age at Implantation', names_to = "event", values_to = "age") %>%
-  ggplot(aes(x = event, y = age, fill = event, color = event)) +
-  geom_violin(alpha = .4,) +
-  geom_jitter(width = .3) + 
-  coord_flip() +
-  theme_classic(base_size = 16) +
-  theme(legend.position = "none") +
-  labs(x = '', y ='Age (months)') +
-stat_summary(fun.data=gg_SE, color = "black", geom="pointrange")  +
-  ggtitle("Ages at Clinical Interventions")
-  ggsave(filename = "Figure3.tiff", path="paper/figures", device = "tiff", width = 8, height = 4)
-```
-
-
-```{r delay-violins, fig.cap="Estimated vocabulary delay for children who meet 1-3-6 guidelines for diagnosis/intervention (top) and children who do not (bottom). Each dot represents one child in the sample; violin width reflect data distribution. Black dots and whiskers show means and standard error.", fig.dim = c(8, 4), include=F}
-t_136 <- t.test(elssp_curves$diff_age_from_expected ~ elssp_curves$Meets136)
-
-
-ggplot(data=(elssp_curves %>% filter(Meets136!='')), aes(x=Meets136, y=diff_age_from_expected, fill=Meets136, color=Meets136)) +
-  geom_violin(alpha=.4)+
-  theme_classic(base_size = 16) +
-  geom_jitter(width=.15) +
-  stat_summary(fun.data=gg_SE, mult=1, 
-                 geom="pointrange", color="black") +
-  xlab("1-3-6") +
-  ylab("Vocabulary Delay (months)") + 
-  coord_flip() +
-  ggtitle("Vocabulary Delay and 1-3-6")
-  ggsave(filename = "Figure4.tiff", path="paper/figures", device = "tiff", width = 8, height = 4)
-
-```
 
 We first tested the link between 1-3-6 and vocabulary directly. An independent samples t-test showed that children who did not meet 1-3-6 guidelines had significantly larger vocabulary delays than children who met 1-3-6 guidelines (*t*(`r t_136$parameter`) = `r t_136$statistic`, *p* = `r t_136$p.value`; see Figure 4). On average, the group that did not meet 1-3-6 guidelines was `r t_136$estimate[[1]]-t_136$estimate[[2]]` months more delayed with regard to vocabulary (relative to the same 50th percentile benchmark described above).
 
@@ -458,83 +381,9 @@ To better understand implementation of 1-3-6 guidelines, we next turned our focu
 
 For age at diagnosis, we included the set of child-specific factors that would be relevant *before* diagnosis of hearing loss (e.g., we excluded amplification type because children did not receive amplification prior to hearing loss diagnosis.) We began with: gender, degree, developmental delay, health issues, prematurity, laterality, language background, and etiology. 
 
-```{r diagnosis-beta-plot}
-diagnosis_beta_plot <- dwplot(diagnosis_aic, by_2sd = FALSE) %>%
-  relabel_predictors(HealthIssuesyes = "Health Issues (yes)",
-Monolingual_Englishyes = "Language Background (English)",
-LateralityUnilateral = "Laterality (Unilateral)") + 
-  geom_vline(xintercept=0, linetype = 'dashed') + 
-  theme_classic(base_size = 13)+ 
-  theme(legend.position="none")
-#options(repr.plot.width=8)
-
-```
-
-```{r diagnosis-betas}
-diagnosis_aic %>% 
-  tidy() %>% 
-    mutate(term=replace(term, term=="LateralityUnilateral", "Laterality (Unilateral)"),
-           term=replace(term, term=="Monolingual_Englishyes", "Language Background (English)"),
-           term=replace(term, term=="HealthIssuesyes", "Health Issues (yes)")) %>%
-  mutate(estimate=round(estimate, 2),
-         std.error=round(std.error,2),
-         statistic=round(statistic,2),
-         p.value=printp(p.value)) %>%
-  write.csv("paper/supplemental_materials/diagnosis_betas.csv")
-# Caption: Unstandardized beta coefficients (months) for the model of age at diagnosis selected by AIC.
-```
-
 The best fitting model was: Age at Diagnosis ~ Health Issues + Language Background + Laterality, with significant main effects of Health Issues and Language Background (see Table S5 & Figure 5.B). This model accounted for `r (summary(diagnosis_aic)$r.squared)*100`% of the variance in age at diagnosis (*p* `r lm_pvalue(diagnosis_aic)`). Average age at diagnosis was `r mean(elssp$IdentificationOfHLMonths, na.rm=TRUE)`(`r sd(elssp$IdentificationOfHLMonths, na.rm=TRUE)`) months. Relative to English-speaking families, children from Spanish-speaking families were diagnosed `r abs(summary(diagnosis_aic)$coefficients[3,1])` months later (*p* `r printp(summary(diagnosis_aic)$coefficients[3,4], add_equals=TRUE)`). Children with health issues were diagnosed `r summary(diagnosis_aic)$coefficients[2,1]` months later than children without health issues (*p* `r printp(summary(diagnosis_aic)$coefficients[2,4], digits=2, add_equals=TRUE)`). One possibility for this last predictor is that the health issues caused hearing loss *later* in infancy; in our sample, `r nrow(comorbid %>% filter(pos_acqHL == 1))` of the `r nrow(elssp %>% filter(HealthIssues=='yes'))` children with health issues reported conditions that can in some cases cause acquired hearing loss (i.e., meningitis, sepsis, jaundice, seizures, hydrocephalus, MRSA, anemia, frequent fevers, cytomegalovirus).
 
-```{r intervention-beta-plot}
-services_aic_df <- broom::tidy(services_aic) 
-
-intervention_beta_plot <- dwplot(services_aic, by_2sd = FALSE)  %>%
-relabel_predictors(HLworse = "Degree of Hearing Loss",
-IsPrematureyes = "Premature (yes)",
-IdentificationOfHLMonths = "Age at Diagnosis",
-Monolingual_Englishyes = "Language Background (English)") +
-  geom_vline(xintercept=0, linetype = 'dashed') + 
-  theme_classic(base_size = 13) + 
-  theme(legend.position="none")
-#options(repr.plot.width=8, repr.plot.height=6) 
-
-```
-
-```{r intervention-betas, include=TRUE}
-
-intervention_betas_table <- services_aic %>%
-  tidy() %>%
-    mutate(term=replace(term, term=="HLworse", "Degree of Hearing Loss"),
-           term=replace(term, term=="IsPrematureyes", "Premature (yes)"),
-           term=replace(term, term=="IdentificationOfHLMonths", "Age at Diagnosis"),
-           term=replace(term, term=="Monolingual_Englishyes", "Language Background (English)")) %>%
-  mutate(estimate=round(estimate, 2),
-         std.error=round(std.error,2),
-         statistic=round(statistic,2),
-         p.value=printp(p.value)) 
-
-
- # apa("Unstandardized Beta Coefficients (Months) for the Model of Age at Intervention Selected by AIC.") 
-#   
-#   
-#   write.csv("paper/supplemental_materials/intervention_betas.csv")
-#Caption: Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC.
-```
-
 We repeated this model selection process for age at intervention. In addition to the variables used to fit the diagnosis model, we included age at diagnosis. The best fit model was: Age at Intervention ~ Premature Birth + Degree + Age at Diagnosis + Language Background (R^2^=`r summary(services_aic)$r.squared` , *p* `r lm_pvalue(services_aic)`; See Table S6 & Figure 5.C), with significant main effects of degree and age at diagnosis. Prematurity `r beta_output(services_aic, 3)` and language background `r beta_output(services_aic, 5)` were not significant predictors on their own, but their inclusion improved model fit. Average age at intervention was `r mean(elssp$AgeStartedServices, na.rm=TRUE)`(`r sd(elssp$AgeStartedServices, na.rm=TRUE)`) months. More severe hearing loss predicted earlier intervention, such that for every additional 10 dB HL, predicted age at intervention was `r round(abs((summary(services_aic)$coefficients[2,1])*10))` month earlier (*p* `r printp(summary(services_aic)$coefficients[2,4], digits=2, add_equals=TRUE)`). With regard to age at diagnosis, for every month diagnosis was delayed, intervention was delayed by `r round((summary(services_aic)$coefficients[4,1])*4.348,1)` weeks (*p* `r printp(summary(services_aic)$coefficients[4,4], digits=2, add_equals=TRUE)`). Taken together, these analyses reveal that children's audiological characteristics, comorbid diagnoses, and language background contribute to delays in both diagnoses and intervention. We return to this point in the discussion.
-
-
-```{r beta-plots, fig.cap="Unstandardized coefficients (measured in months) with 95% confidence intervals for the models selected by AIC for: (A) vocabulary delay, (B) age at diagnosis, (C) age at intervention.", fig.dim=c(8,4), include=F}
-plot5_row <- plot_grid(vocab_beta_plot, diagnosis_beta_plot, intervention_beta_plot, labels="AUTO", rows = 3)
-plot5_title <- ggdraw() + 
-  draw_label("Beta Weights for Vocabulary, Diagnosis, and Intervention Models", fontface = 'bold', x = 0,  hjust = 0) + 
-  theme(plot.background = element_rect(fill="white", color = "white"), plot.margin = margin(0, 0, 0, 7))
-
-cowplot::plot_grid(plot5_title, plot5_row, ncol=1, rel_heights = c(.1,1))  %>%
-  ggsave(filename = "Figure5.tiff", path="paper/figures", device = "tiff", width = 8, height = 4)
-```
-
 
 # Discussion
 
@@ -696,9 +545,7 @@ elssp %>%
 
 **Figure 5**: Unstandardized coefficients (measured in months) with 95% confidence intervals for the models selected by AIC for: (A) vocabulary delay, (B) age at diagnosis, (C) age at intervention.
 
-**Table 1**: CDI Ages, Vocabulary Scores and Rate of Developmental Delay: For each version of the CDI (WG = Words and Gestures; WS = Words and Sentences), the table shows the mean(SD) age, comprehension score (spoken + signed), and production score (spoken + signed, where relevant) of participants in our sample, along with the percent diagnosed with developmental delays. (N.B. signs were only reported for the 18 children using total communication as the rest reported solely spoken language as the communication modality).
-
-**Table 2**: Detailed information about the variables studied. For categorical variables, levels are described and Ns provided. For continuous variables, range, mean, and standard deviation are provided.
+**Table 1**: Variables List: Detailed information about the variables studied. *Note.* For categorical variables, levels are described. Some participants had missing information for some variables, thus totals may not sum to 100. For continuous variables, range, mean, and standard deviation are provided. For CDI, participants were *either* administered Words and Gestures *or* Words and Sentences*.
 
 **Supplemental Materials S1**: Additional Diagnoses (n = `r n_condition(anycomorbid)`): Ns of participants in our sample diagnosed with other conditions. N.B.: Ns do not sum to total because many participants had multiple diagnoses.
 
@@ -712,7 +559,6 @@ elssp %>%
 
 **Supplemental Materials S6**: Unstandardized beta coefficients (months) for the model of age at intervention selected by AIC.
 
-**Supplemental Materials S7**: PDF containing all figures and tables with their captions in situ (for reader/reviewer ease).
 
 [^1]: Because the data we received were already deidentified, this study was exempt from Duke University Institutional Review Board.
 [^2]: Number of hearing children in normative sample for each growth curve: WG-English=`r length(unique(eng_wg_wb$data_id))`, WG-Spanish=`r length(unique(span_wg_wb$data_id))`; WS-English=`r length(unique(eng_ws_wb$data_id))`, WS-Spanish=`r length(unique(span_ws_wb$data_id))`

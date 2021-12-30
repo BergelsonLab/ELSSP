@@ -363,3 +363,30 @@ lm_pvalue <- function (modelobject) {
   attributes(p) <- NULL
   return(printp(p, add_equals = TRUE))
 }
+
+ft_theme_apa <- function(ft) {
+  ft %>%
+    flextable::font(fontname = "Times New Roman", part = "all") %>%
+    flextable::fontsize(size = 12, part = "all") %>%
+    flextable::align(align = "left", part = "all") %>%
+    flextable::rotate(rotation = "lrtb", align = "top", part = "header") %>%
+    flextable::rotate(rotation = "lrtb", align = "top", part = "body") %>%
+    flextable::border_remove() %>%
+    flextable::hline_top(
+      border = officer::fp_border(width = 2),
+      part = "all"
+    ) %>%
+    flextable::hline_bottom(
+      border = officer::fp_border(width = 2),
+      part = "all"
+    ) %>%
+    flextable::autofit()
+}
+
+FitFlextableToPage <- function(ft, pgwidth = 6){
+  
+  ft_out <- ft %>% autofit()
+  
+  ft_out <- width(ft_out, width = dim(ft_out)$widths*pgwidth /(flextable_dim(ft_out)$widths))
+  return(ft_out)
+}

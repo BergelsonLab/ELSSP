@@ -1,5 +1,0 @@
-"","term","estimate","std.error","statistic","p.value"
-"1","(Intercept)",9.08,1.94,4.68,"< .001"
-"2","Health Issues (yes)",3.65,1.44,2.53,".013"
-"3","Language Background (English)",-6.18,1.93,-3.2,".002"
-"4","Laterality (Unilateral)",-2.21,1.6,-1.38,".170"

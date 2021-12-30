@@ -1,6 +1,0 @@
-"","term","estimate","std.error","statistic","p.value"
-"1","(Intercept)",-0.51,1.74,-0.29,".770"
-"2","Laterality (Unilateral)",-3.03,1.14,-2.66,".009"
-"3","Amplification (Cochlear Implant)",-3.58,1.49,-2.4,".019"
-"4","Amplification (Hearing Aid)",-3.89,1.14,-3.41,".001"
-"5","Age (months)",0.55,0.06,9.64,"< .001"
